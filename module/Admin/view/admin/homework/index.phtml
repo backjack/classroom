@@ -1,0 +1,75 @@
+<div class="row">
+			<div >
+				<div class="box">
+					<div class="box-head">
+						<header></header>
+                          <a class="btn btn-primary pull-right" href="<?php echo $this->url('admin/default',array('controller'=>'homework','action'=>'add')) ?>"><i class="fa fa-plus"></i> <?= __('Add Note') ?></a>
+                        
+                   
+                        
+					</div>
+					<div class="box-body">
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th><?= __('session-course') ?></th>
+									<th><?= __('title') ?></th>
+									<th><?= __('created-on') ?></th>
+                                    <th><?= __('created-by') ?></th>
+									<th class="text-right1" style="width:90px"><?= __('actions') ?></th>
+								</tr>
+							</thead>
+							<tbody>
+                            <?php foreach($paginator as $row): ?>
+								<tr>
+									<td><span ><?php echo $row->session_name ?></span></td>
+									<td><?php echo $row->title; ?></td>
+									<td><?php echo date('d/m/Y',$row->date); ?></td>
+                                    <td><?php echo $this->adminName($row->account_id) ?></td>
+									 
+									<td class="text-right">
+										<a href="<?php echo $this->url('admin/default',array('controller'=>'homework','action'=>'edit','id'=>$row->homework_id));?>" class="btn btn-xs btn-default btn-equal" data-toggle="tooltip" data-placement="top" data-original-title="<?=__('edit')?>"><i class="fa fa-pencil"></i></a>
+                                        
+										<a onclick="return confirm('<?=__('delete-confirm')?>')" href="<?php echo $this->url('admin/default',array('controller'=>'homework','action'=>'delete','id'=>$row->homework_id));?>"  class="btn btn-xs btn-default btn-equal" data-toggle="tooltip" data-placement="top" data-original-title="<?=__('delete')?>"><i class="fa fa-trash-o"></i></a>
+									</td>
+								</tr>
+								  <?php endforeach; ?>
+								
+							</tbody>
+						</table>
+                        
+                        <?php
+ // add at the end of the file after the table
+ echo $this->paginationControl(
+     // the paginator object
+     $this->paginator,
+     // the scrolling style
+     'sliding',
+     // the partial to use to render the control
+     array('partial/paginator.phtml', 'Admin'),
+     // the route to link to when a user clicks a control link
+     array(
+         'route' => 'admin/default',
+		 'controller'=>'homework',
+		 'action'=>'index', 
+     )
+ );
+ ?>
+					</div><!--end .box-body -->
+				</div><!--end .box -->
+			</div><!--end .col-lg-12 -->
+		</div>
+        
+        
+        <!-- START SIMPLE MODAL MARKUP --><!-- /.modal -->
+<!-- END SIMPLE MODAL MARKUP -->
+
+<script type="text/javascript">
+$(function(){
+	$('.viewbutton').click(function(){
+		 $('#info').text('Loading...');
+		 var id = $(this).attr('data-id');
+		   $('#info').load('<?php echo $this->url('admin/default',array('controller'=>'homework','action'=>'view'))?>'+'/'+id);
+		});
+	});
+</script>

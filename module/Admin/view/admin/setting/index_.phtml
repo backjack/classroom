@@ -1,0 +1,85 @@
+<?php
+$form->prepare();
+$form->setAttribute('action', $this->url('admin/default',array('controller'=>'setting','action'=>'index')));
+$form->setAttribute('method', 'post');
+$form->setAttribute('role', 'form');
+$form->setAttribute('class', 'form-horizontal');
+
+echo $this->form()->openTag($form);
+?>
+
+
+<div class="row">
+    <div >
+        <div class="box">
+            <div class="box-head">
+                <ul class="nav nav-tabs" data-toggle="tabs">
+                    <li class="active"><a href="tabs-accordions#general"><i class="fa fa-fw fa-gear"></i> General</a></li>
+                    <li><a href="tabs-accordions#send"><i class="fa fa-fw fa-forward"></i> Send</a></li>
+                    <li><a href="tabs-accordions#deleted"><i class="fa fa-fw fa-trash-o"></i> Deleted</a></li>
+                </ul>
+            </div>
+            <div class="box-body tab-content">
+                <div class="tab-pane active" id="general">
+                    <div class="form-group">
+                        <div class="col-sm-2">
+                            <?php     echo $this->formLabel($form->get('country_id'));   ?>
+                        </div>
+                        <div class="col-sm-10">
+
+                                <?php  echo $this->formElement($form->get('country_id'));    ?>
+
+                        </div>
+                    </div>
+<?php foreach($settings as $row):?>
+    <?php if(preg_match('#general_#',$row->key)):?>
+                    <div class="form-group">
+                        <div class="col-sm-2">
+                        <?php     echo $this->formLabel($form->get($row->key));   ?>
+                            </div>
+                        <div class="col-sm-10">
+                            <?php if($row->type == 'radio'):?>
+                                <?php  echo $this->formRadio($form->get($row->key));    ?>
+                            <?php else:?>
+                            <?php  echo $this->formElement($form->get($row->key));    ?>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+        <?php endif; ?>
+   <?php endforeach; ?>
+
+
+
+                </div>
+                <div class="tab-pane" id="send">						<p>Per at postea mediocritatem, vim numquam aliquid eu, in nam sale gubergren. Fuisset delicatissimi duo, qui ut animal noluisse erroribus. Ea eum veniam audire. Dicant vituperata consequuntur.</p>
+                </div>
+                <div class="tab-pane" id="deleted">						<p>Duo semper accumsan ea, quidam convenire cum cu, oportere maiestatis incorrupte est eu. Soluta audiam timeam ius te, idque gubergren forensibus ad mel, persius urbanitas usu id. Civibus nostrum fabellas mea te, ne pri lucilius iudicabit. Ut cibo semper vituperatoribus vix, cum in error elitr. Vix molestiae intellegat omittantur an, nam cu modo ullum scriptorem.</p>
+                    <p>Quod option numquam vel in, et fuisset delicatissimi duo, qui ut animal noluisse erroribus. Ea eum veniam audire. Per at postea mediocritatem, vim numquam aliquid eu, in nam sale gubergren. Dicant vituperata consequuntur at sea, mazim commodo</p>
+                </div>
+            </div>
+        </div>
+    </div><!--end .col-lg-12 -->
+</div>
+    <div class="row">
+        <div >
+<button class="btn btn-primary" type="submit"><?=__('save-changes')?></button>
+        </div><!--end .col-lg-12 -->
+    </div>
+<?php echo $this->form()->closeTag($form);  ?>
+
+<?php $this->headScript()->prependFile($this->basePath() . '/ckeditor/ckeditor.js'); ?>
+<?php foreach($settings as $row):?>
+ <?php if($row->class == 'rte'):?>
+    <script type="text/javascript">
+
+        CKEDITOR.replace('rte_'.<?php echo $row->key ?>, {
+            filebrowserBrowseUrl: '<?php echo $this->basepath() ?>/admin/filemanager',
+            filebrowserImageBrowseUrl: '<?php echo $this->basepath() ?>/admin/filemanager',
+            filebrowserFlashBrowseUrl: '<?php echo $this->basepath() ?>/admin/filemanager'
+        });
+
+    </script>
+<?php endif; ?>
+
+<?php endforeach; ?>
+

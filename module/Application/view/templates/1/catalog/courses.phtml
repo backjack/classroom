@@ -1,0 +1,142 @@
+<?php  $this->headTitle($pageTitle) ?>
+<div class="container box" style="background-color: white; min-height: 100px;   padding-bottom:50px; margin-bottom: 10px;   " >
+
+    <div class="row">
+        <div class="col-md-12 page-header_">
+
+            <form id="filterform" class="form-inline" role="form"  method="get" action="<?php echo $this->url('courses'); ?>">
+                <input type="hidden" name="group" value="<?php echo $group ?>"/>
+
+                <div class="form-group">
+                    <label class="sr-only" for="filter"><?= __('Filter') ?></label>
+                    <?php echo $this->formElement($text) ?>
+                </div>
+                <div class="form-group">
+                    <label class="sr-only" for="group"><?= __('Sort') ?></label>
+                    <?php echo $this->formElement($sortSelect) ?>
+                </div>
+
+                <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> <?= __('Filter') ?></button>
+                <button type="button" onclick="$('#filterform input, #filterform select').val(''); $('#filterform').submit();" class="btn btn-inverse"><?= __('Clear') ?></button>
+
+            </form>
+
+
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-2">
+
+            <div class="panel panel-primary">
+                <!-- Default panel contents -->
+                <div class="panel-heading"><?= __('Categories') ?></div>
+
+
+                <!-- List group -->
+                <ul class="list-group">
+                    <li class="list-group-item"><a href="<?php echo $this->url('courses') ?>"><?= __('All Courses') ?></a></li>
+
+                    <?php foreach($categories as $category):?>
+                    <li class="list-group-item"><a href="<?php echo $this->url('courses') ?>?group=<?php echo $category->session_category_id ?>"><?php echo $category->category_name; ?></a></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+
+
+
+        </div>
+        <div class="col-md-10">
+            <?php if(!empty($description)): ?>
+                    <p><?php echo $description ?></p>
+            <?php endif; ?>
+            <div class="row">
+
+
+                <?php foreach($paginator as $row): ?>
+                    <div class="col-md-4" style="height: 450px;">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><?php echo $row->session_name ?></h3>
+                            </div>
+                            <div class="panel-body">
+
+                                <div >
+                                    <?php if(!empty($row->picture)): ?>
+                                        <div >
+                                            <a href="<?php echo $this->url('course-details',['id'=>$row->session_id,'slug'=>safeUrl($row->session_name)]);?>" class="thumbnail" style="border: none; margin-bottom: 0px">
+                                                <img src="<?php echo resizeImage($row->picture,300,150,$this->basePath()); ?>" >
+                                            </a>
+                                        </div>
+                                    <?php endif; ?>
+
+                                    <div >
+                                        <article style="color: #73879C;
+                                font-size: 13px;
+                                font-weight: 400;
+                                line-height: 1.471;" class="readmore"><?php echo limitLength($row->short_description,300); ?></article>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div  class="panel-footer" style="min-height: 50px">
+                                <?php if($this->getSetting('general_show_fee')==1):?>
+                                    <strong>
+                                       <?php if(empty($row->payment_required)):?>
+                                            <?=__('Free')?>
+                                        <?php else: ?>
+                                            <?php echo $this->formatPrice($row->amount); ?>
+                                        <?php endif; ?>
+                                  </strong>
+                                <?php endif; ?>
+
+                                <a class="btn btn-success pull-right" href="<?php echo $this->url('course-details',['id'=>$row->session_id,'slug'=>safeUrl($row->session_name)]);?>" ><i class="fa fa-info-circle"></i> <?= __('Details') ?></a>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+
+
+            </div>
+            <?php
+            // add at the end of the file after the table
+
+            echo $this->paginationControl(
+            // the paginator object
+                $this->paginator,
+                // the scrolling style
+                'sliding',
+                // the partial to use to render the control
+                array('partial/paginator.phtml', 'Application'),
+                // the route to link to when a user clicks a control link
+                array(
+                    'route' => 'courses',
+                )
+            );
+
+            ?>
+        </div>
+    </div>
+
+
+
+
+
+
+
+</div>
+<?php $this->headScript()->prependFile($this->basePath() . '/static/readmore/readmore.min.js')
+?>
+<script>
+    $(function(){
+        $('article.readmore').readmore({
+            collapsedHeight : 70
+        });
+    });
+
+</script>

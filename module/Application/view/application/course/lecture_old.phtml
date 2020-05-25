@@ -1,0 +1,410 @@
+<?php  $this->headTitle($pageTitle) ?>
+<?php $this->headScript()->prependFile($this->basePath() . '/static/scrolltabs/jquery.scrolling-tabs.min.js')->prependFile($this->basePath() . '/static/jquery-fullsizable-2.1.0/js/jquery-fullsizable.min.js')->prependFile($this->basePath().'/static/slickquiz/js/slickQuiz.js')
+?>
+<?php echo $this->headLink()->prependStylesheet($this->basePath().'/static/scrolltabs/jquery.scrolling-tabs.min.css')->prependStylesheet($this->basePath() . '/static/toastr/toastr.css')->prependStylesheet($this->basePath() . '/static/jquery-fullsizable-2.1.0/css/jquery-fullsizable.css')->prependStylesheet($this->basePath() . '/static/jquery-fullsizable-2.1.0/css/jquery-fullsizable-theme.css')->prependStylesheet($this->basePath().'/static/slickquiz/css/slickQuiz.css')->prependStylesheet($this->basePath().'/static/slickquiz/css/custom.css');?>
+<div class="x_panel">
+    <div class="x_title">
+        <h2><i class="fa fa-file-text"></i> <?php echo $lecture->lecture_title ?> </h2>
+        <ul class="nav navbar-right panel_toolbox">
+
+
+        </ul>
+        <div class="clearfix"></div>
+    </div>
+    <div class="x_content">
+
+        <div class="tabbable tabs-primary" role="tabpanel" data-example-id="togglable-tabs">
+            <ul id="myTab1" class="nav nav-tabs right-tab button-tab" role="tablist">
+                <li role="presentation" class="active"><a href="#tab_content11" id="home-tabb" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><i class="fa fa-desktop"></i> Lecture</a>
+                </li>
+                <li role="presentation" class=""><a href="#tab_content33" role="tab" id="profile-tabb3" data-toggle="tab" aria-controls="profile" aria-expanded="false"><i class="fa fa-download"></i> Resources</a>
+                </li>
+                <?php if(!empty($sessionRow->enable_discussion)):?>
+                <li role="presentation" class=""><a href="#tab_content22" role="tab" id="profile-tabb" data-toggle="tab" aria-controls="profile" aria-expanded="false"><i class="fa fa-comments"></i> Discuss</a>
+                </li>
+                <?php endif; ?>
+
+                <li role="presentation"><a href="#contents" aria-controls="contents" role="tab" data-toggle="tab"><i class="fa fa-table"></i> Class Index</a></li>
+            </ul>
+            <div id="myTabContent2" class="tab-content" style="background-color: transparent">
+                <div role="tabpanel" class="tab-pane fade  active in " id="tab_content11" aria-labelledby="profile-tab">
+
+
+
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs scroll-tab button-tab2" role="tablist">
+                        <?php $count = 1; ?>
+                        <?php foreach($pages as $page):?>
+                        <li role="presentation" <?php if($count==1):?>class="active"<?php endif; ?>><a id="tablink<?php echo $page->lecture_page_id ?>" href="#pagetab<?php echo $page->lecture_page_id ?>" role="tab" data-toggle="tab"><i class="fa fa-<?php switch($page->type){
+
+                                    case 'v':
+                                        echo 'file-video';
+                                        break;
+                                    case 't':
+                                        echo 'file-text';
+                                        break;
+                                    case 'c':
+                                        echo 'file-code';
+                                        break;
+                                    case 'i':
+                                        echo 'file-image';
+                                        break;
+                                    case 'q':
+                                        echo 'question-circle';
+                                        break;
+                                } ?>"></i> <?php if(!empty($page->audio_code)): ?> <i class="fa fa-microphone"></i> <?php endif; ?><?php echo $page->title?></a></li>
+
+                        <?php $count++; endforeach; ?>
+
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <?php $count = 1;  ?>
+                        <?php foreach($pages as $page):?>
+                        <div role="tabpanel" class="tab-pane  <?php if($count==1):?>active<?php endif; ?>" id="pagetab<?php echo $page->lecture_page_id ?>">
+                            <form class="ajaxform" action="<?php echo $this->url('application/default',['controller'=>'course','action'=>'bookmark']) ?>" method="post">
+                                <input type="hidden" name="id" value="<?php echo $page->lecture_page_id ?>"/>
+                                <input type="hidden" name="session_id" value="<?php echo $sessionRow->session_id ?>"/>
+                                <button  style="margin-bottom: 5px"  type="submit" class="btn btn-sm btn-primary pull-right"><i class="fa fa-bookmark"></i> Bookmark</button>
+                            </form>
+                            <div <?php if($page->type=='v'): ?> style="text-align: center"  <?php endif; ?>>
+
+                                <?php if(!empty($page->audio_code)):?>
+                                    <h4><i class="fa fa-microphone"></i></h4>
+                                    <div style="margin-bottom: 40px"><?php echo $page->audio_code; ?></div>
+                                <?php endif; ?>
+
+                                <?php if($page->type=='c'):?>
+                                    <?=nl2br(htmlentities($page->content))?>
+                                <?php elseif($page->type=='i'): ?>
+                                    <div style="text-align: center"><a data-img-url="<?=$page->content?>" class="fullsizable" href="<?=$this->basePath().'/'.$page->content?>"><img style="max-width: 100%" src="<?=resizeImage($page->content, 640, 360,$this->basePath())?>" /></a>
+                                        <div><small>click to enlarge</small></div>
+                                    </div>
+                                <?php elseif($page->type=='q'): ?>
+                                    <div class="quizbox " id="quiz<?=$page->lecture_page_id?>">
+                                        <h1 class="quizName"><!-- where the quiz name goes --></h1>
+
+                                        <div class="quizArea">
+                                            <div class="quizHeader">
+                                                <!-- where the quiz main copy goes -->
+
+                                                <a class="button startQuiz" href="#">Get Started!</a>
+                                            </div>
+
+                                            <!-- where the quiz gets built -->
+                                        </div>
+
+                                        <div class="quizResults">
+                                            <h3 class="quizScore">You Scored: <span><!-- where the quiz score goes --></span></h3>
+
+                                            <h3 class="quizLevel"><strong>Ranking:</strong> <span><!-- where the quiz ranking level goes --></span></h3>
+
+                                            <div class="quizResultsCopy">
+                                                <!-- where the quiz result copy goes -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <script>
+                                        $(function(){
+                                            $('#quiz<?=$page->lecture_page_id?>').slickQuiz(<?=$page->content?>);
+                                        })
+                                    </script>
+                                <?php else: ?>
+                                    <?=$page->content?>
+                                <?php endif; ?>
+
+                            </div>
+                            <form action="<?php echo $this->url('application/default',['controller'=>'course','action'=>'loglecture']) ?>" method="post">
+
+                            <div style="margin-top: 50px; padding-bottom: 100px; clear: both;" >
+                            <?php if($count==1):?>
+                                    <?php if($previous): ?>
+                                    <a  style="margin-bottom: 20px"  class="btn btn-primary btn-lg" href="<?php echo $this->url('view-lecture',['lectureId'=>$previous->lecture_id,'sessionId'=>$sessionId]) ?>"><i class="fa fa-chevron-left"></i> Previous Lecture</a>
+
+                                   <?php elseif($previousLesson): ?>
+                                    <a  style="margin-bottom: 20px"  class="btn btn-primary btn-lg" href="<?php echo $this->url('view-class',['classId'=>$previousLesson->lesson_id,'sessionId'=>$sessionId]) ?>"><i class="fa fa-chevron-left"></i> Previous Class</a>
+
+                                    <?php else: ?>
+                                    <a  style="margin-bottom: 20px"  class="btn btn-primary btn-lg" href="<?php echo $this->url('view-class',['classId'=>$lecture->lesson_id,'sessionId'=>$sessionId]) ?>"><i class="fa fa-chevron-left"></i> Class Details</a>
+
+                                <?php endif; ?>
+                            <?php endif; ?>
+
+
+                                <?php $previousPage = $pageTable->getPreviousPage($page->lecture_page_id);  ?>
+                                <?php if($previousPage): ?>
+                                    <button style="margin-bottom: 20px" data-page="<?php echo $previousPage->lecture_page_id ?>" class="btn btn-primary btn-lg prevButton"><i class="fa fa-chevron-left"></i> Previous</button>
+                                <?php endif; ?>
+
+
+
+                                <?php $nextPage = $pageTable->getNextPage($page->lecture_page_id);?>
+                                <?php if($nextPage): ?>
+
+
+                                    <button type="button" data-page="<?php echo $nextPage->lecture_page_id ?>" class="btn btn-primary btn-lg prevButton pull-right">Next <i class="fa fa-chevron-right"></i></button>
+
+                                <?php else: ?>
+
+                                        <input type="hidden" name="session_id" value="<?php echo $sessionId ?>"/>
+                                        <input type="hidden" name="lecture_id" value="<?php echo $lecture->lecture_id ?>"/>
+                                        <button class="btn btn-primary btn-lg pull-right" type="submit"><i class="fa fa-check-circle"></i> Complete Lecture</button>
+                                        <p style="text-align: right; clear: both">
+                                            <small>It is important you click this button to log your attendance for this lecture</small>
+                                        </p>
+
+                                <?php endif; ?>
+                            </div>
+                            </form>
+
+                        </div>
+                        <?php $count++; endforeach; ?>
+                    </div>
+
+
+
+
+
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="tab_content33" aria-labelledby="profile-tab">
+                    <?php if($downloads->count() > 0): ?>
+                    <a href="<?php echo $this->url('lecture-files',array('id'=>$lecture->lecture_id,'sessionId'=>$sessionId));?>" class="btn btn-primary" data-toggle="tooltip" data-placement="top" data-original-title="Download All Files"><i class="fa fa-download"></i> Download All</a>
+                    <?php endif; ?>
+                    <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>File</th>
+                            <th ></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach($downloads as $download): ?>
+                        <td><?php echo basename($download->path); ?></td>
+
+                        <td class="text-right">
+                        <?php if ($fileTable->getTotalForDownload($lecture->lecture_id)> 0): ?>
+                            <a href="<?php echo $this->url('lecture-file',array('id'=>$download->lecture_file_id,'sessionId'=>$sessionId));?>" class="btn btn-primary" data-toggle="tooltip" data-placement="top" data-original-title="Download File"><i class="fa fa-download"></i> Download</a>
+
+                        <?php else:?>
+                            <strong>No files available</strong>
+                        <?php endif; ?>
+                        </td>
+                    </tr>
+
+            <?php endforeach; ?>
+
+                        </tbody>
+                    </table>
+               </div>
+                </div>
+
+                <div role="tabpanel" class="tab-pane fade" id="tab_content22" aria-labelledby="home-tab">
+
+                    <div class="tabbable tabs-primary">
+
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#home1" aria-controls="home1" role="tab" data-toggle="tab">Instructor Chat</a></li>
+                            <li role="presentation"><a  href="#profile1" aria-controls="profile1" role="tab" data-toggle="tab">Student Forum</a></li>
+                        </ul>
+
+
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" id="home1">
+                                <?php if(!empty($sessionRow->enable_discussion)):?>
+                                    <form class="form" method="post" action="<?php echo $this->url('application/default',['controller'=>'student','action'=>'adddiscussion']); ?>">
+
+                                        <p>Ask a question concerning this lecture</p>
+                                        <div class="modal-body">
+
+                                            <?php echo $this->formElement($form->get('security')); ?>
+                                            <div class="form-group">
+                                                <label>Recipients</label>
+                                                <?php echo $this->formElement($form->get('account_id[]')); ?>
+                                            </div>
+
+                                            <input type="hidden" name="session_id" value="<?php echo $sessionId ?>"/>
+                                            <input type="hidden" name="lecture_id" value="<?php echo $lecture->lecture_id ?>"/>
+                                            <div class="form-group">
+                                                <?php     echo $this->formLabel($form->get('subject'));
+
+                                                ?>
+                                                <?php     echo $this->formElement($form->get('subject'));
+
+                                                ?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('subject'));?></p>
+
+                                            </div>
+
+
+
+
+                                            <div class="form-group">
+                                                <?php     echo $this->formLabel($form->get('question'));
+
+                                                ?>
+                                                <?php     echo $this->formElement($form->get('question'));
+
+                                                ?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('question'));?></p>
+
+                                            </div>
+
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+
+                                        </div>
+
+                                    </form>
+                                    <div class="row">
+                                        <div class="col-md-12" style="margin-top: 20px">
+                                            <h2>Your Questions</h2>
+                                            <div class="table-responsive">
+                                                <table class="table table-hover">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Subject</th>
+                                                        <th>Created On</th>
+                                                        <th>Recipients</th>
+                                                        <th>Replied</th>
+                                                        <th class="text-right1" style="width:90px"></th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <?php foreach($discussions as $row): ?>
+                                                        <tr>
+                                                            <td><?php echo $row->subject; ?>
+                                                            </td>
+
+                                                            <td><?php echo date('d/M/Y',$row->created_on); ?></td>
+                                                            <td>
+
+                                                                <?php if($row->admin==1):?>
+                                                                    Administrators,
+                                                                <?php endif; ?>
+
+                                                                <?php foreach($accountTable->getDiscussionAccounts($row->discussion_id) as $row2): ?>
+                                                                    <?php echo $row2->first_name.' '.$row2->last_name; ?>,
+                                                                <?php endforeach; ?>
+
+
+
+                                                            </td>
+
+                                                            <td><?php echo boolToString($row->replied) ?></td>
+
+                                                            <td class="text-right">
+                                                                <a href="<?php echo $this->url('application/viewdiscussion',array('id'=>$row->discussion_id));?>" class="btn btn-primary" data-toggle="tooltip" data-placement="top" data-original-title="View"><i class="fa fa-eye"></i> View</a>
+
+                                                            </td>
+                                                        </tr>
+                                                    <?php endforeach; ?>
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                <?php else:?>
+                                    Instructor chat is not available for this course.
+                                <?php endif; ?>
+
+
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="profile1">
+                                <?php if(!empty($sessionRow->enable_forum)):?>
+                                    <?=$forumTopics?>
+                                <?php else:?>
+                                    The Student Forum is not enabled for this course.
+                                <?php endif; ?>
+                            </div>
+                        </div>
+
+
+
+
+                </div>
+
+            </div>
+
+                <div role="tabpanel" class="tab-pane" id="contents">
+                    <?php $count=1; foreach($lectures as $row): ?>
+
+                        <div class="panel<?php if($lecture->lecture_id==$row->lecture_id):?> panel-primary <?php else: ?> panel-default<?php endif; ?>">
+                            <div class="panel-heading">
+                                <?php echo $count.'. '.$row->lecture_title ?>
+                            </div>
+                            <div class="panel-body">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>Content</th>
+                                        <th>Type</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php foreach($lecturePageTable->getPaginatedRecords(false,$row->lecture_id) as $page): ?>
+                                        <tr>
+                                            <td><?php echo $page->title ?></td>
+                                            <td><?php
+                                                switch($page->type){
+                                                    case 't':
+                                                        echo 'Text';
+                                                        break;
+                                                    case 'v':
+                                                        echo  'Video';
+                                                        break;
+                                                    case 'c':
+                                                        echo 'Html Code';
+                                                        break;
+                                                } ?></td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <?php if($lecture->lecture_id!=$row->lecture_id):?>
+                            <div class="panel-footer" style="min-height: 65px">
+
+                                <a class="btn btn-primary btn-lg pull-right" href="<?php echo $this->url('view-lecture',['sessionId'=>$sessionId,'lectureId'=>$row->lecture_id]) ?>">Start Lecture <i class="fa fa-chevron-right"></i></a>
+                            </div>
+                            <?php endif; ?>
+                        </div>
+                        <?php $count++; ?>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="<?php echo $this->basePath(); ?>/static/toastr/toastr.min.js"></script>
+<script>
+
+
+    $('#myTab1').scrollingTabs();
+    $('.scroll-tab').scrollingTabs({enableSwiping: true});
+    $('.prevButton').click(function(e){
+        e.preventDefault();
+        console.log('clicked btn');
+        var page = $(this).attr('data-page');
+        console.log('Page is: '+page);
+        $('#tablink'+page).tab('show');
+        $('.scroll-tab').scrollingTabs('scrollToActiveTab');
+        scrollTo('#tab_content11');
+    });
+
+    $(function() {
+        $('a.fullsizable').fullsizable();
+    });
+
+    <?php if(isset($_GET['page'])): ?>
+    $(function(){
+        $('#tablink'+<?php echo $_GET['page'] ?>).tab('show');
+        $('.scroll-tab').scrollingTabs('scrollToActiveTab');
+    });
+    <?php endif; ?>
+
+
+</script>

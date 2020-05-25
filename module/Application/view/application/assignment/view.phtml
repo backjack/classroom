@@ -1,0 +1,25 @@
+<?php if($row->assignment_type=='t' || $row->assignment_type=='b'):?>
+    <div class="panel panel-default">
+        <div class="panel-heading"><?= __('answer') ?></div>
+        <div class="panel-body">
+            <?php echo tidyHtml($row->content) ?>
+        </div>
+    </div>
+<?php endif; ?>
+
+<?php if($row->assignment_type=='f' || $row->assignment_type=='b'):?>
+     <div class="panel panel-default">
+        <div class="panel-heading"><?= __('file') ?></div>
+        <div class="panel-body">
+            <p><a href="<?php echo $this->basePath() ?>/<?php echo $row->file_path ?>" target="_blank"><?php echo basename($row->file_path) ?></a></p>
+
+        </div>
+    </div>
+<?php endif; ?>
+
+<div class="panel panel-default">
+    <div class="panel-heading"><?= __('additional-comment') ?></div>
+    <div class="panel-body">
+        <p><?php echo $row->student_comment ?></p>
+    </div>
+</div>

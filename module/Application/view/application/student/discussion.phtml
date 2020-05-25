@@ -1,0 +1,140 @@
+<?php  $this->headTitle($pageTitle) ?>
+
+<div class="container" style="   padding-bottom:50px; margin-bottom: 10px;   " >
+
+    <div class="row">
+
+        <div class="col-md-4">
+            <?php echo $this->getSetting('general_discussion_instructions') ?>
+        </div>
+        <div class="col-md-8">
+
+            <form class="form" method="post" action="<?php echo $this->url('application/default',['controller'=>'student','action'=>'adddiscussion']); ?>">
+
+                <?php echo $this->formElement($form->get('security')); ?>
+
+
+                <div class="form-group">
+                    <?php     echo $this->formLabel($form->get('account_id[]'));
+
+                    ?>
+                    <?php     echo $this->formElement($form->get('account_id[]'));
+
+                    ?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('account_id[]'));?></p>
+
+                </div>
+
+                <div class="form-group">
+                    <?php     echo $this->formLabel($form->get('session_id'));
+
+                    ?>
+                    <?php     echo $this->formElement($form->get('session_id'));
+
+                    ?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('session_id'));?></p>
+
+                </div>
+
+                <div class="form-group">
+                    <?php     echo $this->formLabel($form->get('subject'));
+
+                    ?>
+                    <?php     echo $this->formElement($form->get('subject'));
+
+                    ?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('subject'));?></p>
+
+                </div>
+
+
+
+
+                <div class="form-group">
+                    <?php     echo $this->formLabel($form->get('question'));
+
+                    ?>
+                    <?php     echo $this->formElement($form->get('question'));
+
+                    ?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('question'));?></p>
+
+                </div>
+
+                <div class="form-footer">
+                    <button type="submit" class="btn btn-primary"><?= __('Submit') ?></button>
+                </div>
+            </form>
+            
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-12" style="margin-top: 20px">
+            <h2><?= __('your-questions') ?></h2>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th><?= __('Subject') ?></th>
+                    <th><?= __('Created On') ?></th>
+                    <th><?= __('Recipients') ?></th>
+                    <th><?=__('course-session')?></th>
+                    <th><?= __('Replied') ?></th>
+                    <th class="text-right1" style="width:90px"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach($paginator as $row): ?>
+                    <tr>
+                        <td><?php echo $row->subject; ?>
+                        </td>
+
+                        <td><?php echo date('d/M/Y',$row->created_on); ?></td>
+                        <td>
+
+                                <?php if($row->admin==1):?>
+                                    <?= __('Administrators') ?>,
+               <?php endif; ?>
+
+                             <?php foreach($accountTable->getDiscussionAccounts($row->discussion_id) as $row2): ?>
+                                    <?php echo $row2->first_name.' '.$row2->last_name; ?>,
+                             <?php endforeach; ?>
+
+
+
+                        </td>
+                        <td>
+                            <?php if(!empty($row->session_id) && $sessionTable->recordExists($row->session_id)):?>
+                            <?php echo $sessionTable->getRecord($row->session_id)->session_name; ?>
+                            <?php endif; ?>
+                        </td>
+                        <td><?php echo boolToString($row->replied) ?></td>
+
+                        <td class="text-right">
+                            <a href="<?php echo $this->url('application/viewdiscussion',array('id'=>$row->discussion_id));?>" class="btn btn-primary" data-toggle="tooltip" data-placement="top" data-original-title="<?= __('View') ?>"><i class="fa fa-eye"></i> <?= __('View') ?></a>
+
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+
+                </tbody>
+            </table>
+
+            <?php
+            // add at the end of the file after the table
+            echo $this->paginationControl(
+            // the paginator object
+                $this->paginator,
+                // the scrolling style
+                'sliding',
+                // the partial to use to render the control
+                array('partial/paginator.phtml', 'Application'),
+                // the route to link to when a user clicks a control link
+                array(
+                    'route' => 'application/discussions',
+
+                )
+            );
+            ?>
+        </div>
+
+    </div>
+
+</div>

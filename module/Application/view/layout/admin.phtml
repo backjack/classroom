@@ -1,0 +1,641 @@
+<?php
+$children = $this->viewModel()->getCurrent()->getChildren();
+foreach($children as $action) {
+    if ($action->captureTo() == 'content') {
+        break;
+    }
+
+
+}
+$this->headTitle()->setSeparator(' - ')->setAutoEscape(false);
+
+$basePath = $this->basePath();
+$this->headLink()
+;
+
+
+echo $this->doctype();
+?>
+<html <?=langMeta()?>>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <?php if(isset($action->pageTitle)):?>
+        <?php echo $this->headTitle($action->pageTitle.' - TrainEasy') ?>
+    <?php else:?>
+    <?php echo $this->headTitle('TrainEasy - '.$this->getSetting('general_site_name')) ?>
+    <?php endif; ?>
+    <!-- Bootstrap -->
+    <link href="<?php echo $this->basePath(); ?>/themes/cpanel/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="<?php echo $this->basePath(); ?>/themes/cpanel/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="<?php echo $this->basePath(); ?>/themes/cpanel/vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- iCheck -->
+    <link href="<?php echo $this->basePath(); ?>/themes/cpanel/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+
+    <!-- bootstrap-progressbar -->
+    <link href="<?php echo $this->basePath(); ?>/themes/cpanel/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
+    <!-- JQVMap -->
+    <link href="<?php echo $this->basePath(); ?>/themes/cpanel/vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet"/>
+    <!-- bootstrap-daterangepicker -->
+    <link href="<?php echo $this->basePath(); ?>/themes/cpanel/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link href="<?php echo $this->basePath(); ?>/themes/cpanel/build/css/custom.css" rel="stylesheet">
+
+    <link type="text/css" rel="stylesheet" href="<?php echo $this->basePath(); ?>/jquery-ui/css/ui-lightness/jquery-ui-1.10.4.css" />
+    <link rel="stylesheet" href="<?php echo $this->basePath(); ?>/css/admin.css">
+    <!-- jQuery -->
+    <script src="<?php echo $this->basePath(); ?>/themes/cpanel/vendors/jquery/dist/jquery.min.js"></script>
+    <script src="<?php echo $this->basePath(); ?>/jquery-ui-1.11.4/jquery-ui.min.js"></script>
+
+    <link href="<?php echo $this->basePath(); ?>/static/select2/css/select2.min.css" rel="stylesheet" />
+    <script src="<?php echo $this->basePath(); ?>/static/select2/js/select2.min.js"></script>
+
+    <script src="<?php echo $this->basePath(); ?>/app/lib.js"></script>
+
+    <!-- Le styles -->
+    <?php echo $this->headLink() ?>
+    <!-- Scripts -->
+    <?php echo $this->headScript(); ?>
+
+    <?php echo $this->headStyle(); ?>
+
+
+</head>
+
+<body class="nav-md">
+<div id="content" class="container body">
+    <div class="main_container">
+        <div class="col-md-3 left_col">
+            <div class="left_col scroll-view">
+                <div class="navbar nav_title" style="border: 0;">
+                    <a href="<?php echo $this->basepath(); ?>/" class="site_title"><img style="max-width: 100%" src="<?php echo $this->basePath() ?>/img/logo-black.png" alt=""/></a>
+                </div>
+
+                <div class="clearfix"></div>
+
+
+
+                <!-- sidebar menu -->
+                <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                    <div class="menu_section">
+
+                        <ul  class="nav side-menu">
+
+                            <li>
+                                <a  href="<?php echo $this->url('admin/default'); ?>"><i class="fa fa-dashboard fa-fw"></i> <?=__('dashboard')?></a>
+                            </li>
+                            <?php if($this->hasGroupPermission(2)):?>
+                                <li >
+                                    <a href="javascript:void(0);" ><i class="fa fa-calendar-o fa-fw"></i><span><?=__('courses-sessions')?>  </span> <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li >
+                                            <a href="javascript:void(0);" ><span> <?= __('add-new') ?>  </span> <span class="fa fa-chevron-down"></span></a>
+                                            <ul class="nav child_menu">
+
+                                                <?php if($this->hasPermissionPath('student/addcourse')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'session','action'=>'addcourse'));?>"><span class="title"><?= __('online-course') ?></span></a></li><?php endif; ?>
+                                                <?php if($this->hasPermissionPath('student/addsession')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'addsession','id'=>0,'param1'=>'s'));?>"><span class="title"><?= __('training-session') ?></span></a></li><?php endif; ?>
+
+                                                <?php if($this->hasPermissionPath('student/addsession')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'addsession','id'=>0,'param1'=>'b'));?>"><span class="title"><?= __('training-online') ?></span></a></li><?php endif; ?>
+
+                                            </ul>
+                                        </li>
+                                        <?php if($this->hasPermissionPath('student/sessions')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'sessions'));?>"><span class="title"><?= __('all-courses-session') ?></span></a></li><?php endif; ?>
+                                        <?php if($this->hasPermissionPath('session/groups')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'session','action'=>'groups'));?>"><span class="title"><?= __('manage-categories') ?></span></a></li><?php endif; ?>
+
+                                        <?php if($this->hasPermissionPath('student/payments')): ?><li><a href="<?php echo $this->url('admin/payments');?>"><span class="title"><?= __('payments') ?></span></a></li><?php endif; ?>
+                                        <?php if($this->hasPermissionPath('student/transactions')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'transactions'));?>"><span class="title"><?= __('invoices') ?></span></a></li><?php endif; ?>
+
+                                    </ul>
+                                </li>
+                            <?php endif; ?>
+                            <?php if($this->hasGroupPermission(1)):?>
+                                <li >
+                                    <a href="javascript:void(0);" ><i class="fa fa-users fa-fw"></i> <span> <?= __('students') ?> </span> <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <?php if($this->hasPermissionPath('student/add')): ?>
+                                        <li><a href="<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'add'));?>"><?= __('add-student') ?></a></li>
+                                        <?php endif; ?>
+
+                                        <?php if($this->hasPermissionPath('student/index')): ?>
+                                        <li><a href="<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'index'));?>"><?= __('all-students') ?></a></li>
+                                            <li><a href="<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'active'));?>"><?= __('active-students') ?></a></li>
+                                        <?php endif; ?>
+
+                                        <?php if($this->hasPermissionPath('student/massenroll')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'massenroll'));?>"><?= __('bulk-enroll') ?></a></li><?php endif; ?>
+
+                                        <?php if($this->hasPermissionPath('student/import')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'import'));?>"><?= __('import-export') ?></a></li><?php endif; ?>
+
+                                        <?php if($this->hasPermissionPath('student/mailsession')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'mailsession'));?>"><?= __('message-students') ?></a></li><?php endif; ?>
+
+                                    </ul>
+                                </li>
+                            <?php endif; ?>
+
+                            <?php if($this->hasGroupPermission(4)):?>
+                                <li >
+                                    <a href="javascript:void(0);" ><i class="fa fa-desktop fa-fw"></i><span> <?= __('Classes') ?> </span> <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <?php if($this->hasPermissionPath('lesson/add')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'lesson','action'=>'add'));?>"><span class="title"><?= __('add-class') ?></span></a></li><?php endif; ?>
+                                        <?php if($this->hasPermissionPath('lesson/index')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'lesson','action'=>'index'));?>"><span class="title"><?= __('all-classes') ?></span></a></li><?php endif; ?>
+                                        <?php if($this->hasPermissionPath('lesson/groups')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'lesson','action'=>'groups'));?>"><span class="title"><?= __('manage-class-groups') ?></span></a></li><?php endif; ?>
+                                    </ul>
+                                </li>
+                            <?php endif; ?>
+                            <?php if(defined('USER_ID')):?>
+                                <?php if($this->hasGroupPermission(17)):?>
+                                <li >
+                                    <a href="javascript:void(0);" ><i class="fa fa-file-video-o fa-fw"></i><span> Video Library </span> <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <?php if($this->hasPermissionPath('video/add')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'video','action'=>'add'));?>"><span class="title"><?= __('add-video') ?></span></a></li><?php endif; ?>
+                                        <?php if($this->hasPermissionPath('video/index')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'video','action'=>'index'));?>"><span class="title"><?= __('all-videos') ?></span></a></li><?php endif; ?>
+                                        <?php if($this->hasPermissionPath('video/disk')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'video','action'=>'disk'));?>"><span class="title"><?= __('disk-space-usage') ?></span></a></li><?php endif; ?>
+                                    </ul>
+                                </li>
+                                <?php endif; ?>
+                            <?php endif; ?>
+                            <?php if($this->hasGroupPermission(3)):?>
+                                <li >
+                                    <a href="javascript:void(0);" ><i class="fa fa-table fa-fw"></i><span> <?= __('Attendance') ?> </span> <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <?php if($this->hasPermissionPath('student/attendance')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'attendance'));?>"><span class="title"><?= __('attendance') ?></span></a></li><?php endif; ?>
+                                        <?php if($this->hasPermissionPath('student/attendancebulk')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'attendancebulk'));?>"><span class="title"><?= __('attendance') ?> (<?= __('bulk') ?>)</span></a></li><?php endif; ?>
+                                        <?php if($this->hasPermissionPath('student/attendanceimport')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'attendanceimport'));?>"><span class="title"><?= __('attendance') ?> (<?= __('import') ?>)</span></a></li><?php endif; ?>
+
+                                        <?php if($this->hasPermissionPath('student/certificatelist')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'certificatelist'));?>"><span class="title"><?= __('certificate-list') ?></span></a></li><?php endif; ?>
+                                        <?php if($this->hasPermissionPath('student/attendancedate')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'attendancedate'));?>"><span class="title"><?= __('attendance-dates') ?></span></a></li><?php endif; ?>
+
+                                    </ul>
+                                </li>
+                            <?php endif; ?>
+                            <?php if($this->hasGroupPermission(15)):?>
+                            <li >
+                                <a href="javascript:void(0);" ><i class="fa fa-edit fa-fw"></i> <span> <?= __('homework') ?> </span> <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <?php if($this->hasPermissionPath('assignment/add')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'assignment','action'=>'add'));?>"><span class="title"><?= __('add-homework') ?></span></a></li><?php endif; ?>
+                                    <?php if($this->hasPermissionPath('assignment/index')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'assignment','action'=>'index'));?>"><span class="title"><?= __('view-all') ?></span></a></li><?php endif; ?>
+
+
+                                </ul>
+                            </li>
+                            <?php endif; ?>
+                            <?php if($this->hasGroupPermission(5)):?>
+                                <li >
+                                    <a href="javascript:void(0);" ><i class="fa fa-list-alt fa-fw"></i> <span> <?= __('revision-notes') ?> </span> <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <?php if($this->hasPermissionPath('homework/add')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'homework','action'=>'add'));?>"><span class="title"><?= __('add-note') ?></span></a></li><?php endif; ?>
+                                        <?php if($this->hasPermissionPath('homework/index')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'homework','action'=>'index'));?>"><span class="title"><?= __('view-archive') ?></span></a></li><?php endif; ?>
+
+
+                                    </ul>
+                                </li>
+                            <?php endif; ?>
+                            <?php if($this->hasGroupPermission(13)):?>
+                                <li >
+                                    <a href="javascript:void(0);" ><i class="fa fa-download fa-fw"></i><span> <?= __('downloads') ?> </span> <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <?php if($this->hasPermissionPath('download/add')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'download','action'=>'add'));?>"><span class="title"><?= __('create-download') ?></span></a></li><?php endif; ?>
+                                        <?php if($this->hasPermissionPath('download/index')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'download','action'=>'index'));?>"><span class="title"><?= __('all-downloads') ?></span></a></li><?php endif; ?>
+
+                                    </ul>
+                                </li>
+                            <?php endif; ?>
+                            <?php if($this->hasGroupPermission(11)):?>
+
+                                    <li >
+                                        <a href="javascript:void(0);" ><i class="fa  fa-comments fa-fw"></i><span> <?= __('discussions') ?> </span> <span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                    <?php if($this->hasPermissionPath('discuss/index')): ?>
+                                            <li> <a   href="<?php echo $this->url('admin/default',array('controller'=>'discuss','action'=>'index')) ?>"    ><?= __('instructor-chat') ?>
+                                                </a> </li>
+                                    <?php endif; ?>
+                                            <?php if($this->hasPermissionPath('forum/index')): ?>
+                                            <li> <a   href="<?php echo $this->url('admin/default',array('controller'=>'forum','action'=>'index')) ?>"    ><?= __('student-forum') ?>
+                                                </a> </li>
+                                            <?php endif; ?>
+
+                                        </ul>
+                                    </li>
+
+
+
+
+
+                            <?php endif; ?>
+                            <?php if($this->hasGroupPermission(10)):?>
+                                <li >
+                                    <a href="javascript:void(0);" ><i class="fa fa-check-circle fa-fw"></i><span> <?= __('tests') ?> </span> <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <?php if($this->hasPermissionPath('test/add')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'test','action'=>'add'));?>"><span class="title"><?= __('add-test') ?></span></a></li><?php endif; ?>
+                                        <?php if($this->hasPermissionPath('test/index')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'test','action'=>'index'));?>"><span class="title"><?= __('all-tests') ?></span></a></li><?php endif; ?>
+
+                                    </ul>
+                                </li>
+                            <?php endif; ?>
+                            <?php if($this->hasGroupPermission(17)):?>
+                                <li >
+                                    <a href="javascript:void(0);" ><i class="fa fa-flag-checkered fa-fw"></i><span> <?= __('surveys') ?> </span> <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <?php if($this->hasPermissionPath('survey/add')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'survey','action'=>'add'));?>"><span class="title"><?= __('add-survey') ?></span></a></li><?php endif; ?>
+                                        <?php if($this->hasPermissionPath('survey/index')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'survey','action'=>'index'));?>"><span class="title"><?= __('all-surveys') ?></span></a></li><?php endif; ?>
+
+                                    </ul>
+                                </li>
+                            <?php endif; ?>
+                            <?php if($this->hasGroupPermission(12)):?>
+                                <li >
+                                    <a href="javascript:void(0);" ><i class="fa fa-file-pdf-o fa-fw"></i><span> <?= __('certificates') ?> </span> <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <?php if($this->hasPermissionPath('certificate/add')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'certificate','action'=>'add'));?>"><span class="title"><?= __('create-certificate') ?></span></a></li><?php endif; ?>
+                                        <?php if($this->hasPermissionPath('certificate/index')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'certificate','action'=>'index'));?>"><span class="title"><?= __('manage-certificates') ?></span></a></li><?php endif; ?>
+                                        <?php if($this->hasPermissionPath('certificate/index')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'certificate','action'=>'track'));?>"><span class="title"><?= __('track-certificates') ?></span></a></li><?php endif; ?>
+
+                                    </ul>
+                                </li>
+                            <?php endif; ?>
+
+                            <?php if($this->hasGroupPermission(16)):?>
+                            <li> <a   href="<?=$this->url('admin/default',['controller'=>'report','action'=>'index'])?>"     ><i class="fa  fa-bar-chart fa-fw"></i><?= __('reports') ?>
+                                </a> </li>
+                            <?php endif; ?>
+
+                            <?php if($this->hasGroupPermission(6)):?>
+                                <li >
+                                    <a href="javascript:void(0);" ><i class="fa  fa-pencil fa-fw"></i><span> <?= __('blog') ?> </span> <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <?php if($this->hasPermissionPath('news/add')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'news','action'=>'add'));?>"><span class="title"><?= __('add-post') ?></span></a></li><?php endif; ?>
+                                        <?php if($this->hasPermissionPath('news/index')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'news','action'=>'index'));?>"><span class="title"><?= __('view-archive') ?></span></a></li><?php endif; ?>
+
+                                    </ul>
+                                </li>
+                            <?php endif; ?>
+
+
+
+                            <?php if($this->hasGroupPermission(11)):?>
+                                <?php if($this->hasPermissionPath('filemanager/index')): ?><li> <a    onclick="window.open('<?php echo $this->url('admin/default',array('controller'=>'filemanager','action'=>'index')) ?>', '<?= __('filemanager') ?>', 'width=1100, height=530',true);" href="javascript:;"    ><i class="fa fa-file fa-fw"></i><?= __('filemanager') ?>
+                                    </a> </li><?php endif; ?>
+                            <?php endif; ?>
+                            <?php if($this->hasGroupPermission(8)):?>
+                                <li >
+                                    <a href="javascript:void(0);" ><i class="fa   fa-pencil-square-o fa-fw"></i><span> <?= __('articles') ?> </span> <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <?php if($this->hasPermissionPath('articles/add')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'articles','action'=>'add'));?>"><span class="title"><?= __('add-articles') ?></span></a></li><?php endif; ?>
+                                        <?php if($this->hasPermissionPath('articles/index')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'articles','action'=>'index'));?>"><span class="title"><?= __('view-articles') ?></span></a></li><?php endif; ?>
+
+                                    </ul>
+                                </li>
+                            <?php endif; ?>
+
+                            <?php if($this->hasGroupPermission(9)):?>
+                                <li >
+                                    <a href="javascript:void(0);" ><i class="fa   fa-gears fa-fw"></i><span> <?= __('settings') ?> </span> <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <?php if($this->hasPermissionPath('widget/index')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'widget','action'=>'index'));?>"><span class="title"><?= __('homepage-widgets') ?></span></a></li><?php endif; ?>
+                                        <?php if($this->hasPermissionPath('setting/fields')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'setting','action'=>'fields'));?>"><span class="title"><?= __('custom-student-fields') ?></span></a></li><?php endif; ?>
+                                        <?php if($this->hasPermissionPath('setting/index')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'setting','action'=>'index'));?>"><span class="title"><?= __('site-settings') ?></span></a></li><?php endif; ?>
+                                        <?php if($this->hasPermissionPath('setting/index')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'setting','action'=>'language'));?>"><span class="title"><?= __('language') ?></span></a></li><?php endif; ?>
+                                        <?php if($this->hasPermissionPath('template/index')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'template','action'=>'index'));?>"><span class="title"><?= __('site-theme') ?></span></a></li><?php endif; ?>
+                                        <?php if($this->hasPermissionPath('payment/index')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'payment','action'=>'index'));?>"><span class="title"><?= __('payment-methods') ?></span></a></li><?php endif; ?>
+
+                                        <?php if($this->hasPermissionPath('payment/coupons')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'payment','action'=>'coupons'));?>"><span class="title"><?= __('coupons') ?></span></a></li><?php endif; ?>
+                                        <?php if($this->hasPermissionPath('setting/currencies')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'setting','action'=>'currencies'));?>"><span class="title"><?= __('currencies') ?></span></a></li><?php endif; ?>
+                                        <?php if($this->hasPermissionPath('smsgateway/index')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'smsgateway','action'=>'index'));?>"><span class="title"><?= __('sms-setup') ?></span></a></li><?php endif; ?>
+                                        <?php if($this->hasPermissionPath('setting/roles')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'setting','action'=>'roles'));?>"><span class="title"><?= __('roles') ?></span></a></li><?php endif; ?>
+                                        <?php if($this->hasPermissionPath('setting/admins')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'setting','action'=>'admins'));?>"><span class="title"><?= __('administrators-instructors') ?></span></a></li><?php endif; ?>
+                                        <?php if($this->hasPermissionPath('setting/testgrades')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'setting','action'=>'testgrades'));?>"><span class="title"><?= __('grades') ?></span></a></li><?php endif; ?>
+                                        <li >
+                                            <a href="javascript:void(0);" ><span> <?= __('notification-messages') ?> </span> <span class="fa fa-chevron-down"></span></a>
+                                            <ul class="nav child_menu">
+                                                <?php if($this->hasPermissionPath('messages/emails')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'messages','action'=>'emails'));?>"><span class="title"><?= __('email-notifications') ?></span></a></li><?php endif; ?>
+                                                <?php if($this->hasPermissionPath('messages/sms')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'messages','action'=>'sms'));?>"><span class="title"><?= __('sms-notifications') ?></span></a></li><?php endif; ?>
+                                            </ul>
+                                        </li>
+                                        <?php if($this->hasPermissionPath('setting/migrate')): ?><li><a href="<?php echo $this->url('admin/default',array('controller'=>'setting','action'=>'migrate'));?>"><span class="title"><?= __('update') ?></span></a></li><?php endif; ?>
+
+                                    </ul>
+                                </li>
+                            <?php endif; ?>
+                            <li> <a   href="https://traineasy.net/docs" target="_blank"    ><i class="fa  fa-book fa-fw"></i><?= __('user-guide') ?>
+                                </a> </li>
+
+                        </ul>
+                    </div>
+
+
+                </div>
+                <!-- /sidebar menu -->
+
+
+            </div>
+        </div>
+
+        <!-- top navigation -->
+        <div class="top_nav">
+            <div class="nav_menu">
+                <nav>
+                    <div class="nav toggle">
+                        <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                    </div>
+                    <ul class="nav navbar-nav navbar-left hidden-xs">
+
+                        <li >
+                            <form target="_blank" action="https://traineasy.net/docs/search" method="get" role="search" class="app-search">
+                                <input value="" name="q" placeholder="<?= __('search-help-topics') ?>..." class="form-control" type="text">
+                                <a href=""><i class="fa fa-search"></i></a>
+                            </form>
+                        </li>
+
+                        <li class="">
+                            <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                               <i class="fa fa-question"></i> <?= __('help') ?>
+                                <span class=" fa fa-angle-down"></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-usermenu pull-right">
+                                <li> <a   href="https://traineasy.net/docs" target="_blank"    ><i class="fa  fa-book fa-fw"></i><?= __('user-guide') ?>
+                                    </a> </li>
+                                <li> <a   href="#" target="_blank"  data-toggle="modal" data-target="#featureModal"    ><i class="fa  fa-envelope fa-fw"></i><?= __('suggest-a-feature') ?>
+                                    </a> </li>
+
+                            </ul>
+                        </li>
+
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="">
+                            <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                <?= __('hi') ?>, <?php echo $this->getAdmin()->first_name?>
+                                <span class=" fa fa-angle-down"></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-usermenu pull-right">
+                                <li><a href="<?php echo $this->url('admin/default',array('controller'=>'account','action'=>'profile'));?>"><i class="fa fa-user m-r-5"></i> <?= __('profile') ?></a></li>
+                                <li><a href="<?php echo $this->url('admin/default',array('controller'=>'account','action'=>'email'));?>"><i class="fa fa-envelope m-r-5"></i> <?= __('change-email') ?></a></li>
+                                <li><a href="<?php echo $this->url('admin/default',array('controller'=>'account','action'=>'password'));?>"><i class="fa fa-unlock m-r-5"></i> <?= __('change-password') ?></a></li>
+                                <li><a href="<?php echo $this->url('admin/logout')?>"><i class="fa fa-sign-out m-r-5"></i> <?= __('logout') ?></a></li>
+                            </ul>
+                        </li>
+
+
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <!-- /top navigation -->
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+            <!-- Start content -->
+            <div class="content">
+                <div class="container">
+
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="page-title-box">
+                                <h4 class="page-title"><?php echo strip_tags($action->pageTitle) ?> </h4>
+
+
+
+                                <?php if(!isset($action->hideCrumbs)):?>
+                                    <?php if(isset($action->customCrumbs)): ?>
+
+                                        <ol class="breadcrumb p-0 m-0">
+                                            <?php $count=0;?>
+                                            <?php  foreach($action->customCrumbs as $key=>$value):?>
+
+
+
+                                                <li>
+                                                    <?php
+                                                    // if this isn't the last page, add a link and the separator
+                                                    if ($count < count($action->customCrumbs) - 1):
+                                                        ?>
+                                                        <a href="<?php echo $key ?>"><?php echo $value; ?></a>
+
+                                                    <?php // otherwise, just output the name
+                                                    else:
+                                                        ?>
+                                                        <?php echo  $value ?>
+                                                    <?php endif; ?>
+                                                </li>
+                                                <?php $count++;?>
+
+
+                                            <?php endforeach; ?>
+                                        </ol>
+                                    <?php else: ?>
+                                        <?php
+                                        echo $this->navigation('navigation') // <-- Update this!!
+                                        ->breadcrumbs()
+                                            ->setMinDepth(0)
+                                            ->setPartial(array('partial/breadcrumb.phtml', 'Album'));
+                                        ?>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+
+
+
+
+
+
+
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end row -->
+
+
+                    <?php echo $this->alert($this->flashMessenger()->render(),@$action->mode); ?>
+                    <?php echo $this->alert(@$action->message,@$action->mode); ?>
+
+                    <div id="layout_content">
+                    <?php  echo $this->content; ?>
+                    </div>
+
+                    <!-- START SIMPLE MODAL MARKUP -->
+                    <div class="modal fade" id="generalModal" tabindex="-1" role="dialog" aria-labelledby="generalModalLabel" aria-hidden="true">
+                        <div class="modal-dialog  modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title" id="generalModalLabel"></h4>
+                                </div>
+                                <div class="modal-body" id="genmodalinfo">
+
+                                </div>
+                                <div class="modal-footer">
+
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal -->
+                    <!-- END SIMPLE MODAL MARKUP -->
+                    <script>
+                        function openModal(title,url){
+                            $('#genmodalinfo').html(' <img  src="<?php echo $this->basePath() ?>/img/ajax-loader.gif">');
+                            $('#generalModalLabel').text(title);
+                            $('#genmodalinfo').load(url);
+                            $('#generalModal').modal();
+                        }
+                        function openPopup(url){
+                            window.open(url, "_blank", "toolbar=no,scrollbars=yes,resizable=yes,top=500,left=500,width=400,height=400");
+                            return false;
+                        }
+                    </script>
+
+
+
+                </div> <!-- container -->
+
+            </div> <!-- content -->
+
+        </div>
+        <!-- /page content -->
+
+        <!-- footer content -->
+        <footer>
+            <div class="pull-right">
+                <?php $status=getenv('hidecopy'); if(empty($status)):?>
+                    <?= __('copyright') ?> &copy; <?php echo date('Y');?> <a href="http://intermaticsng.com">Intermatics</a>
+                <?php endif; ?>
+            </div>
+            <div class="clearfix"></div>
+        </footer>
+        <!-- /footer content -->
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="featureModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <form id="feature_request_form" action="https://traineasy.net/create-feature-request" method="post" >
+
+
+    <div class="modal-dialog" role="document">
+
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="featureModalLabel"><?= __('talk-to-us') ?>!</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    <?= __('talk-to-us-text') ?>
+                </p>
+                    <div class="form-group">
+                        <label for=""><?= __('how-important') ?></label>
+                        <select required="required" class="form-control" name="importance" >
+                            <option value=""></option>
+                            <option value="Nice to have"><?= __('nice-to-have') ?></option>
+                            <option value="Important"><?= __('important') ?></option>
+                            <option value="Critical"><?= __('critical') ?></option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for=""><?= __('details') ?></label>
+                        <textarea required="required" class="form-control" name="details"  cols="30" rows="5"></textarea>
+                    </div>
+                <input type="hidden" name="user_name" value="<?=$this->getAdmin()->first_name?> <?=$this->getAdmin()->last_name?>"/>
+                <input type="hidden" name="user_email" value="<?=$this->getAdmin()->email?>"/>
+                <input type="hidden" name="url" value="<?=$_SERVER['HTTP_HOST']?>"/>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?= __('close') ?></button>
+                <button type="submit" class="btn btn-primary"><?= __('send-request') ?></button>
+            </div>
+        </div>
+
+        </form>
+
+    </div>
+
+
+</div>
+
+
+<!-- Bootstrap -->
+<script src="<?php echo $this->basePath(); ?>/themes/cpanel/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- FastClick -->
+<script src="<?php echo $this->basePath(); ?>/themes/cpanel/vendors/fastclick/lib/fastclick.js"></script>
+<!-- NProgress -->
+<script src="<?php echo $this->basePath(); ?>/themes/cpanel/vendors/nprogress/nprogress.js"></script>
+<!-- Chart.js -->
+<script src="<?php echo $this->basePath(); ?>/themes/cpanel/vendors/Chart.js/dist/Chart.min.js"></script>
+<!-- gauge.js -->
+<script src="<?php echo $this->basePath(); ?>/themes/cpanel/vendors/gauge.js/dist/gauge.min.js"></script>
+<!-- bootstrap-progressbar -->
+<script src="<?php echo $this->basePath(); ?>/themes/cpanel/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+<!-- iCheck -->
+<script src="<?php echo $this->basePath(); ?>/themes/cpanel/vendors/iCheck/icheck.min.js"></script>
+<!-- Skycons -->
+<script src="<?php echo $this->basePath(); ?>/themes/cpanel/vendors/skycons/skycons.js"></script>
+<!-- Flot -->
+<script src="<?php echo $this->basePath(); ?>/themes/cpanel/vendors/Flot/jquery.flot.js"></script>
+<script src="<?php echo $this->basePath(); ?>/themes/cpanel/vendors/Flot/jquery.flot.pie.js"></script>
+<script src="<?php echo $this->basePath(); ?>/themes/cpanel/vendors/Flot/jquery.flot.time.js"></script>
+<script src="<?php echo $this->basePath(); ?>/themes/cpanel/vendors/Flot/jquery.flot.stack.js"></script>
+<script src="<?php echo $this->basePath(); ?>/themes/cpanel/vendors/Flot/jquery.flot.resize.js"></script>
+<!-- Flot plugins -->
+<script src="<?php echo $this->basePath(); ?>/themes/cpanel/vendors/flot.orderbars/js/jquery.flot.orderBars.js"></script>
+<script src="<?php echo $this->basePath(); ?>/themes/cpanel/vendors/flot-spline/js/jquery.flot.spline.min.js"></script>
+<script src="<?php echo $this->basePath(); ?>/themes/cpanel/vendors/flot.curvedlines/curvedLines.js"></script>
+<!-- DateJS -->
+<script src="<?php echo $this->basePath(); ?>/themes/cpanel/vendors/DateJS/build/date.js"></script>
+<!-- JQVMap -->
+<script src="<?php echo $this->basePath(); ?>/themes/cpanel/vendors/jqvmap/dist/jquery.vmap.js"></script>
+<script src="<?php echo $this->basePath(); ?>/themes/cpanel/vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+<script src="<?php echo $this->basePath(); ?>/themes/cpanel/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
+<!-- bootstrap-daterangepicker -->
+<script src="<?php echo $this->basePath(); ?>/themes/cpanel/vendors/moment/min/moment.min.js"></script>
+<script src="<?php echo $this->basePath(); ?>/themes/cpanel/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+<!-- Custom Theme Scripts -->
+<script src="<?php echo $this->basePath(); ?>/themes/cpanel/build/js/custom.min.js"></script>
+
+<script>
+  $(function(){
+      $('#feature_request_form').submit(function(event) {
+
+          // get the form data
+          // there are many ways to get this data using jQuery (you can use the class or id also)
+
+          // process the form
+          $.ajax({
+              type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
+              url         : $(this).attr('action'), // the url where we want to POST
+              data        : $(this).serialize(), // our data object
+              dataType    : 'json', // what type of data do we expect back from the server
+              encode          : true
+          }).done(function(data) {
+
+                  // log data to the console so we can see
+                 if(data.success){
+                     alert(data.success);
+                     $('#featureModal').modal('hide')
+                 }
+                else{
+                     alert('An error occurred. Please try again later');
+                 }
+                  // here we will handle errors and validation messages
+              });
+
+          // stop the form from submitting the normal way and refreshing the page
+          event.preventDefault();
+      });
+  });
+
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,176 @@
+<?php  $this->headTitle($pageTitle) ?>
+<div class="container">
+
+ <div class="row">
+     <div class="col-md-4">
+         <h4><?= __('total-questions') ?></h4>
+         <h1><?php echo $totalQuestions; ?></h1>
+     </div>
+     <?php if(!empty($testRow->minutes)):?>
+     <div class="col-md-4">
+         <h4><?= __('time-allowed') ?></h4>
+         <h1><?php echo $testRow->minutes; ?> <?= __('mins') ?></h1>
+     </div>
+
+     <div class="col-md-4">
+         <h4><?= __('time-remaining') ?></h4>
+         <h1><span id="timespan"><?php echo $testRow->minutes; ?> <?= __('mins') ?></span></h1>
+     </div>
+     <?php endif; ?>
+ </div>
+
+    <div class="row" >
+        <form id="testform" method="post" action="<?php echo $this->url('application/processtest',['id'=>$testRow->test_id]);?>">
+            <input id="studentTestId" type="hidden" name="student_test_id" value=""/>
+        <div style="margin-top: 30px" class="col-md-8 col-md-offset-2">
+
+            <div class="panel panel-default" id="intro">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><?= __('Instructions') ?></h3>
+                </div>
+                <div class="panel-body">
+                   <p><?php echo $testRow->description ?></p>
+                    <button type="button" id="start" class="btn btn-primary btn-lg pull-right"><?= __('Start Test') ?></button>
+                </div>
+            </div>
+<?php $count = 0; ?>
+            <?php foreach($questions as $id => $question):?>
+<?php $count++; ?>
+                <div class="panel panel-default question" id="question<?php echo $count ?>">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><?php echo $count; ?>. <?php echo $question['question']->question ?></h3>
+                    </div>
+                    <div class="panel-body">
+                        <p >
+
+                            <?php foreach($question['options'] as $option):?>
+
+
+                         <div class="radio">
+                            <label style="font-size: 14px">
+                                <input type="radio" id="question_op_<?php echo $option->test_question_id; ?>" name="question_<?php echo $option->test_question_id; ?>" value="<?php echo $option->test_option_id ?>"/>
+
+                                <?php echo $option->option ?>
+                            </label>
+                        </div>
+
+                            <?php endforeach;?>
+
+
+                        </p>
+
+                        <?php if($count > 1):?>
+                        <button type="button" onclick="showPanel('<?php echo ($count - 1); ?>')" class="prev btn btn-primary btn-lg "><?= __('Prev') ?></button>
+                        <?php endif; ?>
+
+                        <?php if($count < $totalQuestions):?>
+                        <button  type="button"  onclick="showPanel('<?php echo $count + 1?>')"  class="next btn btn-primary btn-lg pull-right"><?= __('Next') ?></button>
+                        <?php else: ?>
+                         <a onclick="if(confirm('<?=__('submit-test-msg')?>')){$('#testform').submit()};" class="btn btn-inverse btn-lg pull-right" href="#testform"><?= __('finish') ?></a>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+
+        </div>
+        </form>
+    </div>
+
+
+
+
+
+</div>
+
+<script>
+    var interval;
+    $('.question').hide();
+
+    $('#start').click(function(){
+        $('#start').text('<?=__('Loading')?>...');
+        $('#start').attr('disabled','disabled');
+        $.ajax({
+            dataType: "json",
+            url: '<?php echo $this->url('application/starttest',['id'=>$testRow->test_id]); ?>',
+            success: function(data){
+                if(data.status){
+                    $('#studentTestId').val(data.id);
+                    $('#intro').hide();
+                    showPanel(1);
+                    window.onbeforeunload = function(){
+                        return confirm("<?=__('are-you-sure-cancel-test')?>"<?php if(empty($testRow->allow_multiple)){ echo '+"'.__('not-take-again').'"'; } ?>);
+                    }
+<?php if(!empty($testRow->minutes)):?>
+                    var minutes = <?php echo intval($testRow->minutes) ?> * 60 ,
+                        display = document.querySelector('#timespan');
+                    startTimer(minutes, display);
+<?php endif; ?>
+
+                }
+                else{
+                    $('#start').text('<?=__('start-test')?>');
+                    $('#start').removeAttr('disabled');
+                    alert('<?=__('error-try-again')?>');
+
+                }
+            }
+        }).fail(function() {
+            $('#start').text('<?=__('start-test')?>');
+            $('#start').removeAttr('disabled');
+            alert('<?=__('network-error')?>');
+        });
+    });
+
+    function showPanel(id){
+        $('.question').hide();
+        $('#question'+id).show();
+    }
+    $(function(){
+
+
+    });
+
+    function startTimer(duration, display) {
+        var start = Date.now(),
+            diff,
+            minutes,
+            seconds;
+        function timer() {
+            // get the number of seconds that have elapsed since
+            // startTimer() was called
+            diff = duration - (((Date.now() - start) / 1000) | 0);
+
+            // does the same job as parseInt truncates the float
+            minutes = (diff / 60) | 0;
+            seconds = (diff % 60) | 0;
+
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            display.textContent = minutes + ":" + seconds;
+
+            if (diff <= 0) {
+                // add one second so that the count down starts at the full duration
+                // example 05:00 not 04:59
+               // start = Date.now() + 1000;
+                console.log('time is up!');
+                $('#testform').submit();
+                clearInterval(interval);
+            }
+        };
+        // we don't want to wait a full second before the timer starts
+        timer();
+      interval=  setInterval(timer, 1000);
+    }
+
+
+
+    $('#testform').on('submit',(function(e){
+
+        window.onbeforeunload = function () {
+            // blank function do nothing
+        }
+
+
+    }));
+</script>

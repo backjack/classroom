@@ -1,0 +1,13 @@
+<tr>
+    <td><?php echo $this->formElement($form->get('lesson_'.$lesson_id)); ?> </td>
+    <td><span id="<?php echo 'lesson_name_'.$lesson_id; ?>"><?php echo $row->lesson_name ?></span></td>
+    <td style="display: none"></td>
+
+    <td>
+
+        <?php echo $this->formElement($form->get('lesson_date_'.$lesson_id)); ?></td>
+
+    <td>
+
+        <?php echo $this->formElement($form->get('sort_order_'.$lesson_id)); ?></td>
+</tr>

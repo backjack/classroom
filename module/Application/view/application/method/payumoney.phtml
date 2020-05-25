@@ -1,0 +1,74 @@
+<?php $this->headTitle($pageTitle); ?>
+<div class="container box">
+    <table class="table table-hover table-striped no-margin">
+
+        <tbody>
+        <tr>
+            <td><?= __('Amount') ?>:</td>
+            <td><?=currentCurrency()->country->symbol_left?><?php echo number_format($invoice->amount,2);?></td>
+
+
+        </tr>
+
+        <tr>
+            <td><?= __('Description') ?>:</td>
+            <td><?= __('Enrollment') ?> for <?php echo 'Course/Session'; ?></td>
+
+        </tr>
+
+
+        <tr>
+            <td>&nbsp;</td>
+            <td>
+
+
+
+                <div class="buttons">
+                    <div class="right">
+
+                        <?php if ($payumoney_sandbox==1) { ?>
+                            <div class="warning" style="color: red"><?= __('payu-money-warning') ?></div>
+                        <?php } ?>
+
+                        <form action="<?php echo $action ?>" method="post" id="payu_form" name="payu_form" >
+                            <input type="hidden" name="key" value="<?php echo $key; ?>" />
+                            <input type="hidden" name="txnid" value="<?php echo $tid; ?>" />
+                            <input type="hidden" name="amount" value="<?php echo $amount; ?>" />
+                            <input type="hidden" name="productinfo" value="<?php echo $productinfo; ?>" />
+                            <input type="hidden" name="firstname" value="<?php echo $firstname; ?>" />
+                            <input type="hidden" name="lastname" value="<?php echo $lastname; ?>" />
+                            <input type="hidden" name="email" value="<?php echo $email; ?>" />
+                            <input type="hidden" name="phone" value="<?php echo $phone; ?>" />
+                            <input type="hidden" name="surl" value="<?php echo $surl; ?>" />
+                            <input type="hidden" name="furl" value="<?php echo $furl; ?>" />
+                            <input type="hidden" name="hash" value="<?php echo $hash;?>" />
+                            <input type="hidden" name="service_provider" value="<?php echo $service_provider; ?>" />
+
+
+                            <div class="buttons">
+                                <div ><input type="submit" value="<?= __('Pay Now') ?>" class="btn btn-primary btn-lg" /></div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+            </td>
+
+        </tr>
+
+
+        </tbody>
+    </table>
+
+
+</div>

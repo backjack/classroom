@@ -1,0 +1,58 @@
+<?php $this->headTitle($pageTitle); ?>
+<div class="container box">
+    <table class="table table-hover table-striped no-margin">
+
+        <tbody>
+        <tr>
+            <td><?= __('Amount') ?>:</td>
+            <td><?=currentCurrency()->country->symbol_left?><?php echo number_format($invoice->amount,2);?></td>
+
+
+        </tr>
+
+        <tr>
+            <td><?= __('Description') ?>:</td>
+            <td><?= __('Enrollment for') ?> <?php echo 'Course/Session'; ?></td>
+
+        </tr>
+
+
+        <tr>
+            <td>&nbsp;</td>
+            <td>
+
+
+
+                <form action="<?=$this->url('application/default',['controller'=>'callback','action'=>'stripe'],['force_canonical' => true])?>" method="POST">
+                    <script
+                        src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                        data-key="<?php  echo trim($pkey) ?>"
+                        data-currency="<?php echo $currency ?>"
+                        data-amount="<?php echo ($invoice->amount * 100)?>"
+                        data-name="<?php echo $this->getSetting('general_site_name') ?>"
+                        data-description="<?php echo 'Course/Session'?> enrollemnt"
+                        data-email="<?php  echo $student->email ?>"
+                        data-image="<?php echo $siteUrl; ?><?php echo resizeImage($this->getSetting('image_logo'),128,128,$this->basePath()); ?>"
+                        data-locale="auto"
+                        data-zip-code="true">
+                    </script>
+                </form>
+
+
+
+
+
+
+
+
+
+            </td>
+
+        </tr>
+
+
+        </tbody>
+    </table>
+
+
+</div>

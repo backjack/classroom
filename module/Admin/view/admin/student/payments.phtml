@@ -1,0 +1,91 @@
+
+<div class="box">
+
+    <div class="box-body no-padding">
+        <form action="<?php $this->url('admin/payments'); ?>" method="get">
+        <div class="row" style="margin-bottom: 20px">
+            <div class="col-md-2">
+                <input value="<?php echo $startDate ?>" type="text" class="form-control date" name="start" placeholder="<?= __('start-date') ?>"/>
+            </div>
+            <div class="col-md-2">
+                <input value="<?php echo $endDate; ?>" type="text" class="form-control date" name="end" placeholder="<?= __('end-date') ?>"/>
+            </div>
+            <div class="col-md-1">
+                <button class="btn btn-primary" type="submit"><?= __('filter') ?></button>
+            </div>
+            <div class="col-md-4">
+               <strong style="font-size: 25px"><?= __('total') ?>: <?php echo $this->formatPrice($sum); ?></strong>
+            </div>
+        </div>
+        </form>
+
+        <div class="table-responsive">
+        <table class="table table-hover table-striped no-margin">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th><?= __('student') ?></th>
+                <th><?= __('payment-method') ?></th>
+                <th><?= __('amount') ?></th>
+                <th><?= __('added-on') ?></th>
+            </tr>
+            </thead>
+            <tbody>
+
+
+
+            <?php foreach($paginator as $row): ?>
+                <tr>
+                    <td><?php echo $row->payment_id; ?></td>
+                    <td><?php echo $row->first_name; ?> <?php echo $row->last_name; ?> (<?php echo $row->email; ?>)</td>
+                    <td><?php echo $row->payment_method; ?></td>
+                    <td><?php echo $this->formatPrice($row->amount); ?></td>
+                    <td><?php echo date('d/M/Y',$row->added_on); ?></td>
+
+                </tr>
+            <?php endforeach; ?>
+
+
+
+
+
+            </tbody>
+        </table>
+    </div>
+
+        <?php
+        // add at the end of the file after the table
+        echo $this->paginationControl(
+        // the paginator object
+            $this->paginator,
+            // the scrolling style
+            'sliding',
+            // the partial to use to render the control
+            array('partial/paginatordates.phtml', 'Admin'),
+            // the route to link to when a user clicks a control link
+            array(
+                'route' => 'admin/payments', 
+                'start'=> $startDate,
+                'end' => $endDate
+            )
+        );
+        ?>
+
+    </div><!--end .box-body -->
+</div><!--end .box -->
+
+
+<?php echo $this->headLink()->prependStylesheet($this->basePath().'/pickadate/themes/default.date.css')
+                    ->prependStylesheet($this->basePath().'/pickadate/themes/default.css');?>
+<script type="text/javascript" src="<?php echo $this->basePath() ?>/pickadate/picker.js"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() ?>/pickadate/picker.date.js"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() ?>/pickadate/legacy.js"></script>
+<script type="text/javascript">
+
+        jQuery(function(){
+            jQuery('.date').pickadate({
+                format: 'yyyy-mm-dd'
+            });
+        });
+
+</script>

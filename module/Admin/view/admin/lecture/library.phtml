@@ -1,0 +1,112 @@
+<div class="row" id="video-library" style="padding-left: 20px; padding-right: 20px">
+    <div >
+        <div class="box">
+            <div class="box-head">
+                <header>
+
+                    <form id="filterform" class="form-inline" role="form"  method="get" action="<?php echo $this->url('admin/default',array('controller'=>'lecture','action'=>'library','id'=>$lectureId)); ?>">
+
+
+                        <div class="form-group">
+                            <label class="sr-only" for="filter">Filter</label>
+                            <?php echo $this->formElement($text) ?>
+                        </div>
+                        <div class="form-group">
+                            <label class="sr-only" for="group">Sort</label>
+                            <?php echo $this->formElement($sortSelect) ?>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Filter</button>
+                        <button type="button" onclick="$('#filterform input, #filterform select').val(''); $('#filterform').submit();" class="btn  btn-danger">Clear</button>
+
+                    </form>
+                    <a target="_blank" onclick="$('#generalModal').modal('hide')" class="btn btn-primary pull-right" href="<?php echo $this->url('admin/default',array('controller'=>'video','action'=>'add')) ?>"><i class="fa fa-plus"></i> Add Videos</a>
+
+                    <div style="clear: both;"></div>
+
+                </header>
+
+
+
+            </div>
+            <div class="box-body">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Snapshot</th>
+                        <th>Name</th>
+                        <th>Length</th>
+                        <th>Added On</th>
+                        <th>Status</th>
+                        <?php if(GLOBAL_ACCESS):?>
+                            <th>Created By</th>
+                        <?php endif; ?>
+                        <th class="text-right1" ><?=__('actions')?></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach($paginator as $row): ?>
+                        <tr>
+                            <td><span class="label label-success"><?php echo $row->video_id ?></span></td>
+                            <td>
+                                <?php $thumb = 'public/uservideo/'.USER_ID.'/'.$row->video_id.'.jpg'; ?>
+                                <?php if(file_exists($thumb)): ?>
+                                    <img class="img-thumbnail" style="max-width: 100px" src="<?=$this->basePath()?>/uservideo/<?=USER_ID ?>/<?=$row->video_id?>.jpg" alt="<?=$row->name?>" />
+                                <?php endif; ?>
+                            </td>
+                            <td><?php echo $row->name; ?></td>
+                            <td>
+                                <?php if(empty($row->length)):?>
+                                    Calculating...
+                                <?php else:?>
+                                    <?=$row->length?>
+                                <?php endif; ?>
+                            </td>
+                            <td>
+                                <?=date('d/m/Y',$row->created_at)?>
+                            </td>
+
+                            <td><?php echo ($row->ready==1)? 'Ready':'Processing...'; ?></td>
+                            <?php if(GLOBAL_ACCESS):?>
+                                <td><?php echo $this->adminName($row->account_id) ?></td>
+                            <?php endif; ?>
+
+                            <td class="text-right1">
+                                <?php if($row->ready==1):?>
+                                    <a class="btn btn-success"  href="<?=$this->url('admin/default',['controller'=>'video','action'=>'play','id'=>$row->video_id])?>" target="_blank" ><i class="fa fa-play-circle-o"></i> Play</a>
+                                <?php endif; ?>
+                                <a class="btn btn-primary"  href="<?php echo $this->url('admin/default',array('controller'=>'lecture','action'=>'addvideolibrary','id'=>$row->video_id));?>?lecture=<?=$lectureId?>"    ><i class="fa fa-plus"></i> Select</a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+
+                    </tbody>
+                </table>
+<div id="pagerlinks">
+    <?php
+    // add at the end of the file after the table
+    echo $this->paginationControl(
+    // the paginator object
+        $this->paginator,
+        // the scrolling style
+        'sliding',
+        // the partial to use to render the control
+        array('partial/paginator.phtml', 'Admin'),
+        // the route to link to when a user clicks a control link
+        array(
+            'route' => 'admin/default',
+            'controller'=>'lecture',
+            'action'=>'library',
+            'id'=>$lectureId,
+            'filter'=>$filter,
+            'sort'=>$sort
+        )
+    );
+    ?>
+</div>
+
+            </div><!--end .box-body -->
+        </div><!--end .box -->
+    </div><!--end .col-lg-12 -->
+</div>

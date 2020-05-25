@@ -1,0 +1,25 @@
+<ul class="crumb">
+    <?php
+    // iterate through the pages
+    foreach ($this->pages as $key => $page):
+        ?>
+       
+            <?php
+            // if this isn't the last page, add a link and the separator
+            if ($key < count($this->pages) - 1):
+                ?>
+                 <li>
+                <a href="<?php echo $page->getHref(); ?>"><?php echo __($page->getLabel()); ?></a>
+                 </li>
+                <li class="sep">/</li>
+                
+            <?php // otherwise, just output the name
+            else:
+            ?>
+             <li>
+                <?php echo __($page->getLabel()); ?>
+               </li>  
+            <?php endif; ?>
+       
+        <?php endforeach; ?>
+</ul>

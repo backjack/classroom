@@ -1,0 +1,86 @@
+<div>
+    <a class="btn btn-primary pull-right" href="<?php echo $this->url('admin/default',['controller'=>'discuss','action'=>'index']); ?>?replied=1"><?= __('replied') ?></a>
+
+   <a  style="margin-right: 10px" class="btn btn-primary pull-right" href="<?php echo $this->url('admin/default',['controller'=>'discuss','action'=>'index']); ?>?replied=0"><?= __('unreplied') ?></a>
+    <a style="margin-right: 10px" class="btn btn-primary pull-right" href="<?php echo $this->url('admin/default',['controller'=>'discuss','action'=>'index']); ?>" ><?= __('all') ?></a>
+
+</div>
+<div style="clear: both"></div>
+<div class="row">
+    <div >
+        <div class="box">
+
+            
+            <div class="box-body">
+
+                <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                    <tr> 
+                        <th><?= __('subject') ?></th>
+                        <th><?= __('subject') ?></th>
+                        <th><?= __('created-on') ?></th>
+                        <th><?= __('replied') ?></th>
+                        <th><?= __('recipients') ?></th>
+                        <th class="text-right1" style="width:90px"><?= __('actions') ?></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach($paginator as $row): ?>
+                        <tr>
+                            <td><?php echo $row->subject ?></td>
+                            <td><?php echo $row->first_name.' '.$row->last_name; ?></td>
+                            <td><?php echo date('d/M/Y',$row->created_on); ?></td>
+                            <td><?php echo boolToString($row->replied); ?></td>
+
+                            <td>
+
+                                <?php if($row->admin==1):?>
+                                    <?= __('administrators') ?>,
+                                <?php endif; ?>
+
+                                <?php foreach($accountTable->getDiscussionAccounts($row->discussion_id) as $row2): ?>
+                                    <?php echo $row2->first_name.' '.$row2->last_name; ?>,
+                                <?php endforeach; ?>
+
+
+
+                            </td>
+                            <td class="text-right">
+                                <a href="<?php echo $this->url('admin/default',array('controller'=>'discuss','action'=>'viewdiscussion','id'=>$row->discussion_id));?>" class="btn btn-xs btn-default btn-equal" data-toggle="tooltip" data-placement="top" data-original-title="<?= __('view') ?>"><i class="fa fa-eye"></i></a>
+
+                                <a onclick="return confirm('<?=__('delete-confirm')?>')" href="<?php echo $this->url('admin/default',array('controller'=>'discuss','action'=>'delete','id'=>$row->discussion_id));?>"  class="btn btn-xs btn-default btn-equal" data-toggle="tooltip" data-placement="top" data-original-title="<?= __('delete') ?>"><i class="fa fa-trash-o"></i></a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+
+                    </tbody>
+                </table>
+            </div>
+                <?php
+                // add at the end of the file after the table
+                echo $this->paginationControl(
+                // the paginator object
+                    $this->paginator,
+                    // the scrolling style
+                    'sliding',
+                    // the partial to use to render the control
+                    array('partial/paginator.phtml', 'Admin'),
+                    // the route to link to when a user clicks a control link
+                    array(
+                        'route' => 'admin/default',
+                        'controller'=>'discuss',
+                        'action'=>'index',
+                    )
+                );
+                ?>
+            </div><!--end .box-body -->
+        </div><!--end .box -->
+    </div><!--end .col-lg-12 -->
+</div>
+
+
+<!-- START SIMPLE MODAL MARKUP --><!-- /.modal -->
+<!-- END SIMPLE MODAL MARKUP -->
+
+ 

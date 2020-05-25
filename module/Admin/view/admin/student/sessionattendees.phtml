@@ -1,0 +1,31 @@
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th><?= __('id') ?></th>
+        <th><?= __('last-name') ?></th>
+        <th><?= __('first-name') ?></th>
+
+        <th><?= __('classes-attended') ?></th>
+        <th class="text-right1" style="width:90px"><?=__('actions')?></th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach($rowset as $row): ?>
+        <tr>
+            <td><span class="label label-success"><?php echo $row->student_id ?></span></td>
+            <td><?php echo $row->last_name; ?></td>
+            <td><?php echo $row->first_name; ?></td>
+
+            <td><?php echo $attendanceTable->getTotalForStudent($row->student_id);?></td>
+
+            <td class="text-right">
+                <a href="<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'edit','id'=>$row->student_id));?>" class="btn btn-xs btn-default btn-equal" data-toggle="tooltip" data-placement="top" data-original-title="<?=__('edit')?>"><i class="fa fa-pencil"></i></a>
+                <a onclick="openPopup('<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'view','id'=>$row->student_id));?>?noterminal=true')" href="javascript:;" class="btn btn-xs btn-default btn-equal" data-toggle="tooltip" data-placement="top" data-original-title="<?=__('edit')?>"><i class="fa fa-eye"></i></a>
+
+            </td>
+        </tr>
+    <?php endforeach; ?>
+
+    </tbody>
+</table>
+                        

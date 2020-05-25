@@ -1,0 +1,128 @@
+<div class="row">
+    <div >
+        <div class="box">
+            <div class="box-head">
+
+                <a class="btn btn-primary pull-right" href="<?php echo $this->url('admin/default',array('controller'=>'survey','action'=>'add')) ?>"><i class="fa fa-plus"></i> <?= __('add-survey') ?></a>
+
+                <header>
+
+                    <form id="filterform" class="form-inline" role="form"  method="get" action="<?php echo $this->url('admin/default',array('controller'=>'survey','action'=>'index')); ?>">
+
+
+                        <div class="form-group">
+                            <label class="sr-only" for="filter"><?= __('filter') ?></label>
+
+                            <input name="filter" class="form-control" type="text" value="<?php echo @$_GET['filter'] ?>"/>
+                        </div>
+
+                        <button type="submit" class="btn btn-inverse"><?= __('filter') ?></button>
+                        <button type="button" onclick="$('#filterform input, #filterform select').val(''); $('#filterform').submit();" class="btn btn-inverse"><?= __('clear') ?></button>
+
+                    </form>
+
+
+                </header>
+
+            </div>
+            <div class="box-body">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th><?= __('id') ?></th>
+                        <th><?= __('name') ?></th>
+                        <th><?= __('enabled') ?></th>
+                        <th><?= __('private') ?></th>
+                        <th><?= __('questions') ?></th>
+                        <th><?= __('attempts') ?></th>
+
+                        <?php if(GLOBAL_ACCESS):?>
+                        <th><?= __('created-by') ?></th>
+                        <?php endif; ?>
+                        <th class="text-right"><?=__('actions')?></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach($paginator as $row): ?>
+                        <tr>
+                            <td><span class="label label-success"><?php echo $row->survey_id; ?></span></td>
+                            <td><?php echo $row->name; ?></td>
+                            <td><?php echo boolToString($row->status); ?></td>
+                            <td><?php echo boolToString($row->private); ?></td>
+                            <td><?php echo $questionTable->getTotalQuestions($row->survey_id);?></td>
+                            <td> <a class="btn btn-sm btn-primary" href="<?php echo $this->url('admin/default',['controller'=>'survey','action'=>'results','id'=>$row->survey_id]);?>"><?php echo $studentSurveyTable->getTotalForTest($row->survey_id); ?> (<?= __('view') ?>)</a></td>
+                        <?php if(GLOBAL_ACCESS):?>
+                            <td><?php echo $this->adminName($row->account_id) ?></td>
+                        <?php endif; ?>
+                            <td >
+                                <div class="btn-group dropup ">
+                                    <button type="button" class="btn btn-inverse dropdown-toggle " data-toggle="dropdown">
+                                        <i class="fa fa-gears"></i> <?= __('options') ?> <i class="fa fa-caret-up"></i>
+                                    </button>
+                                    <ul class="dropdown-menu pull-right animation-slide" role="menu" style="text-align: left;">
+                                        <li><a href="<?php echo $this->url('admin/default',array('controller'=>'survey','action'=>'questions','id'=>$row->survey_id));?>"  ><i class="fa fa-question-circle"> <?= __('manage-questions') ?></i></a></li>
+                                        <li><a href="<?php echo $this->url('admin/default',array('controller'=>'survey','action'=>'exportquestions','id'=>$row->survey_id));?>"  ><i class="fa fa-download"> <?= __('export-questions') ?></i></a></li>
+                                         <li><a href="<?php echo $this->url('admin/default',array('controller'=>'survey','action'=>'edit','id'=>$row->survey_id));?>"  ><i class="fa fa-pencil"></i> <?= __('edit') ?></a></li>
+                                        <li><a href="<?php echo $this->url('admin/default',['controller'=>'survey','action'=>'sessions','id'=>$row->survey_id]) ?>"><i class="fa fa-calendar-o"></i> <?= __('manage-sessions-courses') ?></a></li>
+                                        <li><a onclick="return confirm('<?=__('duplicate-confirm')?>')"  href="<?php echo $this->url('admin/default',array('controller'=>'survey','action'=>'duplicate','id'=>$row->survey_id));?>" ><i class="fa fa-copy"></i> <?= __('duplicate') ?></a></li>
+                                        <li><a onclick="return confirm('<?=__('delete-confirm')?>')" href="<?php echo $this->url('admin/default',array('controller'=>'survey','action'=>'delete','id'=>$row->survey_id));?>"   ><i class="fa fa-trash-o"></i> <?= __('delete') ?></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <a class="btn btn-primary" href="#"  data-toggle="modal" data-target="#myModal<?=$row->survey_id?>"><i class="fa fa-link"></i> <?= __('link') ?></a>
+                                <a class="btn btn-success" href="<?php echo $this->url('admin/default',['controller'=>'survey','action'=>'report','id'=>$row->survey_id]) ?>"  ><i class="fa fa-bar-chart"></i> <?= __('reports') ?></a>
+
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="myModal<?=$row->survey_id?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel<?=$row->survey_id?>">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                <h4 class="modal-title" id="myModalLabel<?=$row->survey_id?>"><?php echo $row->name ?></h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <a target="_blank" href="<?=$this->url('survey',['hash'=>$row->hash])?>"><?=$this->url('survey',['hash'=>$row->hash])?></a>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+
+                    </tbody>
+                </table>
+
+                <?php
+                // add at the end of the file after the table
+                echo $this->paginationControl(
+                // the paginator object
+                    $this->paginator,
+                    // the scrolling style
+                    'sliding',
+                    // the partial to use to render the control
+                    array('partial/paginator.phtml', 'Admin'),
+                    // the route to link to when a user clicks a control link
+                    array(
+                        'route' => 'admin/default',
+                        'controller'=>'survey',
+                        'action'=>'index',
+                    )
+                );
+                ?>
+            </div><!--end .box-body -->
+        </div><!--end .box -->
+    </div><!--end .col-lg-12 -->
+</div>
+
+
+<!-- START SIMPLE MODAL MARKUP --><!-- /.modal -->
+<!-- END SIMPLE MODAL MARKUP -->
+
+ 

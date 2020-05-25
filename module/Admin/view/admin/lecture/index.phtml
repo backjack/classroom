@@ -1,0 +1,96 @@
+<div class="row">
+			<div >
+				<div class="box">
+					<div class="box-head">
+						<header></header>
+
+                        <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#addlecture">
+                            <i class="fa fa-plus"></i> <?= __('add-lecture') ?>
+                        </button>
+                        
+					</div>
+					<div class="box-body">
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th><?= __('sort-order') ?></th>
+									<th><?= __('name') ?></th>
+                                    <th><?= __('content') ?></th>
+                                    <th><?= __('downloads') ?></th>
+									<th class="text-right1" ><?= __('actions') ?></th>
+								</tr>
+							</thead>
+							<tbody>
+                            <?php foreach($paginator as $row): ?>
+								<tr>
+									<td><span class="label label-success"><?php echo $row->sort_order ?></span></td>
+								  	<td><?php echo $row->lecture_title; ?></td>
+
+                                    <td><a style="text-decoration: underline" href="<?php echo $this->url('admin/default',['controller'=>'lecture','action'=>'content','id'=>$row->lecture_id]) ?>"><?php echo $lecturePageTable->getTotalLecturePages($row->lecture_id); ?> <?= __('items') ?></a></td>
+
+                                    <td><?php echo $lectureFileTable->getTotalForDownload($row->lecture_id); ?> <?= __('files') ?></td>
+									 
+									<td class="text-right1">
+                                        <a href="<?php echo $this->url('admin/default',array('controller'=>'lecture','action'=>'content','id'=>$row->lecture_id));?>" class="btn btn-xs btn-default btn-equal" data-toggle="tooltip" data-placement="top" data-original-title="<?= __('manage-content') ?>"><i class="fa fa-file-text-o"></i></a>
+										<a href="<?php echo $this->url('admin/default',array('controller'=>'lecture','action'=>'edit','id'=>$row->lecture_id));?>" class="btn btn-xs btn-default btn-equal" data-toggle="tooltip" data-placement="top" data-original-title="<?=__('edit')?>"><i class="fa fa-pencil"></i></a>
+                                        <a href="<?php echo $this->url('admin/default',array('controller'=>'lecture','action'=>'files','id'=>$row->lecture_id));?>" class="btn btn-xs btn-default btn-equal" data-toggle="tooltip" data-placement="top" data-original-title="<?= __('manage-downloads') ?>"><i class="fa fa-download"></i></a>
+                                        <a onclick="return confirm('<?=__('delete-confirm')?>')" href="<?php echo $this->url('admin/default',array('controller'=>'lecture','action'=>'delete','id'=>$row->lecture_id));?>"  class="btn btn-xs btn-default btn-equal" data-toggle="tooltip" data-placement="top" data-original-title="<?=__('delete')?>"><i class="fa fa-trash-o"></i></a>
+									</td>
+								</tr>
+								  <?php endforeach; ?>
+								
+							</tbody>
+						</table>
+                        
+                        <?php
+ // add at the end of the file after the table
+ echo $this->paginationControl(
+     // the paginator object
+     $this->paginator,
+     // the scrolling style
+     'sliding',
+     // the partial to use to render the control
+     array('partial/paginator.phtml', 'Admin'),
+     // the route to link to when a user clicks a control link
+     array(
+         'route' => 'admin/default',
+		 'controller'=>'lecture',
+		 'action'=>'index', 
+     )
+ );
+ ?>
+					</div><!--end .box-body -->
+				</div><!--end .box -->
+			</div><!--end .col-lg-12 -->
+		</div>
+        
+        
+        <!-- START SIMPLE MODAL MARKUP --><!-- /.modal -->
+<!-- END SIMPLE MODAL MARKUP -->
+
+<div class="modal fade" id="addlecture" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form method="post" class="form" action="<?php echo $this->url('admin/default',['controller'=>'lecture','action'=>'add','id'=>$lesson->lesson_id]) ?>">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><?= __('add-lecture-to') ?> <?php echo $lesson->lesson_name; ?></h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for=""><?= __('lecture-title') ?></label>
+                    <input name="lecture_title" class="form-control " required="required" value="" type="text">
+                </div>
+                <div class="form-group">
+                    <label for="sort_order"><?= __('sort-order') ?> (<?= __('optional') ?>)</label>                            <input name="sort_order" class="form-control number" placeholder="<?= __('digits-only') ?>" value="" type="text">   <p class="help-block"></p>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?= __('close') ?></button>
+                <button type="submit" class="btn btn-primary"><?= __('save-changes') ?></button>
+            </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

@@ -1,0 +1,235 @@
+<?php $this->headScript()->appendFile($this->basePath().'/js/angular.min.js')
+    ->appendFile($this->basePath().'/app/attendance.js')?>
+<div   ng-app="myApp" ng-controller="myCtrl" class="row">
+			<div >
+				<div class="box">
+
+					<div class="box-body">
+						               <?php  
+$form->prepare();
+$form->setAttribute('action', $this->url('admin/default',array('controller'=>'assignment','action'=>$action,'id'=>$id)));
+$form->setAttribute('method', 'post');
+$form->setAttribute('role', 'form');  
+$form->setAttribute('class', 'form-horizontal');     
+
+echo $this->form()->openTag($form);   
+?> 
+                          
+                                                
+                                  
+							 
+									<div class="form-group"> 
+											<?php     echo $this->formLabel($form->get('title'));
+   
+?>
+										 <?php     echo $this->formElement($form->get('title'));
+   
+?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('title'));?></p>
+									 
+									</div>
+														<div class="form-group"> 
+											<?php     echo $this->formLabel($form->get('session_id'));
+   
+?>
+
+
+										 <?php     echo $this->formElement($form->get('session_id'));
+
+
+?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('session_id'));?></p>
+									 
+									</div>
+
+
+                        <div class="form-group class-field">
+                            <?php     echo $this->formLabel($form->get('schedule_type'));
+
+                            ?>
+
+
+                            <?php     echo $this->formElement($form->get('schedule_type'));
+
+
+                            ?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('schedule_type'));?></p>
+
+                        </div>
+
+
+
+
+
+
+                        <div class="form-group scheduled">
+                            <?php     echo $this->formLabel($form->get('opening_date'));
+
+                            ?>
+                            <?php     echo $this->formElement($form->get('opening_date'));
+
+                            ?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('opening_date'));?></p>
+
+                        </div>
+
+
+
+                        <div class="form-group  scheduled">
+                            <?php     echo $this->formLabel($form->get('due_date'));
+
+                            ?>
+                            <?php     echo $this->formElement($form->get('due_date'));
+
+                            ?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('due_date'));?></p>
+
+                        </div>
+
+                        <div class="form-group post-class">
+
+                        </div>
+                        <div id="classbox" class="form-group post-class">
+                            </div>
+
+
+
+
+
+
+
+                        <div class="form-group">
+											<?php     echo $this->formLabel($form->get('assignment_type'));
+   
+?>
+										 <?php     echo $this->formElement($form->get('assignment_type'));
+   
+?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('assignment_type'));?></p>
+									 
+									</div>
+				   
+                                
+							 
+						 	<div class="form-group"> 
+											<?php     echo $this->formLabel($form->get('instruction'));
+   
+?>
+										 <?php     echo $this->formElement($form->get('instruction'));
+   
+?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('instruction'));?></p>
+									 
+									</div>
+
+                        <div class="form-group">
+                            <?php     echo $this->formLabel($form->get('passmark'));
+
+                            ?>
+                            <?php     echo $this->formElement($form->get('passmark'));
+
+                            ?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('passmark'));?></p>
+
+                        </div>
+								 
+
+                        <div class="form-group">
+                            <?php     echo $this->formElement($form->get('notify'));
+
+                            ?> <?php     echo $this->formLabel($form->get('notify'));
+
+                            ?>
+                        </div>
+
+                        <div class="form-group">
+                            <?php     echo $this->formElement($form->get('allow_late'));
+
+                            ?> <?php     echo $this->formLabel($form->get('allow_late'));
+
+                            ?>
+                        </div>
+                        <div class="form-group">
+                            <input type="checkbox" value="1" name="notify_students" checked/>
+                            <label for=""><?= __('notify-enrolled') ?></label>
+
+                        </div>
+								 
+ 
+                                                
+							 
+							<div class="form-footer">
+								<button type="submit" class="btn btn-primary"><?= __('save-changes') ?></button> 
+							</div>
+						<?php echo $this->form()->closeTag($form);  ?>
+					</div>
+				</div><!--end .box -->
+			</div><!--end .col-lg-12 -->
+		</div>
+<?php $this->headScript()->prependFile($this->basePath() . '/ckeditor/ckeditor.js')
+     ?>
+<?php echo $this->headLink()->prependStylesheet($this->basePath().'/pickadate/themes/default.date.css')
+    ->prependStylesheet($this->basePath().'/pickadate/themes/default.time.css')
+    ->prependStylesheet($this->basePath().'/pickadate/themes/default.css')
+    ->prependStylesheet($this->basePath().'/static/datatables/media/css/jquery.dataTables.min.css');?>
+<script type="text/javascript" src="<?php echo $this->basePath() ?>/pickadate/picker.js"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() ?>/pickadate/picker.date.js"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() ?>/pickadate/picker.time.js"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() ?>/pickadate/legacy.js"></script>
+ <script type="text/javascript">
+
+     jQuery('.date').pickadate({
+         format: 'yyyy-mm-dd'
+     });
+ 
+CKEDITOR.replace('instruction', {
+	filebrowserBrowseUrl: '<?php echo $this->basepath() ?>/admin/filemanager',
+	filebrowserImageBrowseUrl: '<?php echo $this->basepath() ?>/admin/filemanager',
+	filebrowserFlashBrowseUrl: '<?php echo $this->basepath() ?>/admin/filemanager'
+});
+
+     $(function(){
+         $('#session_id').change(function(){
+             checkType();
+
+         });
+
+         $('select[name=schedule_type]').change(function(){
+             checkSchedule();
+         });
+
+     });
+
+     function checkType(selected=null){
+         var id = $('#session_id').val();
+         console.log(id);
+         var type = $('option:selected', $('#session_id')).attr('data-type');
+         if(type=='s' || type=='b'){
+             $('select[name=schedule_type]').val('s');
+             $('.class-field').hide();
+
+         }
+         else{
+             $('.class-field').show();
+         }
+         checkSchedule();
+         console.log(type);
+         $('#classbox').text('Loading...');
+         $('#classbox').load('<?=$this->basePath()?>/admin/assignment/sessionlessons/'+id+'?lesson_id='+selected);
+     }
+
+     function checkSchedule(){
+         $('.scheduled,.post-class').hide();
+         var type = $('select[name=schedule_type]').val();
+         if(type=='s'){
+             $('.scheduled').show();
+         }
+         else{
+             $('.post-class').show();
+         }
+     }
+
+     <?php if($action=='edit'): ?>
+     checkType('<?php echo $row->lesson_id; ?>');
+     <?php else: ?>
+     checkType();
+     <?php endif; ?>
+
+     checkSchedule();
+</script>
+
+<script>
+    var basePath = '<?php echo $this->basePath() ?>';
+</script>

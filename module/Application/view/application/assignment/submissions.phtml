@@ -1,0 +1,73 @@
+<div class="row">
+    <div >
+        <div class="box">
+
+            <div class="box-body">
+                <table class="table table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th><?= __('homework') ?></th>
+                        <th><?=__('course-session')?></th>
+                        <th><?= __('due-date') ?></th>
+                        <th><?= __('submitted-on') ?></th>
+                        <th><?= __('submission-status') ?></th>
+                        <th><?= __('review-status') ?></th>
+                        <th><?= __('grade') ?></th>
+                        <th class="text-right1" ></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach($paginator as $row): ?>
+                        <tr>
+                            <td><?php echo $row->title; ?></td>
+                            <td><span ><?php echo $row->session_name ?></span></td>
+                            <td><?php echo date('d/M/Y',$row->due_date); ?></td>
+                            <td><?php echo date('d/M/Y',$row->modified); ?></td>
+                            <td><?php echo ($row->submitted==1)? '<span style="color:green; font-weight:bold">'.__('submitted').'</span>':'<span style="color:red; font-weight:bold">'.__('draft').'</span>'; ?></td>
+                            <td><?php echo (is_null($row->grade))? __('pending'):__('graded') ?></td>
+                            <td>
+                                <?php if(!is_null($row->grade)):?>
+                                <?php echo $row->grade?>%
+                                <?php if($row->grade >= $row->passmark):?>
+                                    <strong style="color: green">(<?= __('passed') ?>)</strong>
+                            <?php else: ?>
+                                    <strong style="color: red">(<?= __('failed') ?>)</strong>
+                            <?php endif; ?>
+                                <?php else: ?>
+                                N/A
+                                <?php endif; ?>
+                            </td>
+                            <td class="text-right1">
+                                <a class="btn btn-primary" href="<?php echo $this->url('application/edit-assignment',['id'=>$row->assignment_submission_id]); ?>"><i class="fa fa-edit"></i> <?= __('edit') ?></a>
+                                <a class="btn btn-primary" href="<?php echo $this->url('application/default',['controller'=>'assignment','action'=>'delete','id'=>$row->assignment_submission_id]); ?>" onclick="return confirm('<?=__('submission-delete-confirm')?>')"><i class="fa fa-trash"></i> <?= __('delete') ?></a>
+                                <a class="btn btn-primary" href="#" onclick="openModal('<?=__('assignment-submission')?>: <?php echo $row->title ?>','<?php echo $this->url('application/default',['controller'=>'assignment','action'=>'view','id'=>$row->assignment_submission_id]); ?>')"><i class="fa fa-eye"></i> <?= __('view') ?></a>
+                            </td>
+                        </tr>
+
+                    <?php endforeach; ?>
+
+                    </tbody>
+                </table>
+
+                <?php
+                // add at the end of the file after the table
+                echo $this->paginationControl(
+                // the paginator object
+                    $this->paginator,
+                    // the scrolling style
+                    'sliding',
+                    // the partial to use to render the control
+                    array('partial/paginator.phtml', 'Applications'),
+                    // the route to link to when a user clicks a control link
+                    array(
+                        'route' => 'application/assignments-submissions',
+                    )
+                );
+                ?>
+            </div><!--end .box-body -->
+        </div><!--end .box -->
+    </div><!--end .col-lg-12 -->
+</div>
+
+<!-- START SIMPLE MODAL MARKUP --><!-- /.modal -->
+<!-- END SIMPLE MODAL MARKUP -->

@@ -1,0 +1,45 @@
+<?php  $this->headTitle($pageTitle) ?>
+
+
+<!--breadcrumb-section ends-->
+<!--container starts-->
+<div class="container" style="background-color: white; min-height: 400px;   padding-bottom:50px; margin-bottom: 10px;   " >
+    <!--primary starts-->
+
+    <div class="box-body">
+<p>
+    <?php echo $row->description ?>
+</p>
+        <?php echo $this->alert($this->flashMessenger()->render()); ?>
+        <a href="<?php echo $this->url('application/download-all',array('id'=>$id));?>" class="btn btn-primary" data-toggle="tooltip" data-placement="top" data-original-title="Download All Files"><i class="fa fa-download"></i> Download All</a>
+        <table class="table table-stripped">
+            <thead>
+            <tr>
+                <th>
+                    <?= __('file') ?>
+                </th>
+                <th>
+                    <?= __('status') ?>
+                </th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach($rowset as $row): ?>
+                <tr>
+                    <td><strong><?php echo  basename($row->path); ?></strong></td>
+                    <td><?php echo (file_exists('public/usermedia/'.$row->path))? __('valid'):__('file-missing') ?></td>
+                    <td>
+                        <a title="Download" class="btn btn-primary" href="<?php echo $this->url('application/download-file',['id'=>$row->download_file_id]) ?>"><i class="fa fa-download"></i> <?= __('download') ?></a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+
+        </table>
+    </div>
+
+
+</div>
+
+<!--container ends-->

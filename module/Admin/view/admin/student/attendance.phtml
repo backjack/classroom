@@ -1,0 +1,65 @@
+<?php $this->headScript()->appendFile($this->basePath().'/js/angular.min.js')
+    ->appendFile($this->basePath().'/app/attendance.js')?>
+<div  ng-app="myApp" ng-controller="myCtrl" class="row">
+
+    <div >
+        <div class="box">
+            <div class="box-head">
+                <header><h4 class="text-light"><?= __('select') ?> <strong><?= __('students') ?></strong></h4></header>
+            </div>
+            <div class="box-body">
+
+               
+                <div class="row">
+                    <div class="col-md-5">
+                       <div> <input  autocomplete="off" ng-keyup="loadStudents('<?php echo $this->basePath(); ?>')"  ng-model="filter" type="text" name="filter" class="form-control" placeholder="<?= __('attendance-select-help') ?>"/></div>
+                        <div style="border: solid 1px #cccccc; height: 300px; overflow: auto;">
+                            <table class="table table-striped">
+                                <tr style="cursor:pointer;" ng-repeat="student in students" ng-click="add(student)">
+                                    <td>{{student.first_name}} {{student.last_name}} - {{student.email}}</td>
+                                </tr>
+
+                                </table>
+
+                           
+
+                        </div>
+                        <br/>
+                    </div>
+                    <div class="col-md-1">
+                        <img ng-if="showLoading" src="<?php echo $this->basePath() ?>/img/ajax-loader.gif">
+                        </div>
+
+                    <div class="col-md-6">
+
+                        <div style="border: solid 1px #cccccc; height: 300px; overflow: auto;">
+                            <table class="table table-striped">
+                                <tr style="cursor:pointer;" ng-repeat="student in selected_students">
+                                    <td>{{student.first_name}} {{student.last_name}} - {{student.email}}<button ng-click="remove(student)" class="pull-right btn  btn-xs btn-default btn-equal"><i class="fa fa-minus-circle"></i></button></td>
+                                </tr>
+
+                            </table>
+
+
+                        </div>
+                        <div style="padding-top: 10px" id="sessionbox"><?php echo $this->formElement($session_id); ?></div>
+                        <div style="padding-top: 10px" id="lessonbox"><?php echo $this->formElement($lesson_id); ?></div>
+                        <br/>
+                        <div class="form-footer ">
+                            <button ng-click="saveAttendance('<?php echo $this->basePath(); ?>')" ng-disabled="!session_id || !lesson_id" type="button" class="btn btn-block btn-primary"><?= __('submit') ?></button>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+        </div><!--end .box -->
+    </div><!--end .col-lg-12 -->
+</div>
+<script>
+    var basePath = '<?php echo $this->basePath() ?>';
+</script>

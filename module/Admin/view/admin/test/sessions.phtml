@@ -1,0 +1,36 @@
+<a class="btn btn-primary pull-right" href="<?php echo $this->url('admin/default',array('controller'=>'test','action'=>'addsession','id'=>$id)) ?>"><i class="fa fa-plus"></i> Add to Session/Course</a>
+
+<table class="table table-stripped">
+    <thead>
+    <tr>
+        <th><?= __('session-course') ?></th>
+        <th><?= __('opening-date') ?></th>
+        <th><?= __('closing-date') ?></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach($rowset as $row): ?>
+        <tr>
+            <td><?php echo $row->session_name ?></td>
+            <td><?php if(!empty($row->opening_date)) echo date('d/M/Y',$row->opening_date); ?></td>
+            <td><?php if(!empty($row->closing_date))  echo date('d/M/Y',$row->closing_date); ?></td>
+            <td>
+                <a class="btn btn-sm btn-primary" href="<?php echo $this->url('admin/default',['controller'=>'test','action'=>'editsession','id'=>$row->session_test_id]) ?>"><i class="fa fa-pencil"></i> <?= __('edit') ?></a>
+                <a class="btn btn-sm btn-danger" href="<?php echo $this->url('admin/default',['controller'=>'test','action'=>'deletesession','id'=>$row->session_test_id]) ?>"  onclick="return confirm('<?=__('delete-confirm')?>')"><i class="fa fa-trash"> <?= __('delete') ?></i></a>
+
+            </td>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+
+</table>
+<?php if($rowset->count()==0):?>
+    <div class="alert alert-success alert-dismissible fade in" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+        </button>
+        <?= __('test-session-help') ?>
+
+    </div>
+
+<?php endif; ?>

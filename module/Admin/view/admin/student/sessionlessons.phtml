@@ -1,0 +1,6 @@
+<?php foreach($lessons as $row): ?>
+    <div class="form-group" style="padding-bottom: 10px">
+        <label for="session_id"><?= __('class') ?> <?php echo $row->lesson_id?>: <?php echo $row->lesson_name?> </label>
+        <input type="text" name="lesson_<?php echo $row->lesson_id?>" class="date form-control"/>
+    </div>
+<?php endforeach; ?>

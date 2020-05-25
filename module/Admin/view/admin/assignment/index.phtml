@@ -1,0 +1,89 @@
+<div class="row">
+			<div >
+				<div class="box">
+					<div class="box-head">
+						<header></header>
+                          <a class="btn btn-primary pull-right" href="<?php echo $this->url('admin/default',array('controller'=>'assignment','action'=>'add')) ?>"><i class="fa fa-plus"></i> Add Homework</a>
+                        
+                   
+                        
+					</div>
+					<div class="box-body">
+						<table class="table table-hover">
+							<thead>
+								<tr>
+                                    <th><?= __('title') ?></th>
+									<th><?= __('session-course') ?></th>
+                                    <th><?= __('type') ?></th>
+									<th><?= __('created-on') ?></th>
+                                    <th><?= __('opening-date') ?></th>
+                                    <th><?= __('due-date') ?></th>
+                                    <th><?= __('submissions') ?></th>
+                                    <?php if(GLOBAL_ACCESS):?>
+                                    <th><?= __('created-by') ?></th>
+                                    <?php endif; ?>
+									<th class="text-right1" ><?= __('actions') ?></th>
+								</tr>
+							</thead>
+							<tbody>
+                            <?php foreach($paginator as $row): ?>
+								<tr>
+									<td><?php echo $row->title; ?></td>
+                                    <td><span ><?php echo $row->session_name ?></span></td>
+                                    <td><?=($row->schedule_type=='s')? __('scheduled'):__('post-class') ?></td>
+									<td><?php echo date('d/m/Y',$row->created_on); ?></td>
+                                    <td><?php echo showDate('d/m/Y',$row->opening_date); ?></td>
+                                    <td><?php echo showDate('d/m/Y',$row->due_date); ?></td>
+								    <td>
+                                        <?php echo $submissionTable->getTotalForAssignment($row->assignment_id) ?> <a class="btn btn-primary btn-sm" href="<?php echo $this->url('admin/default',['controller'=>'assignment','action'=>'submissions','id'=>$row->assignment_id]); ?>"><?= __('view-all') ?></a>
+                                        </td>
+                                    <?php if(GLOBAL_ACCESS):?>
+                                        <td><?php echo $this->adminName($row->account_id) ?></td>
+                                    <?php endif; ?>
+									<td class="text-right1">
+										<a href="<?php echo $this->url('admin/default',array('controller'=>'assignment','action'=>'edit','id'=>$row->assignment_id));?>" class="btn btn-xs btn-default btn-equal" data-toggle="tooltip" data-placement="top" data-original-title="<?= __('edit') ?>"><i class="fa fa-pencil"></i></a> 
+                                        
+										<a onclick="return confirm('<?=__('delete-confirm')?>')" href="<?php echo $this->url('admin/default',array('controller'=>'assignment','action'=>'delete','id'=>$row->assignment_id));?>"  class="btn btn-xs btn-default btn-equal" data-toggle="tooltip" data-placement="top" data-original-title="<?= __('delete') ?>"><i class="fa fa-trash-o"></i></a>
+                                        <a onclick="openModal('<?=__('homework-info')?>','<?php echo $this->url('admin/default',['controller'=>'assignment','action'=>'view','id'=>$row->assignment_id]) ?>')" href="#" class="btn btn-xs btn-default btn-equal" data-toggle="tooltip" data-placement="top" data-original-title="<?= __('info') ?>"><i class="fa fa-info"></i></a>
+                                    </td>
+								</tr>
+								  <?php endforeach; ?>
+								
+							</tbody>
+						</table>
+                        
+                        <?php
+ // add at the end of the file after the table
+ echo $this->paginationControl(
+     // the paginator object
+     $this->paginator,
+     // the scrolling style
+     'sliding',
+     // the partial to use to render the control
+     array('partial/paginator.phtml', 'Admin'),
+     // the route to link to when a user clicks a control link
+     array(
+         'route' => 'admin/default',
+		 'controller'=>'assignment',
+		 'action'=>'index', 
+     )
+ );
+ ?>
+					</div><!--end .box-body -->
+				</div><!--end .box -->
+			</div><!--end .col-lg-12 -->
+		</div>
+        
+        
+        <!-- START SIMPLE MODAL MARKUP --><!-- /.modal -->
+<!-- END SIMPLE MODAL MARKUP -->
+
+<script type="text/javascript">
+$(function(){
+	$('.viewbutton').click(function(){
+		 $('#info').text('Loading...');
+		 var id = $(this).attr('data-id');
+		   $('#info').load('<?php echo $this->url('admin/default',array('controller'=>'assignment','action'=>'view'))?>'+'/'+id);
+		});
+	});
+</script>

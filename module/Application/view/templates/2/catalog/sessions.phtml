@@ -1,0 +1,142 @@
+<?php  $this->headTitle($pageTitle) ?>
+<section class="white section">
+    <div class="container" >
+
+        <div class="row">
+            <div class="col-md-12 page-header">
+
+                <form id="filterform" class="form-inline" role="form"  method="get" action="<?php echo $this->url('sessions'); ?>">
+
+
+                    <div class="form-group">
+                        <label class="sr-only" for="filter"><?=__('Filter')?></label>
+                        <?php echo $this->formElement($text) ?>
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only" for="group"><?=__('Sort')?></label>
+                        <?php echo $this->formElement($sortSelect) ?>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> <?=__('Filter')?></button>
+                    <button type="button" onclick="$('#filterform input, #filterform select').val(''); $('#filterform').submit();" class="btn btn-inverse"><?=__('Clear')?></button>
+
+                </form>
+
+
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <?php foreach($paginator as $row): ?>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><?php echo $row->session_name ?></h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <?php if(!empty($row->picture)): ?>
+                                    <div class="col-md-3">
+                                        <a href="<?php echo $this->url('session-details',array('id'=>$row->session_id));?>" class="thumbnail">
+                                            <img src="<?php echo resizeImage($row->picture,300,300,$this->basePath()); ?>" >
+                                        </a>
+                                    </div>
+                                <?php endif; ?>
+
+                                <div class="col-md-<?php echo (empty($row->picture)? '12':'9') ?>">
+                                    <article class="readmore"><?php echo $row->short_description; ?></article>
+                                </div>
+                            </div>
+
+                        </div>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th><?= __('Start Date') ?></th>
+                                <th><?= __('End Date') ?></th>
+                                <th><?= __('Enrollment Closes') ?></th>
+                                <?php if($this->getSetting('general_show_fee')==1):?>
+                                    <th><?= __('Fee') ?></th>
+                                <?php endif; ?>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><?php echo date('d/M/Y',$row->session_date); ?></td>
+                                <td><?php echo date('d/M/Y',$row->session_end_date); ?></td>
+                                <td><?php echo date('d/M/Y',$row->enrollment_closes); ?></td>
+                                <?php if($this->getSetting('general_show_fee')==1):?>
+                                    <td>    <?php if(empty($row->payment_required)):?>
+                                            <?=__('Free')?>
+                                        <?php else: ?>
+                                            <?php echo $this->formatPrice($row->amount); ?>
+                                        <?php endif; ?></td>
+                                <?php endif; ?>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                        <div style="text-align: right" class="panel-footer">
+                            <?php if($row->enrollment_closes > time()): ?>
+                                <?php if($studentSessionTable->enrolled($id,$row->session_id)): ?>
+                                    <a href="<?php echo $this->url('application/default',array('controller'=>'student','action'=>'removesession','id'=>$row->session_id));?>" class="btn btn-primary " ><i class="fa fa-minus"></i> <?= __('Un-enroll') ?></a>
+
+                                <?php elseif($row->enrollment_closes > time()): ?>
+                                    <a href="<?php echo $this->url('set-session',array('id'=>$row->session_id));?>" class="btn btn-primary " ><i class="fa fa-plus"></i> <?=__('Enroll Now')?></a>
+                                <?php endif; ?>
+                            <?php endif; ?>
+
+                            <a class="btn btn-success" href="<?php echo $this->url('session-details',array('id'=>$row->session_id));?>" ><i class="fa fa-table"></i> <?=__('Details')?></a>
+
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+
+
+
+            </div>
+
+        </div>
+        <nav class="text-center">
+            <?php
+            // add at the end of the file after the table
+
+            echo $this->paginationControl(
+            // the paginator object
+                $this->paginator,
+                // the scrolling style
+                'sliding',
+                // the partial to use to render the control
+                array('partial/paginator.phtml', 'Admin'),
+                // the route to link to when a user clicks a control link
+                array(
+                    'route' => 'sessions',
+                )
+            );
+
+            ?>
+        </nav>
+
+
+
+    </div>
+</section>
+<?php $this->headScript()->prependFile($this->basePath() . '/static/readmore/readmore.min.js')
+?>
+<script>
+    $(function(){
+        $('article.readmore').readmore({
+            collapsedHeight : 90
+        });
+    });
+
+</script>

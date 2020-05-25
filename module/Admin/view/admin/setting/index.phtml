@@ -1,0 +1,341 @@
+<?php $this->headScript()->prependFile($this->basePath() . '/ckeditor/ckeditor.js'); ?>
+
+<?php
+$form->prepare();
+$form->setAttribute('action', $this->url('admin/default',array('controller'=>'setting','action'=>'index')));
+$form->setAttribute('method', 'post');
+$form->setAttribute('role', 'form');
+$form->setAttribute('class', 'form-horizontal');
+
+echo $this->form()->openTag($form);
+?>
+<div class="row">
+    <div  style="padding-bottom: 10px">
+        <button class="btn btn-primary pull-right" type="submit"><?=__('save-changes')?></button>
+    </div><!--end .col-lg-12 -->
+</div>
+
+<div class="row">
+    <div >
+
+
+
+        <div class="box">
+            <div class="box-head">
+                <ul class="nav nav-tabs" data-toggle="tabs">
+                    <li class="active"><a href="#general" data-toggle="tab"><i class="fa fa-fw fa-gear"></i> <?= __('general') ?></a></li>
+                    <li><a href="#logo" data-toggle="tab"><i class="fa fa-fw fa-file-image-o"></i> <?= __('logo-icon') ?></a></li>
+                    <li><a href="#menu" data-toggle="tab"><i class="fa fa-fw fa-list"></i> <?= __('menu') ?></a></li>
+                     <li><a href="#labels" data-toggle="tab"><i class="fa fa-fw fa-tag"></i> <?= __('labels') ?></a></li>
+                     <li><a href="#regis" data-toggle="tab"><i class="fa fa-fw fa-user-plus"></i> <?= __('registration') ?></a></li>
+                    <li><a href="#mail" data-toggle="tab"><i class="fa fa-fw fa-envelope"></i> <?= __('mail') ?></a></li>
+                    <li><a href="#info" data-toggle="tab"><i class="fa fa-fw fa-info"></i> <?= __('info') ?></a></li>
+                    <li><a href="#social" data-toggle="tab"><i class="fa fa-fw fa-facebook-square"></i> <?= __('social-login') ?></a></li>
+                    <li><a href="#banner" data-toggle="tab"><i class="fa fa-fw fa-android"></i> <?= __('smart-banners') ?></a></li>
+                </ul>
+            </div>
+
+            <div class="box-body tab-content">
+                <div class="tab-pane active fade in" id="general">
+
+                    <div class="form-group">
+                        <div class="col-sm-2">
+                            <?php     echo $this->formLabel($form->get('country_id'));   ?>
+                        </div>
+                        <div class="col-sm-10">
+
+                            <?php  echo $this->formElement($form->get('country_id'));    ?>
+
+                        </div>
+                    </div>
+
+
+                    <?php foreach($settings as $row):?>
+                        <?php if(preg_match('#^general_(.*)$#i',$row->key)):?>
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    <?php     echo $this->formLabel($form->get($row->key));   ?>
+                                </div>
+                                <div class="col-sm-10">
+                                    <?php if($row->type == 'radio'):?>
+                                        <?php  echo $this->formRadio($form->get($row->key));    ?>
+                                    <?php else:?>
+                                        <?php  echo $this->formElement($form->get($row->key));    ?>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+
+
+
+
+
+
+                </div>
+
+                <div class="tab-pane fade" id="logo">
+
+
+                    <div class="form-group col-sm-6" style="margin-bottom:10px">
+
+                        <label for="image" class="control-label"><?= __('logo') ?></label><br />
+
+
+                        <div class="image"><img data-name="image" src="<?php echo $logo ?>" alt="" id="thumb_logo" /><br />
+                            <?php echo $this->formElement($form->get('image_logo')) ?>
+                            <a class="pointer" onclick="image_upload('image_logo', 'thumb_logo');"><?=__('browse')?></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a class="pointer" onclick="$('#thumb_logo').attr('src', '<?php echo $no_image; ?>'); $('#image_logo').attr('value', '');"><?=__('clear')?></a></div>
+
+                    </div>
+
+                    <div class="form-group col-sm-6" style="margin-bottom:10px">
+
+                        <label for="image" class="control-label"><?= __('favicon') ?></label><br />
+
+
+                        <div class="image"><img data-name="image" src="<?php echo $icon ?>" alt="" id="thumb_icon" /><br />
+                            <?php echo $this->formElement($form->get('image_icon')) ?>
+                            <a class="pointer" onclick="image_upload('image_icon', 'thumb_icon');"><?=__('browse')?></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a class="pointer" onclick="$('#thumb_icon').attr('src', '<?php echo $no_image; ?>'); $('#image_icon').attr('value', '');"><?=__('clear')?></a></div>
+
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <div class="col-sm-4">
+
+                        </div>
+                        <div class="col-sm-7">
+
+
+
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+
+                <div class="tab-pane fade" id="menu">
+                    <?php foreach($settings as $row):?>
+                        <?php if(preg_match('#^menu_(.*)$#i',$row->key)):?>
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    <?php     echo $this->formLabel($form->get($row->key));   ?>
+                                </div>
+                                <div class="col-sm-7">
+                                    <?php if($row->type == 'radio'):?>
+                                        <?php  echo $this->formRadio($form->get($row->key));    ?>
+                                    <?php else:?>
+                                        <?php  echo $this->formElement($form->get($row->key));    ?>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </div>
+
+                <div class="tab-pane fade" id="labels">
+
+                    <?php foreach($settings as $row):?>
+                        <?php if(preg_match('#^label_(.*)$#i',$row->key)):?>
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    <?php     echo $this->formLabel($form->get($row->key));   ?>
+                                </div>
+                                <div class="col-sm-10">
+                                    <?php if($row->type == 'radio'):?>
+                                        <?php  echo $this->formRadio($form->get($row->key));    ?>
+                                    <?php else:?>
+                                        <?php  echo $this->formElement($form->get($row->key));    ?>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+
+                </div>
+
+                <div class="tab-pane fade" id="regis">
+
+                    <?php foreach($settings as $row):?>
+                        <?php if(preg_match('#^regis_(.*)$#i',$row->key)):?>
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    <?php     echo $this->formLabel($form->get($row->key));   ?>
+                                </div>
+                                <div class="col-sm-10">
+                                    <?php if($row->type == 'radio'):?>
+                                        <?php  echo $this->formRadio($form->get($row->key));    ?>
+                                    <?php else:?>
+                                        <?php  echo $this->formElement($form->get($row->key));    ?>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+
+                </div>
+
+                <div class="tab-pane fade" id="mail">
+
+                    <?php foreach($settings as $row):?>
+                        <?php if(preg_match('#^mail_(.*)$#i',$row->key)):?>
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    <?php     echo $this->formLabel($form->get($row->key));   ?>
+                                </div>
+                                <div class="col-sm-10">
+                                    <?php if($row->type == 'radio'):?>
+                                        <?php  echo $this->formRadio($form->get($row->key));    ?>
+                                    <?php else:?>
+                                        <?php  echo $this->formElement($form->get($row->key));    ?>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+
+                </div>
+
+                <div class="tab-pane fade" id="info">
+
+                    <?php foreach($settings as $row):?>
+                        <?php if(preg_match('#^info_(.*)$#i',$row->key)):?>
+                            <div class="form-group">
+                                <div class="col-sm-2">
+                                    <?php     echo $this->formLabel($form->get($row->key));   ?>
+                                </div>
+                                <div class="col-sm-10">
+                                    <?php if($row->type == 'radio'):?>
+                                        <?php  echo $this->formRadio($form->get($row->key));    ?>
+                                    <?php else:?>
+                                        <?php  echo $this->formElement($form->get($row->key));    ?>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+
+                </div>
+
+                <div class="tab-pane fade" id="social">
+                    <p>
+                        <h4><?= __('callback-urls') ?></h4>
+                    <ul>
+                        <li>Facebook: <?=$siteUrl?>/student/social-login?network=Facebook</li>
+                        <li>Google: <?=$siteUrl?>/student/social-login?network=Google</li>
+                    </ul>
+                    </p>
+                    <?php foreach($settings as $row):?>
+                        <?php if(preg_match('#^social_(.*)$#i',$row->key)):?>
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    <?php     echo $this->formLabel($form->get($row->key));   ?>
+                                </div>
+                                <div class="col-sm-7">
+                                    <?php if($row->type == 'radio'):?>
+                                        <?php  echo $this->formRadio($form->get($row->key));    ?>
+                                    <?php else:?>
+                                        <?php  echo $this->formElement($form->get($row->key));    ?>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </div>
+
+                <div class="tab-pane fade" id="banner">
+                    <?php foreach($settings as $row):?>
+                        <?php if(preg_match('#^banner_(.*)$#i',$row->key)):?>
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    <?php     echo $this->formLabel($form->get($row->key));   ?>
+                                </div>
+                                <div class="col-sm-7">
+                                    <?php if($row->type == 'radio'):?>
+                                        <?php  echo $this->formRadio($form->get($row->key));    ?>
+                                    <?php else:?>
+                                        <?php  echo $this->formElement($form->get($row->key));    ?>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </div>
+
+            </div>
+
+        </div>
+    </div><!--end .col-lg-12 -->
+</div>
+
+
+
+<?php echo $this->form()->closeTag($form);  ?>
+
+<?php foreach($settings as $row):?>
+    <?php if($row->class == 'rte'):?>
+        <script type="text/javascript">
+
+            CKEDITOR.replace('rte_<?php echo $row->key ?>', {
+                filebrowserBrowseUrl: '<?php echo $this->basepath() ?>/admin/filemanager',
+                filebrowserImageBrowseUrl: '<?php echo $this->basepath() ?>/admin/filemanager',
+                filebrowserFlashBrowseUrl: '<?php echo $this->basepath() ?>/admin/filemanager'
+            });
+
+        </script>
+    <?php endif; ?>
+
+<?php endforeach; ?>
+
+ <script src="<?php echo $this->basePath(); ?>/static/colorpicker/jquery.colorpicker.js"></script>
+<?php echo $this->headLink()->prependStylesheet($this->basePath() . '/static/colorpicker/jquery.colorpicker.css')
+
+;?>
+
+<script type="text/javascript">
+    $(function() {
+        $('.colorpicker-full').colorpicker({
+            parts:          'full',
+            showOn:         'both',
+            buttonColorize: true,
+            showNoneButton: true,
+            buttonImage : '<?php echo $this->basePath()?>/static/colorpicker/images/ui-colorpicker.png'
+        });
+    });
+</script>
+
+<script type="text/javascript"><!--
+    function image_upload(field, thumb) {
+        console.log('Field: '+field+'. Thumb:'+thumb);
+        $('#dialog').remove();
+
+        $('#content').prepend('<div id="dialog" style="padding: 3px 0px 0px 0px;"><iframe src="<?php echo $this->basePath(); ?>/admin/filemanager?&token=true&field=' + encodeURIComponent(field) + '" style="padding:0; margin: 0; display: block; width: 100%; height: 100%;" frameborder="no" scrolling="auto"></iframe></div>');
+
+        $('#dialog').dialog({
+            title: '<?=__('Image Manager')?>',
+            close: function (event, ui) {
+                if ($('#' + field).attr('value')) {
+                    $.ajax({
+                        url: '<?php echo $this->basePath(); ?>/admin/filemanager/image?&image=' + encodeURIComponent($('#' + field).val()),
+                        dataType: 'text',
+                        success: function(data) {
+
+                            $('#' + thumb).replaceWith('<img src="' + data + '" alt="" id="' + thumb + '" />');
+                        }
+                    });
+                }
+                else{
+                    console.log('no field content');
+                }
+            },
+            bgiframe: false,
+            width: 800,
+            height: 570,
+            resizable: true,
+            modal: false
+        });
+    };
+    //--></script>

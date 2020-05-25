@@ -1,0 +1,130 @@
+<div class="row">
+    <div >
+        <div class="box">
+           <div class="box-head">
+
+               <div class="row">
+                   <div class="col-md-2 col-md-offset-1">
+                       <h4><?= __('passed') ?></h4>
+                        <h1><?php echo $passed; ?></h1>
+                   </div>
+                   <div class="col-md-2">
+                        <h4><?= __('failed') ?></h4>
+                        <h1><?php echo $failed; ?></h1>
+                   </div>
+                   <div class="col-md-2">
+                       <h4><?= __('average-score') ?></h4>
+                       <h1><?php echo $average; ?></h1>
+
+                   </div>
+                   <div class="col-md-5">
+                       <a class="btn btn-primary btn-sm pull-right" href="<?php echo $this->url('admin/default',['controller'=>'test','action'=>'exportresult','id'=>$row->test_id]) ?>?type=pass&start=<?php echo $start ?>&end=<?php echo $end ?>" ><?= __('export-passed') ?></a>
+                       <a class="btn btn-primary btn-sm pull-right"  href="<?php echo $this->url('admin/default',['controller'=>'test','action'=>'exportresult','id'=>$row->test_id]) ?>?type=fail&start=<?php echo $start ?>&end=<?php echo $end ?>"><?= __('export-failed') ?></a>
+                   </div>
+               </div>
+               <header>
+
+                   <form id="filterform" class="form-inline" role="form"  method="get" action="<?php echo $this->url('admin/default',array('controller'=>'test','action'=>'results','id'=>$row->test_id)); ?>">
+
+
+                       <div class="form-group">
+                           <label class="sr-only" for="filter"><?= __('filter') ?></label>
+
+                           <input name="filter" class="form-control" type="text" value="<?php echo @$_GET['filter'] ?>"/>
+                       </div>
+                       <div class="form-group">
+                           <label class="sr-only" for="start"><?= __('start-date') ?></label>
+
+                           <input name="start" placeholder="<?= __('start-date') ?>" class="form-control date" type="text" value="<?php echo @$_GET['start'] ?>"/>
+                       </div>
+                       <div class="form-group">
+                           <label class="sr-only" for="end"><?= __('end-date') ?></label>
+
+                           <input name="end" placeholder="<?= __('end-date') ?>" class="form-control date" type="text" value="<?php echo @$_GET['end'] ?>"/>
+                       </div>
+
+                       <button type="submit" class="btn btn-inverse"><?= __('filter') ?></button>
+                       <button type="button" onclick="$('#filterform input, #filterform select').val(''); $('#filterform').submit();" class="btn btn-inverse"><?= __('clear') ?></button>
+
+                   </form>
+
+
+               </header>
+           </div>
+            <div class="box-body">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th><?= __('student') ?></th>
+                        <th><?= __('date-taken') ?></th>
+                        <th><?= __('score') ?></th>
+                        <th><?= __('grade') ?></th>
+                        <th class="text-right"><?=__('actions')?></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach($paginator as $row): ?>
+                        <tr>
+                            <td><?php echo $row->first_name; ?> <?php echo $row->last_name; ?></td>
+                            <td><?php echo date('d/M/Y',$row->created_on); ?></td>
+                            <td><?php echo $row->score;?>%</td>
+                            <td><?php if($row->score >= $row->passmark): ?>
+                                <span style="color:green"><?= __('passed') ?></span>
+                                <?php else: ?>
+                                    <span style="color:red"><?= __('failed') ?></span>
+                                <?php endif; ?>
+                            </td>
+
+                            <td class="text-right">
+                                 <a onclick="openModal('<?php echo $row->first_name; ?> <?php echo $row->last_name; ?>','<?php echo $this->url('admin/default',array('controller'=>'test','action'=>'testresult','id'=>$row->student_test_id));?>')"  href="javascript:;" class="btn btn-xs btn-default btn-equal" data-toggle="tooltip" data-placement="top" data-original-title="<?= __('view-result') ?>"><i class="fa fa-eye"></i></a>
+                                <a onclick="return confirm('<?=__('delete-confirm')?>')" href="<?php echo $this->url('admin/default',array('controller'=>'test','action'=>'deleteresult','id'=>$row->student_test_id));?>"  class="btn btn-xs btn-default btn-equal" data-toggle="tooltip" data-placement="top" data-original-title="<?=__('delete')?>"><i class="fa fa-trash-o"></i></a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+
+                    </tbody>
+                </table>
+
+                <?php
+                // add at the end of the file after the table
+                echo $this->paginationControl(
+                // the paginator object
+                    $this->paginator,
+                    // the scrolling style
+                    'sliding',
+                    // the partial to use to render the control
+                    array('partial/paginator.phtml', 'Admin'),
+                    // the route to link to when a user clicks a control link
+                    array(
+                        'route' => 'admin/default',
+                        'controller'=>'test',
+                        'action'=>'results',
+                        'id'=>$row->test_id
+                    )
+                );
+                ?>
+            </div><!--end .box-body -->
+        </div><!--end .box -->
+    </div><!--end .col-lg-12 -->
+</div>
+
+
+<!-- START SIMPLE MODAL MARKUP --><!-- /.modal -->
+<!-- END SIMPLE MODAL MARKUP -->
+
+<?php echo $this->headLink()->prependStylesheet($this->basePath().'/pickadate/themes/default.date.css')
+    ->prependStylesheet($this->basePath().'/pickadate/themes/default.time.css')
+    ->prependStylesheet($this->basePath().'/pickadate/themes/default.css')
+    ->prependStylesheet($this->basePath().'/static/datatables/media/css/jquery.dataTables.min.css');?>
+<script type="text/javascript" src="<?php echo $this->basePath() ?>/pickadate/picker.js"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() ?>/pickadate/picker.date.js"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() ?>/pickadate/picker.time.js"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() ?>/pickadate/legacy.js"></script>
+<script type="text/javascript">
+
+    jQuery('.date').pickadate({
+        format: 'yyyy-mm-dd'
+    });
+
+
+</script>

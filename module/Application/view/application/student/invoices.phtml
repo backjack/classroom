@@ -1,0 +1,106 @@
+<?php $this->headTitle($pageTitle); ?>
+<div class="box">
+
+    <div class="box-body no-padding">
+        <table class="table table-hover table-striped no-margin">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th><?= __('Items') ?></th>
+                <th><?= __('Payment Method') ?></th>
+                <th><?= __('Amount') ?></th>
+                <th><?= __('Currency') ?></th>
+                <th><?= __('Created On') ?></th>
+                <th><?= __('Status') ?></th>
+                <th style="width:90px"><?= __('Actions') ?></th>
+            </tr>
+
+            </thead>
+            <tbody>
+
+
+
+            <?php foreach($paginator as $row): ?>
+                <tr>
+                    <td><?php echo $row->invoice_id; ?></td>
+                    <td><a  class="btn btn-primary" role="button" data-toggle="collapse" href="#collapseExample<?=$row->invoice_id?>" aria-expanded="false" aria-controls="collapseExample<?=$row->invoice_id?>">
+                            <?php
+                            $cart = unserialize($row->cart);
+                            try{
+
+                                echo $cart->getTotalItems().' '.ucwords(__('items'));
+                            }
+                            catch(\Exception $ex){
+                                echo '0 '.ucwords(__('items'));
+                            }
+                            ?> <span class="caret"></span></a>
+                    </td>
+                    <td><?php echo $row->paymentMethod->method_label; ?></td>
+                    <td><?php echo $row->currency->country->symbol_left.number_format($row->amount,2); ?></td>
+                    <td><?php echo $row->currency->country->currency_name; ?></td>
+                    <td><?php echo date('d/M/Y',$row->created_on); ?></td>
+                    <td>
+                        <p>
+                            <?php if($row->paid == 1): ?>
+                                <span class="text-highlight-success"><?= __('paid') ?></span>
+                            <?php else: ?>
+                                <span class="text-highlight-danger"><?= __('unpaid') ?></span>
+                            <?php endif; ?>
+                        </p>
+                    </td>
+                    <td>
+                        <?php if($row->paid == 0): ?>
+                            <a   href="<?php echo $this->url('application/default',array('controller'=>'student','action'=>'payinvoice','id'=>$row->invoice_id)); ?>" class="btn  btn-primary " data-toggle="tooltip" data-placement="top" data-original-title="<?= __('Pay Now') ?>"><i class="fa fa-check"></i> <?= __('Pay Now') ?></a>
+                        <?php endif; ?>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="9">
+                        <div class="collapse" id="collapseExample<?=$row->invoice_id?>">
+                            <?php if(is_object($cart)):?>
+                                <div class="well">
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th><?= __('course-session') ?></th>
+                                            <th><?= __('Fee') ?></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        <?php foreach($cart->getSessions() as $session):?>
+                                            <tr>
+                                                <td><?=$session->session_name?></td>
+                                                <td><?php echo price($session->amount,$row->currency_id); ?></td>
+                                            </tr>
+
+                                        <?php endforeach; ?>
+
+                                        </tbody>
+                                    </table>
+                                    <?php if($cart->hasDiscount()):?>
+                                        <p>
+                                            <strong><?= __('Discount') ?>:</strong> <?=$cart->getDiscount()?>% <br/>
+                                            <?php if(\Application\Entity\Coupon::find($cart->getCouponId())): ?>
+                                                <strong><?= __('Coupon Code') ?>:</strong> <?=\Application\Entity\Coupon::find($cart->getCouponId())->code?>
+                                            <?php endif; ?>
+                                        </p>
+                                    <?php endif; ?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+
+
+
+
+
+            </tbody>
+        </table>
+        <div><?=$paginator->links()?></div>
+
+    </div><!--end .box-body -->
+</div><!--end .box -->

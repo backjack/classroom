@@ -1,0 +1,113 @@
+<div class="row">
+			<div >
+				<div class="box">
+					<div class="box-head">
+						<header> 
+                    
+                             <form id="filterform" class="form-inline" role="form"  method="get" action="<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'index')); ?>">
+  
+  
+  <div class="form-group">
+    <label class="sr-only" for="filter"><?= __('filter') ?></label>
+    <?php echo $this->formElement($text) ?>
+  </div>
+ 
+  <button type="submit" class="btn btn-inverse"><?= __('filter') ?></button>
+    <button type="button" onclick="$('#filterform input, #filterform select').val(''); $('#filterform').submit();" class="btn btn-inverse"><?= __('clear') ?></button>
+
+</form>
+                            <a class="btn btn-primary pull-right" href="<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'add')) ?>"><i class="fa fa-plus"></i> <?= __('add-student') ?></a>
+
+                            <div style="clear: both;"></div>
+
+                        </header>
+
+					</div>
+					<div class="box-body">
+                        
+                        <div class="table-responsive">
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th><?= __('id') ?></th>
+									<th><?= __('first-name') ?></th>
+									<th><?= __('last-name') ?></th>
+									<th><?= __('courses-sessions') ?></th>
+									<th class="text-right1" style="width:160px"><?=__('actions')?></th>
+								</tr>
+							</thead>
+							<tbody>
+                            <?php foreach($paginator as $row): ?>
+								<tr>
+									<td><span class="label label-success"><?php echo $row->student_id ?></span></td>
+									<td><?php echo htmlentities($row->first_name); ?></td>
+									<td><?php echo htmlentities($row->last_name); ?></td>
+									<td><strong><?php echo $studentSessionTable->getTotalForStudent($row->student_id);?></strong>
+									
+									 </td>
+									 
+									<td >
+										<a href="<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'edit','id'=>$row->student_id));?>" class="btn btn-xs btn-default btn-equal" data-toggle="tooltip" data-placement="top" data-original-title="<?=__('edit')?>"><i class="fa fa-pencil"></i></a>
+                                        <a href="#" onclick="openModal('<?=__('enroll')?>','<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'enroll','id'=>$row->student_id)); ?>')"  data-toggle="tooltip" data-placement="top" data-original-title="Enroll"   title="<?= __('Enroll') ?>" type="button" class="btn btn-xs btn-default btn-equal"  ><i class="fa fa-plus"></i></a>
+
+                                        <button   data-id="<?php echo $row->student_id; ?>" data-toggle="modal" data-target="#simpleModal" title="View" type="button" class="btn btn-xs btn-default btn-equal viewbutton"  ><i class="fa fa-eye"></i></button>
+										<a onclick="return confirm('<?=__('delete-confirm')?>')" href="<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'delete','id'=>$row->student_id));?>"  class="btn btn-xs btn-default btn-equal" data-toggle="tooltip" data-placement="top" data-original-title="<?=__('delete')?>"><i class="fa fa-trash-o"></i></a>
+									</td>
+								</tr>
+								  <?php endforeach; ?>
+								
+							</tbody>
+						</table>
+                        </div>
+                        <?php
+ // add at the end of the file after the table
+ echo $this->paginationControl(
+     // the paginator object
+     $this->paginator,
+     // the scrolling style
+     'sliding',
+     // the partial to use to render the control
+     array('partial/paginatorstudents.phtml', 'Admin'),
+     // the route to link to when a user clicks a control link
+     array(
+         'route' => 'admin/default',
+		 'controller'=>'student',
+		 'action'=>'index',
+         'filter'=>$filter
+     )
+ );
+ ?>
+					</div><!--end .box-body -->
+				</div><!--end .box -->
+			</div><!--end .col-lg-12 -->
+		</div>
+        
+        
+        <!-- START SIMPLE MODAL MARKUP -->
+<div class="modal fade" id="simpleModal" tabindex="-1" role="dialog" aria-labelledby="simpleModalLabel" aria-hidden="true">
+	<div class="modal-dialog  modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="simpleModalLabel"><?= __('student-details') ?></h4>
+			</div>
+			<div class="modal-body" id="info">
+				 
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal"><?= __('close') ?></button> 
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- END SIMPLE MODAL MARKUP -->
+
+<script type="text/javascript">
+$(function(){
+	$('.viewbutton').click(function(){
+		 $('#info').text('Loading...');
+		 var id = $(this).attr('data-id');
+		   $('#info').load('<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'view'))?>'+'/'+id);
+		});
+	});
+</script>

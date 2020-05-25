@@ -1,0 +1,7 @@
+<form class="form" method="post" action="<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'enroll','id'=>$id)); ?>">
+    <h2>Enroll <?php echo $student->first_name.' '.$student->last_name  ?></h2>
+    <div style="padding-bottom: 10px">
+        <?php echo $this->formElement($select) ?>
+    </div>
+    <button class="btn btn-primary" type="submit"><?= __('enroll') ?></button>
+</form>

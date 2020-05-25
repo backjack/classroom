@@ -1,0 +1,690 @@
+<div class="row">
+    <div >
+        <div class="box">
+
+            <div class="box-body">
+
+
+
+                <form id="sessionform" class="form-horizontal" role="form" method="post" action="<?php echo $this->url('admin/default',array('controller'=>'student','action'=>$action.'session','id'=>$id,'param1'=>$type)) ?>">
+
+                    <div class="">
+                        <button type="submit" class="btn btn-primary pull-right"> <i class="fa fa-save"></i> <?=__('save-changes')?></button>
+                    </div>
+
+
+                    <div class="x_content">
+
+
+                        <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                            <ul id="myTab" class="nav nav-tabs bar_tabs_" role="tablist">
+                                <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true"><i class="fa fa-info"></i> Info</a>
+                                </li>
+                                <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false"><i class="fa fa-list"></i> Options</a>
+                                </li>
+                                <li role="presentation" class=""><a href="#tab_content4" role="tab" id="profile-tab3" data-toggle="tab" aria-expanded="false"><i class="fa fa-clock-o"></i> Scheduling</a>
+                                </li>
+                                <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false"><i class="fa fa-users"></i> Instructors</a>
+                                </li>
+
+                                <li role="presentation" class=""><a href="#tab_content5" role="tab" id="profile-tab4" data-toggle="tab" aria-expanded="false"><i class="fa fa-desktop"></i> Classes</a>
+                                </li>
+                            </ul>
+                            <div id="myTabContent" class="tab-content">
+                                <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <div class="col-lg-2 col-md-2">
+                                                    <label for="password1" class="control-label">Session Name</label>
+                                                </div>
+                                                <div class="col-lg-10 col-md-10 ">
+                                                    <?php     echo $this->formElement($form->get('session_name')); ?>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <div class="col-lg-2 col-md-2 ">
+                                                    <label for="password1" class="control-label">Short Description (optional)</label>
+                                                </div>
+                                                <div class="col-lg-10 col-md-10 ">
+                                                    <?php     echo $this->formElement($form->get('short_description'));                    ?>
+                                                    <p class="help-block"><?php echo $this->formElementErrors($form->get('short_description'));?></p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <div class="col-lg-2 col-md-2 ">
+                                                    <label for="password1" class="control-label">Session Description</label>
+                                                </div>
+                                                <div class="col-lg-10 col-md-10 ">
+                                                    <?php     echo $this->formElement($form->get('description'));                    ?>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+
+                                    <div class="row">
+
+
+
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <div class="col-lg-2 col-md-2 ">
+                                                    <label for="password1" class="control-label">Venue</label>
+                                                </div>
+                                                <div class="col-lg-10 col-md-10 ">
+                                                    <?php     echo $this->formElement($form->get('venue'));
+
+                                                    ?>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+
+
+                                        <div class="col-md-6">
+                                            <div class="form-group" style="margin-bottom:10px">
+                                                <div class="col-lg-4 col-md-4 ">
+                                                    <label for="image" class="control-label">Cover Image  (optional)</label><br />
+
+                                                </div>
+
+
+
+                                                <div class="col-lg-8 col-md-8 ">
+                                                    <div class="image"><img data-name="image" src="<?php echo $display_image ?>" alt="" id="thumb" /><br />
+                                                        <?php echo $this->formElement($form->get('picture')) ?>
+                                                        <a class="pointer" onclick="image_upload('image', 'thumb');"><?=__('browse')?></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a class="pointer" onclick="$('#thumb').attr('src', '<?php echo $no_image; ?>'); $('#image').attr('value', '');"><?=__('clear')?></a></div>
+
+                                                </div>
+
+
+
+
+
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <div class="col-lg-4 col-md-4 ">
+                                                    <label for="password1" class="control-label">Payment Required</label>
+                                                </div>
+                                                <div class="col-lg-8 col-md-8 ">
+                                                    <?php     echo $this->formElement($form->get('payment_required'));
+
+                                                    ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <div class="col-lg-4 col-md-4 ">
+                                                    <label for="password1" class="control-label">Session Fee</label>
+                                                </div>
+                                                <div class="col-lg-8 col-md-8 ">
+                                                    <?php     echo $this->formElement($form->get('amount'));
+
+                                                    ?>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="row">
+
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <div class="col-lg-4 col-md-4 ">
+                                                    <label for="password1" class="control-label">Status</label>
+                                                </div>
+                                                <div class="col-lg-8 col-md-8 ">
+                                                    <?php     echo $this->formElement($form->get('session_status'));
+
+                                                    ?>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <div class="col-lg-4 col-md-4 ">
+                                                    <label for="enable_discussion" class="control-label">Enable Student Forum?</label>
+                                                </div>
+                                                <div class="col-lg-8 col-md-8 ">
+                                                    <?php     echo $this->formElement($form->get('enable_forum'));
+
+                                                    ?>
+                                                    <p class="help-block"><?php echo $this->formElementErrors($form->get('enable_forum'));?></p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <div class="col-lg-4 col-md-4">
+                                                    <label for="enable_discussion" class="control-label">Enable Discussions?</label>
+                                                </div>
+                                                <div class="col-lg-8 col-md-8">
+                                                    <?php     echo $this->formElement($form->get('enable_discussion'));
+
+                                                    ?>
+                                                    <p class="help-block"><?php echo $this->formElementErrors($form->get('enable_discussion'));?></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade" id="tab_content4" aria-labelledby="profile-tab">
+
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <div class="col-lg-4 col-md-4 ">
+                                                    <label for="password1" class="control-label">Session Start Date</label>
+                                                </div>
+                                                <div class="col-lg-8 col-md-8 ">
+                                                    <?php     echo $this->formElement($form->get('session_date'));
+
+                                                    ?>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <div class="col-lg-4 col-md-4 ">
+                                                    <label for="password1" class="control-label">Session End Date</label>
+                                                </div>
+                                                <div class="col-lg-8 col-md-8 ">
+                                                    <?php     echo $this->formElement($form->get('session_end_date'));
+
+                                                    ?>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+
+
+                                    <div class="row">
+
+
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <div class="col-lg-4 col-md-4 ">
+                                                    <label for="password1" class="control-label">Registration Closes</label>
+                                                </div>
+                                                <div class="col-lg-8 col-md-8 ">
+                                                    <?php     echo $this->formElement($form->get('enrollment_closes'));
+
+                                                    ?>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+
+
+                                    </div>
+
+
+
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+
+                                                    <label for="password1" class="control-label">Session Instructors (Optional)</label>
+
+                                                    <?php     echo $this->formElement($form->get('session_instructor_id[]'));
+
+                                                    ?>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div role="tabpanel" class="tab-pane fade" id="tab_content5" aria-labelledby="profile-tab">
+                                    <div class="row">
+                                        <div class="col-md-9"><h3>Select Classes <small>(Select at least one class)</small></h3>
+
+                                        </div>
+                                        <div class="col-md-3"><button type="button" class="btn btn-primary " data-toggle="modal" data-target="#addClassModal">Create New Class</button></div>
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div class="col-md-12">
+
+
+
+                                            <div>
+
+                                                <!-- Nav tabs -->
+                                                <ul class="nav nav-tabs" role="tablist">
+                                                    <li role="presentation" class="active"><a href="#classlist" aria-controls="home" role="tab" data-toggle="tab">Select Classes</a></li>
+                                                    <li role="presentation"><a href="#selectedclasses" aria-controls="profile" role="tab" data-toggle="tab">Selected Classes</a></li>
+                                                </ul>
+
+                                                <!-- Tab panes -->
+                                                <div class="tab-content">
+                                                    <div role="tabpanel" class="tab-pane active" id="classlist">
+
+                                                        <table id="datatable2" class="table table-stripped" style="width: 100%">
+                                                            <thead>
+                                                            <tr>
+                                                                <th  class="no-sort"><input type="checkbox" id="select_all"/></th>
+                                                                <th> Class</th>
+                                                                <th   style="display: none"   class="no-sort">Groups</th>
+                                                                <?php if($type!='s'):?>
+                                                                    <th  class="no-sort">Class Type</th>
+                                                                <?php endif; ?>
+                                                                <th  class="no-sort">Class Date<?php if($type!='s'):?>/Opening Date<?php endif; ?></th>
+                                                                <th  class="no-sort">Start Time</th>
+                                                                <th  class="no-sort">End Time</th>
+                                                                <?php if($type!='s'):?>
+                                                                    <th  class="no-sort">Position</th>
+                                                                <?php endif; ?>
+                                                                <th  class="no-sort">Class Venue </th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody id="classes">
+                                                            <?php foreach($lessons as $row): ?>
+                                                                <tr>
+                                                                    <td><?php echo $this->formElement($form->get('lesson_'.$row->lesson_id)); ?> </td>
+                                                                    <td><span id="<?php echo 'lesson_name_'.$row->lesson_id; ?>"><?php echo $row->lesson_name ?></span></td>
+
+                                                                    <td   style="display: none" >
+                                                                        <?php foreach($lessonGroupTable->getLessonRecords($row->lesson_id) as $group):?>
+                                                                            <?php echo $group->group_name; ?> ,
+                                                                        <?php  endforeach; ?>
+                                                                    </td>
+                                                                    <?php if($type!='s'):?>
+                                                                        <td id="<?php echo 'lesson_type_'.$row->lesson_id; ?>"><?php echo ($row->lesson_type=='s')? 'Physical Location':'Online' ?></td>
+                                                                    <?php endif; ?>
+                                                                    <td><?php echo $this->formElement($form->get('lesson_date_'.$row->lesson_id)); ?></td>
+                                                                    <td>
+                                                                        <?php if($row->lesson_type=='s'):?>
+                                                                            <?php echo $this->formElement($form->get('lesson_start_'.$row->lesson_id)); ?>
+                                                                        <?php endif; ?>
+                                                                    </td>
+                                                                    <td>
+                                                                        <?php if($row->lesson_type=='s'):?>
+                                                                            <?php echo $this->formElement($form->get('lesson_end_'.$row->lesson_id)); ?>
+                                                                        <?php endif; ?>
+                                                                    </td>
+
+                                                                    <?php if($type!='s'):?>
+                                                                        <td>
+                                                                            <?php if($row->lesson_type=='c'):?>
+                                                                                <?php echo $this->formElement($form->get('sort_order_'.$row->lesson_id)); ?>
+                                                                            <?php endif; ?>
+                                                                        </td>
+                                                                    <?php endif; ?>
+
+                                                                    <td>
+                                                                        <?php if($row->lesson_type=='s'):?>
+                                                                            <?php echo $this->formElement($form->get('lesson_venue_'.$row->lesson_id)); ?>
+                                                                        <?php endif; ?>
+                                                                    </td>
+                                                                </tr>
+                                                            <?php endforeach; ?>
+                                                            </tbody>
+
+                                                        </table>
+
+                                                    </div>
+                                                    <div role="tabpanel" class="tab-pane" id="selectedclasses">
+
+
+                                                        <table class="table table-stripped">
+                                                            <thead>
+                                                            <tr>
+                                                                <th>Class Name</th>
+                                                                <th>Class Type</th>
+                                                                <th>Class Date/Opening Date</th>
+                                                                <th>Start Time</th>
+                                                                <th>End Time</th>
+                                                                <?php if($type!='s'):?>
+                                                                    <th>Position</th>
+                                                                <?php endif; ?>
+                                                                <th>Class Venue</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody  id="selectedlist">
+
+                                                            </tbody>
+                                                        </table>
+
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                </form>
+            </div>
+        </div><!--end .box -->
+    </div><!--end .col-lg-12 -->
+</div>
+
+
+<?php echo $this->headLink()->prependStylesheet($this->basePath().'/pickadate/themes/default.date.css')
+    ->prependStylesheet($this->basePath().'/pickadate/themes/default.time.css')
+    ->prependStylesheet($this->basePath().'/pickadate/themes/default.css')
+    ->prependStylesheet($this->basePath().'/static/datatables/media/css/jquery.dataTables.min.css');?>
+<script type="text/javascript" src="<?php echo $this->basePath() ?>/pickadate/picker.js"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() ?>/pickadate/picker.date.js"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() ?>/pickadate/picker.time.js"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() ?>/pickadate/legacy.js"></script>
+<script type="text/javascript"><!--
+    var table;
+
+    function createTable(){
+        console.log('table getting created');
+        var dtOptions = {
+
+            "ordering": true,
+            columnDefs: [{
+                orderable: false,
+                targets: "no-sort"
+            },
+                {
+                    "targets": [ 2 ],
+                    "visible": false
+                }
+            ]
+
+        };
+        if ( !$.fn.dataTable.isDataTable( '#datatable2' ) ) {
+            table = $('#datatable2').DataTable(dtOptions);
+        }
+        $('.dataTables_filter input').attr("placeholder", "Class or Group name");
+        showList();
+        jQuery(function(){
+            $('.date').pickadate({
+                format: 'yyyy-mm-dd'
+            });
+            table.$('.date').pickadate({
+                format: 'yyyy-mm-dd'
+            });
+
+            table.$('.time').pickatime({
+                interval: 15
+            });
+        });
+
+        $("#select_all").change(function(){  //"select all" change
+            var status = this.checked; // "select all" checked status
+            table.$('.cbox').each(function(){ //iterate all listed checkbox items
+                this.checked = status; //change ".checkbox" checked status
+            });
+            showList();
+        });
+
+        function showList(){
+            $('#selectedlist').text('');
+            table.$('.cbox').each(function(){ //iterate all listed checkbox items
+                if(this.checked){
+                    var id = $(this).val();
+
+                    var start = table.$('input[name=lesson_start_'+id+']').val();
+                    if(!start){
+                        start = '';
+                    }
+
+                    var end = table.$('input[name=lesson_end_'+id+']').val();
+                    if(!end){
+                        end = '';
+                    }
+
+                    var venue = table.$('textarea[name=lesson_venue_'+id+']').val();
+                    if(!venue){
+                        venue = '';
+                    }
+                    <?php if($type!='s'):?>
+                    var position = table.$('input[name=sort_order_'+id+']').val();
+                    if(!position){
+                        position = '';
+                    }
+
+                    $('#selectedlist').append('<tr><td>'+table.$('#lesson_name_'+id).text()+'</td><td>'+table.$('#lesson_type_'+id).text()+'</td><td>'+table.$('input[name=lesson_date_'+id+']').val()+'</td><td>'+start+'</td><td>'+end+'</td><td>'+position+'</td><td>'+venue+'</td></tr>');
+                    <?php else: ?>
+                    $('#selectedlist').append('<tr><td>'+table.$('#lesson_name_'+id).text()+'</td><td>'+table.$('#lesson_type_'+id).text()+'</td><td>'+table.$('input[name=lesson_date_'+id+']').val()+'</td><td>'+start+'</td><td>'+end+'</td><td>'+venue+'</td></tr>');
+
+                    <?php endif; ?>
+                } //change ".checkbox" checked status
+            });
+        }
+
+        table.$('.cbox').change(function(){ //".checkbox" change
+            //uncheck "select all", if one of the listed checkbox item is unchecked
+            if(this.checked == false){ //if this item is unchecked
+                $("#select_all")[0].checked = false; //change "select all" checked status to false
+            }
+
+            //check "select all" if all checkbox items are checked
+            if (table.$('.cbox:checked').length == table.$('.cbox').length ){
+                $("#select_all")[0].checked = true; //change "select all" checked status to true
+            }
+            showList();
+        });
+
+        table.$('input').change(function(){ //".checkbox" change
+
+            showList();
+        });
+
+    }
+
+    createTable();
+
+
+    //--></script>
+
+<?php $this->headScript()->prependFile($this->basePath() . '/ckeditor/ckeditor.js')
+    ->prependFile($this->basePath() . '/static/datatables/media/js/jquery.dataTables.min.js')
+?>
+<script type="text/javascript">
+
+    CKEDITOR.replace('description', {
+        filebrowserBrowseUrl: '<?php echo $this->basepath() ?>/admin/filemanager',
+        filebrowserImageBrowseUrl: '<?php echo $this->basepath() ?>/admin/filemanager',
+        filebrowserFlashBrowseUrl: '<?php echo $this->basepath() ?>/admin/filemanager'
+    });
+
+</script>
+
+
+<!-- Modal -->
+<div class="modal fade" id="addClassModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <form id="addClassForm" class="form" method="post" action="<?php echo $this->url('admin/default',['controller'=>'student','action'=>'createclass']) ?>?type=<?=$type?>">
+
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Create New Class</h4>
+            </div>
+            <div class="modal-body">
+
+                   <div class="form-group">
+                        <label for="">Class Name</label>
+                        <input required="required" class="form-control" type="text" name="lesson_name"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Description</label>
+                        <textarea required="required" class="form-control" name="content" id="" cols="30" rows="2"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Sort Order</label>
+                        <input class="number form-control" type="text" name="sort_order"/>
+                    </div>
+                <?php if($type=='s'):?>
+                <input type="hidden" name="lesson_type" value="s"/>
+                <?php else:?>
+                    <div class="form-group">
+                        <label for="">Class Type</label>
+                        <select class="form-control" name="lesson_type" id="lesson_type">
+                            <option value="s">Physical Location</option>
+                            <option value="c">Online Class</option>
+                        </select>
+                    </div>
+                <?php endif; ?>
+                <input type="hidden" name="test_required" value="0"/>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" id="addClassBtn"><?=__('save-changes')?></button>
+            </div>
+        </div>
+    </div>
+    </form>
+</div>
+
+<script>
+
+    function image_upload(field, thumb) {
+        $('#dialog').remove();
+
+        $('#content').prepend('<div id="dialog" style="padding: 3px 0px 0px 0px;"><iframe src="<?php echo $this->basePath(); ?>/admin/filemanager?&token=true&field=' + encodeURIComponent(field) + '" style="padding:0; margin: 0; display: block; width: 100%; height: 100%;" frameborder="no" scrolling="auto"></iframe></div>');
+
+        $('#dialog').dialog({
+            title: '<?=__('Image Manager')?>',
+            close: function (event, ui) {
+                if ($('#' + field).attr('value')) {
+                    $.ajax({
+                        url: '<?php echo $this->basePath(); ?>/admin/filemanager/image?&image=' + encodeURIComponent($('#' + field).val()),
+                        dataType: 'text',
+                        success: function(data) {
+                            $('#' + thumb).replaceWith('<img src="' + data + '" alt="" id="' + thumb + '" />');
+                        }
+                    });
+                }
+            },
+            bgiframe: false,
+            width: 800,
+            height: 570,
+            resizable: true,
+            modal: false
+        });
+    };
+
+    $(function(){
+
+        $('#sessionform').submit(function(e){
+            e.preventDefault();
+            table.destroy();
+            $(this).unbind('submit');
+            $(this).submit();
+        });
+
+        $('#addClassForm').submit(function(e){
+            $('#addClassBtn').text('Saving...');
+            e.preventDefault();
+            $.post( $(this).attr('action'),$(this).serialize(), function( data ) {
+                table.destroy();
+                $( "#classes" ).prepend( data );
+                $('#addClassBtn').text('Save Changes');
+                $('#addClassModal').modal('hide');
+                $('#addClassForm').find("input[type=text], textarea").val("");
+                jQuery('.date').pickadate({
+                    format: 'yyyy-mm-dd'
+                });
+
+                jQuery('.time').pickatime({
+                    interval: 15
+                });
+
+                //table= $('#datatable').DataTable(dtOptions);
+
+                createTable();
+            });
+        })
+    })
+</script>

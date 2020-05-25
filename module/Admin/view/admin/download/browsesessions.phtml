@@ -1,0 +1,129 @@
+<div class="row">
+    <div >
+
+        <div class="box">
+
+            <div class="box-head">
+
+
+
+
+            </div>
+            <form action="<?php echo $this->url('admin/default',['controller'=>'download','action'=>'addsession','id'=>$id]) ?>" method="post">
+
+            <div class="box-body">
+
+                <div >
+
+                       <input class="btn btn-primary" type="submit" value="Add Sessions/Courses"/>
+                    <div>
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th><?= __('id') ?></th>
+                            <th><?= __('session-course') ?></th>
+                            <th><?= __('start-date') ?></th>
+                            <th><?= __('end-date') ?></th>
+                            <th><?= __('total-attended') ?></th>
+                            <th><?= __('total-enrolled') ?></th>
+                            <th><?= __('status') ?></th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach($paginator as $row): ?>
+                            <tr>
+                                <td>
+
+                                    <input name="session_<?php echo $row->session_id ?>" value="<?php echo $row->session_id ?>" type="checkbox"/>
+                                </td>
+                                <td><span class="label label-success"><?php echo $row->session_id ?></span></td>
+                                <td><?php echo $row->session_name; ?></td>
+                                <td><?php echo showDate('d/m/Y',$row->session_date); ?></td>
+                                <td><?php echo showDate('d/m/Y',$row->session_end_date); ?></td>
+                                <td>
+                                    <strong><?php echo $attendanceTable->getTotalStudentsForSession($row->session_id);?></strong>
+                                </td>
+                                <td>
+                                    <strong><?php echo $studentSessionTable->getTotalForSession($row->session_id);?></strong>
+                                </td>
+                                <td>
+                                    <?php echo ($row->session_status!=1)?__('disabled'):__('enabled'); ?>
+                                </td>
+
+
+                            </tr>
+                        <?php endforeach; ?>
+
+                        </tbody>
+                    </table>
+                    <?php
+                    // add at the end of the file after the table
+                    echo $this->paginationControl(
+                    // the paginator object
+                        $this->paginator,
+                        // the scrolling style
+                        'sliding',
+                        // the partial to use to render the control
+                        array('partial/paginator.phtml', 'Admin'),
+                        // the route to link to when a user clicks a control link
+                        array(
+                            'route' => 'admin/default',
+                            'controller'=>'download',
+                            'action'=>'browsesessions',
+                            'id'=>$id
+                        )
+                    );
+                    ?>
+                </div>
+                    <h3><?= __('assigned-sessions') ?></h3>
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th><?= __('id') ?></th>
+                            <th><?= __('session-course-name') ?></th>
+                            <th><?= __('start-date') ?></th>
+                            <th><?= __('end-date') ?></th>
+                            <th><?= __('total-attended') ?></th>
+                            <th><?= __('total-enrolled') ?></th>
+                            <th><?= __('status') ?></th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach($assigned as $row): ?>
+                            <tr>
+                                <td>
+
+                                    <input name="session_<?php echo $row->session_id ?>" value="<?php echo $row->session_id ?>" type="checkbox"/>
+                                </td>
+                                <td><span class="label label-success"><?php echo $row->session_id ?></span></td>
+                                <td><?php echo $row->session_name; ?></td>
+                                <td><?php echo showDate('d/m/Y',$row->session_date); ?></td>
+                                <td><?php echo showDate('d/m/Y',$row->session_end_date); ?></td>
+                                <td>
+                                    <strong><?php echo $attendanceTable->getTotalStudentsForSession($row->session_id);?></strong>
+                                </td>
+                                <td>
+                                    <strong><?php echo $studentSessionTable->getTotalForSession($row->session_id);?></strong>
+                                </td>
+                                <td>
+                                    <?php echo ($row->session_status!=1)?__('disabled'):__('enabled'); ?>
+                                </td>
+
+
+                            </tr>
+                        <?php endforeach; ?>
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div><!--end .box-body -->
+            </form>
+
+        </div><!--end .box -->
+    </div><!--end .col-lg-12 -->
+</div>

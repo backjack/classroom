@@ -1,0 +1,22 @@
+<form onsubmit="return confirm('<?=__('attendance-import-confirm')?>')" enctype="multipart/form-data" class="form" method="post" action="<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'attendanceimport')); ?>">
+    <h2><?= __('set-att-multiple') ?></h2>
+    <p>
+    <h3><?= __('important-instructions') ?></h3>
+    <?= __('attendance-import-help',['link'=>$this->url('admin/default',array('controller'=>'student','action'=>'sessions'))]) ?>
+
+    </p>
+
+    <div class="form-group" style="padding-bottom: 10px">
+        <label for="session_id"><?= __('session-course') ?></label>
+        <?php echo $this->formElement($session_id) ?>
+    </div>
+
+
+
+    <div class="form-group" style="padding-bottom: 10px">
+        <label for="file"><?= __('csv-file') ?></label>
+        <input required="required" name="file" type="file"/>
+    </div>
+
+    <button class="btn btn-primary" type="submit"><?= __('upload') ?></button>
+</form>

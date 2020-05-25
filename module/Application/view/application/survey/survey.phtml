@@ -1,0 +1,118 @@
+<?php $this->headTitle($pageTitle) ?>
+
+
+
+<form id="testform" method="post" action="<?php echo selfURL() ?>">
+    <input id="studentTestId" type="hidden" name="student_survey_id" value=""/>
+    <div style="margin-top: 30px" class="col-md-8 col-md-offset-2">
+
+        <div class="panel panel-default" id="intro">
+            <div class="panel-heading">
+                <h3 class="panel-title"><?= __('Instructions') ?></h3>
+            </div>
+            <div class="panel-body">
+                <p><?php echo $survey->description ?></p>
+                <button type="button" id="start" class="btn btn-primary btn-lg pull-right"><?= __('Start Survey') ?></button>
+            </div>
+        </div>
+        <?php $count = 0; ?>
+        <?php foreach($survey->surveyQuestions()->orderBy('sort_order')->get() as  $question):?>
+            <?php $count++; ?>
+            <div class="panel panel-default question" id="question<?php echo $count ?>">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><h3><?php echo $count; ?>/<?php echo $totalQuestions ?></h3> <?php echo $question->question ?></h3>
+                </div>
+                <div class="panel-body">
+                    <p >
+
+                        <?php foreach($question->surveyOptions as $option):?>
+
+
+                    <div class="radio">
+                        <label style="font-size: 14px">
+                            <input type="radio" id="question_op_<?php echo $option->survey_question_id; ?>" name="question_<?php echo $option->survey_question_id; ?>" value="<?php echo $option->survey_option_id ?>"/>
+
+                            <?php echo $option->option ?>
+                        </label>
+                    </div>
+
+                    <?php endforeach;?>
+
+
+                    </p>
+
+                    <?php if($count > 1):?>
+                        <button type="button" onclick="showPanel('<?php echo ($count - 1); ?>')" class="prev btn btn-primary btn-lg "><?= __('Prev') ?></button>
+                    <?php endif; ?>
+
+                    <?php if($count < $totalQuestions):?>
+                        <button  type="button"  onclick="showPanel('<?php echo $count + 1?>')"  class="next btn btn-primary btn-lg pull-right"><?= __('Next') ?></button>
+                    <?php else: ?>
+                        <a onclick="if(confirm('<?=__('submit-survey-msg')?>')){$('#testform').submit()};" class="btn btn-success btn-lg pull-right" href="#testform"><?= __('finish') ?></a>
+                    <?php endif; ?>
+                </div>
+            </div>
+        <?php endforeach; ?>
+
+    </div>
+</form>
+
+
+<script>
+    var interval;
+    $('.question').hide();
+
+    $('#start').click(function(){
+
+        $('#intro').hide();
+        showPanel(1);
+
+
+    });
+
+    function showPanel(id){
+        $('.question').hide();
+        $('#question'+id).show();
+    }
+    $(function(){
+
+
+    });
+
+    function startTimer(duration, display) {
+        var start = Date.now(),
+            diff,
+            minutes,
+            seconds;
+        function timer() {
+            // get the number of seconds that have elapsed since
+            // startTimer() was called
+            diff = duration - (((Date.now() - start) / 1000) | 0);
+
+            // does the same job as parseInt truncates the float
+            minutes = (diff / 60) | 0;
+            seconds = (diff % 60) | 0;
+
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            display.textContent = minutes + ":" + seconds;
+
+            if (diff <= 0) {
+                // add one second so that the count down starts at the full duration
+                // example 05:00 not 04:59
+                // start = Date.now() + 1000;
+                console.log('time is up!');
+                $('#testform').submit();
+                clearInterval(interval);
+            }
+        };
+        // we don't want to wait a full second before the timer starts
+        timer();
+        interval=  setInterval(timer, 1000);
+    }
+
+
+
+
+</script>

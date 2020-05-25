@@ -1,0 +1,130 @@
+<div class="box">
+    <div class="box-head">
+        <h1><?= __('edit-question') ?></h1>
+    </div>
+    <div class="box-body">
+        <?php
+        $form->prepare();
+        $form->setAttribute('action', $this->url('admin/default',array('controller'=>'survey','action'=>'editquestion','id'=>$id)));
+        $form->setAttribute('method', 'post');
+        $form->setAttribute('role', 'form');
+        $form->setAttribute('class', 'form-horizontal');
+
+        echo $this->form()->openTag($form);
+        ?>
+
+
+        <div class="form-group">
+            <?php     echo $this->formLabel($form->get('question'));
+
+            ?>
+            <?php     echo $this->formElement($form->get('question'));
+
+            ?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('question'));?></p>
+
+        </div>
+
+        <div class="form-group">
+            <?php     echo $this->formLabel($form->get('sort_order'));
+
+            ?>
+            <?php     echo $this->formElement($form->get('sort_order'));
+
+            ?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('sort_order'));?></p>
+
+        </div>
+
+        <div class="form-footer">
+            <button type="submit" class="btn btn-primary"><?=__('save-changes')?></button>
+        </div>
+        <?php echo $this->form()->closeTag($form);  ?>
+
+    </div>
+</div>
+
+<div class="box">
+    <div class="box-head">
+        <h1>Edit Options</h1>
+    </div>
+    <div class="box-body">
+        <button data-toggle="modal" data-target="#myModal" class="btn btn-primary pull-right"><i class="fa fa-plus"></i>  Add Options</button>
+
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th><?= __('option') ?></th>
+                <th class="text-right1" style="width:90px"><?=__('actions')?></th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach($rowset as $row): ?>
+                <tr>
+                    <td><?php echo $row->option; ?></td>
+
+
+                    <td class="text-right">
+
+                        <a onclick="openModal('<?=__('edit-option')?>','<?php echo $this->url('admin/default',array('controller'=>'survey','action'=>'editoption','id'=>$row->survey_option_id));?>');"  class="btn btn-xs btn-default btn-equal" data-toggle="tooltip" data-placement="top" data-original-title="<?=__('edit')?>"><i class="fa fa-pencil"></i></a>
+
+                        <a onclick="return confirm('<?=__('delete-confirm')?>')" href="<?php echo $this->url('admin/default',array('controller'=>'survey','action'=>'deleteoption','id'=>$row->survey_option_id));?>"  class="btn btn-xs btn-default btn-equal" data-toggle="tooltip" data-placement="top" data-original-title="<?=__('delete')?>"><i class="fa fa-trash-o"></i></a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="<?= __('close') ?>"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><?= __('add-options') ?></h4>
+            </div>
+            <form id="questionform" method="post" action="<?php echo $this->url('admin/default',['controller'=>'survey','action'=>'addoptions','id'=>$id]); ?>">
+
+                <div class="modal-body">
+
+                    <p><small><?= __('edit-question-help') ?></small></p>
+                    <table class="table table-stripped">
+                        <thead>
+                        <tr>
+                            <th><?= __('option') ?></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php for($i=1;$i<=5;$i++):?>
+                            <tr>
+                                <td><input name="option_<?php echo $i; ?>" class="form-control" type="text"/></td>
+                            </tr>
+                        <?php endfor; ?>
+                        </tbody>
+                    </table>
+
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><?= __('cancel') ?></button>
+                    <button  type="submit" class="btn btn-primary"><?=__('save-changes')?></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<?php $this->headScript()->prependFile($this->basePath() . '/static/summernote/summernote.min.js')
+?>
+<?php $this->headLink()->prependStylesheet($this->basePath().'/static/summernote/summernote.css');?>
+<script>
+    $(function(){
+
+        $('.summernote').summernote({
+            height: 200
+        } );
+    });
+</script>

@@ -1,0 +1,42 @@
+# Created by http://www.gitignore.io
+
+### ZendFramework ###
+# Composer files
+composer.phar
+#vendor/zendframework
+#vendor/bin
+#vendor/zendframework/zend-developer-tools
+#vendor/bjyoungblood/
+
+vendor/dompdf/dompdf/lib/fonts/
+
+# Local configs
+config/autoload/*.local.php
+config/autoload/local.php
+
+# Binary gettext files
+*.mo
+
+
+# Data
+data/logs/
+data/cache/
+data/sessions/
+data/tmp/
+data/uploads/
+temp/
+public/usermedia/
+public/uservideo/
+public/tmp
+public/.htaccess
+.settings/
+.project
+.buildpath
+update/*
+update_tmp/
+.idea/
+# Legacy ZF1
+demos/
+extras/documentation
+vendor/bin/phinx.yml
+module/Application/blade/compiled/

@@ -1,0 +1,561 @@
+<style>
+    span.required{
+        color: red;
+        font-weight: bold;
+    }
+</style>
+<div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2> <small><?= __('setup-your-session') ?></small> </h2>
+
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+
+            <form id="sessionform" class="form-horizontal" role="form" method="post" action="<?php echo $this->url('admin/default',array('controller'=>'student','action'=>$action.'session','id'=>$id,'param1'=>$type)) ?>">
+
+
+            <!-- Smart Wizard -->
+                <p><?= __('fill-each-sec-help',['req'=>'<span class="required">*</span>']) ?> </p>
+                <div id="course_wizard" class="form_wizard wizard_horizontal">
+                    <ul class="wizard_steps">
+                        <li>
+                            <a href="#step-1">
+                                <span class="step_no">1</span>
+                            <span class="step_descr">
+                                              <?= __('info') ?><br />
+                                              <small><?= __('basic-session-data') ?></small>
+                                          </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#step-2">
+                                <span class="step_no">2</span>
+                            <span class="step_descr">
+                                              <?= __('options') ?><br />
+                                              <small><?= __('session-options') ?></small>
+                                          </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#step-3">
+                                <span class="step_no">3</span>
+                            <span class="step_descr">
+                                              <?= __('scheduling') ?><br />
+                                              <small><?= __('start-end-dates') ?></small>
+                                          </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#step-4">
+                                <span class="step_no">4</span>
+                            <span class="step_descr">
+                                              <?= __('instructors') ?><br />
+                                              <small><?= __('session-instructors') ?></small>
+                                          </span>
+                            </a>
+                        </li>
+                    </ul>
+                    <div id="step-1">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-lg-2 col-md-2">
+                                        <label for="password1" class="control-label"><span class="required">*</span><?= __('session-name') ?></label>
+                                    </div>
+                                    <div class="col-lg-10 col-md-10 ">
+                                        <?php     echo $this->formElement($form->get('session_name')); ?>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <div class="col-lg-2 col-md-2 ">
+                                        <label for="password1" class="control-label"><?= __('short-description') ?> (<?= __('optional') ?>)</label>
+                                    </div>
+                                    <div class="col-lg-10 col-md-10 ">
+                                        <?php     echo $this->formElement($form->get('short_description'));                    ?>
+                                        <p class="help-block"><?php echo $this->formElementErrors($form->get('short_description'));?></p>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <div class="col-lg-2 col-md-2 ">
+                                        <label for="password1" class="control-label"><?= __('session-description') ?></label>
+                                    </div>
+                                    <div class="col-lg-10 col-md-10 ">
+                                        <?php     echo $this->formElement($form->get('description'));                    ?>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="row">
+
+
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-lg-2 col-md-2 ">
+                                        <label for="password1" class="control-label"><?= __('venue') ?></label>
+                                    </div>
+                                    <div class="col-lg-10 col-md-10 ">
+                                        <?php     echo $this->formElement($form->get('venue'));
+
+                                        ?>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+
+
+                            <div class="col-md-6">
+                                <div class="form-group" style="margin-bottom:10px">
+                                    <div class="col-lg-4 col-md-4 ">
+                                        <label for="image" class="control-label"><?= __('cover-image') ?>  (<?= __('optional') ?>)</label><br />
+
+                                    </div>
+
+
+
+                                    <div class="col-lg-8 col-md-8 ">
+                                        <div class="image"><img data-name="image" src="<?php echo $display_image ?>" alt="" id="thumb" /><br />
+                                            <?php echo $this->formElement($form->get('picture')) ?>
+                                            <a class="pointer" onclick="image_upload('image', 'thumb');"><?=__('browse')?></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a class="pointer" onclick="$('#thumb').attr('src', '<?php echo $no_image; ?>'); $('#image').attr('value', '');"><?=__('clear')?></a></div>
+
+                                    </div>
+
+
+
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+
+                    </div>
+                    <div id="step-2">
+
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-lg-4 col-md-4 ">
+                                        <label for="password1" class="control-label"><?= __('payment-required') ?></label>
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 ">
+                                        <?php     echo $this->formElement($form->get('payment_required'));
+
+                                        ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-lg-4 col-md-4 ">
+                                        <label for="password1" class="control-label"><?= __('session-fee') ?></label>
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 ">
+                                        <?php     echo $this->formElement($form->get('amount'));
+
+                                        ?>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-lg-4 col-md-4 ">
+                                        <label for="password1" class="control-label"><?= __('status') ?></label>
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 ">
+                                        <?php     echo $this->formElement($form->get('session_status'));
+
+                                        ?>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-lg-4 col-md-4 ">
+                                        <label for="enable_discussion" class="control-label"><?= __('enable-forum') ?></label>
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 ">
+                                        <?php     echo $this->formElement($form->get('enable_forum'));
+
+                                        ?>
+                                        <p class="help-block"><?php echo $this->formElementErrors($form->get('enable_forum'));?></p>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-lg-4 col-md-4">
+                                        <label for="enable_discussion" class="control-label"><?= __('enable-discussions') ?></label>
+                                    </div>
+                                    <div class="col-lg-8 col-md-8">
+                                        <?php     echo $this->formElement($form->get('enable_discussion'));
+
+                                        ?>
+                                        <p class="help-block"><?php echo $this->formElementErrors($form->get('enable_discussion'));?></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div id="step-3">
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-lg-4 col-md-4 ">
+                                        <label for="password1" class="control-label"><span class="required">*</span><?= __('session-start-date') ?></label>
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 ">
+                                        <?php     echo $this->formElement($form->get('session_date'));
+
+                                        ?>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-lg-4 col-md-4 ">
+                                        <label for="password1" class="control-label"><?= __('session-end-date') ?></label>
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 ">
+                                        <?php     echo $this->formElement($form->get('session_end_date'));
+
+                                        ?>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+
+                        <div class="row">
+
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-lg-4 col-md-4 ">
+                                        <label for="password1" class="control-label"><?= __('registration-closes') ?></label>
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 ">
+                                        <?php     echo $this->formElement($form->get('enrollment_closes'));
+
+                                        ?>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+                        </div>
+
+
+
+                    </div>
+                    <div id="step-4">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+
+                                    <label for="password1" class="control-label"><?= __('session-instructors') ?> (<?= __('optional') ?>)</label>
+
+                                    <?php     echo $this->formElement($form->get('session_instructor_id[]'));
+
+                                    ?>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+                <!-- End SmartWizard Content -->
+
+
+            </form>
+
+
+        </div>
+    </div>
+</div>
+
+<!-- FastClick -->
+<script src="<?=$this->basePath()?>/themes/cpanel/vendors/fastclick/lib/fastclick.js"></script>
+<!-- NProgress -->
+<script src="<?=$this->basePath()?>/themes/cpanel/vendors/nprogress/nprogress.js"></script>
+<!-- jQuery Smart Wizard -->
+<script src="<?=$this->basePath()?>/themes/cpanel/vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js"></script>
+
+<script>
+    $('#course_wizard').smartWizard({
+        labelNext:'<?=__('Next')?>', // label for Next button
+        labelPrevious:'<?=__('Previous')?>', // label for Previous button
+        labelFinish:'<?=__('Finish')?>'  // label for Finish button
+    });
+    CKEDITOR.on('instanceReady', function() {
+        $('#course_wizard').smartWizard('fixHeight');
+    });
+
+</script>
+
+<?php echo $this->headLink()->prependStylesheet($this->basePath().'/pickadate/themes/default.date.css')
+    ->prependStylesheet($this->basePath().'/pickadate/themes/default.time.css')
+    ->prependStylesheet($this->basePath().'/pickadate/themes/default.css')
+    ->prependStylesheet($this->basePath().'/static/datatables/media/css/jquery.dataTables.min.css')
+    ->prependStylesheet($this->basePath().'/static/maxlength/jquery.maxlength.min.css');?>
+<script type="text/javascript" src="<?php echo $this->basePath() ?>/pickadate/picker.js"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() ?>/pickadate/picker.date.js"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() ?>/pickadate/picker.time.js"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() ?>/pickadate/legacy.js"></script>
+<script type="text/javascript"><!--
+    function sortTable() {
+        console.log('table sorted');
+
+        $("#selectedTable").stupidtable();
+        var $th_to_sort = $("#selectedTable").find("thead th").eq(1);
+        $th_to_sort.stupidsort();
+
+        $th_to_sort.stupidsort('asc');
+    }
+
+
+    var table;
+    function initializeTable(){
+
+        var dtOptions = {
+
+            "ordering": true,
+            columnDefs: [{
+                orderable: false,
+                targets: "no-sort"
+            },
+                {
+                    "targets": [ 2 ],
+                    "visible": false
+                }
+            ]
+
+        };
+
+        if ( !$.fn.dataTable.isDataTable( '#datatable' ) ) {
+            table = $('#datatable').DataTable(dtOptions);
+        }
+        $('.dataTables_filter input').attr("placeholder", "Class or Group name");
+        showList();
+        jQuery(function(){
+            $('.date').pickadate({
+                format: 'yyyy-mm-dd'
+            });
+            table.$('.date').pickadate({
+                format: 'yyyy-mm-dd'
+            });
+
+            table.$('.time').pickatime({
+                interval: 15
+            });
+        });
+
+        $("#select_all").change(function(){  //"select all" change
+            var status = this.checked; // "select all" checked status
+            table.$('.cbox').each(function(){ //iterate all listed checkbox items
+                this.checked = status; //change ".checkbox" checked status
+            });
+            initializeTable(table);
+            showList();
+
+        });
+
+
+
+        function showList(){
+            $('#selectedlist').text('');
+            table.$('.cbox').each(function(){ //iterate all listed checkbox items
+                if(this.checked){
+                    var id = $(this).val();
+                    //$('#selectedlist').prepend('<li>'+table.$('#lesson_name_'+id).text()+' (position : '+table.$('input[name=sort_order_'+id+']').val()+')</li>');
+                    $('#selectedlist').append('<tr class="sort_row" data-id="'+id+'"><td>'+table.$('#lesson_name_'+id).text()+'</td><td class="sort_cell">'+table.$('input[name=sort_order_'+id+']').val()+'</td><td>'+table.$('input[name=lesson_date_'+id+']').val()+'</td></tr>');
+                } //change ".checkbox" checked status
+            });
+
+            sortTable();
+        }
+
+
+        table.$('input').change(function(){ //".checkbox" change
+
+            showList();
+        });
+
+        table.$('.cbox').change(function(){ //".checkbox" change
+            //uncheck "select all", if one of the listed checkbox item is unchecked
+            if(this.checked == false){ //if this item is unchecked
+                $("#select_all")[0].checked = false; //change "select all" checked status to false
+            }
+
+            //check "select all" if all checkbox items are checked
+            if (table.$('.cbox:checked').length == table.$('.cbox').length ){
+                $("#select_all")[0].checked = true; //change "select all" checked status to true
+            }
+            showList();
+        });
+    }
+
+
+    initializeTable();
+
+    //--></script>
+
+<?php $this->headScript()->prependFile($this->basePath() . '/ckeditor/ckeditor.js')
+    ->prependFile($this->basePath() . '/static/datatables/media/js/jquery.dataTables.min.js')
+    ->prependFile($this->basePath() . '/static/maxlength/jquery.maxlength.min.js')
+    ->prependFile($this->basePath() . '/static/maxlength/jquery.plugin.js')
+    ->prependFile($this->basePath() . '/static/stupidtable/stupidtable.min.js');
+?>
+<script type="text/javascript">
+
+    CKEDITOR.replace('description', {
+        filebrowserBrowseUrl: '<?php echo $this->basepath() ?>/admin/filemanager',
+        filebrowserImageBrowseUrl: '<?php echo $this->basepath() ?>/admin/filemanager',
+        filebrowserFlashBrowseUrl: '<?php echo $this->basepath() ?>/admin/filemanager'
+    });
+
+
+</script>
+
+
+<script>
+
+
+    function image_upload(field, thumb) {
+        $('#dialog').remove();
+
+        $('#content').prepend('<div id="dialog" style="padding: 3px 0px 0px 0px;"><iframe src="<?php echo $this->basePath(); ?>/admin/filemanager?&token=true&field=' + encodeURIComponent(field) + '" style="padding:0; margin: 0; display: block; width: 100%; height: 100%;" frameborder="no" scrolling="auto"></iframe></div>');
+
+        $('#dialog').dialog({
+            title: '<?=__('Image Manager')?>',
+            close: function (event, ui) {
+                if ($('#' + field).attr('value')) {
+                    $.ajax({
+                        url: '<?php echo $this->basePath(); ?>/admin/filemanager/image?&image=' + encodeURIComponent($('#' + field).val()),
+                        dataType: 'text',
+                        success: function(data) {
+                            $('#' + thumb).replaceWith('<img src="' + data + '" alt="" id="' + thumb + '" />');
+                        }
+                    });
+                }
+            },
+            bgiframe: false,
+            width: 800,
+            height: 570,
+            resizable: true,
+            modal: false
+        });
+    };
+
+    $(function(){
+
+        $('textarea[name=short_description]').maxlength({max: 300,
+            feedbackText:'{r} <?=__('characters-remaining')?> ({m} <?=__('maximum')?>)'});
+
+        $('#sessionform').submit(function(e){
+            e.preventDefault();
+            table.destroy();
+            $(this).unbind('submit');
+            $(this).submit();
+        });
+
+        $('#addClassForm').submit(function(e){
+            $('#addClassBtn').text('Saving...');
+            e.preventDefault();
+            $.post( $(this).attr('action'),$(this).serialize(), function( data ) {
+                table.destroy();
+                $( "#classes" ).prepend( data );
+                $('#addClassBtn').text('Save Changes');
+                $('#addClassModal').modal('hide');
+                $('#addClassForm').find("input[type=text], textarea").val("");
+                jQuery('.date').pickadate({
+                    format: 'yyyy-mm-dd'
+                });
+
+                jQuery('.time').pickatime({
+                    interval: 15
+                });
+
+                //table= $('#datatable').DataTable(dtOptions);
+                initializeTable();
+            });
+        })
+
+        $("#selectedTable tbody").sortable({ opacity:0.6, update: function() {
+
+            var counter = 1;
+            //console.log(order);
+
+            $('.sort_row').each(function(){
+                $(this).find('.sort_cell').text(counter);
+                //update field
+                var id = $(this).attr('data-id');
+                $('input[name=sort_order_'+id+']').val(counter);
+                counter++;
+            });
+
+        }});
+
+    });
+</script>
+<style>
+    #selectedTable tr{
+        cursor: grabbing;
+    }
+</style>

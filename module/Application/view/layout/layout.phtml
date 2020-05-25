@@ -1,0 +1,9 @@
+<?php
+$templateTable = $this->getClass('Application\Model\TemplateTable');
+$template = $templateTable->getActiveTemplate();
+if(!defined('TID')){
+    define('TID',$template->template_id);
+    define('TEMPLATE','layout/templates/'.$template->template_id.'/layout');
+}
+include_once('module/Application/view/layout/templates/'.$template->template_id.'/layout.phtml');
+?>

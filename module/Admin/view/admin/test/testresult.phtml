@@ -1,0 +1,19 @@
+<table class="table table-stripped">
+    <thead>
+    <tr>
+        <th><?= __('question') ?></th>
+        <th><?= __('answer') ?></th>
+        <th><?= __('correct') ?></th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach($rowset as $row): ?>
+    <tr>
+        <td><?php echo $row->question ?></td>
+        <td><?php echo $row->option?></td>
+        <td><?php echo boolToString($row->is_correct); ?></td>
+    </tr>
+    <?php endforeach; ?>
+    </tbody>
+
+</table>

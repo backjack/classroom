@@ -1,0 +1,1641 @@
+<!doctype html>  
+<!--[if IE 6 ]><html lang="en-us" class="ie6"> <![endif]-->
+<!--[if IE 7 ]><html lang="en-us" class="ie7"> <![endif]-->
+<!--[if IE 8 ]><html lang="en-us" class="ie8"> <![endif]-->
+<!--[if (gt IE 7)|!(IE)]><!-->
+<html lang="en-us"><!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	
+	<title>TrainEasy | Documentation</title>
+	
+	<meta name="description" content="An easy way to generate your documentation!">
+	<meta name="author" content="Xaver Birsak">
+	<meta name="copyright" content="Xaver Birsak">
+	<meta name="generator" content="Documenter v2.0 http://rxa.li/documenter">
+	<meta name="date" content="2015-05-26T00:00:00+02:00">
+	
+	<link rel="stylesheet" href="assets/css/documenter_style.css" media="all">
+	<link rel="stylesheet" href="assets/js/google-code-prettify/prettify.css" media="screen">
+	<script src="assets/js/google-code-prettify/prettify.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+	<link rel="stylesheet" href="assets/css/custom.css" media="screen">
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css_">
+
+	<script src="assets/js/jquery.js"></script>
+	
+	<script src="assets/js/jquery.scrollTo.js"></script>
+	<script src="assets/js/jquery.easing.js"></script>
+	
+	<script>document.createElement('section');var duration='450',easing='easeOutExpo';</script>
+	<script src="assets/js/script.js"></script>
+	
+	<style>
+		#documenter_sidebar #documenter_logo{
+			max-height:125px;
+			min-height:125px;
+		}
+		a{color:#111111;}
+		hr{border-top:1px solid #E5E5E5;border-bottom:1px solid #F9F9F9;}
+		#documenter_sidebar, #documenter_sidebar ul a{background-color:#191818;color:#F1F1F1;}
+		body #documenter_nav li a {text-align:left; padding-left:20px;}
+		#documenter_sidebar a {color:#cccccc; }
+		#documenter_sidebar ul a{text-decoration:none;font-weight:400; text-shadow:none; border:none;color:#888888;}
+		#documenter_sidebar ul a:hover{background:#222222; }
+		#documenter_sidebar ul a.current{background:#f0331b;color:#ffffff;}
+		#documenter_copyright{display:block !important;visibility:visible !important;}
+	</style>
+	
+</head>
+<body class="documenter-project-documenter-v20">
+	<div id="documenter_sidebar">
+		<div id="documenter_logo">
+            <img style="width: 200px;
+margin-top: 30px;
+margin-left: 10px;" src="./assets/images/logo.png" alt=""/>
+        </div>
+		<ul id="documenter_nav">
+			<li><a class="current" href="#documenter_cover" title="Introduction"><i class="fa fa-home"></i> Introduction</a></li>
+			<li><a href="#theme_install" title="Theme Installation"><i class="fa fa-download"></i> Installation</a></li>
+			<li><a href="#configuration" title="Configuration"><i class="fa fa-cloud-download"></i> Configuration</a></li>
+			<li><a href="#session" title=""><i class="fa fa-map-marker"></i> Session/Class Management</a></li>
+			<li><a href="#students" title=""><i class="fa fa-cogs"></i> Student Management</a></li>
+			<li><a href="#attendance" title=""><i class="fa fa-bars"></i> Attendance Management</a></li>
+			<li><a href="#tests" title=""><i class="fa fa-pencil-square-o"></i> Creating Tests</a></li>
+			<li><a href="#notes" title=""><i class="fa fa-folder-open"></i> Revision Notes</a></li>
+			<li><a href="#articles" title=""><i class="fa fa-refresh"></i> Managing Articles</a></li>
+            <li><a href="#downloads" title=""><i class="fa fa-refresh"></i> Managing Downloads</a></li>
+			<li><a href="#discussions" title=""><i class="fa fa-envelope"></i> Student Discussions</a></li>
+			<li><a href="#payment" title=""><i class="fa fa-th-list"></i>Configuring Payment Methods</a></li>
+			<li><a href="#form" title=""><i class="fa fa-comments"></i> Customizing the Registration Form</a></li>
+            <li><a href="#homepage" title=""><i class="fa fa-flag"></i> Customizing the Homepage</a></li>
+            <li><a href="#admin" title=""><i class="fa fa-flag"></i> Managing Administrators</a></li>
+            <li><a href="#reminders" title=""><i class="fa fa-clock-o"></i> Setting Up Class Reminders</a></li>
+            <li><a href="#certificates" title=""><i class="fa fa-file-pdf-o"></i> Managing Certificates</a></li>
+
+            <li><a href="#upgrade" title=""><i class="fa fa-clock-o"></i> Upgrade Guide</a></li>
+		</ul>
+
+	</div>
+	<div id="documenter_content">
+		
+		
+		
+
+<section id="documenter_cover">
+<h1>TrainEasy Documentation</h1>
+<h2>By <a href="http://intermaticsng.com" target="_blank">Intermatics</a></h2>
+<hr>
+<p>Thank you for purchasing this application. If you have questions that are beyond the scope of this help file, <a href="http://intermaticsng.com/contact-us" target="_blank">contact us</a>. </p>
+</section>
+	
+<section id="theme_install">
+<div class="page-header"><h3><i class="fa fa-download"></i> Installation</h3><hr class="notop"></div>
+<p>Before you begin installation, make sure you have a webserver that can run PHP and MySQL. The minimum php version supported is 5.4</p>
+<ul>
+    <li>
+        The TrainEasy installation file consists of a zip file that as the following contents when unzipped <br/>
+        <img src="./assets/images/2017-02-17 14_19_44-Zipped.jpg" >
+    </li>
+    <li>
+        Upload the <strong>app.zip</strong> file into the root of your web server or wherever you would like the application to reside.
+    </li>
+    <li>
+        Extract the contents of the app.zip folder. You will see the following directory structure: <br/>
+        <img src="./assets/images/2017-02-17 14_25_04-app.jpg" alt=""/>
+    </li>
+    <li>We recommend that you point your domain name to the <strong>public</strong> directory. Your should be able to do this from your hosting's control panel.
+    Otherwise, you can use the .htaccess file located the the 'Resources' directory. Simply upload this file to the same directory as the <strong>public</strong> folder and then change the [YOUR_DOMAIN_NAME] placeholder to your actual domain name</li>
+    <li>Open your web browser and enter the domain name for the application. You should see the setup wizard open like below: <br/>
+        <img src="./assets/images/2017-02-17 14_43_40-.jpg" />
+    </li>
+    <li>
+        Enter in your database credentials. Please ensure that the database already exists and
+        that it is empty. TrainEasy will delete any database table it finds that has the same
+        name as any of its tables.
+        Once you complete the setup wizard, you will reach a page that will give you links to
+        access both the frontend and the backend of your TrainEasy site. You will also receive
+        an email with your admin account login credentials. <br/>
+        <img src="./assets/images/2017-02-17 14_46_12-Documentation (Last saved by user) - Microsoft Word.jpg"
+    </li>
+</ul>
+<p>
+    <h2>The Frontend</h2>
+    The Frontend is the public section of the TrainEasy application. This is where your students and other visitors will visit. You can access this area
+    simply by entering your domain name in the browser
+</p>
+    <p><h2>The Backend</h2>
+    The backend is the restricted section of TrainEasy that is only accessible to administrators. You can access this section by adding <strong>/admin</strong>
+    to your domain name.
+    </p>
+
+</section>
+
+<section id="configuration">
+<div class="page-header"><h3><i class="fa fa-gears"></i> Configuration</h3><hr class="notop"></div>
+    TrainEasy comes with a lot of configuration options that enable you setup the application to suit your needs. To access the configuration page, login to the
+    backend and go to 'Settings'-'Site Settings' <br/>
+    <img src="./assets/images/2017-02-17 14_55_46-Documentation - [C__xampp_htdocs_Projects_distribution_TrainEasy_Zipped_Document.jpg" alt=""/>
+    <br/>
+    The configuration page is as shown below: <br/>
+    <img src="./assets/images/2017-02-17 14_58_23-.jpg" alt=""/>
+    <br/>
+    The following section explains the various configuration options <br/>
+    <ul>
+        <li>General Tab
+        <ul>
+            <li><strong>Country/Currency:</strong> This controls the currency that is used for your website. Session fees will be formated based on this setting
+            and payment gateways will also be configured based on this</li>
+            <li><strong>Site Name:</strong> The site name should be the name of your organization. When the systems sends out email,it will use this as the sender name </li>
+            <li><strong>Homepage Title:</strong> This is the text that will appear at the top of the browser for the homepage. It is very important for search engine optimization</li>
+            <li><strong>Homepage Meta Description:</strong> This text is used by search engines and othe robots to get a description about your website. It is important you set this for search engine optimization purposes</li>
+            <li><strong>Admin Email:</strong> This is the email address that the system will use as the 'from' email when sending out notifications and alerts to students and administrators</li>
+            <li><strong>Enable Automatic Enrollment:</strong> If this is set to Yes, then the system will attempt to automatically enroll a student to the next upcoming session without them having to click on the 'Enroll' button. If the session requires payment, they will be forwarded to the payment page. This setting is usually used when you only have one session coming up.</li>
+            <li><strong>Use SSL:</strong> Set this to Yes if you have SSL installed on your server. This enables the app to use https:// for all pages</li>
+            <li><strong>Header Scripts (advanced)</strong>: This can be used to add code (css or javascript) to the HEAD section of all pages of your site (Frontend only).</li>
+            <li><strong>Footer Scripts (advanced)</strong>: This can be used to add code before the closing BODY tag of all pages of the Frontend</li>
+            <li><strong>Disqus Shortname</strong>: This is used to enable commenting on the Frontend. Visit disqus.com and get your shortname. Once you save it here, commenting will be enabled on the blog and revision notes sections of the Frontend</li>
+            <li><strong>Discussion Instructions</strong>: This controls the instructions students see when they try to post a question using the discussion feature.</li>
+            <li><strong>Show Session Fees</strong>: This can be used to hide or show the <i>Fee</i> column on the session enrollment page of the Frontend</li>
+            <li><strong>Site IP Address</strong>: Here you can specify the IP address of your server. If this is done, it will add extra secuirity to your cron jobs i.e. the automatic reminder emails sent to students and instructors. It ensures that the cron job can only be triggered by your server</li>
+            <li><strong>Send Class Reminders</strong>: This controls if the system should send reminders to students and instructors about upcoming classes. Please note however that you still need to setup the cron job for this to work. See the 'Setting Up Reminders' section for more information</li>
+            <li><strong>Reminder Day</strong>: This specifies how many days to a class should reminders be sent. The system will send out reminders once a day every day before the day the class is scheduled to hold.</li>
+            <li><strong>Site Timezone</strong>: This sets the timezone used by the entire site and the reminder system.</li>
+            <li><strong>Reminder Hour</strong>: This specifies the hour of the day when class reminders will be sent out.</li>
+
+
+        </ul>
+        </li>
+        <li><strong>Logo and Icon Tab</strong>: Upload your website's logo and Favicon here. </li>
+        <li><strong>Menu Tab</strong>: Use this to hide or show various elements of the menu and header on the frontend</li>
+        <li><strong>Colors Tab</strong>: This tab allows you to set the colors of various aspects of Frontend.</li>
+        <li><strong>Social Links Tab</strong>: Set your social media accounts here.</li>
+        <li><strong>Labels Tab</strong>: This section allows you to change the default text that is used in the general layout of the Frontend.</li>
+        <li><strong>Footer Tab</strong>: Use this section to customize the elements of the Footer of the frontend</li>
+        <li><strong>Registration Tab</strong>:
+            <ul>
+                <li><strong>Enable registration?</strong>: Enables or disables the student registration form on the frontend</li>
+                <li><strong>Registration Instructions</strong>: Sets the text displayedat the top of the student registration form on the Frontend</li>
+                <li><strong>Successful Registration Email</strong>: Controls the text that is sent to a student after they register successfully.</li>
+                <li><strong>Send alert for enrollments:</strong> This setting enables the adminstrators to get a notification email when a studetn successfully enrolls for a session. For paid sessions, the alert will only be sent after successfull payment.</li>
+                <li><strong>Send alert for registrations:</strong> This setting enables the administrators to get notified whenever a student fills the registration form successfully. </li>
+            </ul>
+        </li>
+        <li><strong>Mail Tab</strong>: This setting allows you to use an smtp server if you have one. Otherwise, you can use the default which is PHP's native mail function.</li>
+    </ul>
+
+
+</section>
+
+        <section id="session">
+            <div class="page-header"><h3><i class="fa fa-calendar-o"></i> Session/Class Management</h3><hr class="notop"></div>
+            <p>In TrainEasy, Sessions and classes work together. A session represents a training period. It is also a way to group classes.
+                Sessions are what students can enroll for and optionally pay for.</p>
+            <p>Classes are the various courses that occur during a session. TrainEasy allows you to create multiple classes. It is advisable to create your classes
+                first before you start creating Sessions. This is because a Session needs to contain at
+                least one class before it can be created.</p>
+
+            <h2>Managing Classes</h2>
+            <p>
+                To create your first class, click on the ‘Classes’ menu option. Next, click on the ‘Add
+                Class’submenu <br/>
+                <img src="./assets/images/2017-02-17 15_52_47-detailed_manual.pdf - Adobe Acrobat Reader DC.jpg" alt=""/>
+                <br/>
+                On the ‘Add Class’ page, fill in the details of the class <br/>
+                <img src="./assets/images/2017-02-17 15_53_44-detailed_manual.pdf - Adobe Acrobat Reader DC.jpg"
+                     alt=""/> <br/>
+                Each class will have a page of its’s own on the frontend. Classes can also be featured
+                on the Homepage. So it is advisable to fill in good descriptive information about your
+                classes. The following fields are available
+                <ul>
+            <li>Class name: a short description about the class.</li>
+            <li>Description: the full explanation about the class in rich text format.</li>
+            <li>Sort Order (optional): the position of the class relative to other classes. This controls which class appears first on the list (on the frontend) in ascending order i.e. class 1 will be at the top.</li>
+            <li>Cover Image (optional): a descriptive image of the class.</li>
+
+        </ul>
+            To manage existing classes, click on the ‘All Classes’ option. <br/>
+            <img src="./assets/images/2017-02-17 15_57_08-detailed_manual.pdf - Adobe Acrobat Reader DC.jpg"
+                 alt=""/>
+            <br/>On the classes page, click on the pencil icon for a class to edit it <br/>
+            <img src="./assets/images/2017-02-17 15_57_49-detailed_manual.pdf - Adobe Acrobat Reader DC.jpg"
+                 alt=""/>
+            </p>
+<h2>Managing Sessions</h2>
+            <p>
+                To create a new
+                session, click on the ‘Sessions’ menu option then click on ’Creat Session’ <br/>
+                <img src="./assets/images/2017-02-17 15_58_52-detailed_manual.pdf - Adobe Acrobat Reader DC.jpg"
+                     alt=""/> <br/>
+                The session creation page will open as shown below: <br/>
+                <img src="./assets/images/2017-02-17 15_59_35-Documentation - [C__xampp_htdocs_Projects_distribution_TrainEasy_Zipped_Document.jpg"
+                     alt=""/>
+                The following fields are available for each session
+                <ul>
+            <li>Session Name: A short descriptive name of the session</li>
+            <li>Session Start Date: The date the first class in the session is scheduled to begin.</li>
+            <li>Registration Closes: The closing date for students to be able to enroll for the
+                session. The session can still be visible on the frontend after this date but the
+                ‘Enroll’ button will be unavailable.</li>
+            <li>Session End Date: The date the last class in the session is scheduled to hold.
+                The session will no longer be visible on the frontend after this date.</li>
+            <li>Payment Required: This specifies if a session is free or requires payment.</li>
+            <li>Session Fee: The fee charged for the session. This field only takes effect if the
+                ‘Payment Required’ field is set to ‘Yes’.</li>
+            <li>Session Description: A summary about the session and its classes.</li>
+            <li>Student Enrollment: This enables you to open or close enrollment for the session
+                at any time.</li>
+            <li>Venue: The location for the classes in the session. If classes will hold in multiple
+                locations, you can specify the venue for each individual class.</li>
+            <li>Select Classes: Select all the classes for the session. You can also specify the
+                date and venue for the class if (different from the session venue).
+                Managing Sessions</li>
+
+
+        </ul>
+
+            To manage existing sessions, click on the ‘Sessions’ menu option <br/>
+            <img src="./assets/images/2017-02-17 16_03_15-detailed_manual.pdf - Adobe Acrobat Reader DC.jpg" alt=""/>
+            <br/>
+
+            This will lead to the page displaying all the created sessions.
+            <img src="./assets/images/2017-02-17 16_03_56-detailed_manual.pdf - Adobe Acrobat Reader DC.jpg"
+                 alt=""/>
+            <br/>
+            On this page there are various tools available for managing the session and the
+            Students enrolled for it. <br/>
+            The ‘Total Attended’ column displays the total number of students that have attended
+            classes within the session. You can quickly view these students by clicking on the
+            number as shown below: <br/>
+            <img src="./assets/images/2017-02-17 16_06_51-TrainEasy - Intermatics Training.jpg" alt=""/> <br/>
+            This will bring up a modal box as shown below: <br/>
+            <img src="./assets/images/2017-02-17 16_07_17-TrainEasy - Intermatics Training.jpg" alt=""/>
+            <br/>
+            The ‘Total Enrolled’ column displays the total number of Students that enrolled for the
+            Session. You can quickly view these students by clicking on the number as shown
+            below: <br/>
+            <img src="./assets/images/2017-02-17 16_09_05-detailed_manual.pdf - Adobe Acrobat Reader DC.jpg" alt=""/>
+            <br/>
+            You will also notice an ‘Export’ button in the ‘Total Enrolled’ column. Clicking this button
+            reveals the following options: <br/>
+            <img src="./assets/images/2017-02-17 16_10_21-detailed_manual.pdf - Adobe Acrobat Reader DC.jpg"
+                 alt=""/>
+            <br/>
+            The options are described below
+            <ul>
+                <li>Export Students: This will generate a csv file containing all the students that have
+                    enrolled for the session.</li>
+                <li>Export Students (Attendance Import): This will generate a csv file that will enable
+                    you to set the attendance records for students offline and then import back later.
+                    This will be discussed later.</li>
+                <li>Attendance Sheet: This will open a web page that you can print. It contains the
+                    students’ mandatory details and a start and end column for each class. The
+                    attendance sheet is intended for Students to sign when they arrive at a class. <br/>
+                    <img src="./assets/images/2017-02-17 16_12_41-detailed_manual.pdf - Adobe Acrobat Reader DC.jpg"
+                         alt=""/>
+
+                </li>
+                <li>Telephone Numbers: This will generate a csv file containing just the telephone
+                    numbers of students enrolled in the session. You can use this to easily send bulk
+                    sms to students.</li>
+            </ul>
+
+            In the ‘Actions’ column of the sessions page, there are four available options. The pencil and trash icons are used to edit or delete a session respectively.
+            <br/>
+            <img src="./assets/images/2017-02-17 16_14_50-Documentation (Last saved by user) - Microsoft Word.jpg"
+                 alt=""/><br/>
+            Of special interest are the other two options. They are described below: <br/>
+            <ul>
+                <li>
+                    View Enrolled Students <br/>
+                    <img src="./assets/images/2017-02-17 16_16_04-Documentation (Last saved by user) - Microsoft Word.jpg"
+                         alt=""/> <br/>
+                    This option will open a page that lists all the students enrolled in the session. Unlike the previous option that displayed students in a popup modal box, this page give you options to modify the student.
+                    <br/>
+                    <img src="./assets/images/2017-02-17 16_16_49-Documentation (Last saved by user) - Microsoft Word.jpg
+" alt=""/>
+                    
+                </li>
+                <li>
+                    Send Mail to Enrolled Students: <br/>
+                    <img src="C:\xampp\htdocs\Projects\distribution\TrainEasy\Zipped\Documentation\assets\images\2017-02-17 16_24_06-Documentation (Last saved by user) - Microsoft Word.jpg"
+                         alt=""/>
+                    This option enables you to send a message to all students enrolled in the session. Clicking it will open the following page:
+                </li>
+            </ul>
+
+            </p>
+
+            <p class="MsoNormal"><b style="mso-bidi-font-weight:normal"><u><span style="font-size:12.0pt;line-height:115%;font-family:&quot;Arial&quot;,&quot;sans-serif&quot;">Viewing
+Payments<br>
+</span></u></b><span style="font-size:12.0pt;line-height:115%;font-family:&quot;Arial&quot;,&quot;sans-serif&quot;">The
+‘Payments’ menu option under sessions enables you to easily view all payments
+that have been made by students and the payment method used.<br>
+<span style="mso-no-proof:yes"><!--[if gte vml 1]><v:shape id="Picture_x0020_98"
+                                                           o:spid="_x0000_i1070" type="#_x0000_t75" style='width:468pt;height:207pt;
+ visibility:visible;mso-wrap-style:square'>
+    <v:imagedata src="./assets/Documentation_files/image053.png" o:title=""/>
+</v:shape><![endif]--><!--[if !vml]--><img src="./assets/Documentation_files/image054.jpg" v:shapes="Picture_x0020_98" width="624" height="276"><!--[endif]--></span><o:p></o:p></span></p>
+
+            <p class="MsoNormal"><b style="mso-bidi-font-weight:normal"><u><span style="font-size:12.0pt;line-height:115%;font-family:&quot;Arial&quot;,&quot;sans-serif&quot;">Viewing
+Payments<br>
+</span></u></b><span style="font-size:12.0pt;line-height:115%;font-family:&quot;Arial&quot;,&quot;sans-serif&quot;">The
+‘Payments’ menu option under sessions enables you to easily view all payments
+that have been made by students and the payment method used.<br>
+<span style="mso-no-proof:yes"><!--[if gte vml 1]><v:shape id="Picture_x0020_98"
+                                                           o:spid="_x0000_i1070" type="#_x0000_t75" style='width:468pt;height:207pt;
+ visibility:visible;mso-wrap-style:square'>
+    <v:imagedata src="./assets/Documentation_files/image053.png" o:title=""/>
+</v:shape><![endif]--><!--[if !vml]--><img src="./assets/Documentation_files/image054.jpg" v:shapes="Picture_x0020_98" width="624" height="276"><!--[endif]--></span><o:p></o:p></span></p>
+
+            <p class="MsoNormal"><b style="mso-bidi-font-weight:normal"><u><span style="font-size:12.0pt;line-height:115%;font-family:&quot;Arial&quot;,&quot;sans-serif&quot;">Transactions<br>
+<span style="mso-no-proof:yes"><!--[if gte vml 1]><v:shape id="Picture_x0020_101"
+                                                           o:spid="_x0000_i1069" type="#_x0000_t75" style='width:207pt;height:156pt;
+ visibility:visible;mso-wrap-style:square'>
+    <v:imagedata src="./assets/Documentation_files/image055.png" o:title=""/>
+</v:shape><![endif]--><!--[if !vml]--><img src="./assets/Documentation_files/image056.jpg" v:shapes="Picture_x0020_101" width="276" height="208"><!--[endif]--></span><o:p></o:p></span></u></b></p>
+
+            <p class="MsoNormal"><span style="font-size:12.0pt;line-height:115%;font-family:
+&quot;Arial&quot;,&quot;sans-serif&quot;">Some payment methods (such as bank transfer) generate
+transactions for each payment attempt by a student. You can view the status of
+a transaction and approve it on this page. <o:p></o:p></span></p>
+
+            <p class="MsoNormal"><span style="font-size:12.0pt;line-height:115%;font-family:
+&quot;Arial&quot;,&quot;sans-serif&quot;;mso-no-proof:yes"><!--[if gte vml 1]><v:shape id="Picture_x0020_104"
+                                                                                       o:spid="_x0000_i1068" type="#_x0000_t75" style='width:468pt;height:184.5pt;
+ visibility:visible;mso-wrap-style:square'>
+                <v:imagedata src="./assets/Documentation_files/image057.png" o:title=""/>
+            </v:shape><![endif]--><!--[if !vml]--><img src="./assets/Documentation_files/image058.jpg" v:shapes="Picture_x0020_104" width="624" height="246"><!--[endif]--></span><span style="font-size:12.0pt;line-height:115%;font-family:&quot;Arial&quot;,&quot;sans-serif&quot;"><o:p></o:p></span></p>
+
+            <p class="MsoNormal"><span style="font-size:12.0pt;line-height:115%;font-family:
+&quot;Arial&quot;,&quot;sans-serif&quot;">The transaction feature is very important when processing
+payments made offline. If a student selects the ‘Bank<span style="mso-spacerun:yes">&nbsp; </span>Deposit/Transfer’ payment method. They can
+simply let you know their transaction id (which will be displayed to them) and
+then you can approve the transaction on this page after payment has been
+confirmed. <b style="mso-bidi-font-weight:normal">The student will then be
+                    automatically enrolled for the selected session</b>.<o:p></o:p></span></p>
+
+
+
+</section>
+
+        <section id="students">
+            <div class="page-header"><h3><i class="fa fa-download"></i> Managing Students</h3><hr class="notop"></div>
+            <p>
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>To manage students, click on the ’Students’ menu option. <br>
+<span style='mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_107"
+                                                           o:spid="_x0000_i1067" type="#_x0000_t75" style='width:205.5pt;height:114.75pt;
+ visibility:visible;mso-wrap-style:square'>
+    <v:imagedata src="./assets/Documentation_files/image059.png" o:title=""/>
+</v:shape><![endif]--><![if !vml]><img width=274 height=153
+                                       src="./assets/Documentation_files/image060.jpg" v:shapes="Picture_x0020_107"><![endif]></span><o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>This will reveal the following options<o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpFirst style='text-indent:-.25in;mso-list:l17 level1 lfo8'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>1.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Add
+Student: Use this to easily add a new student. The student will be
+automatically emailed their login details. <br>
+<span style='mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_110"
+                                                           o:spid="_x0000_i1066" type="#_x0000_t75" style='width:468pt;height:204.75pt;
+ visibility:visible;mso-wrap-style:square'>
+    <v:imagedata src="./assets/Documentation_files/image061.png" o:title=""/>
+</v:shape><![endif]--><![if !vml]><img width=624 height=273
+                                       src="./assets/Documentation_files/image062.jpg" v:shapes="Picture_x0020_110"><![endif]></span><br
+                        style='mso-special-character:line-break'>
+<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+<![endif]><o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpMiddle style='text-indent:-.25in;mso-list:l17 level1 lfo8'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>2.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>View
+Students: On this page, you can view all the students registered or created.
+You can easily edit, view or delete a student. You can also enroll a student to
+a session on this page. Click on the + button to do this<br>
+<span style='mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_113"
+                                                           o:spid="_x0000_i1065" type="#_x0000_t75" style='width:468pt;height:162.75pt;
+ visibility:visible;mso-wrap-style:square'>
+    <v:imagedata src="./assets/Documentation_files/image063.png" o:title=""/>
+</v:shape><![endif]--><![if !vml]><img width=624 height=217
+                                       src="./assets/Documentation_files/image064.jpg" v:shapes="Picture_x0020_113"><![endif]></span><br
+                        style='mso-special-character:line-break'>
+<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+<![endif]><o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpLast style='text-indent:-.25in;mso-list:l17 level1 lfo8'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>3.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Bulk
+Enroll: On this page, you can easily enroll multiple students to a session by
+uploading a csv file. A sample csv file is available for download. Simply
+download this file and fill in the details for each student. Each student is
+uniquely identified by their email address. If a student does not exist, a new
+record will be created for them using the details specified, thereafter they
+are enrolled for the session. If a student already exists, they are simply
+enrolled for the session. <o:p></o:p></span></p>
+            </p>
+            </section>
+
+        <section id="attendance">
+            <div class="page-header"><h3><i class="fa fa-download"></i> Attendance Management</h3><hr class="notop"></div>
+            <p>
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>The attendance module enables you to set the attendance
+for each student per session and class. There are three attendance setting
+options available:<o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpFirst style='text-indent:-.25in;mso-list:l8 level1 lfo9'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>1.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Attendance
+– Lets you set the attendance by selecting students individually.<o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpMiddle style='text-indent:-.25in;mso-list:l8 level1 lfo9'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>2.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Attendance
+(bulk) – Lets you set attendance of all enrolled students by ticking checkboxes<o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpLast style='text-indent:-.25in;mso-list:l8 level1 lfo9'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>3.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Attendance
+(import) – Lets you set attendance by importing a csv file.<o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>Let’s go over each method<o:p></o:p></span></p>
+
+            <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><u><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Attendance<o:p></o:p></span></u></b></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>This option enables you set attendance by typing in a
+student’s name. <o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif";mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_122"
+                                                                   o:spid="_x0000_i1064" type="#_x0000_t75" style='width:467.25pt;height:275.25pt;
+ visibility:visible;mso-wrap-style:square'>
+                <v:imagedata src="./assets/Documentation_files/image065.png" o:title=""/>
+            </v:shape><![endif]--><![if !vml]><img width=623 height=367
+                                                   src="./assets/Documentation_files/image066.jpg" v:shapes="Picture_x0020_122"><![endif]></span><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Once
+you type in a name, click on it to move it to the box on the right. <o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif";mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_134"
+                                                                   o:spid="_x0000_i1063" type="#_x0000_t75" style='width:468pt;height:204pt;
+ visibility:visible;mso-wrap-style:square'>
+                <v:imagedata src="./assets/Documentation_files/image067.png" o:title=""/>
+            </v:shape><![endif]--><![if !vml]><img width=624 height=272
+                                                   src="./assets/Documentation_files/image068.jpg" v:shapes="Picture_x0020_134"><![endif]></span><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Add
+as many students as you want this way. Next select the session and the class.
+Finally click submit to save the attendance.<o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
+
+            <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><u><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Attendance
+(Bulk)<o:p></o:p></span></u></b></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>This feature enables you to set the attendance by
+selecting the relevant students from a list. Once you select a Session from the
+dropdown, the list of enrolled students will appear<o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif";mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_137"
+                                                                   o:spid="_x0000_i1062" type="#_x0000_t75" style='width:468pt;height:186pt;
+ visibility:visible;mso-wrap-style:square'>
+                <v:imagedata src="./assets/Documentation_files/image069.png" o:title=""/>
+            </v:shape><![endif]--><![if !vml]><img width=624 height=248
+                                                   src="./assets/Documentation_files/image070.jpg" v:shapes="Picture_x0020_137"><![endif]></span><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'><o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>In the ‘Mark’ column, simply select the students that you
+want to set attendance for and then click ‘Save’.<o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
+
+            <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><u><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Attendance
+(Import)<o:p></o:p></span></u></b></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>This feature enables you to set the attendance offline
+and import later. <o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif";mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_140"
+                                                                   o:spid="_x0000_i1061" type="#_x0000_t75" style='width:468pt;height:251.25pt;
+ visibility:visible;mso-wrap-style:square'>
+                <v:imagedata src="./assets/Documentation_files/image071.png" o:title=""/>
+            </v:shape><![endif]--><![if !vml]><img width=624 height=335
+                                                   src="./assets/Documentation_files/image072.jpg" v:shapes="Picture_x0020_140"><![endif]></span><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'><o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>The instructions on how to use this feature are available
+on the page.<br style='mso-special-character:line-break'>
+<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+<![endif]><o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
+
+            <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><u><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Certificate
+List<o:p></o:p></span></u></b></p>
+
+            <p class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+line-height:normal'><span style='font-size:12.0pt;font-family:"Arial","sans-serif"'>This
+feature enables you to download a list of students that attended a certain
+number of classes in a session. You can generate two types of lists: <o:p></o:p></span></p>
+
+            <ul type=disc>
+                <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     line-height:normal;mso-list:l10 level1 lfo11;tab-stops:list .5in'><span
+                        style='font-size:12.0pt;font-family:"Arial","sans-serif"'>Specific
+     classes: This lets you select the mandatory classes for a session<o:p></o:p></span></li>
+                <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     line-height:normal;mso-list:l10 level1 lfo11;tab-stops:list .5in'><span
+                        style='font-size:12.0pt;font-family:"Arial","sans-serif"'>Minimum number
+     of classes: This enables you specify a minimum number of classes each
+     student must have attended.<o:p></o:p></span></li>
+            </ul>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>The search option enables you check for attendance
+records from either the selected session or any other session. For example, a
+student might have completed the classes you specify by attending two different
+sessions. This option enables you add or exclude them from the list.<o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif";mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_143"
+                                                                   o:spid="_x0000_i1060" type="#_x0000_t75" style='width:468pt;height:171.75pt;
+ visibility:visible;mso-wrap-style:square'>
+                <v:imagedata src="./assets/Documentation_files/image073.png" o:title=""/>
+            </v:shape><![endif]--><![if !vml]><img width=624 height=229
+                                                   src="./assets/Documentation_files/image074.jpg" v:shapes="Picture_x0020_143"><![endif]></span><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'><o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>A csv file will be generated showing the classes students
+attended as well as the attendance dates.<o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
+
+            <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><u><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Attendance
+Dates<o:p></o:p></span></u></b></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>This feature enables you to easily set the attendance
+date for all the students in a session. By default, the date is set based on
+the class date you specified during the session creation. This feature enables
+you to override that.<o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>To use this feature, simply select a session from a
+dropdown and then pick a date<o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif";mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_146"
+                                                                   o:spid="_x0000_i1059" type="#_x0000_t75" style='width:468pt;height:203.25pt;
+ visibility:visible;mso-wrap-style:square'>
+                <v:imagedata src="./assets/Documentation_files/image075.png" o:title=""/>
+            </v:shape><![endif]--><![if !vml]><img width=624 height=271
+                                                   src="./assets/Documentation_files/image076.jpg" v:shapes="Picture_x0020_146"><![endif]></span><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'><o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif";mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_149"
+                                                                   o:spid="_x0000_i1058" type="#_x0000_t75" style='width:468pt;height:306.75pt;
+ visibility:visible;mso-wrap-style:square'>
+                <v:imagedata src="./assets/Documentation_files/image077.png" o:title=""/>
+            </v:shape><![endif]--><![if !vml]><img width=624 height=409
+                                                   src="./assets/Documentation_files/image078.jpg" v:shapes="Picture_x0020_149"><![endif]></span><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'><o:p></o:p></span></p>
+            </p>
+
+            </section>
+
+        <section id="tests">
+            <div class="page-header"><h3><i class="fa fa-download"></i> Creating Tests</h3><hr class="notop"></div>
+
+            <p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>TrainEasy comes with a powerful computer based testing
+(cbt) feature. With this feature, you can create tests/exams/quizzes for your
+students to take on the frontend. <span style='mso-spacerun:yes'> </span>You
+can then generate a list of students that passed the test based on a passmark
+you set.<o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>To create a new test, click on the ‘Tests’ menu option.
+Next, click on ‘Add Test’<o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif";mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_152"
+                                                                   o:spid="_x0000_i1057" type="#_x0000_t75" style='width:201pt;height:132.75pt;
+ visibility:visible;mso-wrap-style:square'>
+                <v:imagedata src="./assets/Documentation_files/image079.png" o:title=""/>
+            </v:shape><![endif]--><![if !vml]><img width=268 height=177
+                                                   src="./assets/Documentation_files/image080.jpg" v:shapes="Picture_x0020_152"><![endif]></span><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'><o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>On the ‘Add Test’ page, you will see the following
+fields/options<o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpFirst style='text-indent:-.25in;mso-list:l2 level1 lfo12'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>1.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Test
+Name: A short descriptive name of the test<o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpMiddle style='text-indent:-.25in;mso-list:l2 level1 lfo12'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>2.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Instructions:
+Type in any instructions you would like students to read before taking the
+test.<o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpMiddle style='text-indent:-.25in;mso-list:l2 level1 lfo12'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>3.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Status:
+This controls if the test becomes visible on the frontend or not.<o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpMiddle style='text-indent:-.25in;mso-list:l2 level1 lfo12'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>4.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Pass
+Mark: Set this as a percentage i.e. 0-100. It sets the minimum score a student
+must make in order to pass the test.<o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpMiddle style='text-indent:-.25in;mso-list:l2 level1 lfo12'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>5.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Time
+Allowed: This enables you to set a time limit for a test.<o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpMiddle style='text-indent:-.25in;mso-list:l2 level1 lfo12'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>6.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Allow
+Multiple Attempts: This controls if a student can take the test multiple times.<o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpLast style='text-indent:-.25in;mso-list:l2 level1 lfo12'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>7.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Session:
+You can optionally restrict a test to students enrolled in a session by setting
+this option.<o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>After you add a test, you will be automatically
+redirected to a page where you can add new questions and options to your test<br>
+<span style='mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_170"
+                                                           o:spid="_x0000_i1056" type="#_x0000_t75" style='width:468pt;height:214.5pt;
+ visibility:visible;mso-wrap-style:square'>
+    <v:imagedata src="./assets/Documentation_files/image081.png" o:title=""/>
+</v:shape><![endif]--><![if !vml]><img width=624 height=286
+                                       src="./assets/Documentation_files/image082.jpg" v:shapes="Picture_x0020_170"><![endif]></span><o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>Clicking on the ‘Add Question’ button will bring up a pop
+up that will enable you to easily add a question<o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif";mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_176"
+                                                                   o:spid="_x0000_i1055" type="#_x0000_t75" style='width:468pt;height:441.75pt;
+ visibility:visible;mso-wrap-style:square'>
+                <v:imagedata src="./assets/Documentation_files/image083.png" o:title=""/>
+            </v:shape><![endif]--><![if !vml]><img width=624 height=589
+                                                   src="./assets/Documentation_files/image084.jpg" v:shapes="Picture_x0020_176"><![endif]></span><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'><o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
+
+            <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><u><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Managing
+Tests<o:p></o:p></span></u></b></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>To modify or manage your existing tests, simply click on
+the ‘All Tests’ menu option<o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif";mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_155"
+                                                                   o:spid="_x0000_i1054" type="#_x0000_t75" style='width:207.75pt;height:102pt;
+ visibility:visible;mso-wrap-style:square'>
+                <v:imagedata src="./assets/Documentation_files/image085.png" o:title=""/>
+            </v:shape><![endif]--><![if !vml]><img width=277 height=136
+                                                   src="./assets/Documentation_files/image086.jpg" v:shapes="Picture_x0020_155"><![endif]></span><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'><o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>On the ‘All Tests’ page, take note of the following
+options<o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif";mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_158"
+                                                                   o:spid="_x0000_i1053" type="#_x0000_t75" style='width:468pt;height:251.25pt;
+ visibility:visible;mso-wrap-style:square'>
+                <v:imagedata src="./assets/Documentation_files/image087.png" o:title=""/>
+            </v:shape><![endif]--><![if !vml]><img width=624 height=335
+                                                   src="./assets/Documentation_files/image088.jpg" v:shapes="Picture_x0020_158"><![endif]></span><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'><o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
+
+            <p class=MsoListParagraphCxSpFirst style='text-indent:-.25in;mso-list:l5 level1 lfo13'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>1.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>The
+Attempts button: Click on this button to view all the results of tests that
+students have taken.<br>
+<span style='mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_161"
+                                                           o:spid="_x0000_i1052" type="#_x0000_t75" style='width:135pt;height:111.75pt;
+ visibility:visible;mso-wrap-style:square'>
+    <v:imagedata src="./assets/Documentation_files/image089.png" o:title=""/>
+</v:shape><![endif]--><![if !vml]><img width=180 height=149
+                                       src="./assets/Documentation_files/image090.jpg" v:shapes="Picture_x0020_161"><![endif]></span><br>
+<br>
+Clicking this button will open a new page displaying all the results.<br>
+<span style='mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_164"
+                                                           o:spid="_x0000_i1051" type="#_x0000_t75" style='width:468pt;height:195pt;
+ visibility:visible;mso-wrap-style:square'>
+    <v:imagedata src="./assets/Documentation_files/image091.png" o:title=""/>
+</v:shape><![endif]--><![if !vml]><img width=624 height=260
+                                       src="./assets/Documentation_files/image092.jpg" v:shapes="Picture_x0020_164"><![endif]></span><br
+                        style='mso-special-character:line-break'>
+<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+<![endif]><o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpMiddle style='text-indent:-.25in;mso-list:l5 level1 lfo13'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>2.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Managing
+Questions: On the Tests page, you can manage the questions for a test by
+clicking on the ‘Manage Questions’ icon.<br>
+<span style='mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_167"
+                                                           o:spid="_x0000_i1050" type="#_x0000_t75" style='width:162.75pt;height:74.25pt;
+ visibility:visible;mso-wrap-style:square'>
+    <v:imagedata src="./assets/Documentation_files/image093.png" o:title=""/>
+</v:shape><![endif]--><![if !vml]><img width=217 height=99
+                                       src="./assets/Documentation_files/image094.jpg" v:shapes="Picture_x0020_167"><![endif]></span><br>
+On the page that opens, you will be able to add new questions or modify
+existing questions.<br>
+<span style='mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_179"
+                                                           o:spid="_x0000_i1049" type="#_x0000_t75" style='width:468pt;height:209.25pt;
+ visibility:visible;mso-wrap-style:square'>
+    <v:imagedata src="./assets/Documentation_files/image095.png" o:title=""/>
+</v:shape><![endif]--><![if !vml]><img width=624 height=279
+                                       src="./assets/Documentation_files/image096.jpg" v:shapes="Picture_x0020_179"><![endif]></span><o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpMiddle style='text-indent:-.25in;mso-list:l5 level1 lfo13'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>3.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Duplicate
+a Test: Sometimes you would like to create a new test based on a previous test.
+The duplicate option gives you the ability to create an exact copy of an
+existing test without having to type questions and options all over again<br>
+<span style='mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_182"
+                                                           o:spid="_x0000_i1048" type="#_x0000_t75" style='width:138pt;height:63pt;
+ visibility:visible;mso-wrap-style:square'>
+    <v:imagedata src="./assets/Documentation_files/image097.png" o:title=""/>
+</v:shape><![endif]--><![if !vml]><img width=184 height=84
+                                       src="./assets/Documentation_files/image098.jpg" v:shapes="Picture_x0020_182"><![endif]></span><o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpLast style='text-indent:-.25in;mso-list:l5 level1 lfo13'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>4.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Edit
+and Delete: Pencil and Trash icons are used to edit or delete a test.<o:p></o:p></span></p>
+
+
+            </p>
+
+
+            </section>
+
+        <section id="notes">
+            <div class="page-header"><h3><i class="fa fa-download"></i> Revision Notes</h3><hr class="notop"></div>
+<p>
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>Revision notes are intended to be pre or post class
+summaries. Each revision note is associated with a session and a class. Only
+students that are enrolled in a session can view the revision notes associated
+with it.<o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>To create a new revision note, click on the ‘Add Note’
+option under ‘Revision Notes’.<o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif";mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_185"
+                                                                   o:spid="_x0000_i1047" type="#_x0000_t75" style='width:201.75pt;height:83.25pt;
+ visibility:visible;mso-wrap-style:square'>
+                <v:imagedata src="./assets/Documentation_files/image099.png" o:title=""/>
+            </v:shape><![endif]--><![if !vml]><img width=269 height=111
+                                                   src="./assets/Documentation_files/image100.jpg" v:shapes="Picture_x0020_185"><![endif]></span><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'><o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>The add note page has the following fields:<o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpFirst style='margin-left:.75in;mso-add-space:auto;
+text-indent:-.25in;mso-list:l19 level1 lfo14'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>1.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Title:
+The note title<o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpMiddle style='margin-left:.75in;mso-add-space:
+auto;text-indent:-.25in;mso-list:l19 level1 lfo14'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>2.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Session:
+The note session<o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpMiddle style='margin-left:.75in;mso-add-space:
+auto;text-indent:-.25in;mso-list:l19 level1 lfo14'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>3.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Class:
+The note class<o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpMiddle style='margin-left:.75in;mso-add-space:
+auto;text-indent:-.25in;mso-list:l19 level1 lfo14'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>4.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Description:
+An optional description. The Description will be part of the notification email
+a student will receive when the note is saved.<o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpMiddle style='margin-left:.75in;mso-add-space:
+auto;text-indent:-.25in;mso-list:l19 level1 lfo14'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>5.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Content:
+The content of the revision note.<o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpLast style='margin-left:.75in;mso-add-space:auto;
+text-indent:-.25in;mso-list:l19 level1 lfo14'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>6.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Notify
+session students: If this is selected, each student enrolled in the session
+will receive an email informing them about the availability of the revision
+note.<o:p></o:p></span></p>
+
+            </p>
+            </section>
+
+
+        <section id="articles">
+            <div class="page-header"><h3><i class="fa fa-download"></i> Managing Articles</h3><hr class="notop"></div>
+<p>
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>The articles feature is a simple content management
+system that enables you to easily manage information pages on your site e.g.
+About us. Vision, Mission etc.<o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>To create a new article, click on the ‘Add Article’ menu
+option under ‘Articles’<o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif";mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_188"
+                                                                   o:spid="_x0000_i1046" type="#_x0000_t75" style='width:202.5pt;height:100.5pt;
+ visibility:visible;mso-wrap-style:square'>
+                <v:imagedata src="./assets/Documentation_files/image101.png" o:title=""/>
+            </v:shape><![endif]--><![if !vml]><img width=270 height=134
+                                                   src="./assets/Documentation_files/image102.jpg" v:shapes="Picture_x0020_188"><![endif]></span><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'><o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>The ‘Add Article’ page has the following options:<o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpFirst style='text-indent:-.25in;mso-list:l16 level1 lfo15'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>1.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Heading:
+This is the main page title.<o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpMiddle style='text-indent:-.25in;mso-list:l16 level1 lfo15'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>2.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Content:
+This is the main content of the page.<o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpMiddle style='text-indent:-.25in;mso-list:l16 level1 lfo15'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>3.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Show
+on top navigation: This controls if the link to the article will be displayed
+on the top navigation bar on the frontend.<o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpMiddle style='text-indent:-.25in;mso-list:l16 level1 lfo15'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>4.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Show
+on bottom navigation: This controls if the link to the article will be
+displayed on the footer of the frontend.<o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpMiddle style='text-indent:-.25in;mso-list:l16 level1 lfo15'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>5.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Sort
+order: The position of the article relative to other articles in ascending
+order.<o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpMiddle style='text-indent:-.25in;mso-list:l16 level1 lfo15'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>6.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Parent:
+Set this option if you would like the article to appear beneath another
+article.<o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpLast style='text-indent:-.25in;mso-list:l16 level1 lfo15'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>7.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Url
+slug: This determines the url path to the article e.g. http://yorudomain.com/<b
+                        style='mso-bidi-font-weight:normal'>about-us . </b>This is automatically
+generated but you can set it yourself if you wish. <o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
+
+            <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><u><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Viewing
+Articles<o:p></o:p></span></u></b></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>You can easily view and edit existing articles by
+clicking on the ‘View Articles’ menu option.<o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif";mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_191"
+                                                                   o:spid="_x0000_i1045" type="#_x0000_t75" style='width:203.25pt;height:99pt;
+ visibility:visible;mso-wrap-style:square'>
+                <v:imagedata src="./assets/Documentation_files/image103.png" o:title=""/>
+            </v:shape><![endif]--><![if !vml]><img width=271 height=132
+                                                   src="./assets/Documentation_files/image104.jpg" v:shapes="Picture_x0020_191"><![endif]></span><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'><o:p></o:p></span></p>
+</p>
+            </section>
+
+
+        <section id="downloads">
+            <div class="page-header"><h3><i class="fa fa-download"></i> Managing Downloads</h3><hr class="notop"></div>
+            <p>
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>
+            The Downloads feature on TrainEasy enables admins and instructors easily share files with students.
+            <o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>This feature also enables you to restrict certain files to students that
+                are enrolled in sessions you sepecify. If no sessions are specified for a download, it will be available for
+                any registered student to download. <br/>
+                The following file types are allowed: pdf, zip, mp4, mp3, doc, docx, ppt, pptx, xls, xlsx, png, jpeg, gif, txt, csv. Please note that security is not provided for image files
+                i.e. png, jpeg or gif files. Users might be able to access these files via a direct link. If you want to securely share these type of files, we recommend you put them in a zip archive.
+                <br/>
+
+                <o:p></o:p></span></p>
+            <p  style='font-size:12.0pt;;font-family:
+"Arial","sans-serif"'>
+                To create a new download, login to the backend and click on the 'Downloads' menu option. Then click 'Create Download'
+                <br/> <br/>
+                <img class="img-responsive" src="./assets/images/download1.jpg" alt=""/> <br/> <br/>
+                On the download creation page, fill in the name of the download as well as its description. Also set 'Enabled' to 'Yes' or 'No'. Disabled
+                downloads will not be available to students. <br/>
+                Next, click on the 'Save' button. After the download as been saved, you will be redirected to the download edit page. On this page, you can
+                add files to the download you just created as well as assign the downloads to sessions. <br/>
+                To add a new file to your download, click on the 'Manage Files' tab. Next, click on the 'Add File' button. <br/>
+                <br/>
+                <img class="img-responsive"  src="./assets/images/download2.jpg" alt=""/>
+                <br/>
+                <br/>
+                This will bring up the file manager. Here you can upload the file you want to add or select and existing file. Select the file you wish to add by double clicking on it.
+                <br/>
+                To assign a session to the download, click on the 'Manage Sessions' tab. Next, click on the 'Add Sessions' button.
+                <br/> <br/>
+                <img class="img-responsive" src="./assets/images/download3.jpg" alt=""/> <br/> <br/>
+                This will bring up a popup for selecting your session. <br/> <br/>
+                <img class="img-responsive" src="./assets/images/download4.jpg" alt=""/>
+
+                <br/> <br/>
+                Select sessions you wish to add and then click on the 'Add Sessions' button.
+
+            </p>
+
+        </section>
+
+        <section id="discussions">
+            <div class="page-header"><h3><i class="fa fa-download"></i> Student Discussions</h3><hr class="notop"></div>
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>The discussions feature is a way for students to
+confidentially interact with the administrators/teachers of. A student is able
+to post a question on the frontend and each administrator gets notified
+immediately via email.<o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>To view current discussions, click on the ‘Discussions’
+menu option.<o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif";mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_194"
+                                                                   o:spid="_x0000_i1044" type="#_x0000_t75" style='width:206.25pt;height:30pt;
+ visibility:visible;mso-wrap-style:square'>
+                <v:imagedata src="./assets/Documentation_files/image105.png" o:title=""/>
+            </v:shape><![endif]--><![if !vml]><img width=275 height=40
+                                                   src="./assets/Documentation_files/image106.jpg" v:shapes="Picture_x0020_194"><![endif]></span><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'><o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>This will lead to a page that shows all the available
+discussions.<o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif";mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_197"
+                                                                   o:spid="_x0000_i1043" type="#_x0000_t75" style='width:468pt;height:174pt;
+ visibility:visible;mso-wrap-style:square'>
+                <v:imagedata src="./assets/Documentation_files/image107.png" o:title=""/>
+            </v:shape><![endif]--><![if !vml]><img width=624 height=232
+                                                   src="./assets/Documentation_files/image108.jpg" v:shapes="Picture_x0020_197"><![endif]></span><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'><o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>Clicking on the ‘View’ button leads to the discussion page
+where you can post a reply as well as view the past replies to the discussion.<o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif";mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_200"
+                                                                   o:spid="_x0000_i1042" type="#_x0000_t75" style='width:463.5pt;height:273pt;
+ visibility:visible;mso-wrap-style:square'>
+                <v:imagedata src="./assets/Documentation_files/image109.png" o:title="" cropbottom="3735f"
+                             cropright="658f"/>
+            </v:shape><![endif]--><![if !vml]><img width=618 height=364
+                                                   src="./assets/Documentation_files/image110.jpg" v:shapes="Picture_x0020_200"><![endif]></span><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'><o:p></o:p></span></p>
+            </section>
+
+        <section id="payment">
+            <div class="page-header"><h3><i class="fa fa-download"></i> Configuring Payment Methods</h3><hr class="notop"></div>
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>TrainEasy ships with multiple payment methods for
+receiving payment for session enrollment. The following gateways are available<o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpFirst style='text-indent:-.25in;mso-list:l15 level1 lfo16'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>1.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Paypal<o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpMiddle style='text-indent:-.25in;mso-list:l15 level1 lfo16'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>2.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>2checkout<o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpMiddle style='text-indent:-.25in;mso-list:l15 level1 lfo16'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>3.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Stripe<o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpMiddle style='text-indent:-.25in;mso-list:l15 level1 lfo16'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>4.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Bank
+deposit/transfer<o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpLast style='text-indent:-.25in;mso-list:l15 level1 lfo16'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>5.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Paystack<o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>Each payment method will automatically use the currency
+you configured for your site. So make sure the method supports your currency
+before enabling it.<o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>To configure a method, click on the ‘Payment Methods’
+menu option<o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif";mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_209"
+                                                                   o:spid="_x0000_i1039" type="#_x0000_t75" style='width:207pt;height:224.25pt;
+ visibility:visible;mso-wrap-style:square'>
+                <v:imagedata src="./assets/Documentation_files/image115.png" o:title=""/>
+            </v:shape><![endif]--><![if !vml]><img width=276 height=299
+                                                   src="./assets/Documentation_files/image116.jpg" v:shapes="Picture_x0020_209"><![endif]></span><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'><o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>The list of available methods will be displayed:<o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif";mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_212"
+                                                                   o:spid="_x0000_i1038" type="#_x0000_t75" style='width:468pt;height:259.5pt;
+ visibility:visible;mso-wrap-style:square'>
+                <v:imagedata src="./assets/Documentation_files/image117.png" o:title=""/>
+            </v:shape><![endif]--><![if !vml]><img width=624 height=346
+                                                   src="./assets/Documentation_files/image118.jpg" v:shapes="Picture_x0020_212"><![endif]></span><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'><o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>Click on the ‘Edit’ button for a method to configure it.<o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif";mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_215"
+                                                                   o:spid="_x0000_i1037" type="#_x0000_t75" style='width:468pt;height:3in;
+ visibility:visible;mso-wrap-style:square'>
+                <v:imagedata src="./assets/Documentation_files/image119.png" o:title=""/>
+            </v:shape><![endif]--><![if !vml]><img width=624 height=288
+                                                   src="./assets/Documentation_files/image120.jpg" v:shapes="Picture_x0020_215"><![endif]></span><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'><o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>Fill in the relevant credentials/details and save. <o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>Note that you will need to get the credentials from the
+respective gateway website.<o:p></o:p></span></p>
+
+            </section>
+
+        <section id="form">
+            <div class="page-header"><h3><i class="fa fa-download"></i> Customizing the Registration Form</h3><hr class="notop"></div>
+<p>
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>TrainEasy enables you to create additional fields for the
+student registration form. This is very useful if you need to collect extra
+data during registration. <o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>To add new fields or edit existing fields, click on the
+‘Registration Fields’ menu option. <o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif";mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_218"
+                                                                   o:spid="_x0000_i1036" type="#_x0000_t75" style='width:192.75pt;height:131.25pt;
+ visibility:visible;mso-wrap-style:square'>
+                <v:imagedata src="./assets/Documentation_files/image121.png" o:title=""/>
+            </v:shape><![endif]--><![if !vml]><img width=257 height=175
+                                                   src="./assets/Documentation_files/image122.jpg" v:shapes="Picture_x0020_218"><![endif]></span><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'><o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>Note: The following fields are already included in the
+form: First Name, Last Name, Email, Telephone Number, Password and Confirm
+Password. Hence you do not need to create them.<o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>To add a new field, click on the ‘Add Field’ button<o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif";mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_221"
+                                                                   o:spid="_x0000_i1035" type="#_x0000_t75" style='width:468pt;height:109.5pt;
+ visibility:visible;mso-wrap-style:square'>
+                <v:imagedata src="./assets/Documentation_files/image123.png" o:title=""/>
+            </v:shape><![endif]--><![if !vml]><img width=624 height=146
+                                                   src="./assets/Documentation_files/image124.jpg" v:shapes="Picture_x0020_221"><![endif]></span><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'><o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>The following fields are available<o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpFirst style='text-indent:-.25in;mso-list:l4 level1 lfo17'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>1.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Label:
+This is the descriptive name of the field<o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpMiddle style='text-indent:-.25in;mso-list:l4 level1 lfo17'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>2.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Input
+Type: This is the type of the field.Options include text, textarea, select etc.
+<o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpMiddle style='text-indent:-.25in;mso-list:l4 level1 lfo17'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>3.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Mandatory:
+This specifies if the Student has to fill this field.<o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpMiddle style='text-indent:-.25in;mso-list:l4 level1 lfo17'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>4.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Sort
+order: The position of the field relative to other fields in ascending order.<o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpLast style='text-indent:-.25in;mso-list:l4 level1 lfo17'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>5.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Enabled:
+If the field is visible on the form or not.<o:p></o:p></span></p>
+</p>
+            </section>
+
+        <section id="homepage">
+            <div class="page-header"><h3><i class="fa fa-download"></i> Customizing the Homepage</h3><hr class="notop"></div>
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>TrainEasy makes it very easy to add different types of
+content to your homepage. This is done via ‘Homepage Widgets’ . The following
+types of widgets are available:<o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpFirst style='text-indent:-.25in;mso-list:l1 level1 lfo18'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>1.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Slideshow<o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpMiddle style='text-indent:-.25in;mso-list:l1 level1 lfo18'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>2.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Text
+&amp; Button<o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpMiddle style='text-indent:-.25in;mso-list:l1 level1 lfo18'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>3.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Featured
+Classes<o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpMiddle style='text-indent:-.25in;mso-list:l1 level1 lfo18'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>4.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Session
+Calendar<o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpMiddle style='text-indent:-.25in;mso-list:l1 level1 lfo18'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>5.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Plain
+Text<o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpLast style='text-indent:-.25in;mso-list:l1 level1 lfo18'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>6.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Blog
+Posts.<o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>Note that you can add multiple widgets of the same or
+different type to your homepage.<o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>To add a new widget, click on the ‘Homepage Widgets’
+option <o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif";mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_224"
+                                                                   o:spid="_x0000_i1034" type="#_x0000_t75" style='width:248.25pt;height:78.75pt;
+ visibility:visible;mso-wrap-style:square'>
+                <v:imagedata src="./assets/Documentation_files/image125.png" o:title=""/>
+            </v:shape><![endif]--><![if !vml]><img width=331 height=105
+                                                   src="./assets/Documentation_files/image126.jpg" v:shapes="Picture_x0020_224"><![endif]></span><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'><o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>On the Homepage Widgets page, click on the ‘Add Widget’
+button.<o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif";mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_227"
+                                                                   o:spid="_x0000_i1033" type="#_x0000_t75" style='width:326.25pt;height:159.75pt;
+ visibility:visible;mso-wrap-style:square'>
+                <v:imagedata src="./assets/Documentation_files/image127.png" o:title=""/>
+            </v:shape><![endif]--><![if !vml]><img width=435 height=213
+                                                   src="./assets/Documentation_files/image128.jpg" v:shapes="Picture_x0020_227"><![endif]></span><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'><o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>This will bring up a popup that will enable you specify
+the type of widget you are ttrying to create. <o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>Once you click on the ‘Create’ button. You will be able
+to configure the available options depending on the widget type<o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif";mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_230"
+                                                                   o:spid="_x0000_i1032" type="#_x0000_t75" style='width:468pt;height:195.75pt;
+ visibility:visible;mso-wrap-style:square'>
+                <v:imagedata src="./assets/Documentation_files/image129.png" o:title=""/>
+            </v:shape><![endif]--><![if !vml]><img width=624 height=261
+                                                   src="./assets/Documentation_files/image130.jpg" v:shapes="Picture_x0020_230"><![endif]></span><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'><o:p></o:p></span></p>
+
+            </section>
+
+        <section id="admin">
+            <div class="page-header"><h3><i class="fa fa-download"></i> Managing Administrators</h3><hr class="notop"></div>
+            <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><u><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>MANAGING
+ROLES<o:p></o:p></span></u></b></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>TrainEasy comes with a powerful role management system
+that enables you to set permissions for every aspect of the backend. <o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>A role is simply a collection of permissions that
+specifies what administrators can or cannot do on the backend. By default, two
+roles are provided after installation<o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpFirst style='text-indent:-.25in;mso-list:l0 level1 lfo19'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>1.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Administrator<o:p></o:p></span></p>
+
+            <p class=MsoListParagraphCxSpLast style='text-indent:-.25in;mso-list:l0 level1 lfo19'><![if !supportLists]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif";
+mso-fareast-font-family:Arial'><span style='mso-list:Ignore'>2.<span
+                    style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp; </span></span></span><![endif]><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>Super
+Administrator<o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>To create a new role, click on the ‘Roles’ menu option<o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif";mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_233"
+                                                                   o:spid="_x0000_i1031" type="#_x0000_t75" style='width:203.25pt;height:192pt;
+ visibility:visible;mso-wrap-style:square'>
+                <v:imagedata src="./assets/Documentation_files/image131.png" o:title=""/>
+            </v:shape><![endif]--><![if !vml]><img width=271 height=256
+                                                   src="./assets/Documentation_files/image132.jpg" v:shapes="Picture_x0020_233"><![endif]></span><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'><o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>Next click on the ‘Add Role’ button<o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif";mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_236"
+                                                                   o:spid="_x0000_i1030" type="#_x0000_t75" style='width:468pt;height:184.5pt;
+ visibility:visible;mso-wrap-style:square'>
+                <v:imagedata src="./assets/Documentation_files/image133.png" o:title=""/>
+            </v:shape><![endif]--><![if !vml]><img width=624 height=246
+                                                   src="./assets/Documentation_files/image134.jpg" v:shapes="Picture_x0020_236"><![endif]></span><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'><o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>Enter in the role name and select all the permissions you
+would like that role to have<o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif";mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_239"
+                                                                   o:spid="_x0000_i1029" type="#_x0000_t75" style='width:468pt;height:390pt;
+ visibility:visible;mso-wrap-style:square'>
+                <v:imagedata src="./assets/Documentation_files/image135.png" o:title=""/>
+            </v:shape><![endif]--><![if !vml]><img width=624 height=520
+                                                   src="./assets/Documentation_files/image136.jpg" v:shapes="Picture_x0020_239"><![endif]></span><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'><o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
+
+            
+
+            <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><u><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'>MANAGING
+ADMINISTRATORS<o:p></o:p></span></u></b></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>You can create as many administrators as you wish. Each
+administrator is assigned a role that limits what they can do on the backend.
+To add a new administrator, click on the ‘Administrators’ menu option<o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif";mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_242"
+                                                                   o:spid="_x0000_i1028" type="#_x0000_t75" style='width:207.75pt;height:48.75pt;
+ visibility:visible;mso-wrap-style:square'>
+                <v:imagedata src="./assets/Documentation_files/image137.png" o:title=""/>
+            </v:shape><![endif]--><![if !vml]><img width=277 height=65
+                                                   src="./assets/Documentation_files/image138.jpg" v:shapes="Picture_x0020_242"><![endif]></span><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'><o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>Next, click on the ‘Add Administrator’ button.<o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif";mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_245"
+                                                                   o:spid="_x0000_i1027" type="#_x0000_t75" style='width:468pt;height:81pt;
+ visibility:visible;mso-wrap-style:square'>
+                <v:imagedata src="./assets/Documentation_files/image139.png" o:title=""/>
+            </v:shape><![endif]--><![if !vml]><img width=624 height=108
+                                                   src="./assets/Documentation_files/image140.jpg" v:shapes="Picture_x0020_245"><![endif]></span><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'><o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'>On the ‘Add Administrator page, fill in all the details
+for the administrator<o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif";mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="Picture_x0020_248"
+                                                                   o:spid="_x0000_i1026" type="#_x0000_t75" style='width:468pt;height:189pt;
+ visibility:visible;mso-wrap-style:square'>
+                <v:imagedata src="./assets/Documentation_files/image141.png" o:title=""/>
+            </v:shape><![endif]--><![if !vml]><img width=624 height=252
+                                                   src="./assets/Documentation_files/image142.jpg" v:shapes="Picture_x0020_248"><![endif]></span><span
+                    style='font-size:12.0pt;line-height:115%;font-family:"Arial","sans-serif"'><o:p></o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
+
+            <p class=MsoNormal><span style='font-size:12.0pt;line-height:115%;font-family:
+"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
+
+        </section>
+        <section id="reminders">
+            <h1>Setting Up Class Reminders</h1>
+            <p>
+                TrainEasy allows to you setup automatic reminder emails that will be sent to Students and Instructors days before a class is scheduled to hold. TrainEasy also allows you to specify what time of the day the mails should go out and how many days before the class the reminders should begin.
+                <br/>To Configure reminders, please follow these steps
+            <ul>
+                <li><strong>Setup the CronJob</strong>: For the reminder feature to work, you need to setup a cron job on your server or external cron service. A cron job is a feature most hosting companies provide that enables you to trigger certain actions on your website at specified times.
+                    <br/>In this example, we will demonstrate how to setup the cron on a cpanel/linux hosting account.
+                    <ol>
+                        <li>Login to your cpanel hosting. On the dashboard, click on 'Cron Jobs' <br/>
+                            <img src="assets/images/2017-03-07 13_32_41-cPanel - Main.jpg" alt=""/>
+
+                        </li>
+                        <li>On the 'Add New Cron Job' page, under common settings, select 'Once Per Hour(0 * * * *)'. This will automatically fill up the other fields except the 'Command Field'
+                            <br/>
+                            <img src="./assets/images/2017-03-07 13_38_08-cPanel - Cron Jobs.jpg" alt=""/>
+                        </li>
+                        <li>
+                            In the 'Command' field, enter the following command: curl http://<strong>[YOURDOMAIN]</strong>/cron
+                            <br/>Replace [YOURDOMAIN] with your actual domain name
+                        </li>
+                        <li>Click on 'Add New Cron Job' to save</li>
+                    </ol>
+                </li>
+                <li><strong>Set Your Reminder Settings:</strong> To conifgure when reminders will be sent out, go to 'Settings'-'Site Settings'. In the general tab, scroll down to the 'Send Class Reminders' option. Make sure it is set to 'Yes'. Set the reminder day to how many days before a class you want the system to start sending reminders (once a day). For example if a class is to hold on Saturday and you set the reminder day to 2, the enrolled students and intructors will recieve reminders on Thursday and Friday. The Reminder Hour feature sets the hour of the day that reminders will go out e.g. if set to 12, reminders will go out at 12 noon.
+                    <br/>
+                    <img src="./assets/images/2017-03-07 13_48_09-TrainEasy - Intermatics Training.jpg" alt=""/>
+                </li>
+            </ul>
+
+            </p>
+        </section>
+
+        <section id="certificates">
+            <h1>Managing Certificates</h1>
+            <p>
+                TrainEasy comes with a powerful certificate generation feature that enables you totally eliminate the need for creating paper certificates for each Student at the conclusion of
+            your training programs. This feature can also be used to generate other documents such as admission letters.
+                <br/>
+                The Certificate feature enables you to design documents with a drag and drop interface. You simply upload a blank copy of your existing or new certificates and then specify where the various text should go (e.g Student Name, Session Name, Completion Date etc.)
+                <br/>
+            Each certificate must be associated with a session. Also, certain conditions can be assigned to a certificate which the student must fulfill in order to be granted access to the document.
+                <br/> The following conditions are available: <br/>
+            <ul>
+            <li><strong>Classes</strong>: You can specify which classes the Student must have attended before they can download the certificate.</li>
+            <li><strong>Tests:</strong> You can specify which tests a student must have completed successfull before they can download the certificate</li>
+        </ul>
+
+            To create a new certificate follow these steps
+            <ul>
+                <li>Login to the backend and click on the 'Certificates'->'Create Certificate' option</li>
+                <li>Fill in the available options. Please note that the 'Certificate Image' should be a blank copy of your certificate (preferably in A4 size). Here is a sample: <br/>
+                    <img src="assets/images/certificate.jpg" alt="" style="max-width: 80%"/>
+                </li>
+                <li>Once you click the 'Save' button, you will be redirected to the certificate edit page.  On this page, you can drag and drop the various 'placeholders' that are available. These placeholders let you specify where text like the stundent's name, session name etc will be placed on the downloaded certificate. </li>
+                <li>You can specify the mandatory classes and tests by clicking the relavant tabs.</li>
+                <li>Do note that, on the 'Mandatory Classes' tab, there is an option a the bottom called 'Search all sessions for attendance' if you select this option, the system will search all existing sessions for attendance of the classes you select in this tab. This is usefull if a student attends some classes in one session but attends the remaining in another session.</li>
+            </ul>
+            <br/>
+
+
+            </p>
+        </section>
+
+        <section id="upgrade">
+            <h1>Upgrade Guide</h1>
+           <p>
+               To upgrade your version of TrainEasy to an updated version, please follow these instructions:
+               <ul>
+            <li><strong>Backup your old application.</strong> Please backup all files and your database.</li>
+            <li><strong>Extract app contents.</strong> Extract the contents of your app.zip file into a new directory on your server.</li>
+            <li><strong>Copy relevant files.</strong> Copy the following files and folders from your old application to the same location on your new application.
+            <ol>
+                <li>config/autoload/local.php  (file)</li>
+                <li>public/usermedia  (folder)</li>
+                <li>.htaccess (if present in the root directory, file)</li>
+            </ol>
+            </li>
+            <li><strong>Point Domain.</strong> Point your domain name to the new directory</li>
+            <li><strong>Update your database.</strong> Login to the TrainEasy backend and go to 'Settings'->'Upgrade Database'. Click on the 'Upgrade Database' button.</li>
+        </ul>
+           </p>
+            <p>
+                Alternatively, if you have challenges pointing your domain to the new directory, you can simply move the old files from their current location and move the new files in their place.
+            </p>
+        </section>
+
+    </div>
+</body>
+</html>

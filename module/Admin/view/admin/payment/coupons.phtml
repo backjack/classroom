@@ -1,0 +1,36 @@
+<div class="well">
+    <?= __('coupon-help') ?>
+</div>
+<a class="btn btn-primary" href="<?=$this->url('admin/default',['controller'=>'payment','action'=>'addcoupon'])?>"><i class="fa fa-plus"></i> <?= __('Add Coupon') ?></a>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th><?= __('name') ?></th>
+        <th><?= __('code') ?></th>
+        <th><?= __('discount') ?></th>
+        <th><?= __('enabled') ?></th>
+        <th><?= __('starts') ?></th>
+        <th><?= __('ends') ?></th>
+        <th><?= __('times-used') ?></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+        <?php foreach($coupons as $coupon):?>
+        <tr>
+            <td><?=$coupon->name?></td>
+            <td><?=$coupon->code?></td>
+            <td><?=$coupon->discount?><?php if($coupon->type=='P'): ?>%<?php endif;?></td>
+            <td><?=boolToString($coupon->enabled)?></td>
+            <td><?=showDate('d/M/Y',$coupon->date_start)?></td>
+            <td><?=showDate('d/M/Y',$coupon->expires)?></td>
+            <td><?=$coupon->couponInvoices()->count()?></td>
+            <td>
+                <a class="btn btn-primary" href="<?=$this->url('admin/default',['controller'=>'payment','action'=>'editcoupon','id'=>$coupon->coupon_id])?>"><i class="fa fa-pencil"></i> <?= __('edit') ?></a>
+                <a onclick="return confirm('<?=__('delete-confirm')?>')" class="btn btn-danger" href="<?=$this->url('admin/default',['controller'=>'payment','action'=>'deletecoupon','id'=>$coupon->coupon_id])?>"><i class="fa fa-trash"></i> <?= __('delete') ?></a>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>
+<?=$coupons->links()?>

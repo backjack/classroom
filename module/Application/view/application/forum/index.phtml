@@ -1,0 +1,60 @@
+<?php  $this->headTitle($pageTitle) ?>
+
+
+<!--breadcrumb-section ends-->
+<!--container starts-->
+<div class="box" style="background-color: white; min-height: 400px;   padding-bottom:50px; margin-bottom: 10px;   " >
+    <!--primary starts-->
+
+    <div class="box-body">
+
+        <p><?= __('forum-page-intro') ?></p>
+        <div class="table-responsive">
+            <table class="table table-hover table-striped">
+                <thead>
+                <tr>
+                    <th><?=__('course-session')?></th>
+                    <th><?= __('Topics') ?></th>
+                    <th ></th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach($paginator as $row): ?>
+
+                    <tr>
+                         <td><?php echo $row->session_name; ?></td>
+                        <td><?=\Application\Entity\Session::find($row->session_id)->forumTopics->count() ?></td>
+
+                        <td class="text-right">
+                            <a class="btn btn-primary" href="<?=$this->url('application/default',['controller'=>'forum','action'=>'topics','id'=>$row->session_id])?>"><?= __('View Topics') ?></a>
+                        </td>
+                    </tr>
+
+                <?php endforeach; ?>
+
+                </tbody>
+            </table>
+        </div>
+        <?php
+        // add at the end of the file after the table
+        echo $this->paginationControl(
+        // the paginator object
+            $this->paginator,
+            // the scrolling style
+            'sliding',
+            // the partial to use to render the control
+            array('partial/paginator.phtml', 'Application'),
+            // the route to link to when a user clicks a control link
+            array(
+                'route' => 'application/default',
+                'controller'=>'forum',
+                'action'=>'index'
+            )
+        );
+        ?>
+    </div>
+
+
+</div>
+
+<!--container ends-->

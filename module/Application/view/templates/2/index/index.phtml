@@ -1,0 +1,253 @@
+<?php $basePath = $this->basepath().'/templates/2'; ?>
+<?php $title=$this->getSetting('general_homepage_title'); if(!empty($title)): ?>
+    <?php $this->headTitle($this->getSetting('general_homepage_title')) ?>
+<?php else: ?>
+    <?php   $this->headTitle(__('Home')) ?>
+<?php endif; ?>
+
+<?php foreach($widgets as $widget): ?>
+<?php $vals = unserialize($widget->value); ?>
+<?php if($widget->widget_code == 'slideshow'): ?>
+
+        <section class="slider-section">
+
+            <div id="myCarousel<?=$widget->widget_id?>" class="carousel slide" data-ride="carousel">
+
+                <!-- Carousel indicators -->
+
+                <ol class="carousel-indicators">
+                    <?php $slideCount=0; ?>
+                    <?php  for($i=1; $i<=10;$i++):?>
+                        <?php if(!empty($vals['slideshow_image'.$i] )):?>
+
+
+                            <li data-target="#myCarousel<?=$widget->widget_id?>" data-slide-to="<?=$slideCount?>" <?php if($slideCount==0):?> class="active" <?php endif; ?>></li>
+                            <?php $slideCount++ ?>
+                        <?php endif; ?>
+                    <?php endfor; ?>
+
+
+                </ol>
+
+                <!-- Wrapper for carousel items -->
+
+                <div class="carousel-inner">
+
+                    <?php $slideCount=0; ?>
+                    <?php  for($i=1; $i<=10;$i++):?>
+                        <?php if(!empty($vals['slideshow_image'.$i] )):?>
+
+                            <div class="item <?php if($slideCount==0):?> active <?php endif; ?>">
+
+                                <img  onclick="document.location.replace('<?php echo $vals['url'.$i] ?>')" style="cursor: pointer" src="<?php echo $this->basePath(); ?>/<?php echo $vals['slideshow_image'.$i] ?>" >
+
+                            </div>
+
+                            <?php $slideCount++ ?>
+                        <?php endif; ?>
+                    <?php endfor; ?>
+
+
+
+
+
+
+
+                </div>
+
+                <!-- Carousel controls -->
+
+                <a class="carousel-control left" href="#myCarousel<?=$widget->widget_id?>" data-slide="prev">
+
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+
+                </a>
+
+                <a class="carousel-control right" href="#myCarousel<?=$widget->widget_id?>" data-slide="next">
+
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+
+                </a>
+
+            </div>
+
+
+
+
+
+
+        </section>
+<?php elseif($widget->widget_code == 'textbtn'):?>
+        <section class="white section">
+            <div class="container">
+                <div class="hero-unit">
+                    <p>
+                        <?php echo $vals['message'] ?>
+                    </p>
+                    <?php if(!empty($vals['buttontext'])):?>
+                        <p><a href="<?php echo $vals['buttonlink'] ?>" class="btn btn-success btn-large"><?php echo $vals['buttontext'] ?> &raquo;</a></p>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </section>
+
+<?php elseif($widget->widget_code == 'text'):?>
+        <section class="white section">
+            <div class="container">
+                <div >
+
+                    <?php echo $vals['message'] ?>
+
+                </div>
+            </div>
+        </section>
+
+<?php elseif($widget->widget_code == 'calendar'):?>
+
+         <section class="white section">
+             <div class="container">
+
+                 <div class="row">
+                     <div class="col-md-12">
+                         <div class="section-title text-center">
+                             <h4><?php echo $this->getSetting('label_calendar','Calendar')?></h4>
+
+                         </div>
+                         <div >
+
+                             <?php echo $calendar; ?>
+
+                         </div>
+                     </div>
+                 </div>
+
+
+
+
+             </div>
+         </section>
+<?php elseif($widget->widget_code == 'signup'): ?>
+
+         <section class="white section">
+             <div class="container">
+                 <div class="row">
+                     <div class="col-md-12">
+                         <div class="section-title text-center">
+                             <h4><?php echo $this->getSetting('label_register','Register')?></h4>
+
+                         </div>
+                         <div >
+
+                             <?php echo $regForm; ?>
+
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </section>
+
+<?php elseif($widget->widget_code == 'sessions'): ?>
+
+        <section class="grey section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="section-title text-center">
+                            <h4><?php echo $this->getSetting('label_featured','Featured')?></h4>
+                        </div>
+                    </div>
+                </div>
+                <div id="owl-featured" class="owl-custom">
+
+
+        <?php for($i=1; $i<=10; $i++):?>
+            <?php if(!empty($vals['session'.$i]) && $sessionTable->recordExists($vals['session'.$i])):?>
+                <?php $row = $sessionTable->getRecord($vals['session'.$i]); ?>
+                <?php $url= ($row->session_type=='c')? 'course-details':'session-details';?>
+                    <div class="owl-featured">
+                        <div class="shop-item-list entry">
+                            <div class="">
+                <?php if(!empty($row->picture)): ?>
+                                <img src="<?php echo resizeImage($row->picture,273,191,$this->basePath()); ?>" alt="">
+                    <?php endif; ?>
+                                <div class="magnifier">
+                                </div>
+                            </div>
+                            <div class="shop-item-title clearfix">
+                                <h4><a href="<?php echo $this->url($url,['id'=>$row->session_id,'slug'=>safeUrl($row->session_name)]);?>"><?php echo $row->session_name ?></a></h4>
+                                <div class="shopmeta" style="min-height: 50px;">
+
+                                    <?php if($this->getSetting('general_show_fee')==1):?>
+                                    <span class="pull-left">
+                                            <?php if(empty($row->payment_required)):?>
+                                                <?=__('Free')?>
+                                            <?php else: ?>
+                                                <?php echo $this->formatPrice($row->amount); ?>
+                                            <?php endif; ?>
+                                        </span>
+                                    <?php endif; ?>
+                                    <a class="btn btn-success pull-right" href="<?php echo $this->url($url,['id'=>$row->session_id,'slug'=>safeUrl($row->session_name)]);?>" ><i class="fa fa-info-circle"></i> <?=__('Details')?></a>
+
+
+
+                                </div>
+                            </div>
+                            <div class="visible-buttons">
+                                <a title="<?= __('add-to-cart') ?>" href="<?php echo $this->url('set-session',array('id'=>$row->session_id));?>"><span class="fa fa-cart-arrow-down"></span></a>
+                                <a title="<?= __('Read More') ?>" href="<?php echo $this->url($url,['id'=>$row->session_id,'slug'=>safeUrl($row->session_name)]);?>"><span class="fa fa-search"></span></a>
+                            </div>
+                        </div>
+                    </div>
+            <?php endif; ?>
+        <?php endfor; ?>
+
+
+                </div>
+            </div>
+        </section>
+    <?php elseif($widget->widget_code == 'blog'): ?>
+        <?php $limit= empty($vals['limit'])? 4:intval($vals['limit']) ;      $news= $newsTable->getNews($limit);
+        ?>
+        <section class="grey section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="section-title text-center">
+                            <h4><?php echo $this->getSetting('label_blog_posts',__('Blog Posts'))?></h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="row blog-widget">
+        <?php foreach($news as $row):?>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="blog-wrapper">
+                            <div class="blog-title">
+                                <h2><a href="<?php echo $this->url('news-entry',array('id'=>$row->newsflash_id));?>" title=""><?php echo $row->title; ?></a></h2>
+                                <div class="post-meta">
+<span>
+<i class="fa fa-clock"></i>
+    <?php echo date('d/M/Y',$row->date)?>
+</span>
+
+                                </div>
+                            </div>
+            <?php if(!empty($row->picture)):?>
+                            <div class="blog-image">
+                                <a href="<?php echo $this->url('news-entry',array('id'=>$row->newsflash_id));?>" title=""><img src="<?php echo resizeImage($row->picture, 358, 207, $this->basePath());?>" alt="" class="img-responsive"></a>
+                            </div>
+                <?php endif; ?>
+                            <div class="blog-desc">
+                                <p><?php echo limitLength(strip_tags($row->content),200) ?></p>
+                                <a href="<?php echo $this->url('news-entry',array('id'=>$row->newsflash_id));?>" class="btn btn-default btn-block">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+
+                </div>
+            </div>
+        </section>
+
+<?php endif; ?>
+<?php endforeach;?>
+

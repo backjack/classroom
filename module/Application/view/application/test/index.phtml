@@ -1,0 +1,69 @@
+<?php  $this->headTitle($pageTitle) ?>
+
+
+<!--breadcrumb-section ends-->
+<!--container starts-->
+<div class="container" style="background-color: white; min-height: 400px;   padding-bottom:50px; margin-bottom: 10px;   " >
+    <!--primary starts-->
+
+    <div class="box-body">
+
+        <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+
+                <th><?= __('Test') ?></th>
+                <th><?= __('Questions') ?></th>
+                <th><?= __('Minutes Allowed') ?></th>
+                <th><?= __('multiple-attempts-allowed') ?></th>
+                <th><?= __('passmark') ?></th>
+                <th class="text-right1" ><?= __('Actions') ?></th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach($paginator as $row): ?>
+                <tr>
+                    <td><?php echo $row->name; ?></td>
+                    <td><?php echo $questionTable->getTotalQuestions($row->test_id);?></td>
+                    <td><?php echo empty($row->minutes)?__('Unlimited'):$row->minutes; ?></td>
+                    <td><?php echo boolToString($row->allow_multiple); ?></td>
+                    <td><?php echo ($row->passmark > 0)? $row->passmark.'%':__('Ungraded'); ?></td>
+                    <td class="text-right">
+                    <?php if(!$studentTest->hasTest($row->test_id,$this->getStudent()->student_id) || !empty($row->allow_multiple)): ?>
+                        <a href="<?php echo $this->url('application/taketest',array('id'=>$row->test_id));?>" class="btn btn-primary " ><i class="fa fa-play"></i> <?= __('Take Test') ?></a>
+                    <?php endif; ?>
+
+                        <?php if($studentTest->hasTest($row->test_id,$this->getStudent()->student_id) && $row->show_result==1): ?>
+                            <a href="<?php echo $this->url('application/default',array('controller'=>'test','action'=>'testresults', 'id'=>$row->test_id));?>" class="btn btn-success " ><i class="fa fa-list-ul"></i> <?= __('Your Results') ?></a>
+                        <?php endif; ?>
+
+                    </td>
+
+                </tr>
+            <?php endforeach; ?>
+
+            </tbody>
+        </table>
+</div>
+        <?php
+        // add at the end of the file after the table
+        echo $this->paginationControl(
+        // the paginator object
+            $this->paginator,
+            // the scrolling style
+            'sliding',
+            // the partial to use to render the control
+            array('partial/paginator.phtml', 'Admin'),
+            // the route to link to when a user clicks a control link
+            array(
+                'route' => 'application/test',
+            )
+        );
+        ?>
+    </div>
+
+
+</div>
+
+<!--container ends-->

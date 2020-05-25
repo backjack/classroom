@@ -1,0 +1,138 @@
+<div class="container-fluid">
+
+    <div class="row" style="margin-bottom:  10px;">
+    
+        <div class="col-md-2 text-highlight-support5 "><strong><?= __('first-name') ?>:</strong></div>
+        <div class="col-md-4"><?php echo htmlentities( $row->first_name); ?></div>
+        
+
+        
+        <div class="col-md-2 text-highlight-support5 "><strong><?= __('last-name') ?></strong></div>
+        <div class="col-md-4"><?php echo htmlentities( $row->last_name); ?></div>
+    
+    </div>
+    
+       <div class="row" style="margin-bottom:  10px;">
+
+           <div class="col-md-2 text-highlight-support5 "><strong><?= __('telephone-number') ?></strong></div>
+           <div class="col-md-4"><?php echo htmlentities( $row->mobile_number); ?></div>
+        
+
+        
+        <div class="col-md-2 text-highlight-support5 "><strong><?= __('email') ?></strong></div>
+        <div class="col-md-4"><?php echo htmlentities( $row->email); ?></div>
+    
+    </div>
+    
+      <div class="row" style="margin-bottom:  10px;">
+    
+        <div class="col-md-2 text-highlight-support5 "><strong><?= __('status') ?></strong></div>
+        <div class="col-md-4"><?php echo htmlentities( (empty($row->status))? 'Inactive':'Active'); ?></div>
+
+          <div class="col-md-2 text-highlight-support5 "><strong><?= __('display-picture') ?></strong></div>
+          <div class="col-md-4">
+
+
+              <?php if(!empty($row->picture) && isUrl($row->picture)):?>
+                  <img src="<?=$row->picture?>" style="max-width: 200px" alt=""/>
+              <?php elseif(!empty($row->picture) && isImage('public/'.$row->picture)):?>
+                  <img src="<?php echo resizeImage($row->picture,200,200,$this->basePath()); ?>" alt=""/>
+
+              <?php endif; ?>
+          </div>
+
+
+
+    
+    </div>
+    
+    
+    
+
+    
+        <?php foreach($custom as $row): ?>
+           <div class="row">
+        <?php if($row->type=='checkbox'):?>
+        <div  style="margin-bottom:  10px;" class="col-md-4 text-highlight-support5 "><strong><?php echo htmlentities( $row->name) ?></strong></div>
+        <div  style="margin-bottom:  10px;" class="col-md-8"><?php echo htmlentities( boolToString($row->value)); ?></div>
+       <?php elseif($row->type=='file'): ?>
+                <div  style="margin-bottom:  10px;" class="col-md-4 text-highlight-support5 "><strong><?php echo htmlentities( $row->name) ?></strong></div>
+                <div  style="margin-bottom:  10px;" class="col-md-8">
+                    <?php if(isImage('public/'.$row->value)):?>
+
+                        <img src="<?php echo resizeImage($row->value, 200, 200, $this->basePath()) ?>" alt=""/> <br/>
+                    <?php endif; ?>
+                    <a target="_blank" href="<?php echo $this->basePath().'/'.$row->value ?>"><?= __('view-file') ?></a>
+
+                </div>
+        <?php else: ?>
+                <div  style="margin-bottom:  10px;" class="col-md-4 text-highlight-support5 "><strong><?php echo htmlentities( $row->name) ?></strong></div>
+                <div  style="margin-bottom:  10px;" class="col-md-8"><?php echo htmlentities( $row->value); ?></div>
+        <?php endif; ?>
+           </div>
+         <?php endforeach; ?>
+
+    
+    
+    
+
+
+
+    
+    </div>
+
+        <div>
+            <h4><?= __('enrolled-in') ?></h4>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th><?= __('course-session') ?></th>
+                    <th><?= __('completed-classes') ?></th>
+                    <th><?= __('enrolled-on') ?></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tbody>
+                <?php foreach(\Application\Entity\Student::find($row->student_id)->studentSessions as $session):?>
+                    <tr>
+                        <td><?=$session->session->session_name?></td>
+                        <td><?php $attended= $attendanceTable->getTotalDistinctForStudentInSession($row->student_id,$session->session_id); echo $attended?>/<?php echo \Application\Entity\Session::find($session->session_id)->sessionLessons->count() ?></td>
+                        <td><?=showDate('d/M/Y',$session->enrolled_on)?></td>
+                    </tr>
+
+                <?php endforeach;?>
+                </tbody>
+
+
+                </tbody>
+            </table>
+        </div>
+
+    <?php if(false):?>
+    <div>
+        <h2><?= __('classes-attended') ?></h2>
+        <table class="table table-stripped">
+            <thead>
+            <tr>
+                <th><?= __('class') ?></th>
+                <th><?= __('session-course') ?></th>
+                <th><?= __('date') ?></th>
+                <th><?= __('actions') ?></th>
+            </tr>
+            </thead>
+            <?php foreach($attendance as $row): ?>
+            <tr>
+                <td><?php echo htmlentities( $row->lesson_name) ?></td>
+                <td><?php echo htmlentities( $row->session_name) ?></td>
+                <td><?php echo htmlentities( date('d/M/Y',$row->attendance_date)) ?></td>
+                <td><button title="Delete" onclick="openPopup('<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'deleteattendance','id'=>$row->attendance_id));?>')" href=""  class="btn btn-xs btn-default btn-equal" data-toggle="tooltip" data-placement="top" data-original-title="<?=__('delete')?>"><i class="fa fa-trash-o"></i></button></td>
+            </tr>
+            <?php endforeach; ?>
+        </table>
+    </div>
+    <?php endif; ?>
+    
+    
+    
+    
+</div>

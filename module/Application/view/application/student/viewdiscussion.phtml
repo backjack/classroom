@@ -1,0 +1,89 @@
+<?php  $this->headTitle($pageTitle) ?>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-12">
+            <h3><?= __('Question') ?></h3>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                   <?php echo htmlentities($row->subject); ?>  <div><small> <?= __('on') ?> <?php echo date('r',$row->created_on); ?></small></div>
+                </div>
+                <div class="panel-body">
+                    <p><?php echo nl2br(htmlentities($row->question));?></p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+
+
+            <form method="post" class="form" action="<?php echo $this->url('application/default',['controller'=>'student','action'=>'addreply','id'=>$row->discussion_id]); ?>">
+                <?php echo $this->formElement($form->get('security')); ?>
+                <div class="form-group">
+                    <textarea required="required" placeholder="Reply here" class="form-control" name="reply" id="reply"  rows="3"></textarea>
+                </div>
+                <div class="form-footer">
+                    <button type="submit" class="btn btn-primary"><?= __('Reply') ?></button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+
+    <?php if(!empty($total)):?>
+    <div class="row">
+        <div class="col-md-12">
+            <h3><?= __('Replies') ?></h3>
+            <?php foreach($paginator as $row): ?>
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <?= __('By') ?> <strong>
+                    <?php if($row->user_type=='a'):?>
+                     <?php if($accountTable->recordExists($row->user_id)):?>
+                            <?php echo $accountTable->getRecord($row->user_id)->first_name; ?>
+                            <?php else:?>
+                            <?= __('Admin') ?>
+                            <?php endif;?>
+                    <?php else: ?>
+                        <?= __('You') ?>
+                    <?php endif; ?></strong> on <?php echo date('r',$row->replied_on); ?>
+                </div>
+                <div class="panel-body">
+                    <p><?php echo nl2br(htmlentities($row->reply));?></p>
+                </div>
+
+            </div>
+            <?php endforeach; ?>
+
+
+        </div>
+    </div>
+<?php endif; ?>
+
+
+
+
+    <?php
+    // add at the end of the file after the table
+    echo $this->paginationControl(
+    // the paginator object
+        $this->paginator,
+        // the scrolling style
+        'sliding',
+        // the partial to use to render the control
+        array('partial/paginator.phtml', 'Application'),
+        // the route to link to when a user clicks a control link
+        array(
+            'route' => 'application/viewdiscussion',
+            'id'=>$row->discussion_id
+
+        )
+    );
+    ?>
+</div>

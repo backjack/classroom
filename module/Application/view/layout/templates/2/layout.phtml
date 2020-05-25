@@ -1,0 +1,587 @@
+<?php
+$children = $this->viewModel()->getCurrent()->getChildren();
+foreach($children as $action) {
+    if ($action->captureTo() == 'content') {
+        break;
+    }
+
+
+}
+$basePath = $this->basePath().'/templates/2';
+?><?php
+$user = null;
+//$this->plugin('translate')->setTranslator(new \Zend\I18n\Translator\Translator());
+$this->headTitle()
+    ->setSeparator(' - ')
+    ->setAutoEscape(false);
+
+
+echo $this->doctype();
+?>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html <?=langMeta()?>> <!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <?php echo $this->headMeta()  ?>
+    <meta name="description" content="<?php echo $this->getSetting('general_homepage_meta_desc') ?>"/>
+    <meta name="author" content="<?php echo $this->getSetting('general_site_name') ?>"/>
+  
+    <?php echo $this->headTitle(); ?> 
+    <?php $icon = $this->getSetting('image_icon'); if(!empty($icon)):?>
+        <link rel="shortcut icon" href="<?php echo $this->basePath(); ?>/<?php echo $this->getSetting('image_icon'); ?>">
+    <?php endif; ?>
+    
+    <link rel="stylesheet" type="text/css" href="<?php echo $basePath; ?>/rs-plugin/css/A.settings.css.pagespeed.cf.xeOyGChsgq.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="<?php echo $basePath; ?>/style2.css"/>
+    <link rel="stylesheet" type="text/css" href="<?php echo $basePath; ?>/css/A.menu.css.pagespeed.cf.0_hLwXzYkZ.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo $basePath; ?>/css/carousel.css%2bbxslider.css.pagespeed.cc.jgeTii-u52.css"/>
+
+
+     <link href="<?php  echo  $this->url('style'); ?>?base-color=e34b11-c42c00-fd652b&replace-color=<?php echo $this->getTemplateOption('color_primary_color')?>&file-path=<?php echo urlencode('public/templates/2/style1.css') ?>" rel="stylesheet">
+
+
+
+
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="<?php echo $basePath; ?>/js/jquery.min.js.pagespeed.jm.iDyG3vc4gw.js"></script>
+    <script src="<?php echo $basePath; ?>/js/bootstrap.min.js%2bretina.js%2bwow.js.pagespeed.jc.pMrMbVAe_E.js"></script>
+    <?php echo $this->headLink() ?>
+    <?php echo $this->headStyle(); ?>
+    <!-- Scripts -->
+    <?php echo $this->headScript() ?>
+    <style>
+        #site-logo{
+            top: -30px;
+        }
+        <?php $topbarBgColor = $this->getTemplateOption('topbar_bgcolor') ?>
+        <?php if($topbarBgColor):?>
+        .topbar {
+            background-color: #<?php echo $topbarBgColor; ?> !important;
+        }
+        <?php endif; ?>
+
+        <?php $topbarFontColor = $this->getTemplateOption('topbar_fontcolor') ?>
+        <?php if($topbarFontColor):?>
+        .topbar p, .topbar a {
+            color: #<?php echo $topbarFontColor; ?> !important;
+        }
+        <?php endif; ?>
+
+
+        <?php $navigationBgColor = $this->getTemplateOption('navbar_bgcolor') ?>
+        <?php if($navigationBgColor):?>
+        .header, .ttmenu .navbar-default{
+            background-color: #<?php echo $navigationBgColor; ?>;
+        }
+        <?php endif; ?>
+
+
+        <?php $navigationFontColor = $this->getTemplateOption('navbar_fontcolor') ?>
+        <?php if($navigationFontColor):?>
+        .navbar-default .navbar-nav > li > a{
+            color: #<?php echo $navigationFontColor; ?> !important;
+        }
+        <?php endif; ?>
+
+        <?php $footerBgColor = $this->getTemplateOption('footer_bgcolor') ?>
+        <?php if($footerBgColor):?>
+        .dark {
+            background-color: #<?php echo $footerBgColor; ?>;
+        }
+        <?php endif; ?>
+
+        <?php $footerFontColor = $this->getTemplateOption('footer_textcolor') ?>
+        <?php if($footerFontColor):?>
+        .footer .widget-title h4, .widget a, .footer, .footer p, .contact-details li,.contact-details li a{
+            color: #<?php echo $footerFontColor; ?>;
+        }
+        <?php endif; ?>
+
+
+        <?php $creditsBgColor = $this->getTemplateOption('footer_credits_bgcolor') ?>
+        <?php if($creditsBgColor):?>
+        .copyright{
+            background-color: #<?php echo $creditsBgColor; ?>;
+        }
+        <?php endif; ?>
+
+
+        <?php $creditsFontColor = $this->getTemplateOption('footer_credits_textcolor') ?>
+        <?php if($creditsFontColor):?>
+        section.copyright a, section.copyright p{
+            color: #<?php echo $creditsFontColor; ?>;
+        }
+        <?php endif; ?>
+
+
+        <?php $pageTitleBgColor = $this->getTemplateOption('color_page_title') ?>
+        <?php if($pageTitleBgColor):?>
+        #wrapper section.page-title{
+            background-color: #<?php echo $pageTitleBgColor; ?> !important;
+        }
+        <?php endif; ?>
+
+        <?php $pageTitleFontColor = $this->getTemplateOption('color_page_title_text') ?>
+        <?php if($pageTitleFontColor):?>
+        #wrapper section.page-title, #wrapper section.page-title a, #wrapper section.page-title h1{
+            color: #<?php echo $pageTitleFontColor; ?> !important;
+        }
+        <?php endif; ?>
+
+
+        <?php $primaryBtnColor = $this->getTemplateOption('color_primary_btn_color') ?>
+        <?php if($primaryBtnColor):?>
+        a.btn-default{
+            background-color: #<?php echo $primaryBtnColor; ?> !important;
+        }
+        <?php endif; ?>
+
+        <?php $secondaryBtnColor = $this->getTemplateOption('color_secondary_btn_color') ?>
+        <?php if($secondaryBtnColor):?>
+        a.btn-primary{
+            background-color: #<?php echo $secondaryBtnColor; ?> !important;
+        }
+        <?php endif; ?>
+
+
+        .carousel-inner > .item > img {
+            margin: 0 auto;
+        }
+    </style>
+
+
+    <?php
+        include('module/Application/view/layout/includes/site_header.phtml');
+    ?>
+
+    <?php echo $this->getSetting('general_header_scripts');?>
+</head>
+<body>
+<?php if(false):?>
+<div id="loader">
+    <div class="loader-container">
+        <img src="<?php echo $basePath; ?>/images/site.gif" alt="" class="loader-site">
+    </div>
+</div>
+<?php endif; ?>
+<div id="wrapper">
+    <div class="topbar">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-left">
+                    <p><i class="fa fa-<?php echo $this->getTemplateOption('topbar_icon') ?>"></i> <?php echo $this->getTemplateOption('topbar_slogan') ?></p>
+                </div>
+                <div class="col-md-6 text-right">
+                    <ul class="list-inline">
+                        <li>
+                            <?php $facebook = $this->getTemplateOption('topbar_facebook');?>
+                            <?php if($facebook):?>
+                            <a class="social" href="<?php echo $facebook ?>"><i class="fa fa-facebook"></i></a>
+                            <?php endif; ?>
+                            <?php $twitter = $this->getTemplateOption('topbar_twitter');?>
+                            <?php if($twitter):?>
+                                <a class="social" href="<?php echo $twitter ?>"><i class="fa fa-twitter"></i></a>
+                            <?php endif; ?>
+                            <?php $google = $this->getTemplateOption('topbar_google');?>
+                            <?php if($google):?>
+                                <a class="social" href="<?php echo $google ?>"><i class="fa fa-google-plus"></i></a>
+                            <?php endif; ?>
+
+                            <?php $linkedin = $this->getTemplateOption('topbar_linkedin');?>
+                            <?php if($linkedin):?>
+                                <a class="social" href="<?php echo $linkedin ?>"><i class="fa fa-linkedin"></i></a>
+                            <?php endif; ?>
+
+                            <?php $instagram = $this->getTemplateOption('topbar_instagram');?>
+                            <?php if($instagram):?>
+                                <a class="social" href="<?php echo $instagram ?>"><i class="fa fa-instagram"></i></a>
+                            <?php endif; ?>
+
+                        </li>
+                        <li class="dropdown">
+                            <?php if(!$this->loggedIn()):?>
+                            <a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="fa fa-lock"></i> <?= __('Student Login') ?></a>
+                            <div class="dropdown-menu">
+                                <form action="<?php echo $this->url('application/process') ?>" method="post">
+                                    <?php $form = new Application\Form\LoginForm();
+                                    $form->get('email')->setAttribute('class','form-control');
+                                    $form->get('email')->setAttribute('placeholder',__('Email'));
+
+                                    $form->get('password')->setAttribute('class','form-control');
+                                    $form->get('password')->setAttribute('placeholder',__('Password'));
+                                    ?>
+                                    <?php echo $this->formElement($form->get('security')); ?>
+                                    <div class="form-title">
+                                        <h4><?= __('Student Login') ?></h4>
+                                        <hr>
+                                    </div>
+
+                                    <?php if($this->getSetting('social_enable_facebook') || $this->getSetting('social_enable_google')):?>
+
+                                        <div class="row" style="margin-left: 2px">
+                                            <?php if($this->getSetting('social_enable_facebook')):?>
+                                                <div  style="margin-bottom: 10px">
+                                                    <a style="background-color: #188ae2 !important;
+border: 1px solid #188ae2 !important; color: #FFFFFF !important;" class="btn btn-primary btn-rounded" href="<?=$this->url('application/social-login');?>?network=Facebook">
+                                                        <i class="fa fa-facebook-square"></i>  <?= __('facebook-login') ?>
+                                                    </a></div>
+                                            <?php endif; ?>
+                                            <?php if($this->getSetting('social_enable_google')):?>
+                                                <div    style="margin-bottom: 10px">
+                                                    <a style="background-color: #f35864 !important;
+border: 1px solid #f35864 !important; color: #FFFFFF !important;"  class="btn btn-danger btn-rounded"  href="<?=$this->url('application/social-login');?>?network=Google">
+                                                        <i class="fa fa-google-plus-square"></i> <?= __('google-login') ?>
+                                                    </a></div>
+                                            <?php endif; ?>
+                                        </div>
+                                        <div style="margin-bottom: 5px"><h4><?= strtoupper(__('OR')) ?></h4></div>
+                                    <?php endif; ?>
+
+
+                                    <?php echo $this->formElement($form->get('email')); ?>
+                                    <div class="formpassword">
+                                        <?php echo $this->formElement($form->get('password')); ?>
+
+                                    </div>
+                                    <div  >
+
+                                            <div class="checkbox checkbox-success">
+
+
+                                                <label for="checkbox-signup">
+                                                    <?php
+                                                    echo $this->formElement($form->get('rememberme'));
+                                                    ?>
+                                                    <?= __('Remember me') ?>
+                                                </label>
+                                            </div>
+
+
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <button type="submit" class="btn btn-block btn-primary"><?= __('Login') ?></button>
+                                    <hr>
+                                    <h4><a href="<?php echo $this->url('application/register')?>"><?= __('create-an-account') ?></a></h4>
+                                </form>
+                            </div>
+                            <?php else: ?>
+                                <a  href="<?php echo $this->url('application/logout')?>" ><i class="fa fa-sign-out"></i> <?= __('Logout') ?></a>
+
+                            <?php endif; ?>
+                        </li>
+                        <?php if(count(currencies())>1):?>
+                            <li class="dropdown user ">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <?=currentCurrency()->country->currency_code?>    <?php if(!empty(currentCurrency()->country->symbol_left)):?>(<?=currentCurrency()->country->symbol_left?>)<?php endif; ?>  <i class="fa fa-angle-down"></i>
+                                </a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <?php foreach(currencies() as $currency):?>
+                                        <li> <a href="<?php echo $this->url('change-currency',['id'=>$currency->currency_id])?>"> <?=$currency->country->currency_code?> <?php if(!empty($currency->country->symbol_left)):?>(<?=$currency->country->symbol_left?>)<?php endif; ?> </a>  </li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </li>
+                        <?php endif; ?>
+
+                        <?php if(getCart()->hasItems()):?>
+                            <li class="user ">
+                                <a href="<?=$this->url('cart')?>" >
+                                    <i class="fa fa-cart-plus"></i> <?=getCart()->getTotalItems()?>
+                                </a>
+
+                            </li>
+
+                        <?php endif; ?>
+
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <header class="header">
+        <div class="container">
+            <div class="hovermenu ttmenu">
+                <div class="navbar navbar-default" role="navigation">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="sr-only"><?= __('Toggle navigation') ?></span>
+                            <span class="fa fa-bars"></span>
+                        </button>
+                        <div class="logo">
+                             <?php $logo = $this->getSetting('image_logo'); if(!empty($logo)):?>
+                                <a id="site-logo"  class="navbar-brand " href="<?php echo $this->url('home');?>"><img style="max-height: 90px" class="img-responsive" src="<?php echo $this->basePath(); ?>/<?php echo $this->getSetting('image_logo'); ?>"></a>
+                            <?php else:  ?>
+                                <a class="navbar-brand" href="<?php echo $this->url('home');?>"> <h2><?php echo $this->getSetting('general_site_name'); ?></h2></a>
+                            <?php endif; ?>
+
+                        </div>
+                    </div>
+                    <div class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav">
+
+
+                            <?php $articlesTable =  $this->getClass('Application\Model\ArticlesTable');  ?>
+
+                            <?php foreach($articlesTable->getArticlesForParent(0,1,null,'w') as $article): ?>
+
+                                <?php if($articlesTable->hasChildren($article->article_id,1)): ?>
+
+                                    <li class="dropdown ttmenu-half">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $article->article_name?> <span class="caret"></span></a>
+                                        <ul class="dropdown-menu">
+                                            <div class="ttmenu-content">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="box">
+                                                            <ul>
+                                                                <?php foreach($articlesTable->getArticlesForParent($article->article_id,1,null,'w') as $article1): ?>
+                                                                    <li><a href="<?php echo $this->basePath(); ?>/<?php echo $article1->alias;  ?>"><?php echo $article1->article_name?></a></li>
+                                                                <?php endforeach; ?>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                        </ul>
+                                    </li>
+                                <?php else: ?>
+                                    <li ><a href="<?php echo $this->basePath(); ?>/<?php echo $article->alias;  ?>"><?php echo $article->article_name?></a></li>
+                                <?php endif; ?>
+
+                            <?php endforeach; ?>
+
+
+
+                            <?php if($this->getSetting('menu_show_courses')==1):?>
+
+                                <?php if($this->getCategories()->count()==0):?>
+                                    <li ><a href="<?php echo $this->url('courses'); ?>"><?php echo $this->getSetting('label_courses',__('Online Courses'))?></a></li>
+                                <?php else:?>
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $this->getSetting('label_courses',__('Online Courses'))?> <span class="caret"></span></a>
+                                        <ul class="dropdown-menu">
+                                            <div class="ttmenu-content">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="box">
+                                                            <ul>
+                                                                <li ><a href="<?php echo $this->url('courses'); ?>"><?= __('All Courses') ?></a></li>
+
+                                                                <?php foreach($this->getCategories() as $category): ?>
+                                                                    <li ><a href="<?php echo $this->url('courses') ?>?group=<?php echo $category->session_category_id ?>"><?php echo $category->category_name; ?></a></li>
+
+                                                                <?php endforeach; ?>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                        </ul>
+                                    </li>
+                                <?php endif; ?>
+                            <?php endif; ?>
+
+                            <?php if($this->getSetting('menu_show_sessions')==1):?>
+                                <li ><a href="<?php echo $this->url('sessions'); ?>"><?php echo $this->getSetting('label_sessions',__('Upcoming Sessions'))?></a></li>
+                            <?php endif; ?>
+
+
+
+                            <?php if($this->getSetting('menu_show_blog')==1):?>
+                                <li ><a href="<?php echo $this->url('news'); ?>"><?php echo $this->getSetting('label_blog',__('Blog'))?></a></li>
+                            <?php endif; ?>
+
+                            <?php if($this->getSetting('menu_show_contact')==1):?>
+                                <li ><a href="<?php echo $this->url('contact'); ?>"><?php echo $this->getSetting('label_contact_us',__('Contact Us'))?></a></li>
+                            <?php endif; ?>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+
+                            <?php if(!$this->loggedIn()):?>
+                                <li> <a class="btn btn-primary" href="<?php echo $this->url('application/register')?>"><i class="fa fa-sign-in"></i>  <?= __('Register Now') ?></a>  </li>
+
+                            <?php else: ?>
+                                <li >
+                                    <a href="<?php echo $this->url('application/dashboard')?>" class="btn btn-primary"><?= __('Student Portal') ?></a>
+
+                                </li>
+                            <?php endif; ?>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <?php if(!empty($action->pageTitle)):?>
+    <section class="grey page-title">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-left">
+                    <h1><?php echo $action->pageTitle?></h1>
+                </div>
+                <div class="col-md-6 text-right">
+                    <div class="bread">
+                        <?php
+
+                        echo $this->navigation('navigation') // <-- Update this!!
+                        ->breadcrumbs()
+                            ->setMinDepth(0)
+                            ->setPartial(array('partial/breadcrumb.phtml', 'Album'));
+
+                        ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<?php endif; ?>
+    <?php echo $content; ?>
+
+    <footer class="dark footer section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-md-6 col-xs-12">
+                    <div class="widget">
+                        <div class="widget-title">
+                            <h4><?php echo $this->getSetting('label_about_us',__('About Us'))?></h4>
+                            <hr>
+                        </div>
+                        <p><?php echo $this->getTemplateOption('footer_about'); ?></p>
+
+                    </div>
+                </div>
+                <div class="col-md-3 col-md-6 col-xs-12">
+                    <div class="widget">
+                        <div class="widget-title">
+                            <h4><?= __('info') ?></h4>
+                            <hr>
+                        </div>
+                        <div class="twitter-widget">
+                            <ul class="latest-tweets">
+                                <li><a href="<?php echo $this->url('application/signin')?>"><?= __('login') ?></a></li>
+                                <li><a href="<?php echo $this->url('application/register')?>"><?= __('Register') ?></a></li>
+                                <?php if($this->getSetting('menu_show_sessions')==1):?>
+                                <li ><a href="<?php echo $this->url('sessions'); ?>"><?php echo $this->getSetting('label_sessions',__('Upcoming Sessions'))?></a></li>
+                                <?php endif; ?>
+                                <?php if($this->getSetting('menu_show_blog')==1):?>
+                                    <li ><a href="<?php echo $this->url('news'); ?>"><?php echo $this->getSetting('label_blog',__('Blog'))?></a></li>
+                                <?php endif; ?>
+                                <?php if($this->getSetting('menu_show_contact')==1):?>
+                                    <li ><a href="<?php echo $this->url('contact'); ?>"><?php echo $this->getSetting('label_contact_us',__('Contact Us'))?></a></li>
+                                <?php endif; ?>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <?php if($this->getSetting('menu_show_courses')==1):?>
+                <div class="col-md-3 col-md-6 col-xs-12">
+                    <div class="widget">
+                        <div class="widget-title">
+                            <h4><?php echo $this->getSetting('label_courses',__('Online Courses'))?></h4>
+                            <hr>
+                        </div>
+                        <ul class="latest-tweets">
+
+                    <?php if($this->getCategories()->count()==0):?>
+                         <li ><a href="<?php echo $this->url('courses'); ?>"><?= __('All Courses') ?></a></li>
+                    <?php else:?>
+                            <li ><a href="<?php echo $this->url('courses'); ?>"><?= __('All Courses') ?></a></li>
+
+                            <?php foreach($this->getCategories() as $category): ?>
+                                <li ><a href="<?php echo $this->url('courses') ?>?group=<?php echo $category->session_category_id ?>"><?php echo $category->category_name; ?></a></li>
+
+                            <?php endforeach; ?>
+                    <?php endif; ?>
+                        </ul>
+                    </div>
+                </div>
+                <?php endif; ?>
+                <div class="col-md-3 col-md-6 col-xs-12">
+                    <div class="widget">
+                        <div class="widget-title">
+                            <h4><?php echo $this->getSetting('label_contact_us',__('Contact Us'))?></h4>
+                            <hr>
+                        </div>
+                        <ul class="contact-details">
+                            <?php $website = $this->getTemplateOption('footer_website'); ?>
+                            <?php if($website):?>
+                            <li><i class="fa fa-link"></i> <a href="<?php echo fullUrl($website); ?>"><?php echo $website ?></a></li>
+                            <?php endif; ?>
+
+                            <?php $email = $this->getTemplateOption('footer_email'); ?>
+                            <?php if($email): ?>
+                            <li><i class="fa fa-envelope"></i> <a href="mailto:<?php echo $email  ?>"><?php echo $email; ?></a></li>
+                            <?php endif; ?>
+                            <?php $tel = $this->getTemplateOption('footer_tel');?>
+                            <?php if($tel):?>
+                            <li><i class="fa fa-phone"></i> <?php echo $tel; ?></li>
+                            <?php endif; ?>
+                            <?php $address = $this->getTemplateOption('footer_address'); ?>
+                            <?php if($address):?>
+                            <li><i class="fa fa-home"></i> <?php echo $address; ?></li>
+                            <?php endif; ?>
+                        </ul>
+                        <?php echo $this->getTemplateOption('footer_newsletter_code') ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <section class="copyright">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-left">
+                    <p><?php $credits = $this->getTemplateOption('footer_credits'); if($credits) echo $credits. ' .'; ?> </p>
+                </div>
+                <div class="col-md-6 text-right">
+                    <ul class="list-inline">
+                        <li><a href="<?php echo $this->url('terms') ?>"><?= __('terms-conditions') ?></a></li>
+                        <li><a href="<?php echo $this->url('privacy') ?>"><?= __('privacy-policy') ?></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>eval(mod_pagespeed_gFRwwUbyVc);</script>
+<script>eval(mod_pagespeed_rQwXk4AOUN);</script>
+<script>eval(mod_pagespeed_U0OPgGhapl);</script>
+<script src="<?php echo $basePath; ?>/js/carousel.js%2bcustom.js.pagespeed.jc.nVhk-UfDsv.js"></script><script>eval(mod_pagespeed_6Ja02QZq$f);</script>
+<script>eval(mod_pagespeed_KxQMf5X6rF);</script>
+<script src="<?php echo $basePath; ?>/rs-plugin/js/jquery.themepunch.tools.min.js.pagespeed.jm.0PLSBOOLZa.js"></script>
+<script src="<?php echo $basePath; ?>/rs-plugin/js/jquery.themepunch.revolution.min.js"></script>
+<script>jQuery(document).ready(function(){jQuery('.tp-banner_').show().revolution({dottedOverlay:"none",delay:3000,startwidth:1170,startheight:620,hideThumbs:200,thumbWidth:100,thumbHeight:50,thumbAmount:5,navigationType:"none",navigationArrows:"solo",navigationStyle:"preview3",touchenabled:"on",onHoverStop:"on",swipe_velocity:0.7,swipe_min_touches:1,swipe_max_touches:1,drag_block_vertical:false,parallax:"mouse",parallaxBgFreeze:"on",parallaxLevels:[10,7,4,3,2,5,4,3,2,1],parallaxDisableOnMobile:"off",keyboardNavigation:"off",navigationHAlign:"center",navigationVAlign:"bottom",navigationHOffset:0,navigationVOffset:20,soloArrowLeftHalign:"left",soloArrowLeftValign:"center",soloArrowLeftHOffset:20,soloArrowLeftVOffset:0,soloArrowRightHalign:"right",soloArrowRightValign:"center",soloArrowRightHOffset:20,soloArrowRightVOffset:0,shadow:0,fullWidth:"on",fullScreen:"off",spinner:"spinner4",stopLoop:"off",stopAfterLoops:-1,stopAtSlide:-1,shuffle:"off",autoHeight:"off",forceFullWidth:"off",hideThumbsOnMobile:"off",hideNavDelayOnMobile:1500,hideBulletsOnMobile:"off",hideArrowsOnMobile:"off",hideThumbsUnderResolution:0,hideSliderAtLimit:0,hideCaptionAtLimit:0,hideAllCaptionAtLilmit:0,startWithSlide:0,fullScreenOffsetContainer:""});});</script>
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        jQuery('.tp-banner').revolution(
+            {
+                delay:9000,
+                hideThumbs:10
+            });
+    });
+</script>
+
+<script src="<?php echo $basePath; ?>/js/bxslider.js.pagespeed.jm.X-sF7YFq4Y.js"></script>
+<script type="text/javascript">(function($){"use strict";$('.bxslider').bxSlider({mode:'vertical',minSlides:1,maxSlides:1,slideMargin:0,pager:false,nextText:'<i class="fa fa-arrow-down"></i>',prevText:'<i class="fa fa-arrow-up"></i>',speed:1000,auto:true});})(jQuery);</script>
+<?php echo $this->getSetting('general_foot_scripts');?>
+</body>
+
+</html>

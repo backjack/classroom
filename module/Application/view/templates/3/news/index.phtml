@@ -1,0 +1,82 @@
+<?php $this->headTitle(__('Blog'))?>
+
+<section id="mu-page-breadcrumb" >
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="mu-page-breadcrumb-area">
+                    <h2>Blog</h2>
+                    <ol class="breadcrumb">
+                        <li><a href="<?=$this->basePath()?>/"><?=__('Home')?></a></li>
+                        <li class="active"><?= __('Blog') ?></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="mu-course-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="mu-course-content-area">
+                    <div class="row">
+                        <div class="col-md-10 col-md-offset-1 ">
+                            <!-- start course content container -->
+                            <div class="mu-course-container mu-blog-archive">
+                                <div class="row">
+                                    <?php foreach($paginator as $row): ?>
+                                        <div class="col-md-6 col-sm-6">
+                                            <article class="mu-blog-single-item">
+                                                <?php if(!empty($row->picture)):?>
+                                                    <figure class="mu-blog-single-img">
+                                                        <a href="<?php echo $this->url('news-entry',array('id'=>$row->newsflash_id));?>"><img src="<?php echo resizeImage($row->picture, 750, 500, $this->basePath());?>" ></a>
+                                                        <figcaption class="mu-blog-caption">
+                                                            <h3><a href="<?php echo $this->url('news-entry',array('id'=>$row->newsflash_id));?>"><?php echo $row->title; ?></a></h3>
+                                                        </figcaption>
+                                                    </figure>
+                                                <?php endif; ?>
+                                                <div class="mu-blog-meta">
+                                                    <a href="#"><?php echo date('d/M/Y',$row->date)?></a>
+                                                </div>
+                                                <div class="mu-blog-description">
+                                                    <p><?php echo limitLength(strip_tags($row->content),200) ?></p>
+                                                    <a class="mu-read-more-btn" href="<?php echo $this->url('news-entry',array('id'=>$row->newsflash_id));?>"><?= __('Read More') ?></a>
+                                                </div>
+                                            </article>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                            <!-- end course content container -->
+                            <!-- start course pagination -->
+                            <div class="mu-pagination">
+                                <nav>
+                                    <?php
+                                    // add at the end of the file after the table
+                                    echo $this->paginationControl(
+                                    // the paginator object
+                                        $this->paginator,
+                                        // the scrolling style
+                                        'sliding',
+                                        // the partial to use to render the control
+                                        array('partial/paginator.phtml', 'Application'),
+                                        // the route to link to when a user clicks a control link
+                                        array(
+                                            'route' => 'application/default',
+                                            'controller'=>'news',
+                                            'action'=>'index',
+                                        )
+                                    );
+                                    ?>
+                                </nav>
+                            </div>
+                            <!-- end course pagination -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

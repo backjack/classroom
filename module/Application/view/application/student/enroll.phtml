@@ -1,0 +1,85 @@
+<?php if($terminal != 1){   $this->headTitle($pageTitle); }?>
+
+<!--breadcrumb-section ends-->
+<!--container starts-->
+<div class="container" style="background-color: white; min-height: 100px;   padding-bottom:50px; margin-bottom: 10px;   " >
+    <!--primary starts-->
+
+    <div class="box-body">
+
+        <?php echo $this->alert(html_entity_decode($this->flashMessenger()->render())); ?>
+<div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+
+                <th><?= __('course-session') ?></th>
+                <th><?= __('Start Date') ?></th>
+                <th><?= __('End Date') ?></th>
+                <th><?= __('Enrollment Closes') ?></th>
+                <?php if($this->getSetting('general_show_fee')==1):?>
+                <th><?= __('Fee') ?></th>
+                <?php endif; ?>
+                <th class="text-right1" style="width:90px"><?= __('Actions') ?></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach($paginator as $row): ?>
+                <tr>
+                     <td><?php echo $row->session_name; ?></td>
+                    <td><?php echo date('d/M/Y',$row->session_date); ?></td>
+                    <td><?php echo date('d/M/Y',$row->session_end_date); ?></td>
+                    <td><?php echo date('d/M/Y',$row->enrollment_closes); ?></td>
+                    <?php if($this->getSetting('general_show_fee')==1):?>
+<td>
+    <?php if(empty($row->payment_required)):?>
+    Free
+    <?php else: ?>
+    <?php echo $this->formatPrice($row->amount); ?>
+    <?php endif; ?>
+</td>
+                    <?php endif; ?>
+                    <td class="text-right">
+                     <?php if($row->enrollment_closes > time()): ?>
+                        <?php if($studentSessionTable->enrolled($id,$row->session_id)): ?>
+                            <a href="<?php echo $this->url('application/default',array('controller'=>'student','action'=>'removesession','id'=>$row->session_id));?>" class="btn btn-primary " ><i class="fa fa-minus"></i> <?= __('un-enroll') ?></a>
+
+                        <?php elseif($row->enrollment_closes > time()): ?>
+                        <a href="<?php echo $this->url('set-session',array('id'=>$row->session_id));?>" class="btn btn-primary " ><i class="fa fa-plus"></i> <?= __('Enroll Now') ?></a>
+                  <?php endif; ?>
+                     <?php endif; ?>
+                    </td>
+                    <td>
+                        <a class="btn btn-success" href="<?php echo $this->url('session-details',array('id'=>$row->session_id));?>" ><i class="fa fa-info-circle"></i> <?= __('Details') ?></a>
+
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+
+            </tbody>
+        </table>
+</div>
+        <?php
+        // add at the end of the file after the table
+        if($terminal != 1) {
+            echo $this->paginationControl(
+            // the paginator object
+                $this->paginator,
+                // the scrolling style
+                'sliding',
+                // the partial to use to render the control
+                array('partial/paginator.phtml', 'Admin'),
+                // the route to link to when a user clicks a control link
+                array(
+                    'route' => 'application/enroll',
+                )
+            );
+        }
+        ?>
+    </div>
+
+
+</div>
+
+<!--container ends-->

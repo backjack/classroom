@@ -1,0 +1,61 @@
+<?php  $this->headTitle($pageTitle) ?>
+
+
+<!--breadcrumb-section ends-->
+<!--container starts-->
+<div class="container" style="background-color: white; min-height: 400px;   padding-bottom:50px; margin-bottom: 10px;   " >
+    <!--primary starts-->
+
+    <div class="box-body">
+
+        <?php echo $this->alert($this->flashMessenger()->render()); ?>
+        <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+
+                <th><?= __('course-session') ?></th>
+                <th><?= __('course-session-start') ?></th>
+                <th><?= __('total-notes') ?></th>
+                <th class="text-right1" style="width:90px"><?= __('Actions') ?></th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach($paginator as $row): ?>
+                <tr>
+                    <td><?php echo $row->session_name; ?></td>
+                    <td><?php echo date('d/M/Y',$row->session_date); ?></td>
+                    <td><?php echo $homeworkTable->getTotalForCategory($row->session_id) ?></td>
+
+                    <td class="text-right">
+
+                            <a href="<?php echo $this->url('application/sessionnotes',array('id'=>$row->session_id));?>" class="btn btn-primary " ><i class="fa fa-eye"></i> <?= __('view-notes') ?></a>
+
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+
+            </tbody>
+        </table>
+</div>
+        <?php
+        // add at the end of the file after the table
+        echo $this->paginationControl(
+        // the paginator object
+            $this->paginator,
+            // the scrolling style
+            'sliding',
+            // the partial to use to render the control
+            array('partial/paginator.phtml', 'Admin'),
+            // the route to link to when a user clicks a control link
+            array(
+                'route' => 'application/notes',
+            )
+        );
+        ?>
+    </div>
+
+
+</div>
+
+<!--container ends-->

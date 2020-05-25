@@ -1,0 +1,498 @@
+<?php $basePath = $this->basepath().'/templates/3'; ?>
+<?php $title=$this->getSetting('general_homepage_title'); if(!empty($title)): ?>
+    <?php $this->headTitle($this->getSetting('general_homepage_title')) ?>
+<?php else: ?>
+    <?php   $this->headTitle('Home') ?>
+<?php endif; ?>
+<?php if($this->getTemplateOption('show_cover_photo')==1):?>
+<div class="parallax cover overlay cover-image-full home">
+    <?php if(empty($this->getTemplateOption('homepage_photo'))):?>
+    <img class="parallax-layer" src="<?php echo $basePath; ?>/images/photodune-4161018-group-of-students-m.jpg"  />
+   <?php else: ?>
+        <img class="parallax-layer" src="<?=resizeImage($this->getTemplateOption('homepage_photo'),1732,1155,$this->basePath())?>" alt="<?=$this->getSetting('general_site_name')?>" />
+
+    <?php endif; ?>
+    <div class="parallax-layer overlay overlay-full overlay-bg-white bg-transparent" data-speed="8" data-opacity="true">
+        <div class="v-center">
+            <div class="page-section overlay-bg-white-strong relative paper-shadow" data-z="1" style="padding-bottom: 50px">
+                <h1 class="text-display-2 margin-v-0-15 display-inline-block"><?=$this->getTemplateOption('cover_photo_title');?></h1>
+                <p class="text-subhead"><?=$this->getTemplateOption('cover_photo_text')?></p>
+            </div>
+        </div>
+    </div>
+</div>
+<?php endif; ?>
+
+
+<?php foreach($widgets as $widget): ?>
+    <?php $vals = unserialize($widget->value); ?>
+    <?php if($widget->widget_code == 'slideshow'): ?>
+        <section class="slider-section">
+
+        <div id="myCarousel<?=$widget->widget_id?>" class="carousel slide" data-ride="carousel">
+
+            <!-- Carousel indicators -->
+
+            <ol class="carousel-indicators">
+<?php $slideCount=0; ?>
+                <?php  for($i=1; $i<=10;$i++):?>
+                    <?php if(!empty($vals['slideshow_image'.$i] )):?>
+
+
+                <li data-target="#myCarousel<?=$widget->widget_id?>" data-slide-to="<?=$slideCount?>" <?php if($slideCount==0):?> class="active" <?php endif; ?>></li>
+                <?php $slideCount++ ?>
+                <?php endif; ?>
+                <?php endfor; ?>
+
+
+            </ol>
+
+            <!-- Wrapper for carousel items -->
+
+            <div class="carousel-inner">
+
+                <?php $slideCount=0; ?>
+                <?php  for($i=1; $i<=10;$i++):?>
+                    <?php if(!empty($vals['slideshow_image'.$i] )):?>
+
+                        <div class="item <?php if($slideCount==0):?> active <?php endif; ?>">
+
+                            <img  onclick="document.location.replace('<?php echo $vals['url'.$i] ?>')" style="cursor: pointer" src="<?php echo $this->basePath(); ?>/<?php echo $vals['slideshow_image'.$i] ?>" >
+
+                        </div>
+
+                        <?php $slideCount++ ?>
+                    <?php endif; ?>
+                <?php endfor; ?>
+
+
+
+
+
+
+
+            </div>
+
+            <!-- Carousel controls -->
+
+            <a class="carousel-control left" href="#myCarousel<?=$widget->widget_id?>" data-slide="prev">
+
+                <span class="glyphicon glyphicon-chevron-left"></span>
+
+            </a>
+
+            <a class="carousel-control right" href="#myCarousel<?=$widget->widget_id?>" data-slide="next">
+
+                <span class="glyphicon glyphicon-chevron-right"></span>
+
+            </a>
+
+        </div>
+
+
+
+
+
+
+      </section>
+
+
+
+    <?php elseif($widget->widget_code == 'textbtn'):?>
+        <section class="white section hptextbox"   >
+            <div class="container">
+                <div class="hero-unit box">
+                    <p>
+                        <?php echo $vals['message'] ?>
+                    </p>
+                    <?php if(!empty($vals['buttontext'])):?>
+                        <p><a href="<?php echo $vals['buttonlink'] ?>" class="btn btn-success btn-large"><?php echo $vals['buttontext'] ?> &raquo;</a></p>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </section>
+
+    <?php elseif($widget->widget_code == 'text'):?>
+        <section class="white section hptextbox">
+            <div class="container">
+                <div class="" >
+
+                    <?php echo $vals['message'] ?>
+
+                </div>
+            </div>
+        </section>
+
+    <?php elseif($widget->widget_code == 'calendar'):?>
+
+        <section class="white section">
+            <div class="container">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="section-title text-center">
+                            <h3  class="text-display-1"><?php echo $this->getSetting('label_calendar','Calendar')?></h3>
+
+                        </div>
+                        <div >
+
+                            <?php echo $calendar; ?>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+        </section>
+    <?php elseif($widget->widget_code == 'signup'): ?>
+
+        <section class="white section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="section-title text-center">
+                            <h3  class="text-display-1"><?php echo $this->getSetting('label_register','Register')?></h3>
+
+                        </div>
+                        <div >
+
+                            <?php echo $regForm; ?>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    <?php elseif($widget->widget_code == 'sessions'): ?>
+
+        <div class="page-section bg-white">
+            <div class="container">
+
+                <div class="text-center">
+                    <h3 class="text-display-1"><?php echo $this->getSetting('label_featured','Featured')?></h3>
+                </div>
+                <br/>
+
+                <div class="slick-basic slick-slider" data-items="4" data-items-lg="3" data-items-md="2" data-items-sm="1" data-items-xs="1">
+                    <?php for($i=1; $i<=10; $i++):?>
+                    <?php if(!empty($vals['session'.$i]) && $sessionTable->recordExists($vals['session'.$i])):?>
+                    <?php $row = $sessionTable->getRecord($vals['session'.$i]); ?>
+                    <?php $url= ($row->session_type=='c')? 'course-details':'session-details';?>
+                    <div class="item">
+                        <div class="panel panel-default paper-shadow" data-z="0.5" data-hover-z="1" data-animated>
+                            <div class="panel-body">
+                                <div class="media media-clearfix-xs">
+                                    <div class="media-left">
+                                        <div class="cover width-90 width-100pc-xs overlay cover-image-full hover">
+                                            <span class="img icon-block s90 bg-default"></span>
+                    <span class="overlay overlay-full padding-none icon-block s90 bg-default">
+                        <span class="v-center">
+                                   <?php if(!empty($row->picture)): ?>
+                                       <img src="<?php echo resizeImage($row->picture,90,90,$this->basePath()); ?>" alt="">
+                                       <?php elseif($row->session_type=='c'): ?>
+                                       <i class="fa fa-book"></i>
+                                       <?php else: ?>
+                                             <i class="fa fa-university"></i>
+                                   <?php endif; ?>
+
+                        </span>
+                    </span>
+                                            <a href="<?php echo $this->url($url,['id'=>$row->session_id,'slug'=>safeUrl($row->session_name)]);?>" class="overlay overlay-full overlay-hover overlay-bg-white">
+                        <span class="v-center">
+                            <span class="btn btn-circle btn-white btn-lg"><i class="fa fa-graduation-cap"></i></span>
+                        </span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="media-body">
+                                        <h4 class="media-heading margin-v-5-3"><a href="<?php echo $this->url($url,['id'=>$row->session_id,'slug'=>safeUrl($row->session_name)]);?>"><?php echo $row->session_name ?></a></h4>
+                                        <?php if($this->getSetting('general_show_fee')==1):?>
+                                            <span class="pull-left">
+                                            <?php if(empty($row->payment_required)):?>
+                                                <?=__('Free')?>
+                                            <?php else: ?>
+                                                <?php echo $this->formatPrice($row->amount); ?>
+                                            <?php endif; ?>
+                                        </span>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                        <?php endif; ?>
+                    <?php endfor; ?>
+
+
+                </div>
+
+                <div class="text-center">
+                    <br/>
+                    <?php if($this->getSetting('menu_show_courses')==1):?>
+                    <a class="btn btn-lg btn-primary" href="<?php echo $this->url('courses'); ?>">Browse Courses</a>
+    <?php endif; ?>
+                    <?php if($this->getSetting('menu_show_sessions')==1):?>
+                    <a class="btn btn-lg btn-success" href="<?php echo $this->url('sessions'); ?>">Browse Sessions</a>
+                    <?php endif; ?>
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+
+    <?php elseif($widget->widget_code == 'blog'): ?>
+        <?php $limit= empty($vals['limit'])? 4:intval($vals['limit']) ;      $news= $newsTable->getNews($limit);
+        ?>
+        <section class="grey section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="section-title text-center">
+                            <h3  class="text-display-1"><?php echo $this->getSetting('label_blog_posts','Blog Posts')?></h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="row blog-widget">
+                    <?php foreach($news as $row):?>
+
+                        <div class="media media-grid media-paper-shadow margin-top-none s-container">
+                            <div class="media-left">
+                                <div class="icon-block half img-circle bg-grey-300">
+                                    <i class="fa fa-file-text text-white"></i>
+                                </div>
+                            </div>
+                            <div class="media-body">
+                                <div class="panel panel-default paper-shadow" data-z="0.5">
+                                    <div class="panel-body">
+
+                                        <h4 class="text-title media-heading">
+                                            <a href="<?php echo $this->url('news-entry',array('id'=>$row->newsflash_id));?>" class="link-text-color"><?php echo $row->title; ?></a>
+                                        </h4>
+                                        <p class="text-light text-caption">
+                                            posted on
+                                            <a href="#"><?php echo date('d/M/Y',$row->date)?></a>
+                                        </p>
+                                        <p class="text-light">
+                                            <?php if(!empty($row->picture)):?>
+                                        <div class="blog-image">
+                                            <a href="<?php echo $this->url('news-entry',array('id'=>$row->newsflash_id));?>" title=""><img src="<?php echo resizeImage($row->picture, 358, 207, $this->basePath());?>" alt="" class="img-responsive"></a>
+                                        </div>
+                                        <?php endif; ?>
+                                        <div class="blog-desc">
+                                            <p><?php echo limitLength(strip_tags($row->content),200) ?></p>
+                                            <a href="<?php echo $this->url('news-entry',array('id'=>$row->newsflash_id));?>" class="btn btn-default btn-block">Read More</a>
+                                        </div>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+                    <?php endforeach; ?>
+
+                </div>
+            </div>
+        </section>
+
+    <?php endif; ?>
+<?php endforeach;?>
+
+
+
+
+
+
+
+
+<?php if($this->getTemplateOption('show_paralax_photo')==1):?>
+<div class="parallax cover overlay height-300 margin-none">
+    <?php if(empty($this->getTemplateOption('paralax_photo'))):?>
+    <img class="parallax-layer" data-auto-offset="true" data-auto-size="false" src="<?php echo $basePath; ?>/images/photodune-6745579-modern-creative-man-relaxing-on-workspace-m.jpg" />
+    <?php else: ?>
+        <img class="parallax-layer" data-auto-offset="true" data-auto-size="false" src="<?=resizeImage($this->getTemplateOption('paralax_photo'),1664,1202,$this->basePath())?>"  />
+    <?php endif; ?>
+
+    <div class="parallax-layer overlay overlay-full overlay-bg-white bg-transparent" data-opacity="true" data-speed="8">
+        <div class="v-center">
+            <div class="page-section">
+                <h1 class="text-display-2 overlay-bg-white margin-v-0-15 inline-block"><?=$this->getTemplateOption('paralax_photo_title')?></h1><br/>
+                <p class="lead text-overlay overlay-bg-white-strong inline-block"><?=$this->getTemplateOption('paralax_photo_text');?></p>
+            </div>
+        </div>
+    </div>
+</div>
+<?php endif; ?>
+
+
+<?php if($this->getTemplateOption('show_reviews')==1):?>
+<div class="container">
+    <div class="page-section">
+        <?php if(empty($this->getTemplateOption('review_1_text')) && empty($this->getTemplateOption('review_2_text')) && empty($this->getTemplateOption('review_3_text'))): ?>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="testimonial">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam amet doloremque enim error id, inventore magni odio odit quo tenetur.</p>
+                        </div>
+                    </div>
+                    <div class="media v-middle">
+                        <div class="media-left">
+                            <img src="<?=$basePath?>/images/people/50/guy-9.jpg" alt="People" class="img-circle width-40"/>
+                        </div>
+                        <div class="media-body">
+                            <p class="text-subhead margin-v-5-0"><strong>Adrian D. <span class="text-muted">@ Mosaicpro Inc.</span></strong></p>
+                            <p class="small">
+                                <span class="fa fa-fw fa-star text-yellow-800"></span>
+                                <span class="fa fa-fw fa-star text-yellow-800"></span>
+                                <span class="fa fa-fw fa-star text-yellow-800"></span>
+                                <span class="fa fa-fw fa-star-o text-yellow-800"></span>
+                                <span class="fa fa-fw fa-star-o text-yellow-800"></span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="testimonial">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam amet doloremque enim error id, inventore magni odio odit quo tenetur.</p>
+                        </div>
+                    </div>
+                    <div class="media v-middle">
+                        <div class="media-left">
+                            <img src="<?=$basePath?>/images/people/50/guy-9.jpg" alt="People" class="img-circle width-40"/>
+                        </div>
+                        <div class="media-body">
+                            <p class="text-subhead margin-v-5-0"><strong>Adrian D. <span class="text-muted">@ Mosaicpro Inc.</span></strong></p>
+                            <p class="small">
+                                <span class="fa fa-fw fa-star text-yellow-800"></span>
+                                <span class="fa fa-fw fa-star text-yellow-800"></span>
+                                <span class="fa fa-fw fa-star text-yellow-800"></span>
+                                <span class="fa fa-fw fa-star-o text-yellow-800"></span>
+                                <span class="fa fa-fw fa-star-o text-yellow-800"></span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="testimonial">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam amet doloremque enim error id, inventore magni odio odit quo tenetur.</p>
+                        </div>
+                    </div>
+                    <div class="media v-middle">
+                        <div class="media-left">
+                            <img src="<?=$basePath?>/images/people/50/guy-3.jpg" alt="People" class="img-circle width-40"/>
+                        </div>
+                        <div class="media-body">
+                            <p class="text-subhead margin-v-5-0"><strong>Adrian D. <span class="text-muted">@ Mosaicpro Inc.</span></strong></p>
+                            <p class="small">
+                                <span class="fa fa-fw fa-star text-yellow-800"></span>
+                                <span class="fa fa-fw fa-star text-yellow-800"></span>
+                                <span class="fa fa-fw fa-star text-yellow-800"></span>
+                                <span class="fa fa-fw fa-star-o text-yellow-800"></span>
+                                <span class="fa fa-fw fa-star-o text-yellow-800"></span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+         <?php else: ?>
+            <div class="row">
+                <?php if(!empty($this->getTemplateOption('review_1_text'))):?>
+                <div class="col-md-4">
+                    <div class="testimonial">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <p><?=$this->getTemplateOption('review_1_text')?></p>
+                            </div>
+                        </div>
+                        <div class="media v-middle">
+                            <div class="media-left">
+                                <img src="<?=resizeImage($this->getTemplateOption('review_1_photo'),50,50,$this->basePath())?>"  class="img-circle width-40"/>
+                            </div>
+                            <div class="media-body">
+                                <p class="text-subhead margin-v-5-0"><strong><?=$this->getTemplateOption('review_1_name')?> <span class="text-muted">@ <?=$this->getTemplateOption('review_1_company')?>.</span></strong></p>
+                                <p class="small">
+                                    <?php for($i=1;$i<=$this->getTemplateOption('review_1_stars');$i++):?>
+                                    <span class="fa fa-fw fa-star text-yellow-800"></span>
+                                    <?php endfor; ?>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php endif; ?>
+                <?php if(!empty($this->getTemplateOption('review_2_text'))):?>
+                    <div class="col-md-4">
+                        <div class="testimonial">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <p><?=$this->getTemplateOption('review_2_text')?></p>
+                                </div>
+                            </div>
+                            <div class="media v-middle">
+                                <div class="media-left">
+                                    <img src="<?=resizeImage($this->getTemplateOption('review_2_photo'),50,50,$this->basePath())?>"  class="img-circle width-40"/>
+                                </div>
+                                <div class="media-body">
+                                    <p class="text-subhead margin-v-5-0"><strong><?=$this->getTemplateOption('review_2_name')?> <span class="text-muted">@ <?=$this->getTemplateOption('review_2_company')?>.</span></strong></p>
+                                    <p class="small">
+                                        <?php for($i=1;$i<=$this->getTemplateOption('review_2_stars');$i++):?>
+                                            <span class="fa fa-fw fa-star text-yellow-800"></span>
+                                        <?php endfor; ?>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
+                <?php if(!empty($this->getTemplateOption('review_3_text'))):?>
+                    <div class="col-md-4">
+                        <div class="testimonial">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <p><?=$this->getTemplateOption('review_3_text')?></p>
+                                </div>
+                            </div>
+                            <div class="media v-middle">
+                                <div class="media-left">
+                                    <img src="<?=resizeImage($this->getTemplateOption('review_3_photo'),50,50,$this->basePath())?>"  class="img-circle width-40"/>
+                                </div>
+                                <div class="media-body">
+                                    <p class="text-subhead margin-v-5-0"><strong><?=$this->getTemplateOption('review_3_name')?> <span class="text-muted">@ <?=$this->getTemplateOption('review_3_company')?>.</span></strong></p>
+                                    <p class="small">
+                                        <?php for($i=1;$i<=$this->getTemplateOption('review_3_stars');$i++):?>
+                                            <span class="fa fa-fw fa-star text-yellow-800"></span>
+                                        <?php endfor; ?>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
+            </div>
+        <?php endif; ?>
+    </div>
+    <br/>
+
+</div>
+<?php endif; ?>
+

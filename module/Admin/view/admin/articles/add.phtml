@@ -1,0 +1,136 @@
+<div class="row">
+			<div >
+				<div class="box">
+
+					<div class="box-body">
+						               <?php  
+$form->prepare();
+$form->setAttribute('action', $this->url('admin/default',array('controller'=>'articles','action'=>$action,'id'=>$id)));
+$form->setAttribute('method', 'post');
+$form->setAttribute('role', 'form');  
+$form->setAttribute('class', 'form-horizontal');     
+
+echo $this->form()->openTag($form);   
+?> 
+                          
+                                                
+                                  
+							 
+									<div class="form-group"> 
+											<?php     echo $this->formLabel($form->get('article_name'));
+   
+?>
+										 <?php     echo $this->formElement($form->get('article_name'));
+   
+?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('article_name'));?></p>
+									 
+									</div>
+								 
+                                
+                                
+							 
+						 	<div class="form-group"> 
+											<?php     echo $this->formLabel($form->get('article_content'));
+   
+?>
+										 <?php     echo $this->formElement($form->get('article_content'));
+   
+?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('article_content'));?></p>
+									 
+									</div>
+
+
+                        <div class="form-group">
+                            <?php     echo $this->formLabel($form->get('top_nav'));
+
+                            ?>
+                            <?php     echo $this->formElement($form->get('top_nav'));
+
+                            ?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('top_nav'));?></p>
+
+                        </div>
+
+                        <div class="form-group">
+                            <?php     echo $this->formLabel($form->get('bottom_nav'));
+
+                            ?>
+                            <?php     echo $this->formElement($form->get('bottom_nav'));
+
+                            ?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('bottom_nav'));?></p>
+
+                        </div>
+
+                        <div class="form-group">
+                            <?php     echo $this->formLabel($form->get('sort_order'));
+
+                            ?>
+                            <?php     echo $this->formElement($form->get('sort_order'));
+
+                            ?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('sort_order'));?></p>
+
+                        </div>
+
+                        <div class="form-group">
+                            <?php     echo $this->formLabel($form->get('parent'));
+
+                            ?>
+                            <?php     echo $this->formElement($form->get('parent'));
+
+                            ?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('parent'));?></p>
+
+                        </div>
+								 
+                                	<div class="form-group"> 
+											<?php     echo $this->formLabel($form->get('alias'));
+   
+?>
+										 <?php     echo $this->formElement($form->get('alias'));
+   
+?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('alias'));?></p>
+									 
+									</div>
+
+
+                        <div class="form-group">
+                            <?php     echo $this->formLabel($form->get('visibility'));
+
+                            ?>
+                            <?php     echo $this->formElement($form->get('visibility'));
+
+                            ?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('visibility'));?></p>
+
+                        </div>
+								 
+                                
+                                
+                                
+                            
+                             
+                                                
+                                                
+                                                
+                   
+                                                
+                                                
+                                                
+							 
+							<div class="form-footer">
+								<button type="submit" class="btn btn-primary"><?= __('save-changes') ?></button> 
+							</div>
+						<?php echo $this->form()->closeTag($form);  ?>
+					</div>
+				</div><!--end .box -->
+			</div><!--end .col-lg-12 -->
+		</div>
+<?php $this->headScript()->prependFile($this->basePath() . '/ckeditor/ckeditor.js')
+     ?>
+ <script type="text/javascript">
+ 
+CKEDITOR.replace('article_content', {
+	filebrowserBrowseUrl: '<?php echo $this->basepath() ?>/admin/filemanager',
+	filebrowserImageBrowseUrl: '<?php echo $this->basepath() ?>/admin/filemanager',
+	filebrowserFlashBrowseUrl: '<?php echo $this->basepath() ?>/admin/filemanager'
+});
+ 
+</script> 
+		

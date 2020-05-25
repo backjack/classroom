@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html <?=langMeta()?>>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <?php echo $this->headTitle('Password Reset - '.$this->getSetting('general_site_name')) ?>
+
+    <!-- Bootstrap -->
+    <link href="<?php echo $this->basePath(); ?>/themes/cpanel/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="<?php echo $this->basePath(); ?>/themes/cpanel/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="<?php echo $this->basePath(); ?>/themes/cpanel/vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- Animate.css -->
+    <link href="<?php echo $this->basePath(); ?>/themes/cpanel/vendors/animate.css/animate.min.css" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link href="<?php echo $this->basePath(); ?>/themes/cpanel/build/css/custom.min.css" rel="stylesheet">
+    <?php echo $this->getSetting('general_header_scripts');?>
+    <link rel="stylesheet" href="<?php echo $this->basePath(); ?>/static/intl-tel-input/build/css/intlTelInput.css">
+
+    <style>
+        .iti-flag {background-image: url("<?php echo $this->basePath(); ?>/static/intl-tel-input/build/img/flags.png");}
+
+        @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+            .iti-flag {background-image: url("<?php echo $this->basePath(); ?>/static/intl-tel-input/build/img/flags@2x.png");}
+        }
+
+
+
+    </style>
+
+</head>
+
+<body class="login">
+<div>
+    <a class="hiddenanchor" id="signup"></a>
+    <a class="hiddenanchor" id="signin"></a>
+
+    <div class="login_wrapper">
+        <div class="animate form login_form">
+            <section class="login_content">
+                <form class="form" action="<?php echo $this->url('application/reset') ?>" method="post">
+                    <?php echo $this->formElement($form->get('security')); ?>
+                    <h1>  <?php if(isset($message)): ?>
+                            <?php echo $message; ?>
+                        <?php else: ?>
+                            <?= __('Password Reset') ?>
+                        <?php endif; ?></h1>
+                    <div>
+                        <input class="form-control" type="text" name="email" placeholder="Your Email"/>
+                    </div>
+
+
+                    <div>
+
+                        <button class="btn w-md btn-bordered btn-primary waves-effect waves-light" type="submit"><?= __('Reset') ?></button>
+
+                        <a class="reset_pass" href="<?php echo $this->url('application/signin');?>"><?= __('Login') ?></a>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <div class="separator">
+
+
+
+                        <div>
+                            <?php $logo = $this->getSetting('image_logo'); if(!empty($logo)):?>
+                                <a    href="<?php echo $this->url('home');?>"><img style="max-height: 90px"   src="<?php echo $this->basePath(); ?>/<?php echo $this->getSetting('image_logo'); ?>"></a>
+                            <?php else:  ?>
+                                <a   href="<?php echo $this->url('home');?>"> <h2><?php echo $this->getSetting('general_site_name'); ?></h2></a>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </form>
+            </section>
+        </div>
+
+
+    </div>
+</div>
+
+<!-- Bootstrap -->
+<script src="<?php echo $this->basePath(); ?>/themes/cpanel/vendors/jquery/dist/jquery.min.js"></script>
+<script src="<?php echo $this->basePath(); ?>/jquery-ui-1.11.4/jquery-ui.min.js"></script>
+<script src="<?php echo $this->basePath(); ?>/themes/cpanel/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<script src="<?php echo $this->basePath(); ?>/static/intl-tel-input/build/js/intlTelInput.js"></script>
+
+<script>
+
+
+    $("input[name=mobile_number]").intlTelInput({
+        initialCountry: "auto",
+        separateDialCode:true,
+        hiddenInput:'fmobilenumber',
+        geoIpLookup: function(callback) {
+            $.get('https://ipinfo.io', function() {}, "jsonp").always(function(resp) {
+                var countryCode = (resp && resp.country) ? resp.country : "";
+                callback(countryCode);
+            });
+        },
+        utilsScript: "<?php echo $this->basePath(); ?>/static/intl-tel-input/build/js/utils.js" // just for formatting/placeholders etc
+    });
+</script>
+<?php echo $this->getSetting('general_foot_scripts');?>
+<?php require_once('module/Application/view/application/login/captcha_config.phtml') ?>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

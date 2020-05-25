@@ -1,0 +1,71 @@
+<table class="table table-stripped">
+    <tr>
+        <td><?= __('title') ?>:</td>
+        <td><?php echo $row->title; ?></td>
+    </tr>
+
+    <tr>
+        <td><?= __('created-by') ?></td>
+        <td><?php $row2 = $this->getAdminInfo($row->account_id); echo $row2->first_name.' '.$row2->last_name.' ('.$row2->email.')'; ?></td>
+    </tr>
+
+    <tr>
+        <td><?= __('instructions') ?>:</td>
+        <td><?php echo $row->instruction; ?></td>
+    </tr>
+    <tr>
+        <td><?= __('passmark') ?></td>
+        <td><?php echo $row->passmark?>%</td>
+    </tr>
+    <tr>
+        <td><?= __('due-date') ?></td>
+        <td><?php echo date('d/m/Y',$row->due_date) ?></td>
+    </tr>
+    <tr>
+        <td><?= __('created-on') ?></td>
+        <td><?php echo date('d/m/Y',$row->created_on) ?></td>
+    </tr>
+    <tr>
+        <td><?= __('submissions') ?></td>
+        <td><?php echo $table->getTotalForAssignment($row->assignment_id) ?></td>
+    </tr>
+    <tr>
+        <td>
+            <?= __('average-score') ?>
+        </td>
+        <td>
+            <?php echo $table->getAverageScore($row->assignment_id) ?>
+        </td>
+    </tr>
+    <tr>
+        <td><?= __('total-passed') ?></td>
+        <td><?php echo $table->getTotalPassed($row->assignment_id,$row->passmark) ?></td>
+    </tr>
+    <tr>
+        <td><?= __('total-failed') ?></td>
+        <td><?php echo $table->getTotalFailedForAssignment($row->assignment_id,$row->passmark) ?></td>
+    </tr>
+    <tr>
+        <td><?= __('type') ?></td>
+        <td><?php  switch($row->assignment_type){
+                case 't':
+                    echo __('text');
+                    break;
+                case 'f':
+                    echo __('file-upload');
+                    break;
+                case 'b':
+                    echo __('text-file-upload');
+                    break;
+            } ?></td>
+    </tr>
+    <tr>
+        <td><?= __('send-submission') ?></td>
+        <td><?php echo boolToString($row->notify) ?></td>
+    </tr>
+    <tr>
+        <td><?= __('allow-late') ?></td>
+        <td><?php echo boolToString($row->allow_late) ?></td>
+    </tr>
+
+</table>

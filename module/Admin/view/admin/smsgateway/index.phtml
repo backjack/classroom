@@ -1,0 +1,80 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <?= __('settings') ?>
+    </div>
+    <div class="panel-body">
+        <form method="post" action="<?php echo selfURL() ?>">
+
+            <div class="form-group">
+                  <label for="password1" class="control-label"><?php echo $this->formLabel($form->get('sms_enabled')); ?></label>
+                  <?php     echo $this->formElement($form->get('sms_enabled'));
+
+                    ?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('sms_enabled'));?></p>
+
+            </div>
+
+            <div class="form-group">
+                <label for="password1" class="control-label"><?php echo $this->formLabel($form->get('sms_sender_name')); ?></label>
+                <?php     echo $this->formElement($form->get('sms_sender_name'));
+
+                ?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('sms_sender_name'));?></p>
+
+            </div>
+            <div class="form-footer">
+                <button type="submit" class="btn btn-primary"><?= __('submit') ?></button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <?= __('configure-sms-gateway') ?>
+    </div>
+    <div class="panel-body">
+
+        <table class="table">
+
+            <thead>
+                <tr>
+                    <th><?= __('sms-gateway') ?></th>
+                    <th><?= __('url') ?></th>
+                    <th><?= __('native-country') ?></th>
+                    <th><?= __('installed') ?></th>
+                    <th></th>
+                </tr>
+            </thead>
+
+<tbody>
+        <?php foreach($rowset as $row): ?>
+
+            <tr>
+                <td><h4><?php echo $row->gateway_name ?></h4>
+                <p style="max-width: 200px"><small><?=__($row->code.'-help')?></small></p>
+                </td>
+                <td><a href="<?php echo $row->url ?>" target="_blank"><?php echo $row->url ?></a></td>
+                <td><?php echo $row->country; ?></td>
+                <td><?php echo boolToString($row->active) ?></td>
+                <td>
+                    <?php if($row->active==1): ?>
+                        <a class="btn btn-danger" href="<?php echo $this->url('admin/default',['controller'=>'smsgateway','action'=>'customize','id'=>$row->sms_gateway_id]) ?>"><?= __('configure') ?></a>
+                        <a class="btn btn-primary" href="<?php echo $this->url('admin/default',['controller'=>'smsgateway','action'=>'uninstall','id'=>$row->sms_gateway_id]) ?>"><?= __('uninstall') ?></a>
+                <?php else: ?>
+                        <a class="btn btn-primary" href="<?php echo $this->url('admin/default',['controller'=>'smsgateway','action'=>'install','id'=>$row->sms_gateway_id]) ?>"><?= __('install') ?></a>
+                    <?php endif; ?>
+                </td>
+
+            </tr>
+
+
+        <?php endforeach; ?>
+</tbody>
+        </table>
+
+
+    </div>
+
+</div>

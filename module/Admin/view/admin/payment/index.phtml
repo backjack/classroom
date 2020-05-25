@@ -1,0 +1,123 @@
+<div class="row">
+    <div >
+        <div class="box" id="methods">
+            <div class="box-head">
+                <header></header>
+               
+
+
+            </div>
+            <div class="box-body content"  id="to-payment-methods">
+                <div class="row" style=" padding-bottom: 10px" >
+                    <div class="col-md-5"><input id="search-list" class="search form-control"  data-sort="name" placeholder="<?= __('search') ?>" /></div>
+                    <div class="col-md-3">
+                        <button class="sort btn btn-inverse btn-sm btn-block" data-sort="name">
+                            <?= __('sort-by-name') ?>
+                        </button>
+                    </div>
+                    <div class="col-md-4">
+
+                        <?php echo $this->formElement($select)?>
+
+                    </div>
+
+                </div>
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th><?= __('name') ?></th>
+                        <th><?= __('enabled') ?></th>
+                        <th>
+                            <?= __('installed-currencies') ?>
+                        </th>
+                        <th style="width: 20%"><?= __('supported-currencies') ?></th>
+                        <th><?= __('sort-order') ?></th>
+                        <th class="text-right1" style="width:90px"></th>
+                    </tr>
+                    </thead>
+                    <tbody  class="list">
+                    <?php foreach($paginator as $row): ?>
+                        <tr>
+
+                            <td class="name"><strong><?php echo $row->payment_method; ?></strong></td>
+                            <td><?php echo boolToString($row->status); ?></td>
+                            <td>
+                                <?php if($row->is_global==1): ?>
+                                    <?= __('all-currencies') ?>
+                                    <?php else: ?>
+                                    <?php foreach(\Application\Entity\PaymentMethod::find($row->payment_method_id)->paymentMethodCurrencies as $currency):?>
+                                        <?=$currency->currency->country->currency_code ?> &nbsp;
+                                    <?php endforeach; ?>
+                            <?php endif; ?>
+                            </td>
+                            <td class="currency"><?php echo $row->currency; ?></td>
+                            <td><?php echo $row->sort_order; ?></td>
+
+
+                            <td >
+                                <a href="<?php echo $this->url('admin/default',array('controller'=>'payment','action'=>'edit','id'=>$row->payment_method_id));?>" class="btn btn-xs btn-default btn-equal" data-toggle="tooltip" data-placement="top" data-original-title="<?=__('edit')?>"><i class="fa fa-pencil"></i> <?= __('edit') ?></a>
+
+                             </td>
+                        </tr>
+                    <?php endforeach; ?>
+
+                    </tbody>
+                </table>
+
+                <?php
+                // add at the end of the file after the table
+                echo $this->paginationControl(
+                // the paginator object
+                    $this->paginator,
+                    // the scrolling style
+                    'sliding',
+                    // the partial to use to render the control
+                    array('partial/paginator.phtml', 'Admin'),
+                    // the route to link to when a user clicks a control link
+                    array(
+                        'route' => 'admin/default',
+                        'controller'=>'payment',
+                        'action'=>'index',
+                    )
+                );
+                ?>
+            </div><!--end .box-body -->
+        </div><!--end .box -->
+    </div><!--end .col-lg-12 -->
+</div>
+
+<script src="<?php echo $this->basePath(); ?>/static/list/list.min.js"></script>
+<?php // $this->headScript()->prependFile($this->basePath().'/static/list/list.min.js');?>
+<script>
+    var options = {
+        valueNames: [ 'name','currency' ]
+    };
+
+    var listObj = new List('to-payment-methods', options);
+
+    var options = {
+        valueNames: [ 'name','currency' ]
+    };
+
+
+    $('#currencyselect').change(function(e){
+        $('#search-list').val('');
+        var cur = $(this).val();
+        if(cur=='')
+        {
+            listObj.search();
+        }
+        else
+        {
+            listObj.search(cur);
+        }
+    });
+    $('#search-list').focus(function(){
+        if($('#currencyselect').val() != '')
+        {
+            $('#currencyselect').val('');
+            listObj.search();
+        }
+
+    });
+</script>

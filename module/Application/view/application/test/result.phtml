@@ -1,0 +1,30 @@
+<div class="container">
+    <?php if($testRow->show_result==1):?>
+    <div class="row">
+        <div class="col-md-4 col-md-offset-3">
+            <h4><?= __('your-score') ?></h4>
+            <h1><?php echo $row->score ?>%</h1>
+        </div>
+        <div class="col-md-4">
+            <h4><?= __('passmark') ?></h4>
+            <h1><?php echo $testRow->passmark ?>%</h1>
+        </div>
+    </div>
+
+    <div id="testresult" class="row" style="text-align: center; margin-top: 30px">
+
+        <?php if($row->score >= $testRow->passmark ): ?>
+        <h1 style="color:green"><?= __('you-passed-test') ?></h1>
+        <?php else: ?>
+            <h1 style="color:red"><?= __('you-failed-test') ?></h1>
+        <?php endif; ?>
+
+    </div>
+<?php else: ?>
+    <div class="row">
+        <h4><?= __('you-completed-test') ?></h4>
+    </div>
+
+    <?php endif; ?>
+
+</div>

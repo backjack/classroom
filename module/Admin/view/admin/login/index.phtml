@@ -1,0 +1,73 @@
+<?php $this->layout('layout/adminlogin'); ?>
+<section class="login_content">
+    <?php
+    if(!isset($form))
+    {
+        $form = new Application\Form\LoginForm();
+    }
+    $form->prepare();
+
+    $form->setAttribute('action', $this->url('admin/process'));
+
+
+    $form->setAttribute('method', 'post');
+    $form->setAttribute('id', 'loginform');
+    $form->setAttribute('class', 'form-horizontal');
+
+    $form->get('email')->setAttribute('class','form-control');
+    $form->get('email')->setAttribute('placeholder','Email');
+    $form->get('email')->setAttribute('id','admin-login-email');
+
+    $form->get('password')->setAttribute('class','form-control');
+    $form->get('password')->setAttribute('placeholder','Password');
+    $form->get('rememberme')->setAttribute('id','checkbox-signup');
+    $form->get('password')->setAttribute('id','admin-login-password');
+
+
+    echo $this->form()->openTag($form);
+
+    ?>
+    <?php echo $this->formElement($form->get('security')); ?>
+        <h1> <?php if(isset($loginerror) && $loginerror): ?>
+
+                <?= __('invalid-login') ?>
+            <?php else:?>
+
+                <?= __('sign-in') ?>
+            <?php endif; ?></h1>
+    <?php echo $this->alert($this->flashMessenger()->render(),@$action->mode); ?>
+    <?php echo $this->alert(@$message,@$action->mode); ?>
+        <div>
+            <?php echo $this->formElement($form->get('email')); ?>
+        </div>
+        <div>
+            <?php echo $this->formElement($form->get('password')); ?>
+        </div>
+    <div class="checkbox checkbox-success" style="text-align: right">
+        <?php
+        echo $this->formElement($form->get('rememberme'));
+        ?>
+        <label for="checkbox-signup">
+            <?= __('remember-me') ?>
+        </label>
+    </div>
+        <div>
+
+            <button class="btn w-md btn-bordered btn-primary waves-effect waves-light" type="submit"><?= __('login') ?></button>
+
+            <a class="reset_pass" href="<?php echo $this->url('admin/reset');?>"><?= __('lost-password') ?></a>
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="separator">
+
+
+
+            <div>
+                <a href="<?php echo $this->basePath() ?>/"> <img style="max-width: 100%" src="<?php echo $this->basePath() ?>/img/logo-black.png" alt=""/></a>
+
+            </div>
+        </div>
+    </form>
+</section>

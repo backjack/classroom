@@ -1,0 +1,125 @@
+<div class="row">
+    <div >
+        <div class="box">
+
+            <div class="box-body">
+
+
+
+                <form class="form-horizontal" role="form" method="post" action="<?php echo $this->url('admin/default',array('controller'=>'setting','action'=>$action.'role','id'=>$id)) ?>">
+
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="col-lg-4 col-md-4 col-sm-6">
+                                    <label for="password1" class="control-label"><?= __('role') ?></label>
+                                </div>
+                                <div class="col-lg-8 col-md-8 col-sm-6">
+                                    <?php     echo $this->formElement($form->get('role'));
+
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+
+
+
+                    <div class="row">
+                        <div class="col-md-12"><h3><input type="checkbox" id="select_all" alt="<?= __('select-all') ?>" title="<?= __('select-all') ?>"/><?= __('permissions') ?></h3></div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <table class="table table-stripped">
+
+                                <?php foreach($groups as $row): ?>
+
+                                    <thead style="color:#ffffff; background-color: #005580;">
+                                    <tr>
+                                        <th colspan="2"><?php echo __($row->group) ?></th>
+
+                                    </tr>
+                                    </thead>
+
+
+                                    <?php foreach($form->getElements() as $element):?>
+                                        <?php if(preg_match('#_'.strtolower(str_replace(' ','_',$row->group)).'_#',$element->getName())):?>
+                                    <tr>
+                                        <td><?php echo $this->formElement($form->get($element->getName())); ?> </td>
+                                        <td><?php echo $this->formLabel($form->get($element->getName())); ?></td>
+
+                                    </tr>
+                                            <?php endif; ?>
+                                    <?php endforeach; ?>
+
+
+                                <?php endforeach; ?>
+                            </table>
+
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-footer col-lg-offset-1 col-md-offset-2 col-sm-offset-3">
+                        <button type="submit" class="btn btn-primary"><?=__('save-changes')?></button>
+                    </div>
+                </form>
+            </div>
+        </div><!--end .box -->
+    </div><!--end .col-lg-12 -->
+</div>
+
+<link rel="stylesheet" type="text/css" href="<?php echo $this->basePath() ?>/pickadate/themes/default.date.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo $this->basePath() ?>/pickadate/themes/default.css" />
+<script type="text/javascript" src="<?php echo $this->basePath() ?>/pickadate/picker.js"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() ?>/pickadate/picker.date.js"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() ?>/pickadate/legacy.js"></script>
+<script type="text/javascript"><!--
+
+    jQuery(function(){
+        jQuery('.date').pickadate({
+            format: 'yyyy-mm-dd'
+        });
+    });
+
+    $("#select_all").change(function(){  //"select all" change
+        var status = this.checked; // "select all" checked status
+        $('.cbox').each(function(){ //iterate all listed checkbox items
+            this.checked = status; //change ".checkbox" checked status
+        });
+    });
+
+    $('.cbox').change(function(){ //".checkbox" change
+        //uncheck "select all", if one of the listed checkbox item is unchecked
+        if(this.checked == false){ //if this item is unchecked
+            $("#select_all")[0].checked = false; //change "select all" checked status to false
+        }
+
+        //check "select all" if all checkbox items are checked
+        if ($('.cbox:checked').length == $('.cbox').length ){
+            $("#select_all")[0].checked = true; //change "select all" checked status to true
+        }
+    });
+    //--></script>
+
+<?php $this->headScript()->prependFile($this->basePath() . '/ckeditor/ckeditor.js')
+?>
+<script type="text/javascript">
+
+    CKEDITOR.replace('description', {
+        filebrowserBrowseUrl: '<?php echo $this->basepath() ?>/admin/filemanager',
+        filebrowserImageBrowseUrl: '<?php echo $this->basepath() ?>/admin/filemanager',
+        filebrowserFlashBrowseUrl: '<?php echo $this->basepath() ?>/admin/filemanager'
+    });
+
+</script>

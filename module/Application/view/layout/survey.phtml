@@ -1,0 +1,76 @@
+<?php
+$children = $this->viewModel()->getCurrent()->getChildren();
+foreach($children as $action) {
+    if ($action->captureTo() == 'content') {
+        break;
+    }
+
+
+}
+$basePath = $this->basePath().'/templates/1';
+?><!doctype html>
+<html <?=langMeta()?>>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    
+    <?php echo $this->headTitle(); ?>
+
+    <!-- Bootstrap core CSS -->
+    <link href="<?php echo $this->basePath() ?>/static/bootstrap3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            min-height: 2000px;
+            padding-top: 70px;
+        }
+
+    </style>
+    <script src="<?php echo $this->basePath() ?>/js/jquery-2.min.js"></script>
+    <script src="<?php echo $this->basePath() ?>/static/bootstrap3/dist/js/bootstrap.min.js"></script>
+
+
+</head>
+
+<body>
+
+<!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"><?php echo $action->pageTitle ?></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+         
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="<?php echo $this->url('home') ?>"><?= __('home') ?></a></li> 
+                <?php if($action->loggedIn): ?>
+                <li class="active"><a href="<?php echo $this->url('application/dashboard') ?>"><?= __('my-account') ?></a></li>
+                <?php endif; ?>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+
+<div class="container">
+<?php echo $content ?>
+    <!-- Main component for a primary marketing message or call to action -->
+
+
+</div> <!-- /container -->
+
+
+
+</body>
+</html>

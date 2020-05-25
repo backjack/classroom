@@ -1,0 +1,71 @@
+<div class="box">
+
+    <div class="box-body" >
+        <table class="table table-stripped">
+            <thead>
+            <tr>
+                <th><?= __('class') ?></th>
+            <th><?= __('instructors') ?></th>
+            <th></th>
+
+            </tr>
+            </thead>
+            <?php foreach($rowset as $row):?>
+                <tr>
+                    <td><?php echo $row->lesson_name;?></td>
+                    <td>
+                        <div class="btn-group dropup btn-group-xs">
+                            <button type="button" class="btn btn-inverse dropdown-toggle btn-xs" data-toggle="dropdown">
+                                <?php $total = $table->getTotalInstructors($row->lesson_id,$id); echo $total; ?> <?php if(!empty($total)):?><i class="fa fa-caret-up"></i><?php endif; ?>
+                            </button>
+                            <?php if(!empty($total)):?>
+                            <ul class="dropdown-menu pull-right animation-slide" role="menu" style="text-align: left;">
+<?php foreach($table->getInstructors($row->lesson_id,$id) as $row2):?>
+                    <li><a href="#"><?php echo $row2->first_name?> <?php echo $row2->last_name;?></a></li>
+                    <?php endforeach; ?>
+
+                            </ul>
+                            <?php endif; ?>
+                        </div>
+                    </td>
+                    <td><a class="btn btn-primary" onclick="openModal('<?=__('instructors-for')?> <?php echo $row->lesson_name ?>','<?php echo $this->url('admin/default',['controller'=>'student','action'=>'manageinstructors','id'=>$row->session_lesson_id]);?>')" href="#"><?= __('manage-instructors') ?></a></td>
+                </tr>
+
+
+            <?php endforeach; ?>
+
+        </table>
+    </div>
+
+</div>
+
+<?php echo $this->headLink()->prependStylesheet($this->basePath().'/static/datatables/media/css/jquery.dataTables.min.css');?>
+<?php $this->headScript()->prependFile($this->basePath() . '/static/datatables/media/js/jquery.dataTables.min.js')
+?>
+<script>
+    var table;
+    var dtOptions = {
+
+        "ordering": true,
+        "paging": false
+
+    };
+
+
+    $( document ).ajaxComplete(function() {
+        table = $('#datatable').DataTable(dtOptions);
+    });
+$(function(){
+
+    $(document).on('click','#savebtn',function(e){
+        e.preventDefault();
+        table.destroy();
+        $('#manageform').submit();
+    });
+
+
+
+
+});
+
+</script>

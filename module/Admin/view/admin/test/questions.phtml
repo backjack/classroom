@@ -1,0 +1,159 @@
+<div class="row">
+    <div >
+        <div class="box">
+            <div class="box-head">
+                <header></header>
+                <button data-toggle="modal" data-target="#importModal" class="btn btn-primary pull-right"><i class="fa  fa-download"></i>  Import Questions</button>
+
+                <button data-toggle="modal" data-target="#myModal" class="btn btn-primary pull-right"><i class="fa fa-plus"></i>  Add Question</button>
+
+
+            </div>
+            <div class="box-body">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th><?= __('question') ?></th>
+                        <th><?= __('options') ?></th>
+                        <th><?= __('sort-order') ?></th>
+                        <th class="text-right1" style="width:90px"><?=__('actions')?></th>
+                    </tr>
+                    </thead>
+                    <tbody> <?php $number = 1 + (30 * ($page-1)); ?>
+                    <?php foreach($paginator as $row): ?>
+                        <tr>
+                            <td><?php echo $number; $number++; ?></td>
+                            <td><?php echo $row->question; ?></td>
+                            <td><?php echo $optionTable->getTotalOptions($row->test_question_id); ?></td>
+                            <td><?php echo $row->sort_order; ?></td>
+
+                            <td class="text-right">
+                                <a href="<?php echo $this->url('admin/default',array('controller'=>'test','action'=>'editquestion','id'=>$row->test_question_id));?>" class="btn btn-xs btn-default btn-equal" data-toggle="tooltip" data-placement="top" data-original-title="<?= __('edit-questions-options') ?>"><i class="fa fa-pencil"></i></a>
+
+                                <a onclick="return confirm('<?=__('delete-confirm')?>')" href="<?php echo $this->url('admin/default',array('controller'=>'test','action'=>'deletequestion','id'=>$row->test_question_id));?>"  class="btn btn-xs btn-default btn-equal" data-toggle="tooltip" data-placement="top" data-original-title="<?=__('delete')?>"><i class="fa fa-trash-o"></i></a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+
+                    </tbody>
+                </table>
+
+                <?php
+                // add at the end of the file after the table
+                echo $this->paginationControl(
+                // the paginator object
+                    $this->paginator,
+                    // the scrolling style
+                    'sliding',
+                    // the partial to use to render the control
+                    array('partial/paginator.phtml', 'Admin'),
+                    // the route to link to when a user clicks a control link
+                    array(
+                        'route' => 'admin/default',
+                        'controller'=>'test',
+                        'action'=>'questions',
+                        'id'=>$id
+                    )
+                );
+                ?>
+            </div><!--end .box-body -->
+        </div><!--end .box -->
+    </div><!--end .col-lg-12 -->
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><?= __('add-question') ?></h4>
+            </div>
+            <form id="questionform" method="post" action="<?php echo $this->url('admin/default',['controller'=>'test','action'=>'addquestion','id'=>$id]); ?>">
+
+            <div class="modal-body">
+
+               <div class="form-group">
+                        <label for="question"><?= __('question') ?></label>
+
+                   <textarea required="required" class="form-control summernote" name="question" placeholder="<?= __('enter-question') ?>" id="question"  rows="1"></textarea>
+                    </div>
+                <div class="form-group">
+                    <label for="sort_order"><?= __('sort-order') ?> (<?= __('optional') ?>)</label>
+                    <input placeholder="<?= __('digits-only') ?>" class="form-control number"  type="text" id="sort_order" name="sort_order"/>
+                  </div>
+
+                <h3><?= __('options') ?></h3>
+                <p><small><?= __('add-question-help') ?></small></p>
+                    <table class="table table-stripped">
+                        <thead>
+                            <tr>
+                                <th><?= __('option') ?></th>
+                                <th><?= __('correct-answer') ?></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php for($i=1;$i<=5;$i++):?>
+                            <tr>
+                                <td><input name="option_<?php echo $i; ?>" class="form-control" type="text"/></td>
+                                <td><input  required="required"  type="radio" name="correct_option" value="<?php echo $i; ?>"/></td>
+                            </tr>
+                            <?php endfor; ?>
+                        </tbody>
+                    </table>
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?= __('cancel') ?></button>
+                <button  type="submit" class="btn btn-primary"><?=__('save-changes')?></button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="importModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><?= __('import-questions') ?></h4>
+            </div>
+
+            <form enctype="multipart/form-data" id="importform" method="post" action="<?php echo $this->url('admin/default',['controller'=>'test','action'=>'importquestions','id'=>$id]); ?>">
+
+                <div class="modal-body">
+                    <p>
+                        <?= __('import-questions-help',['link'=>$this->basePath().'/data/test_question_sample.csv']) ?>
+                    </p>
+                    <div class="form-group">
+                        <label for="question"><?= __('csv-file') ?></label>
+                        <input type="file" name="file" >
+                     </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><?= __('cancel') ?></button>
+                    <button  type="submit" class="btn btn-primary"><i class="fa  fa-download"></i> <?= __('import') ?></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<?php $this->headScript()->prependFile($this->basePath() . '/static/summernote/summernote.min.js')
+?>
+<?php $this->headLink()->prependStylesheet($this->basePath().'/static/summernote/summernote.css');?>
+<script>
+    $(function(){
+
+        $('.summernote').summernote({
+            height: 200
+        } );
+    });
+</script>

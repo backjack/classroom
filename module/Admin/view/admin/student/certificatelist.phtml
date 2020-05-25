@@ -1,0 +1,61 @@
+<div class="alert alert-info">
+    <a class="close" data-dismiss="alert" href="messages#">×</a>
+    <h4 class="alert-heading"><?= __('info') ?>!</h4>
+    <?= __('cert-list-help') ?>
+
+</div>
+<form enctype="multipart/form-data" class="form" method="post" action="<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'certificatelist')); ?>">
+    <h2><?= __('download-list') ?></h2>
+
+
+    <div  id="sessionbox"  class="form-group" style="padding-bottom: 10px">
+        <label for="session_id"><?= __('session-course') ?></label>
+        <?php echo $this->formElement($select) ?>
+    </div>
+   <div class="form-group"  >
+       <label><?= __('search') ?>:</label> <input checked type="radio" name="search" value="present"/><?= __('this-course-only') ?>
+       &nbsp; <input type="radio" name="search" value="all"/><?= __('any-session-course') ?>
+   </div>
+
+    <div id="lessonbox">
+
+
+
+
+    </div>
+
+
+
+    <button class="btn btn-primary" type="submit"><?= __('download') ?></button>
+</form>
+
+<script type="text/javascript"><!--
+
+    jQuery(function(){
+
+        $(document).on('change','#type',function(){
+            showOptions();
+        });
+
+        $('#sessionbox select').change(function(){
+            var val = $(this).val();
+            $('#lessonbox').text('Loading...');
+            var url = '<?php echo $this->basePath()?>/admin/student/certificatelessons/'+val;
+            $('#lessonbox').load(url,function(){
+                showOptions();
+            });
+        });
+
+
+
+    });
+
+
+
+
+    function showOptions(){
+        $('.option').hide();
+        var type = $('#type').val();
+       $('.'+type).show();
+    }
+    //--></script>

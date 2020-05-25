@@ -1,0 +1,149 @@
+<?php $this->headTitle($pageTitle); ?>
+
+<!--breadcrumb-section ends-->
+<!--container starts-->
+<div class="container" style="background-color: white; min-height: 100px;   padding-bottom:50px; margin-bottom: 10px;   " >
+    <!--primary starts-->
+
+    <div class="box-body" style="padding-top: 20px">
+
+        <?php foreach($paginator as $row): ?>
+
+            <?php if($row->session_type=='c'):?>
+          <?php $type='course'; ?>
+            <?php else:?>
+                <?php $type='session'; ?>
+            <?php endif; ?>
+            <div class="panel panel-default paper-shadow" data-z="0.5">
+                <div class="panel-body">
+
+                    <div class="media media-clearfix-xs">
+                        <div class="media-left text-center">
+                            <div class="cover width-150 width-100pc-xs overlay cover-image-full hover margin-v-0-10">
+                                <span class="img icon-block height-130 bg-default"></span>
+                            <span class="overlay overlay-full padding-none icon-block bg-default">
+                        <span class="v-center">
+
+
+                            <?php if(!empty($row->picture)): ?>
+
+                                <a href="<?php echo $this->url($type.'-details',['id'=>$row->session_id,'slug'=>safeUrl($row->session_name)]);?>" class="thumbnail" style="border: none; margin-bottom: 0px">
+                                    <img src="<?php echo resizeImage($row->picture,150,130,$this->basePath()); ?>" >
+                                </a>
+                            <?php else: ?>
+                                <i class="fa fa-book"></i>
+                            <?php endif; ?>
+                        </span>
+                    </span>
+                                <a href="<?php echo $this->url($type.'-details',['id'=>$row->session_id,'slug'=>safeUrl($row->session_name)]);?>" class="overlay overlay-full overlay-hover overlay-bg-white">
+
+                                </a>
+                            </div>
+                        </div>
+                        <div class="media-body">
+                            <h4 class="text-headline margin-v-5-0"><a href="<?php echo $this->url($type.'-details',['id'=>$row->session_id,'slug'=>safeUrl($row->session_name)]);?>"><?php echo $row->session_name ?></a></h4>
+<p><strong><?php
+        switch($row->session_type){
+            case 'b':
+                echo __('training-online');
+                break;
+            case 's':
+                echo __('training-session');
+                break;
+            case 'c':
+                echo __('online-course');
+                break;
+        }
+        ?></strong></p>
+                            <p><?php echo limitLength($row->short_description,300); ?></p>
+                            <p>
+
+                            </p>
+
+                            <?php $session = \Application\Entity\Session::find($row->session_id); ?>
+                            <hr class="margin-v-8" />
+
+                            <div class="row">
+                                <?php foreach($session->sessionInstructors as $instructor):?>
+                                    <div class="col-md-4">
+                                        <div class="media v-middle">
+                                            <div class="media-left">
+                                                <img src="<?=profilePictureUrl($instructor->account->picture,$this->basePath())?>" alt="<?= __('People') ?>" class="img-circle width-40"/>
+                                            </div>
+                                            <div class="media-body">
+                                                <h4><a href="#"  data-toggle="modal" data-target="#instructorModal<?=$instructor->session_instructor_id?>"><?=$instructor->account->first_name?> <?=$instructor->account->last_name?></a><br/></h4>
+                                                <?= __('Instructor') ?>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+
+
+                                <?php endforeach; ?>
+
+                            </div>
+                            <a href="<?php echo $this->url($type.'-details',['id'=>$row->session_id,'slug'=>safeUrl($row->session_name)]);?>" class="btn btn-primary pull-right"><i class="fa fa-info-circle"></i> <?= __('Details') ?></a>
+
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <?php foreach($session->sessionInstructors as $instructor):?>
+
+                <div class="modal fade" id="instructorModal<?=$instructor->session_instructor_id?>" tabindex="-1" role="dialog" aria-labelledby="instructorModal<?=$instructor->session_instructor_id?>Label">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="<?= __('Close') ?>"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="instructorModal<?=$instructor->session_instructor_id?>Label"><?=$instructor->account->first_name?> <?=$instructor->account->last_name?></h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="media v-middle">
+                                    <div class="media-left">
+                                        <img src="<?=profilePictureUrl($instructor->account->picture,$this->basePath())?>" alt="People" class="img-circle width-200"/>
+                                    </div>
+                                    <div class="media-body">
+                                        <?=$instructor->account->account_description?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal"><?= __('Close') ?></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+
+
+        <?php endforeach; ?>
+
+        <?php
+        // add at the end of the file after the table
+
+            echo $this->paginationControl(
+            // the paginator object
+                $this->paginator,
+                // the scrolling style
+                'sliding',
+                // the partial to use to render the control
+                array('partial/paginator.phtml', 'Application'),
+                // the route to link to when a user clicks a control link
+                array(
+                    'route' => 'application/mysessions',
+                )
+            );
+
+        ?>
+    </div>
+
+
+</div>
+
+<!--container ends-->

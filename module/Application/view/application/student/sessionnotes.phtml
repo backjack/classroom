@@ -1,0 +1,63 @@
+   <?php  $this->headTitle($pageTitle) ?>
+
+            <!--container starts-->
+           <div class="container"  >
+           	<!--primary starts-->
+            	 
+    		<div class="box-body">
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									 <th><?= __('Title') ?></th>
+                                    <th><?= __('Class') ?></th>
+									<th><?= __('Created On') ?></th> 
+									<th class="text-right1" style="width:90px"><?= __('Actions') ?></th>
+								</tr>
+							</thead>
+							<tbody>
+                            <?php foreach($paginator as $row): ?>
+								<tr>
+									 <td><?php echo $row->title; ?>
+                                     <?php if(!empty($row->description)):?>
+                                            <p><small><?php echo limitLength($row->description,200); ?></small></p>
+                                    <?php endif; ?>
+                                     </td>
+                                    <td><?php echo $row->lesson_name; ?></td>
+									<td><?php echo date('d/M/Y',$row->date); ?></td>
+								 
+									 
+									<td class="text-right">
+										<a href="<?php echo $this->url('application/viewnote',array('id'=>$row->homework_id));?>" class="btn btn-primary" data-toggle="tooltip" data-placement="top" data-original-title="Edit"><i class="fa fa-eye"></i> <?= __('View') ?></a>
+                                        
+								 	</td>
+								</tr>
+								  <?php endforeach; ?>
+								
+							</tbody>
+						</table>
+                        
+                        <?php
+ // add at the end of the file after the table
+ echo $this->paginationControl(
+     // the paginator object
+     $this->paginator,
+     // the scrolling style
+     'sliding',
+     // the partial to use to render the control
+     array('partial/paginator.phtml', 'Application'),
+     // the route to link to when a user clicks a control link
+     array(
+         'route' => 'application/sessionnotes',
+         'id'=>$id,
+
+     )
+ );
+ ?>
+					</div><!--end .box-body -->
+			
+          
+            
+           </div>
+           
+             <!--container ends-->
+         

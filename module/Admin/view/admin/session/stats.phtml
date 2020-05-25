@@ -1,0 +1,76 @@
+<div>
+    <div style="text-align: center"><h2><?php echo $percentage ?>%</h2></div>
+    <div class="progress">
+        <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="<?php echo $percentage ?>" style="width: 80%;" aria-valuenow="<?php echo $percentage ?>"></div>
+    </div>
+</div>
+
+
+<div class="x_panel">
+    <div class="x_title">
+        <h2><?php echo $row->session_name ?></h2>
+        <ul class="nav navbar-right panel_toolbox">
+            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+            </li>
+
+
+        </ul>
+        <div class="clearfix"></div>
+    </div>
+    <div class="x_content">
+
+
+        <div class="" role="tabpanel" data-example-id="togglable-tabs">
+            <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true"><?= __('classes-attended') ?></a>
+                </li>
+                <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false"><?= __('test-results') ?></a>
+                </li>
+
+            </ul>
+            <div id="myTabContent" class="tab-content">
+                <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+                    <table class="table table-stripped">
+                        <thead>
+                        <tr>
+                            <th><?= __('class') ?></th>
+                            <th><?= __('date') ?></th>
+                            <th><?= __('action') ?></th>
+                        </tr>
+                        </thead>
+                        <?php foreach($attended as $row): ?>
+                            <tr>
+                                <td><?php echo htmlentities( $row->lesson_name) ?></td>
+                                <td><?php echo htmlentities( date('d/M/Y',$row->attendance_date)) ?></td>
+                                <td><button title="Delete" onclick="openPopup('<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'deleteattendance','id'=>$row->attendance_id));?>')" href=""  class="btn btn-xs btn-default btn-equal" data-toggle="tooltip" data-placement="top" data-original-title="<?=__('delete')?>"><i class="fa fa-trash-o"></i></button></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </table>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th><?= __('test') ?></th>
+                            <th><?= __('result') ?></th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($testResults as $value): ?>
+                                <tr>
+                                    <td><?php echo $value->name; ?></td>
+                                    <td><?php echo $value->score ?>%</td>
+                                    <td> <a onclick="openModal('<?php echo $value->first_name; ?> <?php echo $value->last_name; ?>','<?php echo $this->url('admin/default',array('controller'=>'test','action'=>'testresult','id'=>$value->student_test_id));?>')"  href="javascript:;" class="btn btn-xs btn-default btn-equal" data-toggle="tooltip" data-placement="top" data-original-title="<?= __('view-result') ?>"><i class="fa fa-eye"></i></a></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+

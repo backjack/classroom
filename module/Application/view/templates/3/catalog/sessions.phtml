@@ -1,0 +1,142 @@
+<?php  $this->headTitle($pageTitle) ?>
+
+    <section id="mu-page-breadcrumb">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="mu-page-breadcrumb-area">
+                        <h2><?=$pageTitle?></h2>
+                        <ol class="breadcrumb">
+                            <li><a href="<?=$this->basePath()?>/"><?=__('Home')?></a></li>
+                            <li class="active"><?=$pageTitle?></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+<section id="mu-course-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="mu-course-content-area">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <!-- start course content container -->
+                            <div class="mu-course-container">
+                                <div class="row">
+                                    <?php foreach($paginator as $row): ?>
+                                        <div class="col-md-6 col-sm-6">
+                                            <div class="mu-latest-course-single">
+                                                <?php if(!empty($row->picture)):?>
+                                                    <figure class="mu-latest-course-img">
+                                                        <a href="<?php echo $this->url('session-details',['id'=>$row->session_id,'slug'=>safeUrl($row->session_name)]);?>"><img src="<?php echo resizeImage($row->picture,750,500,$this->basepath()); ?>" alt="img"></a>
+                                                        <figcaption class="mu-latest-course-imgcaption">
+                                                            <a href="<?php echo $this->url('session-details',['id'=>$row->session_id,'slug'=>safeUrl($row->session_name)]);?>"><?= __('Starts') ?>: <?php echo date('d/M/Y',$row->session_date); ?></a>
+                                                            <span><?= __('Enrollment Closes') ?>: <?php echo date('d/M/Y',$row->session_end_date); ?></span>
+                                                        </figcaption>
+                                                    </figure>
+                                                <?php endif; ?>
+                                                <div class="mu-latest-course-single-content">
+                                                    <h4><a href="<?php echo $this->url('session-details',['id'=>$row->session_id,'slug'=>safeUrl($row->session_name)]);?>"><?php echo $row->session_name; ?></a></h4>
+                                                    <p><?php  echo limitLength(strip_tags($row->description),200); ?></p>
+                                                    <div class="mu-latest-course-single-contbottom">
+                                                        <a class="mu-course-details" href="<?php echo $this->url('session-details',['id'=>$row->session_id,'slug'=>safeUrl($row->session_name)]);?>"><?=__('Details')?></a>
+                                                        <?php if($this->getSetting('general_show_fee')==1):?>
+                                                            <span class="mu-course-price" href="#">            <?php if(empty($row->payment_required)):?>
+                                                                    <?=__('Free')?>
+                                                                <?php else: ?>
+                                                                    <?php echo $this->formatPrice($row->amount); ?>
+                                                                <?php endif; ?></span>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                            <!-- end course content container -->
+                            <!-- start course pagination -->
+                            <div class="mu-pagination">
+
+                                <?php
+                                // add at the end of the file after the table
+
+                                echo $this->paginationControl(
+                                // the paginator object
+                                    $this->paginator,
+                                    // the scrolling style
+                                    'sliding',
+                                    // the partial to use to render the control
+                                    array('partial/paginator.phtml', 'Application'),
+                                    // the route to link to when a user clicks a control link
+                                    array(
+                                        'route' => 'courses',
+                                    )
+                                );
+
+                                ?>
+                            </div>
+                            <!-- end course pagination -->
+                        </div>
+                        <div class="col-md-3">
+                            <!-- start sidebar -->
+                            <aside class="mu-sidebar">
+                                <!-- start single sidebar -->
+                                <div class="mu-single-sidebar">
+                                    <h3><?= __('Filter') ?></h3>
+
+                                    <div class="row">
+                                        <div class="col-md-12" >
+
+                                            <form id="filterform" class="form" role="form"  method="get" action="<?php echo $this->url('sessions'); ?>">
+                                                <div class="form-group input-group ">
+                                                    <div class=" margin-none">
+                                                        <input type="hidden" name="group" value="<?php echo $group ?>"/>
+
+                                                        <div class="form-group">
+                                                            <label  for="filter"><?= __('Search') ?></label>
+                                                            <?php echo $this->formElement($text) ?>
+                                                        </div>
+                                                        <div  class="form-group" style="padding-top: 40px">
+                                                            <label  for="group"><?=__('Sort')?></label>
+                                                            <?php echo $this->formElement($sortSelect) ?>
+                                                        </div>
+
+                                                        <div style="padding-top: 35px">
+                                                            <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> <?=__('Filter')?></button>
+                                                            <button type="button" onclick="$('#filterform input, #filterform select').val(''); $('#filterform').submit();" class="btn btn-inverse"><?=__('Clear')?></button>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                            </form>
+
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <!-- end single sidebar -->
+
+                            </aside>
+                            <!-- / end sidebar -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!--breadcrumb-section ends-->

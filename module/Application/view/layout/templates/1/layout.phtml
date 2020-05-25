@@ -1,0 +1,438 @@
+<?php
+$children = $this->viewModel()->getCurrent()->getChildren();
+foreach($children as $action) {
+    if ($action->captureTo() == 'content') {
+        break;
+    }
+
+
+}
+$basePath = $this->basePath().'/templates/1';
+?><?php
+$user = null;
+//$this->plugin('translate')->setTranslator(new \Zend\I18n\Translator\Translator());
+$this->headTitle()
+    ->setSeparator(' - ')
+    ->setAutoEscape(false);
+
+
+echo $this->doctype();
+?>
+<!--[if IE 8]> <html class="ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html <?=langMeta()?>> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <?php echo $this->headTitle(); ?>
+
+
+    <!-- start: Mobile Specific -->
+    <?php echo $this->headMeta()
+        ->appendName('viewport', 'width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no')
+    ?>
+    <!-- end: Mobile Specific -->
+    <meta name="description" content="<?php echo $this->getSetting('general_homepage_meta_desc') ?>"/>
+    <meta name="author" content="<?php echo $this->getSetting('general_site_name') ?>"/>
+    <!-- start: CSS -->
+    <link href="<?php echo $basePath; ?>/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?php echo $basePath; ?>/vendor/bootstrap-social/assets/css/font-awesome.css" rel="stylesheet">
+    <link href="<?php echo $basePath; ?>/vendor/bootstrap-social/bootstrap-social.css" rel="stylesheet">
+    <link href="<?php echo $basePath; ?>/css/style.css" rel="stylesheet">
+
+    <link href="<?php echo $this->url('style'); ?>?base-color=2c4167&replace-color=<?php echo $this->getTemplateOption('color_primary_color')?>&file-path=<?php echo urlencode('public/templates/1/css/style.css') ?>" rel="stylesheet">
+
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+
+    <?php $icon = $this->getSetting('image_icon'); if(!empty($icon)):?>
+        <link rel="shortcut icon" href="<?php echo $this->basePath(); ?>/<?php echo $this->getSetting('image_icon'); ?>">
+    <?php endif; ?>
+
+    <link href="<?php echo $basePath; ?>/css/bootstrap-responsive.css" rel="stylesheet">
+
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script src="<?php echo $basePath; ?>/vendor/jquery/jquery-1.11.0.min.js"></script>
+    <script src="<?php echo $basePath; ?>/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <?php echo $this->headLink() ?>
+
+    <!-- Scripts -->
+    <?php echo $this->headScript() ?>
+    
+    <style>
+        #footer .col-1 li a::after {
+            background: url(<?php echo $basePath ?>/images/ico_contacts.png) no-repeat;
+
+        }
+        #footer .col-1 .mail a::after {
+            background: url(<?php echo $basePath ?>/images/ico_contacts.png) no-repeat 0 -32px;
+
+        }
+
+
+        #footer .col-1 .phone a::after {
+
+            background: url(<?php echo $basePath ?>/images/ico_contacts.png) no-repeat 0 -54px;
+
+
+        }
+        <?php $color=$this->getTemplateOption('color_footer'); if(!empty($color)):?>
+        #footer,#footer-menu,#copyright{
+            background-color: #<?php echo $color?>;
+        }
+
+        <?php endif; ?>
+
+        <?php $color=$this->getTemplateOption('color_footertext'); if(!empty($color)):?>
+
+        #footer,#footer a,#footer-menu,#footer-menu a,#copyright,#copyright a,#footer h3, #footer p, #footer .copy{
+            color: #<?php echo $color?> !important;
+        }
+
+        <?php endif; ?>
+
+
+        <?php $color=$this->getTemplateOption('color_navbar'); if(!empty($color)):?>
+        header, .navbar, .navbar-inner, .nav{
+            background-color: #<?php echo $color; ?> !important;
+        }
+
+        .navbar .nav > li > a, .navbar .nav > li > a:focus, .navbar .nav > li > a:hover{
+            border-top: 4px solid #<?php echo $color; ?> !important;
+        }
+        <?php endif; ?>
+
+        <?php $color=$this->getTemplateOption('color_navtext'); if(!empty($color)):?>
+        .navbar .nav > li > a, .navbar .nav > li > a:focus, .navbar .nav > li > a:hover{
+            color: #<?php echo $color?> !important;
+        }
+
+        <?php endif; ?>
+
+
+        <?php $color=$this->getTemplateOption('color_page_title'); if(!empty($color)):?>
+        div.divider {
+            background: #<?php echo $color?> !important;
+        }
+        <?php endif; ?>
+
+        <?php $color=$this->getTemplateOption('color_page_title_text'); if(!empty($color)):?>
+        div.divider h2,.breadcrumb, .breadcrumb a,.breadcrumb a:visited,.breadcrumb a:active {
+            color: #<?php echo $color?> !important;
+        }
+        <?php endif; ?>
+    </style>
+
+    <?php echo $this->getSetting('general_header_scripts');?>
+
+    <?php
+    include('module/Application/view/layout/includes/site_header.phtml');
+    ?>
+
+
+</head>
+<body>
+<header  id="header">
+
+    <!--start: Container -->
+    <div class="container">
+
+
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header logo">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only"><?= __('toggle-navigation') ?></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+
+                    <?php $logo = $this->getSetting('image_logo'); if(!empty($logo)):?>
+                        <a class="navbar-brand" href="<?php echo $this->url('home');?>"><img class="img-responsive" src="<?php echo $this->basePath(); ?>/<?php echo $this->getSetting('image_logo'); ?>"></a>
+                    <?php else:  ?>
+                        <a class="navbar-brand" href="<?php echo $this->url('home');?>"> <h2><?php echo $this->getSetting('general_site_name'); ?></h2></a>
+                    <?php endif; ?>
+
+
+
+
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+                    <ul class="nav navbar-nav nav-margin">
+
+
+                        <?php $articlesTable =  $this->getClass('Application\Model\ArticlesTable');  ?>
+
+                        <?php foreach($articlesTable->getArticlesForParent(0,1,null,'w') as $article): ?>
+
+                            <?php if($articlesTable->hasChildren($article->article_id,1)): ?>
+
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $article->article_name?> <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <?php foreach($articlesTable->getArticlesForParent($article->article_id,1,null,'w') as $article1): ?>
+                                            <li><a href="<?php echo $this->basePath(); ?>/<?php echo $article1->alias;  ?>"><?php echo $article1->article_name?></a></li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                </li>
+                            <?php else: ?>
+                                <li ><a href="<?php echo $this->basePath(); ?>/<?php echo $article->alias;  ?>"><?php echo $article->article_name?></a></li>
+                            <?php endif; ?>
+
+                        <?php endforeach; ?>
+
+
+
+
+                        <?php if($this->getSetting('menu_show_sessions')==1):?>
+                            <li ><a href="<?php echo $this->url('sessions'); ?>"><?php echo $this->getSetting('label_sessions',__('Upcoming Sessions'))?></a></li>
+                        <?php endif; ?>
+                        <?php if($this->getSetting('menu_show_courses')==1):?>
+
+                            <?php if($this->getCategories()->count()==0):?>
+                            <li ><a href="<?php echo $this->url('courses'); ?>"><?php echo $this->getSetting('label_courses',__('Online Courses'))?></a></li>
+                        <?php else:?>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $this->getSetting('label_courses',__('Online Courses'))?> <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li ><a href="<?php echo $this->url('courses'); ?>"><?= __('All Courses') ?></a></li>
+
+                                        <?php foreach($this->getCategories() as $category): ?>
+                                            <li ><a href="<?php echo $this->url('courses') ?>?group=<?php echo $category->session_category_id ?>"><?php echo $category->category_name; ?></a></li>
+
+                                        <?php endforeach; ?>
+                                    </ul>
+                                </li>
+                                <?php endif; ?>
+                        <?php endif; ?>
+
+
+                        <?php if($this->getSetting('menu_show_blog')==1):?>
+                            <li ><a href="<?php echo $this->url('news'); ?>"><?php echo $this->getSetting('label_blog',__('Blog'))?></a></li>
+                        <?php endif; ?>
+
+                        <?php if($this->getSetting('menu_show_contact')==1):?>
+                            <li ><a href="<?php echo $this->url('contact'); ?>"><?php echo $this->getSetting('label_contact_us',__('Contact Us'))?></a></li>
+                        <?php endif; ?>
+
+                    </ul>
+
+                    <ul class="nav navbar-nav navbar-right ">
+
+                        <?php if(!$this->loggedIn()):?>
+                        <li class="dropdown ">
+                            <a href="#" class="dropdown-toggle selectedmenu" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?= __('My Account') ?> <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <?php if(!$this->loggedIn()):?>
+                                    <li> <a href="<?php echo $this->url('application/signin')?>"> <?= __('Login') ?> </a>  </li>
+                                    <li> <a href="<?php echo $this->url('application/register')?>"> <?= __('Register') ?> </a>  </li>
+
+                                <?php endif;?>
+
+
+                            </ul>
+                        </li>
+                        <?php else: ?>
+                            <li class="dropdown ">
+                                <a href="<?php echo $this->url('application/dashboard')?>" class=" selectedmenu"  role="button" aria-haspopup="true" aria-expanded="false"><?= __('Student Portal') ?></a>
+
+                            </li>
+                        <?php endif; ?>
+                    </ul>
+
+                </div><!-- /.navbar-collapse -->
+
+
+            </div><!-- /.themecontainer-fluid -->
+        </nav>
+
+
+    </div>
+    <!--end: Container-->
+
+</header>
+
+<!-- / header -->
+
+<div class="divider">
+    <?php if(!empty($action->pageTitle)):?>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-7">
+                <h2><?php echo $action->pageTitle?></h2>
+            </div>
+            <div class="col-md-4">
+                <?php
+
+                echo $this->navigation('navigation') // <-- Update this!!
+                ->breadcrumbs()
+                    ->setMinDepth(0)
+                    ->setPartial(array('partial/breadcrumb.phtml', 'Album'));
+
+                ?>    </div>
+        </div>
+
+
+    </div>
+    <?php endif; ?>
+</div>
+
+<div class="content">
+    <?php echo $content ?>
+</div>
+
+<!-- START SIMPLE MODAL MARKUP -->
+<div class="modal fade" id="generalModal" tabindex="-1" role="dialog" aria-labelledby="generalModalLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="generalModalLabel"></h4>
+            </div>
+            <div class="modal-body" id="genmodalinfo">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal"><?= __('Close') ?></button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- END SIMPLE MODAL MARKUP -->
+<script>
+    function openModal(title,url){
+        $('#genmodalinfo').html(' <img  src="<?php echo $this->basePath() ?>/img/ajax-loader.gif">');
+        $('#generalModalLabel').text(title);
+        $('#genmodalinfo').load(url);
+        $('#generalModal').modal();
+    }
+    function openPopup(url){
+        window.open(url, "_blank", "toolbar=no,scrollbars=yes,resizable=yes,top=500,left=500,width=400,height=400");
+        return false;
+    }
+</script>
+
+<footer id="footer">
+    <div class="themecontainer">
+        <section>
+            <?php if($this->getTemplateOption('footer_show_contact')==1):?>
+            <article class="col-1">
+                <h3><?php echo $this->getSetting('label_contact_us',__('Contact Us'))?></h3>
+                <ul>
+                    <li class="address"><a href="#"><?php echo nl2br($this->getTemplateOption('footer_address')) ?></a></li>
+
+                    <?php $mail =$this->getTemplateOption('footer_email'); if(!empty($mail)):?>
+                        <li class="mail"><a href="mailto:<?php echo $mail; ?>"><?php echo $mail; ?></a></li>
+
+                    <?php endif; ?>
+                    <?php $tel =$this->getTemplateOption('footer_tel'); if(!empty($tel)):?>
+
+                        <li class="phone last"><a href="#"><?php echo $tel; ?></a></li>
+                    <?php endif; ?>
+
+                </ul>
+            </article>
+            <?php endif; ?>
+            <?php if($this->getTemplateOption('footer_show_about')==1):?>
+            <article class="col-2">
+                <h3><?php echo $this->getSetting('label_about_us',__('About Us'))?></h3>
+                <p>
+                    <?php echo $this->getTemplateOption('footer_about'); ?>
+                </p>
+            </article>
+            <?php endif; ?>
+            <?php if($this->getTemplateOption('footer_show_sicons')==1):?>
+            <article class="col-3">
+                <h3><?php echo $this->getSetting('label_follow_us',__('Follow Us'))?></h3>
+                <ul>
+
+                    <?php $templateOptionTable = $this->getClass('Application\Model\TemplateOptionTable'); ?>
+                    <?php $social = $templateOptionTable->getRecordsForGroup(TID,'social');?>
+                    <?php foreach($social as $row):?>
+                        <?php if(!empty($row->value)):?>
+                            <li class="<?php echo str_ireplace('social_','',$row->key) ?>"> <a href="<?php echo $row->value  ?>"><i class="fa fa-<?php echo str_ireplace('social_','',$row->key) ?>"></i>&nbsp;&nbsp;<?php echo ucfirst(str_ireplace('social_','',$row->key)) ?></a></li>
+
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </ul>
+
+                <div style="clear: both; padding-top: 30px; text-align: center;">
+                    <a href="<?php echo $this->url('terms') ?>"><?= __('terms-conditions') ?></a> / <a href="<?php echo $this->url('privacy') ?>"><?= __('privacy-policy') ?></a>
+                </div>
+
+
+            </article>
+            <?php endif; ?>
+            <?php if($this->getTemplateOption('footer_show_newsletter')==1):?>
+            <article class="col-4">
+                <h3><?= __('newsletter') ?></h3>
+
+                <?php echo $this->getTemplateOption('footer_newsletter_code'); ?>
+
+            </article>
+            <?php endif; ?>
+        </section>
+
+        <p class="copy"><?php echo $this->getTemplateOption('footer_credits'); ?><?php $status=getenv('hidecopy'); if(empty($status)):?>
+
+            <?php endif; ?>
+        </p>
+    </div>
+    <!-- / themecontainer -->
+</footer>
+<!-- / footer -->
+
+
+
+
+<script src="<?php echo $basePath; ?>/js/plugins.js"></script>
+<script src="<?php echo $basePath; ?>/js/main.js"></script>
+
+<script src="<?php echo $basePath; ?>/js/flexslider.js"></script>
+<script src="<?php echo $basePath; ?>/js/carousel.js"></script>
+<script src="<?php echo $basePath; ?>/js/jquery.cslider.js"></script>
+<script src="<?php echo $basePath; ?>/js/slider.js"></script>
+<script defer="defer" src="<?php echo $basePath; ?>/js/custom.js"></script>
+<!-- START SIMPLE MODAL MARKUP -->
+<div class="modal fade" id="generalModal" tabindex="-1" role="dialog" aria-labelledby="generalModalLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="generalModalLabel"></h4>
+            </div>
+            <div class="modal-body" id="genmodalinfo">
+
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- END SIMPLE MODAL MARKUP -->
+<script>
+    function openModal(title,url){
+        $('#genmodalinfo').html(' <img  src="<?php echo $this->basePath() ?>/img/ajax-loader.gif">');
+        $('#generalModalLabel').text(title);
+        $('#genmodalinfo').load(url);
+        $('#generalModal').modal();
+    }
+    function openPopup(url){
+        window.open(url, "_blank", "toolbar=no,scrollbars=yes,resizable=yes,top=500,left=500,width=400,height=400");
+        return false;
+    }
+</script>
+<?php echo $this->getSetting('general_foot_scripts');?>
+</body>
+</html>

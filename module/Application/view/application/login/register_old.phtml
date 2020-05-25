@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html<?=langMeta()?>>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- App favicon -->
+    <?php $icon = $this->getSetting('image_icon'); if(!empty($icon)):?>
+    <link rel="shortcut icon" href="<?php echo $this->basePath(); ?>/<?php echo $this->getSetting('image_icon'); ?>">
+    <?php endif; ?>
+    <!-- App title -->
+    <title>Register</title>
+
+    <!-- App css -->
+    <link href="<?php echo $this->basePath(); ?>/themes/ucpanel/theme/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo $this->basePath(); ?>/themes/ucpanel/theme/assets/css/core.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo $this->basePath(); ?>/themes/ucpanel/theme/assets/css/components.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo $this->basePath(); ?>/themes/ucpanel/theme/assets/css/icons.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo $this->basePath(); ?>/themes/ucpanel/theme/assets/css/pages.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo $this->basePath(); ?>/themes/ucpanel/theme/assets/css/menu.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo $this->basePath(); ?>/themes/ucpanel/theme/assets/css/responsive.css" rel="stylesheet" type="text/css" />
+
+    <!-- HTML5 Shiv and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="<?php echo $this->basePath(); ?>/themes/ucpanel/theme/assets/js/modernizr.min.js"></script>
+
+    <link rel="stylesheet" href="<?php echo $this->basePath(); ?>/static/intl-tel-input/build/css/intlTelInput.css">
+
+    <style>
+        .iti-flag {background-image: url("<?php echo $this->basePath(); ?>/static/intl-tel-input/build/img/flags.png");}
+
+        @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+            .iti-flag {background-image: url("<?php echo $this->basePath(); ?>/static/intl-tel-input/build/img/flags@2x.png");}
+        }
+
+
+
+    </style>
+
+</head>
+
+
+<body class="bg-transparent">
+
+<!-- HOME -->
+<section>
+    <div class="container-alt">
+        <div class="row">
+            <div class="col-sm-12">
+
+                <div class="wrapper-page" style="margin: 3% auto;  max-width: 440px;">
+                    <div style="text-align: center; padding-bottom: 0px">
+                        <?php $logo = $this->getSetting('image_logo'); if(!empty($logo)):?>
+                            <a    href="<?php echo $this->url('home');?>"><img style="max-height: 90px"   src="<?php echo $this->basePath(); ?>/<?php echo $this->getSetting('image_logo'); ?>"></a>
+                        <?php else:  ?>
+                            <a   href="<?php echo $this->url('home');?>"> <h2><?php echo $this->getSetting('general_site_name'); ?></h2></a>
+                        <?php endif; ?>
+                    </div>
+                    <?php echo $this->alert(html_entity_decode($this->flashMessenger()->render())); ?>
+                    <?php if(isset($message)): ?>
+                        <div class="alert alert-danger alert-dismissible" role="alert">
+                            <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <strong>Warning!</strong> <?php echo $message ?>
+                        </div>
+                    <?php endif; ?>
+                    <div class="m-t-10 account-pages">
+
+                        <div class="text-center account-logo-box">
+                            <h2 class="text-uppercase_">
+                                <a href="#" class="text-success">
+                                    <span style="color: white">Register</span>
+
+                                </a>
+
+                            </h2>
+                            <h4  style="color: white" class="text-uppercase_ font-bold m-b-0"><?php echo $this->getSetting('regis_registration_instructions') ?></h4>
+                        </div>
+                        <div class="account-content">
+
+                            <?php
+                            if(!isset($form))
+                            {
+                                $form = new Application\Form\SignupForm();
+                            }
+                            $form->prepare();
+
+                            $form->setAttribute('action', $this->url('application/register'));
+
+                            $elements = $form->getElements();
+                            foreach($elements as $element){
+                                if($element->getAttribute('type')!='checkbox' && $element->getAttribute('type')!='radio'){
+                                    $element->setAttribute('class','form-control  input-lg');
+                                }
+
+                            }
+
+                            $form->setAttribute('method', 'post');
+                            $form->setAttribute('id', 'loginform');
+                            $form->setAttribute('class','form-horizontal'); 
+
+                            echo $this->form()->openTag($form);
+
+                            ?>
+                            <?php echo $this->formElement($form->get('security')); ?>
+
+
+                            <?php if($this->getSetting('social_enable_facebook') || $this->getSetting('social_enable_google')):?>
+
+                                <div class="row">
+                                    <?php if($this->getSetting('social_enable_facebook')):?>
+                                        <div class="col-md-5" style="margin-bottom: 10px">
+                                            <a class="btn btn-primary btn-rounded" href="<?=$this->url('application/social-login');?>?network=Facebook">
+                                                <i class="fa fa-facebook-square"></i>  Sign up with Facebook
+                                            </a></div>
+                                    <?php endif; ?>
+                                    <?php if($this->getSetting('social_enable_google')):?>
+                                        <div class="col-md-5 col-md-offset-1"  style="margin-bottom: 10px">
+                                            <a  class="btn btn-danger btn-rounded"  href="<?=$this->url('application/social-login');?>?network=Google">
+                                                <i class="fa fa-google-plus-square"></i> Sign up with Google
+                                            </a></div>
+                                    <?php endif; ?>
+                                </div>
+                                <div><h4>OR</h4></div>
+                            <?php endif; ?>
+
+                            <div class="row">
+                                <div class="control-group col-xs-12">
+                                    <?php echo $this->formLabel($form->get('first_name')); ?>
+
+                                    <div class="controls">
+                                        <?php echo $this->formElement($form->get('first_name')) ?>
+                                        <p class="help-block">&nbsp;</p>
+                                    </div>
+                                </div>
+
+                                <div class="control-group col-xs-12">
+                                    <?php echo $this->formLabel($form->get('last_name')); ?>
+
+                                    <div class="controls">
+                                        <?php echo $this->formElement($form->get('last_name')) ?>
+                                        <p class="help-block">&nbsp;</p>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="control-group col-xs-12">
+                                    <?php echo $this->formLabel($form->get('mobile_number')); ?>
+
+                                    <div class="controls">
+                                        <?php echo $this->formElement($form->get('mobile_number')) ?>
+                                        <p class="help-block">&nbsp;</p>
+                                    </div>
+                                </div>
+
+                                <div class="control-group col-xs-12">
+                                    <?php echo $this->formLabel($form->get('email')); ?>
+
+                                    <div class="controls">
+                                        <?php echo $this->formElement($form->get('email')) ?>
+                                        <p class="help-block">Please provide your email. You will use this to login subsequently.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <?php foreach($fields as $row):?>
+
+
+
+                                    <?php if($row->type == 'checkbox'):?>
+                                        <div class="control-group col-xs-12">
+
+
+                                            <div class="controls">
+                                                <?php echo $this->formLabel($form->get('custom_'.$row->registration_field_id)); ?>  <?php     echo $this->formElement($form->get('custom_'.$row->registration_field_id));
+
+                                                ?> <p class="help-block"><?php echo $this->formElementErrors($form->get('custom_'.$row->registration_field_id));?></p>
+                                            </div>
+                                        </div>
+
+                                    <?php elseif($row->type == 'radio'): ?>
+
+                                        <div class="control-group col-xs-12">
+                                            <?php echo $this->formLabel($form->get('custom_'.$row->registration_field_id)); ?>
+                                            <div class="controls">
+                                                <?php     echo $this->formRadio($form->get('custom_'.$row->registration_field_id));
+
+                                                ?> <p class="help-block"><?php echo $this->formElementErrors($form->get('custom_'.$row->registration_field_id));?></p>
+                                            </div>
+                                        </div>
+
+                                    <?php else: ?>
+                                        <div class="control-group col-xs-12">
+                                            <?php echo $this->formLabel($form->get('custom_'.$row->registration_field_id)); ?>
+                                            <div class="controls">
+                                                <?php     echo $this->formElement($form->get('custom_'.$row->registration_field_id));
+
+                                                ?> <p class="help-block"><?php echo $this->formElementErrors($form->get('custom_'.$row->registration_field_id));?></p>
+                                            </div>
+                                        </div>
+
+
+                                    <?php endif; ?>
+
+
+
+
+                                <?php endforeach; ?>
+                            </div>
+                            <div class="row">
+
+
+                                <div class="control-group col-xs-12">
+                                    <?php echo $this->formLabel($form->get('password')); ?>
+
+                                    <div class="controls">
+                                        <?php echo $this->formElement($form->get('password')) ?>
+                                        <p class="help-block">&nbsp;</p>
+                                    </div>
+                                </div>
+
+                                <div class="control-group col-xs-12">
+                                    <?php echo $this->formLabel($form->get('confirm_password')); ?>
+
+                                    <div class="controls">
+                                        <?php echo $this->formElement($form->get('confirm_password')) ?>
+                                        <p class="help-block">&nbsp;</p>
+                                    </div>
+                                </div>
+
+                                <?php if(getSetting('regis_captcha_type')=='image'): ?>
+                                <div class="control-group col-xs-12" style="margin-top: 20px" >
+
+                                    <?php $form->get('captcha')->setAttribute('class','form-control input-lg'); $form->get('captcha')->setAttribute('style','margin-top:10px');
+                                    $form->get('captcha')->setAttribute('placeholder','Enter code here');
+                                    $form->get('captcha')->setAttribute('required','required');
+                                    echo $this->formLabel($form->get('captcha')); ?>
+                                    <div class="controls">
+                                        <?php
+                                        echo $this->formElement($form->get('captcha'));
+                                        echo $this->formElementErrors($form->get('captcha'));
+                                        ?>
+                                    </div>
+
+                                </div>
+                                <?php else: ?>
+
+                                    <input type="hidden" name="captcha" class="captcha_token"/>
+                                <?php endif; ?>
+
+
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <div class="col-xs-12">
+                                    <div class="checkbox checkbox-success">
+                                        <input required="required" id="checkbox-signup" type="checkbox" checked="checked">
+                                        <label for="checkbox-signup">I accept the <a href="<?php echo $this->url('terms') ?>">Terms and Conditions</a></label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group account-btn text-center m-t-10">
+                                <div class="col-xs-12">
+                                    <button class="btn w-md btn-danger btn-bordered waves-effect waves-light" type="submit">Register</button>
+                                </div>
+                            </div>
+
+                            <?php echo $this->form()->closeTag() ?>
+
+                            <div class="clearfix"></div>
+
+                        </div>
+                    </div>
+                    <!-- end card-box-->
+
+
+                    <div class="row m-t-50">
+                        <div class="col-sm-12 text-center">
+                              <p class="text-muted">Already have account?<a href="<?php echo $this->url('application/signin')?>" class="text-primary m-l-5"><b>Sign In</b></a></p>
+
+
+                        </div>
+                    </div>
+
+                </div>
+                <!-- end wrapper -->
+
+            </div>
+        </div>
+    </div>
+</section>
+<!-- END HOME -->
+
+<script>
+    var resizefunc = [];
+</script>
+
+<!-- jQuery  -->
+<script src="<?php echo $this->basePath(); ?>/themes/ucpanel/theme/assets/js/jquery.min.js"></script>
+<script src="<?php echo $this->basePath(); ?>/themes/ucpanel/theme/assets/js/bootstrap.min.js"></script>
+<script src="<?php echo $this->basePath(); ?>/themes/ucpanel/theme/assets/js/detect.js"></script>
+<script src="<?php echo $this->basePath(); ?>/themes/ucpanel/theme/assets/js/fastclick.js"></script>
+<script src="<?php echo $this->basePath(); ?>/themes/ucpanel/theme/assets/js/jquery.blockUI.js"></script>
+<script src="<?php echo $this->basePath(); ?>/themes/ucpanel/theme/assets/js/waves.js"></script>
+<script src="<?php echo $this->basePath(); ?>/themes/ucpanel/theme/assets/js/jquery.slimscroll.js"></script>
+<script src="<?php echo $this->basePath(); ?>/themes/ucpanel/theme/assets/js/jquery.scrollTo.min.js"></script>
+
+<!-- App js -->
+<script src="<?php echo $this->basePath(); ?>/themes/ucpanel/theme/assets/js/jquery.core.js"></script>
+<script src="<?php echo $this->basePath(); ?>/themes/ucpanel/theme/assets/js/jquery.app.js"></script>
+
+<script src="<?php echo $this->basePath(); ?>/static/intl-tel-input/build/js/intlTelInput.js"></script>
+
+<script>
+
+
+    $("input[name=mobile_number]").intlTelInput({
+        initialCountry: "auto",
+        separateDialCode:true,
+        hiddenInput:'fmobilenumber',
+        geoIpLookup: function(callback) {
+            $.get('https://ipinfo.io', function() {}, "jsonp").always(function(resp) {
+                var countryCode = (resp && resp.country) ? resp.country : "";
+                callback(countryCode);
+            });
+        },
+        utilsScript: "<?php echo $this->basePath(); ?>/static/intl-tel-input/build/js/utils.js" // just for formatting/placeholders etc
+    });
+</script>
+<?php require_once('module/Application/view/application/login/captcha_config.phtml') ?>
+</body>
+</html>

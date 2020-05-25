@@ -1,0 +1,875 @@
+<!doctype html>
+<html class="no-js" <?=langMeta()?>>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title><?=$pageTitle?></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="<?php echo $this->basePath(); ?>/<?php echo $this->getSetting('image_logo'); ?>">
+
+
+    <!-- Bootstrap css -->
+    <link rel="stylesheet" href="<?php echo $this->basePath(); ?>/themes/course/css/bootstrap.min.css">
+    <!-- Plugins css -->
+    <link rel="stylesheet" href="<?php echo $this->basePath(); ?>/themes/course/css/plugins.css">
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="<?php echo $this->basePath(); ?>/themes/course/style.css">
+    <!-- Custom css -->
+    <link rel="stylesheet" href="<?php echo $this->basePath(); ?>/themes/course/css/custom.css">
+    <link href="<?php echo $this->basePath(); ?>/static/fontawesome5/web-fonts-with-css/css/fontawesome-all.min.css" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="<?php echo $this->basePath(); ?>/static/scrolltabs/jquery.scrolling-tabs.min.css">
+    <link rel="stylesheet" href="<?php echo $this->basePath(); ?>/static/toastr/toastr.css">
+
+    <link rel="stylesheet" href="<?php echo $this->basePath(); ?>/static/jquery-fullsizable-2.1.0/css/jquery-fullsizable.css">
+
+    <link rel="stylesheet" href="<?php echo $this->basePath(); ?>/static/jquery-fullsizable-2.1.0/css/jquery-fullsizable-theme.css">
+
+
+    <link rel="stylesheet" href="<?php echo $this->basePath(); ?>/static/slickquiz/css/slickQuiz.css">
+
+    <link rel="stylesheet" href="<?php echo $this->basePath(); ?>/static/slickquiz/css/custom.css">
+
+
+
+    <script src="<?php echo $this->basePath(); ?>/themes/course/js/vendor/modernizr-2.8.3.min.js"></script>
+    <!-- jQuery javascripts -->
+    <script src="<?php echo $this->basePath(); ?>/themes/course/js/vendor/jquery.min.js"></script>
+    <!-- Bootstrap javascrits -->
+    <script src="<?php echo $this->basePath(); ?>/themes/course/js/bootstrap.min.js"></script>
+
+    <script src="<?php echo $this->basePath(); ?>/jquery-ui-1.11.4/jquery-ui.min.js"></script>
+
+    <link href="<?php echo $this->basePath(); ?>/static/select2/css/select2.min.css" rel="stylesheet" />
+    <script src="<?php echo $this->basePath(); ?>/static/select2/js/select2.min.js"></script>
+
+    <script src="<?php echo $this->basePath(); ?>/app/lib.js"></script>
+
+
+    <script src="<?php echo $this->basePath(); ?>/static/scrolltabs/jquery.scrolling-tabs.min.js"></script>
+    <script src="<?php echo $this->basePath(); ?>/static/jquery-fullsizable-2.1.0/js/jquery-fullsizable.js"></script>
+    <script src="<?php echo $this->basePath(); ?>/static/slickquiz/js/slickQuiz.js"></script>
+
+
+    <link href="https://vjs.zencdn.net/7.0.0/video-js.css" rel="stylesheet"><!-- https://videojs.com -->
+
+    <style type="text/css">
+        .video-js {
+            font-size: 1rem;
+        }
+    </style>
+
+    <!-- Le styles -->
+    <?php echo $this->headLink() ?>
+    <!-- Scripts -->
+    <?php echo $this->headScript(); ?>
+
+    <?php echo $this->headStyle(); ?>
+
+    <?php if(defined('USER_ID')):?>
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-98793156-2', 'auto');
+            ga('send', 'pageview');
+
+        </script>
+    <?php endif; ?>
+
+    <?php if(defined('ENABLE_CHAT')):?>
+        <?php echo $this->getSetting('general_chat_code'); ?>
+    <?php endif; ?>
+
+    <?php echo $this->getSetting('general_header_scripts');?>
+</head>
+<body>
+<!--[if lt IE 8]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+
+<!-- Add your site or application content here -->
+
+
+<div class="body-wrapper nav-side">
+
+    <div class="content--left header-area header--style-4 site__header--left bg-white text-center hidden-sm hidden-xs">
+        <div class="logo-menu-wrap left__side__menu">
+            <div class="logo">
+                <a href="<?php echo $this->url('home'); ?>">
+                    <img src="<?php echo $this->basePath(); ?>/<?php echo $this->getSetting('image_logo'); ?>" alt="logo">
+                </a>
+            </div>
+            <nav class="menu menu--style-4">
+                <ul id="fullnav">
+
+                    <?php foreach($session->sessionLessons()->orderBy('sort_order')->get() as $sessionLesson):?>
+                    <li   <?php if($lecture->lesson_id==$sessionLesson->lesson_id):?>
+                            class="current"
+                        <?php endif;?> style="border-bottom: solid 1px #cccccc; padding-bottom: 10px">
+                        <?php if($lecture->lesson_id==$sessionLesson->lesson_id):?>
+                        <i class="fa fa-arrow-circle-right"></i>
+                        <?php endif;?>
+                        <a  role="button" data-toggle="collapse" href="#collapseExample<?=$sessionLesson->session_lesson_id?>" aria-expanded="false" aria-controls="collapseExample<?=$sessionLesson->session_lesson_id?>"><?=$sessionLesson->lesson->lesson_name;?> </a>
+
+
+                        <div class="collapse <?php if($lecture->lesson_id==$sessionLesson->lesson_id):?>
+                           in
+                    <?php endif;?>" id="collapseExample<?=$sessionLesson->session_lesson_id?>">
+                            <div class="well">
+                                <ul class="list-group">
+                                    <li class="list-group-item"><a href="<?=$this->url('view-class'.$append,['classId'=>$sessionLesson->lesson_id,'sessionId'=>$sessionId])?>"><?= __('Intro') ?></a></li>
+                                    <?php foreach ($sessionLesson->lesson->lectures()->orderBy('sort_order')->get() as $classLecture):?>
+                                    <li class="list-group-item">
+                                        <a href="<?php echo $this->url('view-lecture'.$append,['sessionId'=>$sessionId,'lectureId'=>$classLecture->lecture_id]) ?>">
+                                        <?php if($lecture->lecture_id==$classLecture->lecture_id):?>
+                                            <i class="fa fa-arrow-circle-right"></i>
+                                        <?php endif; ?>
+                                        <?=$classLecture->lecture_title; ?>
+                                        </a>
+                                    </li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <?php endforeach; ?>
+                    <li><a style="color:white" class="btn btn-danger" href="<?php echo $this->url('course-details',['id'=>$session->session_id,'slug'=>safeUrl($session->session_name)]);?>"><i class="fa fa-sign-out-alt"></i> <?= __('exit') ?></a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <div class="wrapper content--right">
+        <span id="home"></span>
+
+        <!-- Start header area -->
+        <header id="sticky-header_" class="header-area bg-white header-area--bg hidden-md hidden-lg">
+            <div class="header-inner">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="logo-menu-wrap hidden-xs hidden-sm">
+                                <div class="logo">
+                                    <a href="<?php echo $this->url('home'); ?>">
+                                        <img src="<?php echo $this->basePath(); ?>/<?php echo $this->getSetting('image_logo'); ?>" alt="logo">
+                                    </a>
+                                </div>
+                                <nav class="menu">
+                                    <ul id="nav">
+                                        <?php foreach($session->sessionLessons()->orderBy('sort_order')->get() as $sessionLesson):?>
+                                        <li class="dropdown-trigger"><a href="#"><?php if($lecture->lesson_id==$sessionLesson->lesson_id):?>
+                                                    <i class="fa fa-arrow-circle-right"></i>
+                                                <?php endif;?><?=$sessionLesson->lesson->lesson_name;?> </a>
+                                            <ul class="dropdown-content">
+                                                <li><a href="<?=$this->url($module.'/default', ['controller' => 'course', 'action' => 'intro','id'=>$session->session_id])?>"><?= __('intro') ?></a></li>
+
+
+                                                <?php foreach ($sessionLesson->lesson->lectures()->orderBy('sort_order')->get() as $classLecture):?>
+                                                    <li >
+                                                        <a href="<?php echo $this->url('view-lecture'.$append,['sessionId'=>$sessionId,'lectureId'=>$classLecture->lecture_id]) ?>">
+                                                            <?php if($lecture->lecture_id==$classLecture->lecture_id):?>
+                                                                <i class="fa fa-arrow-circle-right"></i>
+                                                            <?php endif; ?>
+                                                            <?=$classLecture->lecture_title; ?>
+                                                        </a>
+                                                    </li>
+                                                <?php endforeach; ?>
+
+                                            </ul>
+                                        </li>
+                                        <?php endforeach; ?>
+                                        <li><a style="color:white" class="btn btn-danger" href="<?php echo $this->url('course-details',['id'=>$session->session_id,'slug'=>safeUrl($session->session_name)]);?>"><i class="fa fa-sign-out-alt"></i> <?= __('exit') ?></a></li>
+
+                                    </ul>
+                                </nav>
+                            </div>
+                            <div class="mobile-menu hidden-md hidden-lg">
+                                <a class="mobile-logo" href="<?php echo $this->url('home'); ?>"><img src="<?php echo $this->basePath(); ?>/<?php echo $this->getSetting('image_logo'); ?>" alt="logo"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- End header area -->
+
+        <!-- Start page section area -->
+        <section id="page-section" class="page-section">
+
+            <!-- Start features area -->
+            <div id="features" class="sa-section features-area bg-gray ptb-100">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2 col-sm-12">
+                            <div class="title title--devidebar text-center">
+                                <h2 class="title__heading text-uppercase"><?php echo $lecture->lecture_title ?> </h2>
+                             </div>
+                        </div>
+                    </div>
+                    <?php echo $this->alert(html_entity_decode($this->flashMessenger()->render()),@$action->mode); ?>
+
+                    <?php echo $this->alert(@$action->message,@$action->mode); ?>
+
+
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <div class="x_content">
+
+                                <div class="tabbable tabs-primary" role="tabpanel" data-example-id="togglable-tabs">
+                                    <ul id="myTab1" class="nav nav-tabs right-tab button-tab" role="tablist">
+                                        <li role="presentation" class="active"><a href="#tab_content11" id="home-tabb" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true"><i class="fa fa-desktop"></i> <?= __('lecture') ?></a>
+                                        </li>
+                                        <li role="presentation" class=""><a href="#tab_content33" role="tab" id="profile-tabb3" data-toggle="tab" aria-controls="profile" aria-expanded="false"><i class="fa fa-download"></i> <?= __('resources') ?></a>
+                                        </li>
+                                        <?php if(!empty($sessionRow->enable_discussion)):?>
+                                            <li role="presentation" class=""><a href="#tab_content22" role="tab" id="profile-tabb" data-toggle="tab" aria-controls="profile" aria-expanded="false"><i class="fa fa-comments"></i> <?= __('discuss') ?></a>
+                                            </li>
+                                        <?php endif; ?>
+
+                                        <li role="presentation"><a href="#contents" aria-controls="contents" role="tab" data-toggle="tab"><i class="fa fa-table"></i> <?= __('class-index') ?></a></li>
+                                    </ul>
+                                    <div id="myTabContent2" class="tab-content" style="background-color: transparent">
+                                        <div role="tabpanel" class="tab-pane fade  active in " id="tab_content11" aria-labelledby="profile-tab">
+
+
+
+                                            <!-- Nav tabs -->
+                                            <ul class="nav nav-tabs scroll-tab button-tab2" role="tablist">
+                                                <?php $count = 1; ?>
+                                                <?php foreach($pages as $page):?>
+                                                    <li role="presentation" <?php if($count==1):?>class="active"<?php endif; ?>><a id="tablink<?php echo $page->lecture_page_id ?>" href="#pagetab<?php echo $page->lecture_page_id ?>" role="tab" data-toggle="tab"><i class="fa fa-<?php switch($page->type){
+
+                                                                case 'v':
+                                                                    echo 'file-video';
+                                                                    break;
+                                                                case 'l':
+                                                                    echo 'file-video';
+                                                                    break;
+                                                                case 't':
+                                                                    echo 'file-text';
+                                                                    break;
+                                                                case 'c':
+                                                                    echo 'file-code';
+                                                                    break;
+                                                                case 'i':
+                                                                    echo 'file-image';
+                                                                    break;
+                                                                case 'q':
+                                                                    echo 'question-circle';
+                                                                    break;
+                                                                case 'z':
+                                                                    echo 'fa fa-video';
+                                                                    break;
+                                                            } ?>"></i> <?php if(!empty($page->audio_code)): ?> <i class="fa fa-microphone"></i> <?php endif; ?><?php echo $page->title?></a></li>
+
+                                                    <?php $count++; endforeach; ?>
+
+                                            </ul>
+
+                                            <!-- Tab panes -->
+                                            <div class="tab-content">
+                                                <?php $count = 1;  ?>
+                                                <?php foreach($pages as $page):?>
+                                                    <div role="tabpanel" class="tab-pane  <?php if($count==1):?>active<?php endif; ?>" id="pagetab<?php echo $page->lecture_page_id ?>">
+
+                                                        <div <?php if($page->type=='v'): ?> class="videobox" style="text-align: center"  <?php endif; ?>>
+
+                                                            <?php if(!empty($page->audio_code)):?>
+                                                                <h4><i class="fa fa-microphone"></i></h4>
+                                                                <div style="margin-bottom: 40px"><?php echo $page->audio_code; ?></div>
+                                                            <?php endif; ?>
+                                                            <?php if($page->type=='l' && defined('USER_ID')):?>
+
+                                                            <?php $video = \Application\Entity\Video::find(intval($page->content)); ?>
+                                                            <?php if($video):?>
+
+                                                            <div class="embed-responsive embed-responsive-16by9">
+
+                                                                <video id="video" poster="<?=$this->basePath()?>/uservideo/<?=USER_ID ?>/<?=$video->video_id ?>.jpg"  class="embed-responsive-item video-js vjs-default-skin" width="640" height="360"  controls>
+                                                                </video>
+                                                            </div>
+
+                                                                <div class="panel panel-default" style="margin-top: 10px">
+                                                                    <div class="panel-body">
+                                                                        <?=$video->description?>
+                                                                    </div>
+                                                                </div>
+                                                                <script src="https://unpkg.com/video.js/dist/video.min.js"></script>
+                                                                <script src="https://unpkg.com/videojs-flash/dist/videojs-flash.min.js"></script>
+                                                                <script src="https://unpkg.com/videojs-contrib-quality-levels/dist/videojs-contrib-quality-levels.min.js"></script>
+                                                                <script src="https://unpkg.com/videojs-contrib-hls/dist/videojs-contrib-hls.min.js"></script>
+                                                                <script>
+                                                                    var options = {
+                                                                        html5:{
+                                                                            hls:{
+                                                                                enableLowInitialPlaylist:true
+                                                                            }
+                                                                        },
+                                                                        flash:{
+                                                                            hls:{
+                                                                                enableLowInitialPlaylist:true
+                                                                            }
+                                                                        },
+                                                                        inactivityTimeout:3000,
+                                                                        controls:true,
+                                                                        autoplay:false,
+                                                                        preload:"auto",
+                                                                    };
+
+                                                                    var player = videojs('video', options);
+
+                                                                    player.src({
+                                                                        src: "<?=$videoUrl ?>",
+                                                                        type: "application/x-mpegURL",
+                                                                        withCredentials: true
+                                                                    });
+
+                                                                    var qLevels = [];
+
+                                                                    player.qualityLevels().on('addqualitylevel', function(event) {
+                                                                        var quality = event.qualityLevel;
+                                                                        console.log(quality);
+
+                                                                        if (quality.height != undefined && $.inArray(quality.height, qLevels) === -1)
+                                                                        {
+                                                                            quality.enabled = true;
+
+                                                                            qLevels.push(quality.height);
+
+                                                                            if (!$('.quality_ul').length)
+                                                                            {
+                                                                                var h = '<div class="quality_setting vjs-menu-button vjs-menu-button-popup vjs-control vjs-button">' +
+                                                                                    '<button class="vjs-menu-button vjs-menu-button-popup vjs-button" type="button" aria-live="polite" aria-disabled="false" title="Quality" aria-haspopup="true" aria-expanded="false">' +
+                                                                                    '<span aria-hidden="true" class="vjs-icon-cog"></span>' +
+                                                                                    '<span class="vjs-control-text">Quality</span></button>' +
+                                                                                    '<div class="vjs-menu"><ul class="quality_ul vjs-menu-content" role="menu"></ul></div></div>';
+
+                                                                                $(".vjs-fullscreen-control").before(h);
+                                                                            } else {
+                                                                                $('.quality_ul').empty();
+                                                                            }
+
+                                                                            qLevels.sort();
+                                                                            qLevels.reverse();
+
+                                                                            var j = 0;
+
+                                                                            $.each(qLevels, function(i, val) {
+                                                                                $(".quality_ul").append('<li class="vjs-menu-item" tabindex="' + i + '" role="menuitemcheckbox" aria-live="polite" aria-disabled="false" aria-checked="false" bitrate="' + val +
+                                                                                    '"><span class="vjs-menu-item-text">' + val + 'p</span></li>');
+
+                                                                                j = i;
+                                                                            });
+
+                                                                            $(".quality_ul").append('<li class="vjs-menu-item vjs-selected" tabindex="' + (j + 1) + '" role="menuitemcheckbox" aria-live="polite" aria-disabled="false" aria-checked="true" bitrate="auto">' +
+                                                                                '<span class="vjs-menu-item-text">Auto</span></li>');
+                                                                        }
+                                                                    });
+
+                                                                    $("body").on("click", ".quality_ul li", function() {
+                                                                        $(".quality_ul li").removeClass("vjs-selected");
+                                                                        $(".quality_ul li").prop("aria-checked", "false");
+
+                                                                        $(this).addClass("vjs-selected");
+                                                                        $(this).prop("aria-checked", "true");
+
+                                                                        var val = $(this).attr("bitrate");
+
+                                                                        var qualityLevels = player.qualityLevels();
+
+                                                                        for (var i = 0; i < qualityLevels.length; i++)
+                                                                        {
+                                                                            qualityLevels[i].enabled = (val == "auto" || (val != "auto" && qualityLevels[i].height == val));
+                                                                        }
+                                                                    });
+                                                                </script>
+
+                                                            <?php else: ?>
+                                                                <strong><?= __('video-deleted') ?></strong>
+                                                            <?php endif;?>
+
+                                                            <?php elseif($page->type=='c'):?>
+                                                                <?=nl2br(htmlentities($page->content))?>
+                                                            <?php elseif($page->type=='i'): ?>
+                                                                <div style="text-align: center"><a data-img-url="<?=$page->content?>" class="fullsizable" href="<?=$this->basePath().'/'.$page->content?>"><img style="max-width: 100%" src="<?=resizeImage($page->content, 640, 360,$this->basePath())?>" /></a>
+                                                                    <div><small><?= __('click-to-enlarge') ?></small></div>
+                                                                </div>
+                                                            <?php elseif($page->type=='q'): ?>
+                                                                <div class="quizbox " id="quiz<?=$page->lecture_page_id?>">
+                                                                    <h1 class="quizName"><!-- where the quiz name goes --></h1>
+
+                                                                    <div class="quizArea">
+                                                                        <div class="quizHeader">
+                                                                            <!-- where the quiz main copy goes -->
+
+                                                                            <a class="button startQuiz" href="#"><?= __('get-started') ?></a>
+                                                                        </div>
+
+                                                                        <!-- where the quiz gets built -->
+                                                                    </div>
+
+                                                                    <div class="quizResults">
+                                                                        <h3 class="quizScore"><?= __('you-scored') ?>: <span><!-- where the quiz score goes --></span></h3>
+
+                                                                        <h3 class="quizLevel"><strong><?= __('ranking') ?>:</strong> <span><!-- where the quiz ranking level goes --></span></h3>
+
+                                                                        <div class="quizResultsCopy">
+                                                                            <!-- where the quiz result copy goes -->
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <script>
+                                                                    $(function(){
+                                                                        $('#quiz<?=$page->lecture_page_id?>').slickQuiz(<?=$page->content?>);
+                                                                    })
+                                                                </script>
+                                                            <?php elseif($page->type=='z'): ?>
+                                                            <?php
+                                                            $zoomData = @unserialize($page->content);
+                                                            ?>
+                                                            <?php if($zoomData && is_array($zoomData)):?>
+
+
+                                                                <div class="alert alert-success" role="alert">
+                                                                   <strong><?= __('meeting-id') ?></strong>: <?=trim($zoomData['meeting_id'])?>
+                                                                    <br/>
+                                                                    <strong><?= __('password') ?></strong>: <?=trim($zoomData['password'])?>
+                                                                    <br/>
+                                                                    <?=nl2br($zoomData['instructions'])?></div>
+
+
+                                                                
+                                                                <div style="text-align: center">
+                                                                        <iframe src="https://zoom.us/wc/<?=trim($zoomData['meeting_id'])?>/join?prefer=1&un=<?=base64_encode($this->getStudent()->first_name.' '.$this->getStudent()->last_name)?>&pwd=<?=trim($zoomData['password'])?>&track_id=&jmf_code=&meeting_result=" allow="microphone;camera" sandbox="allow-same-origin allow-pointer-lock allow-scripts allow-popups allow-forms" allowFullScreen style="width: 100%; height: 650px; overflow-x: hidden; border: none"></iframe>
+
+                                                                </div>
+                                                            <?php endif; ?>
+                                                                
+                                                            <?php else: ?>
+                                                                <?=$page->content?>
+                                                            <?php endif; ?>
+
+                                                        </div>
+                                                       <div style="margin-top: 5px">
+
+
+                                                        <form class="ajaxform" action="<?php echo $this->url($module.'/default',['controller'=>'course','action'=>'bookmark']) ?>" method="post">
+                                                            <input type="hidden" name="id" value="<?php echo $page->lecture_page_id ?>"/>
+                                                            <input type="hidden" name="session_id" value="<?php echo $sessionRow->session_id ?>"/>
+                                                            <button  style="margin-bottom: 5px"  type="submit" class="btn btn-sm btn-success pull-right"><i class="fa fa-bookmark"></i> <?= __('bookmark') ?></button>
+                                                        </form>
+                                                       </div>
+                                                        <form action="<?php echo $this->url($module.'/default',['controller'=>'course','action'=>'loglecture']) ?>" method="post">
+
+                                                            <div style="margin-top: 50px; padding-bottom: 100px; clear: both;" >
+                                                                <?php if($count==1):?>
+                                                                    <?php if($previous): ?>
+                                                                        <a  style="margin-bottom: 20px"  class="btn btn-primary btn-lg" href="<?php echo $this->url('view-lecture'.$append,['lectureId'=>$previous->lecture_id,'sessionId'=>$sessionId]) ?>"><i class="fa fa-chevron-left"></i> <?= __('previous-lecture') ?></a>
+
+                                                                    <?php elseif($previousLesson): ?>
+                                                                        <a  style="margin-bottom: 20px"  class="btn btn-primary btn-lg" href="<?php echo $this->url('view-class'.$append,['classId'=>$previousLesson->lesson_id,'sessionId'=>$sessionId]) ?>"><i class="fa fa-chevron-left"></i> <?= __('previous-class') ?></a>
+
+                                                                    <?php else: ?>
+                                                                        <a  style="margin-bottom: 20px"  class="btn btn-primary btn-lg" href="<?php echo $this->url('view-class'.$append,['classId'=>$lecture->lesson_id,'sessionId'=>$sessionId]) ?>"><i class="fa fa-chevron-left"></i> <?= __('class-details') ?></a>
+
+                                                                    <?php endif; ?>
+                                                                <?php endif; ?>
+
+
+                                                                <?php $previousPage = $pageTable->getPreviousPage($page->lecture_page_id);  ?>
+                                                                <?php if($previousPage): ?>
+                                                                    <button style="margin-bottom: 20px" data-page="<?php echo $previousPage->lecture_page_id ?>" class="btn btn-primary btn-lg prevButton prevbtn"><i class="fa fa-chevron-left"></i> <?= __('previous') ?></button>
+                                                                <?php endif; ?>
+
+
+
+                                                                <?php $nextPage = $pageTable->getNextPage($page->lecture_page_id);?>
+                                                                <?php if($nextPage): ?>
+
+
+                                                                    <button type="button" data-page="<?php echo $nextPage->lecture_page_id ?>" class="btn btn-primary btn-lg prevButton pull-right nextbtn"><?= __('next') ?> <i class="fa fa-chevron-right"></i></button>
+
+                                                                <?php else: ?>
+
+                                                                    <input type="hidden" name="session_id" value="<?php echo $sessionId ?>"/>
+                                                                    <input type="hidden" name="lecture_id" value="<?php echo $lecture->lecture_id ?>"/>
+                                                                    <button class="btn btn-primary btn-lg pull-right" type="submit"><i class="fa fa-check-circle"></i> <?= __('complete-lecture') ?></button>
+                                                                    <p style="text-align: right; clear: both">
+                                                                        <small><?= __('complete-lecture-note') ?></small>
+                                                                    </p>
+
+                                                                <?php endif; ?>
+                                                            </div>
+                                                        </form>
+
+                                                    </div>
+                                                    <?php $count++; endforeach; ?>
+                                            </div>
+
+
+
+
+
+                                        </div>
+                                        <div role="tabpanel" class="tab-pane fade" id="tab_content33" aria-labelledby="profile-tab">
+                                            <?php if($downloads->count() > 0): ?>
+                                                <a href="<?php echo $this->url('lecture-files'.$append,array('id'=>$lecture->lecture_id,'sessionId'=>$sessionId));?>" class="btn btn-primary" data-toggle="tooltip" data-placement="top" data-original-title="<?= __('download-all-files') ?>"><i class="fa fa-download"></i> <?= __('download-all') ?></a>
+                                            <?php endif; ?>
+                                            <div class="table-responsive">
+                                                <table class="table table-hover">
+                                                    <thead>
+                                                    <tr>
+                                                        <th><?= __('File') ?></th>
+                                                        <th ></th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <?php foreach($downloads as $download): ?>
+                                                        <td><?php echo basename($download->path); ?></td>
+
+                                                        <td class="text-right">
+                                                            <?php if ($fileTable->getTotalForDownload($lecture->lecture_id)> 0): ?>
+                                                                <a href="<?php echo $this->url('lecture-file'.$append,array('id'=>$download->lecture_file_id,'sessionId'=>$sessionId));?>" class="btn btn-primary" data-toggle="tooltip" data-placement="top" data-original-title="<?= __('download-file') ?>"><i class="fa fa-download"></i> <?= __('download') ?></a>
+
+                                                            <?php else:?>
+                                                                <strong>No files available</strong>
+                                                            <?php endif; ?>
+                                                        </td>
+                                                        </tr>
+
+                                                    <?php endforeach; ?>
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                        <div role="tabpanel" class="tab-pane fade" id="tab_content22" aria-labelledby="home-tab">
+
+                                            <div class="tabbable tabs-primary">
+
+                                                <ul class="nav nav-tabs" role="tablist">
+                                                    <li role="presentation" class="active"><a href="#home1" aria-controls="home1" role="tab" data-toggle="tab"><?= __('instructor-chat') ?></a></li>
+                                                    <li role="presentation"><a  href="#profile1" aria-controls="profile1" role="tab" data-toggle="tab"><?= __('student-forum') ?></a></li>
+                                                </ul>
+
+
+                                                <!-- Tab panes -->
+                                                <div class="tab-content">
+                                                    <div role="tabpanel" class="tab-pane active" id="home1">
+                                                        <?php if(!empty($sessionRow->enable_discussion)):?>
+                                                            <form class="form" method="post" action="<?php echo $this->url($module.'/default',['controller'=>'student','action'=>'adddiscussion']); ?>">
+
+                                                                <p><?= __('ask-a-question-lecture') ?></p>
+                                                                <div class="modal-body">
+
+                                                                    <?php echo $this->formElement($form->get('security')); ?>
+                                                                    <div class="form-group">
+                                                                       <div> <label><?= __('recipients') ?></label></div>
+                                                                        <?php
+                                                                        $form->get('account_id[]')->setAttribute('style','width:100%')
+                                                                        ?>
+                                                                        <?php echo $this->formElement($form->get('account_id[]')); ?>
+                                                                    </div>
+
+                                                                    <input type="hidden" name="session_id" value="<?php echo $sessionId ?>"/>
+                                                                    <input type="hidden" name="lecture_id" value="<?php echo $lecture->lecture_id ?>"/>
+                                                                    <div class="form-group">
+                                                                        <?php     echo $this->formLabel($form->get('subject'));
+
+                                                                        ?>
+                                                                        <?php     echo $this->formElement($form->get('subject'));
+
+                                                                        ?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('subject'));?></p>
+
+                                                                    </div>
+
+
+
+
+                                                                    <div class="form-group">
+                                                                        <?php     echo $this->formLabel($form->get('question'));
+
+                                                                        ?>
+                                                                        <?php     echo $this->formElement($form->get('question'));
+
+                                                                        ?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('question'));?></p>
+
+                                                                    </div>
+
+                                                                    <button type="submit" class="btn btn-primary">Submit</button>
+
+                                                                </div>
+
+                                                            </form>
+                                                            <div class="row">
+                                                                <div class="col-md-12" style="margin-top: 20px">
+                                                                    <h2><?= __('your-questions') ?></h2>
+                                                                    <div class="table-responsive">
+                                                                        <table class="table table-hover">
+                                                                            <thead>
+                                                                            <tr>
+                                                                                <th><?= __('subject') ?></th>
+                                                                                <th><?= __('created-on') ?></th>
+                                                                                <th><?= __('recipients') ?></th>
+                                                                                <th><?= __('replied') ?></th>
+                                                                                <th class="text-right1" style="width:90px"></th>
+                                                                            </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                            <?php foreach($discussions as $row): ?>
+                                                                                <tr>
+                                                                                    <td><?php echo $row->subject; ?>
+                                                                                    </td>
+
+                                                                                    <td><?php echo date('d/M/Y',$row->created_on); ?></td>
+                                                                                    <td>
+
+                                                                                        <?php if($row->admin==1):?>
+                                                                                            Administrators,
+                                                                                        <?php endif; ?>
+
+                                                                                        <?php foreach($accountTable->getDiscussionAccounts($row->discussion_id) as $row2): ?>
+                                                                                            <?php echo $row2->first_name.' '.$row2->last_name; ?>,
+                                                                                        <?php endforeach; ?>
+
+
+
+                                                                                    </td>
+
+                                                                                    <td><?php echo boolToString($row->replied) ?></td>
+
+                                                                                    <td class="text-right">
+                                                                                        <a href="<?php echo $this->url('application/viewdiscussion',array('id'=>$row->discussion_id));?>" class="btn btn-primary" data-toggle="tooltip" data-placement="top" data-original-title="View"><i class="fa fa-eye"></i> <?= __('view') ?></a>
+
+                                                                                    </td>
+                                                                                </tr>
+                                                                            <?php endforeach; ?>
+
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+
+                                                                </div>
+
+                                                            </div>
+                                                        <?php else:?>
+                                                            <?= __('instruct-chat-unavailable') ?>
+                                                        <?php endif; ?>
+
+
+                                                    </div>
+                                                    <div role="tabpanel" class="tab-pane" id="profile1">
+                                                        <?php if(!empty($sessionRow->enable_forum)):?>
+                                                            <?=$forumTopics?>
+                                                        <?php else:?>
+                                                            <?= __('student-forum-unavailable') ?>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                </div>
+
+
+
+
+                                            </div>
+
+                                        </div>
+
+                                        <div role="tabpanel" class="tab-pane" id="contents">
+                                            <?php $count=1; foreach($lectures as $row): ?>
+
+                                                <div class="panel<?php if($lecture->lecture_id==$row->lecture_id):?> panel-primary <?php else: ?> panel-default<?php endif; ?>">
+                                                    <div class="panel-heading">
+                                                        <?php echo $count.'. '.$row->lecture_title ?>
+                                                    </div>
+                                                    <div class="panel-body">
+                                                        <table class="table table-striped">
+                                                            <thead>
+                                                            <tr>
+                                                                <th><?= __('content') ?></th>
+                                                                <th><?= __('type') ?></th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            <?php foreach($lecturePageTable->getPaginatedRecords(false,$row->lecture_id) as $page): ?>
+                                                                <tr>
+                                                                    <td><?php echo $page->title ?></td>
+                                                                    <td><?php
+                                                                        switch($page->type){
+                                                                            case 't':
+                                                                                echo __('text');
+                                                                                break;
+                                                                            case 'v':
+                                                                                echo  __('video');
+                                                                                break;
+                                                                            case 'c':
+                                                                                echo  __('html-code');
+                                                                                break;
+                                                                        } ?></td>
+                                                                </tr>
+                                                            <?php endforeach; ?>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <?php if($lecture->lecture_id!=$row->lecture_id):?>
+                                                        <div class="panel-footer" style="min-height: 65px">
+
+                                                            <a class="btn btn-primary btn-lg pull-right" href="<?php echo $this->url('view-lecture'.$append,['sessionId'=>$sessionId,'lectureId'=>$row->lecture_id]) ?>"><?= __('start-lecture') ?> <i class="fa fa-chevron-right"></i></a>
+                                                        </div>
+                                                    <?php endif; ?>
+                                                </div>
+                                                <?php $count++; ?>
+                                            <?php endforeach; ?>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- End features area -->
+
+
+        </section>
+        <!-- End page section area -->
+
+        <!-- Start footer area -->
+        <footer id="footer" class="footer">
+
+
+            <!-- Start footer coyright area -->
+            <div class="footer-copyright-area bg-gray">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="copyright text-center">
+                                <?php echo $this->getSetting('footer_credits'); ?><?php $status=getenv('hidecopy'); if(empty($status)):?>
+
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End footer coyright area -->
+
+        </footer>
+        <!-- End footer area -->
+    </div>
+</div>
+
+
+
+
+
+<!-- Plugins scripts -->
+<script src="<?php echo $this->basePath(); ?>/themes/course/js/plugins.js"></script>
+<!-- Main scripts -->
+<script src="<?php echo $this->basePath(); ?>/themes/course/js/main.js"></script>
+<script src="<?php echo $this->basePath(); ?>/static/toastr/toastr.min.js"></script>
+<script>
+
+
+    $('#myTab1').scrollingTabs();
+    $('.scroll-tab').scrollingTabs({enableSwiping: true});
+    $('.prevButton').click(function(e){
+        e.preventDefault();
+        console.log('clicked btn');
+        var page = $(this).attr('data-page');
+        console.log('Page is: '+page);
+        $('#tablink'+page).tab('show');
+        $('.scroll-tab').scrollingTabs('scrollToActiveTab');
+        scrollTo('#tab_content11');
+    });
+
+    //attach event handlers
+
+
+    document.addEventListener("next_image", function(e) {
+        console.log(e.detail);
+        $('#myTabContent2 div.tab-content > div.active .nextbtn:first').trigger('click');
+    });
+
+    document.addEventListener("prev_image", function(e) {
+        console.log(e.detail);
+        $('#myTabContent2 div.tab-content > div.active .prevbtn:first').trigger('click');
+    });
+
+    //handing next scrolling
+    $('a.fsnext').click(function(e){
+        console.log('next clicked');
+    });
+
+    $('a.fsprev').click(function(){
+        console.log('prev clicked');
+    });
+
+    $(function() {
+        $('a.fullsizable').fullsizable();
+    });
+
+    <?php if(isset($_GET['page'])): ?>
+    $(function(){
+        $('#tablink'+<?php echo $_GET['page'] ?>).tab('show');
+        $('.scroll-tab').scrollingTabs('scrollToActiveTab');
+    });
+    <?php endif; ?>
+
+
+    // Find all YouTube videos
+    var $allVideos = $("div.videobox iframe");
+
+    // The element that is fluid width
+    $fluidEl = $("div.tab-pane");
+
+    // Figure out and save aspect ratio for each video
+    $allVideos.each(function() {
+
+        $(this).data('aspectRatio', this.height / this.width)
+            // and remove the hard coded width/height
+            .removeAttr('height')
+            .removeAttr('width');
+
+    });
+
+    // When the window is resized
+    $(window).resize(function() {
+
+        var newWidth = $fluidEl.width() - 100;
+
+        // Resize all videos according to their own aspect ratio
+        $allVideos.each(function() {
+
+            var $el = $(this);
+            $el
+                .width(newWidth)
+                .height(newWidth * $el.data('aspectRatio'));
+
+        });
+
+// Kick off one resize to fix all videos on page load
+    }).resize();
+
+
+    $('body').click(function(){
+        $(window).resize();
+    });
+
+
+
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,70 @@
+<div class="row">
+			<div >
+				<div class="box">
+					<div class="box-head">
+						<header>
+                            <?= __('fields-help') ?>
+
+
+                        </header>
+
+                        
+					</div>
+					<div class="box-body">
+                        <a class="btn btn-primary pull-right" href="<?php echo $this->url('admin/default',array('controller'=>'setting','action'=>'addfield')) ?>"><i class="fa fa-plus"></i> <?= __('Add Field') ?></a>
+
+                        <table class="table table-hover">
+							<thead>
+								<tr> 
+									<th><?= __('name') ?></th>
+									<th><?= __('sort-order') ?></th>
+                                    <th><?= __('type') ?></th>
+                                    <th><?= __('student-editable') ?></th>
+									<th class="text-right1" style="width:90px"><?=__('actions')?></th>
+								</tr>
+							</thead>
+							<tbody>
+                            <?php foreach($paginator as $row): ?>
+								<tr>
+								 	<td><?php echo $row->name; ?></td>
+									<td><?php echo $row->sort_order; ?></td>
+								    <td><?php echo $row->type; ?></td>
+									 <td><?=boolToString($row->status)?></td>
+									<td class="text-right">
+										<a href="<?php echo $this->url('admin/default',array('controller'=>'setting','action'=>'editfield','id'=>$row->registration_field_id));?>" class="btn btn-xs btn-default btn-equal" data-toggle="tooltip" data-placement="top" data-original-title="<?=__('edit')?>"><i class="fa fa-pencil"></i></a>
+                                        
+										<a onclick="return confirm('<?=__('delete-confirm')?>')" href="<?php echo $this->url('admin/default',array('controller'=>'setting','action'=>'deletefield','id'=>$row->registration_field_id));?>"  class="btn btn-xs btn-default btn-equal" data-toggle="tooltip" data-placement="top" data-original-title="<?=__('delete')?>"><i class="fa fa-trash-o"></i></a>
+									</td>
+								</tr>
+								  <?php endforeach; ?>
+								
+							</tbody>
+						</table>
+                        
+                        <?php
+ // add at the end of the file after the table
+ echo $this->paginationControl(
+     // the paginator object
+     $this->paginator,
+     // the scrolling style
+     'sliding',
+     // the partial to use to render the control
+     array('partial/paginator.phtml', 'Admin'),
+     // the route to link to when a user clicks a control link
+     array(
+         'route' => 'admin/default',
+		 'controller'=>'setting',
+		 'action'=>'fields',
+     )
+ );
+ ?>
+					</div><!--end .box-body -->
+				</div><!--end .box -->
+			</div><!--end .col-lg-12 -->
+		</div>
+        
+        
+        <!-- START SIMPLE MODAL MARKUP --><!-- /.modal -->
+<!-- END SIMPLE MODAL MARKUP -->
+
+ 

@@ -1,0 +1,306 @@
+<?php $basePath = $this->basepath().'/templates/3'; ?>
+
+<?php $title=$this->getSetting('general_homepage_title'); if(!empty($title)): ?>
+    <?php $this->headTitle($this->getSetting('general_homepage_title')) ?>
+<?php else: ?>
+    <?php   $this->headTitle('Home') ?>
+<?php endif; ?>
+
+<?php foreach($widgets as $widget): ?>
+
+    <?php $vals = unserialize($widget->value); ?>
+    <?php if($widget->widget_code == 'slideshow'): ?>
+
+        <!-- Start Slider -->
+        <section id="mu-slider">
+
+            <?php  for($i=1; $i<=10;$i++):?>
+                <?php if(!empty($vals['slideshow_image'.$i] )):?>
+
+                    <!-- Start single slider item -->
+                    <div class="mu-slider-single">
+                        <div class="mu-slider-img">
+                            <figure>
+                                <img src="<?php echo $this->basePath(); ?>/<?php echo $vals['slideshow_image'.$i] ?>" >
+                            </figure>
+                        </div>
+
+                    </div>
+
+                <?php endif; ?>
+            <?php endfor; ?>
+
+        </section>
+        <!-- End Slider -->
+
+
+
+    <?php elseif($widget->widget_code == 'textbtn' ) :?>
+
+        <!-- Start features section -->
+        <section class="mu-features">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="mu-features-area">
+                            <!-- Start Title -->
+                            <div class="mu-title">
+                                <p><?php echo $vals['message'] ?></p>
+                                <?php if(!empty($vals['buttontext'])):?>
+                                    <p><a href="<?php echo $vals['buttonlink'] ?>" class="btn btn-success btn-large"><?php echo $vals['buttontext'] ?> &raquo;</a></p>
+                                <?php endif; ?>
+                            </div>
+                            <!-- End Title -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End features section -->
+
+
+
+
+    <?php elseif($widget->widget_code == 'text'):?>
+
+        <div >
+
+            <?php echo $vals['message'] ?>
+
+        </div>
+    <?php elseif($widget->widget_code == 'calendar' ):?>
+        <div class="container" style="margin-top: 20px; margin-bottom: 20px; clear: both;" >
+            <div class="featuredheader"><h1><?= __('Calendar') ?></h1></div>
+            <?php echo $calendar; ?>
+        </div>
+
+
+    <?php elseif($widget->widget_code == 'signup' ): ?>
+        <div class="container">
+            <div class="featuredheader"><h1><?= __('Register') ?></h1></div>
+            <?php echo $regForm; ?>
+        </div>
+
+    <?php elseif($widget->widget_code == 'sessions'): ?>
+
+
+        <!-- Start latest course section -->
+        <section id="mu-latest-courses">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="mu-latest-courses-area">
+                            <!-- Start Title -->
+                            <div class="mu-title">
+                                <h2><?php echo $this->getSetting('label_featured',__('Featured'))?></h2>
+                            </div>
+                            <!-- End Title -->
+                            <!-- Start latest course content -->
+                            <div id="mu-latest-course-slide" class="mu-latest-courses-content">
+
+                                <?php for($i=1; $i<=10; $i++):?>
+                                    <?php if(!empty($vals['session'.$i]) && $sessionTable->recordExists($vals['session'.$i])):?>
+                                        <?php $row = $sessionTable->getRecord($vals['session'.$i]); ?>
+                                        <?php $url= ($row->session_type=='c')? 'course-details':'session-details';?>
+
+                                        <div class="col-lg-4 col-md-4 col-xs-12">
+                                            <div class="mu-latest-course-single">
+                                                <?php if(!empty($row->picture)):?>
+                                                    <figure class="mu-latest-course-img">
+                                                        <a href="<?php echo $this->url($url,['id'=>$row->session_id,'slug'=>safeUrl($row->session_name)]);?>"><img src="<?php echo resizeImage($row->picture,200,200,$this->basepath()); ?>" alt="img"></a>
+
+                                                    </figure>
+                                                <?php endif; ?>
+                                                <div class="mu-latest-course-single-content">
+                                                    <h4><a href="<?php echo $this->url($url,['id'=>$row->session_id,'slug'=>safeUrl($row->session_name)]);?>"><?php echo $row->session_name; ?></a></h4>
+                                                    <p><?php  echo limitLength(strip_tags($row->description),200); ?></p>
+                                                    <div class="mu-latest-course-single-contbottom">
+                                                        <a class="mu-course-details" href="<?php echo $this->url('application/default',array('controller'=>'student','action'=>'timetable','id'=>$row->session_id));?>"><?=__('Details')?></a>
+                                                        <?php if($this->getSetting('general_show_fee')==1):?>
+                                                            <span class="mu-course-price" href="#">            <?php if(empty($row->payment_required)):?>
+                                                                    <?=__('Free')?>
+                                                                <?php else: ?>
+                                                                    <?php echo $this->formatPrice($row->amount); ?>
+                                                                <?php endif; ?></span>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+
+
+
+                                        </div>
+
+                                    <?php endif; ?>
+                                <?php endfor; ?>
+
+                            </div>
+                            <!-- End latest course content -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End latest course section -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <?php elseif($widget->widget_code == 'blog'): ?>
+        <?php $limit= empty($vals['limit'])? 4:intval($vals['limit']) ;      $news= $newsTable->getNews($limit);
+        ?>
+
+
+
+
+        <!-- Start from blog -->
+        <section id="mu-from-blog">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mu-from-blog-area">
+                            <!-- start title -->
+                            <div class="mu-title">
+                                <h2><?= __('Blog Posts') ?></h2>
+                            </div>
+                            <!-- end title -->
+                            <!-- start from blog content   -->
+                            <div class="mu-from-blog-content">
+                                <div class="row">
+                                    <?php foreach($news as $row):?>
+                                        <div style="margin-bottom: 30px" class="col-md-4 col-sm-4">
+                                            <article class="mu-blog-single-item">
+                                                <?php if(!empty($row->picture)):?>
+                                                    <figure class="mu-blog-single-img">
+                                                        <a href="<?php echo $this->url('application/default',array('controller'=>'news','action'=>'view','id'=>$row->newsflash_id));?>"><img src="<?php echo resizeImage($row->picture, 262, 175, $this->basePath());?>" alt="img"></a>
+                                                        <figcaption class="mu-blog-caption">
+                                                            <h3><a href="#"><?php echo $row->title; ?> </a></h3>
+                                                        </figcaption>
+                                                    </figure>
+                                                <?php endif; ?>
+                                                <div class="mu-blog-meta">
+                                                    <a href="<?php echo $this->url('application/default',array('controller'=>'news','action'=>'view','id'=>$row->newsflash_id));?>"><?php echo date('d/M/Y',$row->date)?> </a>
+                                                </div>
+                                                <div class="mu-blog-description">
+                                                    <p><?php echo limitLength(strip_tags($row->content),200) ?></p>
+                                                    <a class="mu-read-more-btn" href="<?php echo $this->url('application/default',array('controller'=>'news','action'=>'view','id'=>$row->newsflash_id));?>"><?= __('Read More') ?></a>
+                                                </div>
+                                            </article>
+                                        </div>
+                                    <?php endforeach; ?>
+
+                                </div>
+                            </div>
+                            <!-- end from blog content   -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End from blog -->
+
+    <?php endif; ?>
+
+<?php endforeach; ?>
+
+<?php if($this->getTemplateOption('show_reviews')==1):?>
+<!-- Start testimonial -->
+<section id="mu-testimonial" <?php if($this->getTemplateOption('show_paralax_photo')==1):?>      style="background-image: url('<?=resizeImage($this->getTemplateOption('paralax_photo'),1920,900,$this->basePath())?>');" <?php endif;?>  >
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="mu-testimonial-area">
+                    <div id="mu-testimonial-slide" class="mu-testimonial-content">
+ <?php if(!empty($this->getTemplateOption('review_1_text'))):?>
+                        <!-- start testimonial single item -->
+                        <div class="mu-testimonial-item">
+                            <div class="mu-testimonial-quote">
+                                <blockquote>
+                                    <p><?=$this->getTemplateOption('review_1_text')?></p>
+                                    <div>   <?php for($i=1;$i<=$this->getTemplateOption('review_1_stars');$i++):?>
+                                            <span class="fa fa-fw fa-star text-yellow-800"></span>
+                                        <?php endfor; ?>
+                                    </div>
+                                </blockquote>
+                            </div>
+                            <div class="mu-testimonial-img">
+                                <img src="<?=resizeImage($this->getTemplateOption('review_1_photo'),150,150,$this->basePath())?>" alt="img">
+                            </div>
+                            <div class="mu-testimonial-info">
+                                <h4><?=$this->getTemplateOption('review_1_name')?></h4>
+                                <span><?=$this->getTemplateOption('review_1_company')?></span>
+                            </div>
+                        </div>
+                        <!-- end testimonial single item -->
+<?php endif; ?>
+
+                        <?php if(!empty($this->getTemplateOption('review_2_text'))):?>
+                            <!-- start testimonial single item -->
+                            <div class="mu-testimonial-item">
+                                <div class="mu-testimonial-quote">
+                                    <blockquote>
+                                        <p><?=$this->getTemplateOption('review_2_text')?></p>
+                                        <div>   <?php for($i=1;$i<=$this->getTemplateOption('review_2_stars');$i++):?>
+                                                <span class="fa fa-fw fa-star text-yellow-800"></span>
+                                            <?php endfor; ?>
+                                        </div>
+                                    </blockquote>
+                                </div>
+                                <div class="mu-testimonial-img">
+                                    <img src="<?=resizeImage($this->getTemplateOption('review_2_photo'),150,150,$this->basePath())?>" alt="img">
+                                </div>
+                                <div class="mu-testimonial-info">
+                                    <h4><?=$this->getTemplateOption('review_2_name')?></h4>
+                                    <span><?=$this->getTemplateOption('review_2_company')?></span>
+                                </div>
+                            </div>
+                            <!-- end testimonial single item -->
+                        <?php endif; ?>
+
+
+                        <?php if(!empty($this->getTemplateOption('review_3_text'))):?>
+                            <!-- start testimonial single item -->
+                            <div class="mu-testimonial-item">
+                                <div class="mu-testimonial-quote">
+                                    <blockquote>
+                                        <p><?=$this->getTemplateOption('review_3_text')?></p>
+                                        <div>   <?php for($i=1;$i<=$this->getTemplateOption('review_3_stars');$i++):?>
+                                                <span class="fa fa-fw fa-star text-yellow-800"></span>
+                                            <?php endfor; ?>
+                                        </div>
+                                    </blockquote>
+                                </div>
+                                <div class="mu-testimonial-img">
+                                    <img src="<?=resizeImage($this->getTemplateOption('review_3_photo'),150,150,$this->basePath())?>" alt="img">
+                                </div>
+                                <div class="mu-testimonial-info">
+                                    <h4><?=$this->getTemplateOption('review_3_name')?></h4>
+                                    <span><?=$this->getTemplateOption('review_3_company')?></span>
+                                </div>
+                            </div>
+                            <!-- end testimonial single item -->
+                        <?php endif; ?>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End testimonial -->
+
+<?php endif; ?>

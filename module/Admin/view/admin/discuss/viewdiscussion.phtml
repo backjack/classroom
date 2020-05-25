@@ -1,0 +1,131 @@
+
+
+<div >
+    <?php echo $this->alert(html_entity_decode($this->flashMessenger()->render())); ?>
+    <div class="row">
+        <div class="col-md-12">
+            <h3><?= __('question') ?></h3>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                   <?php echo htmlentities($row->subject); ?>  <div><small> <?= __('on') ?> <?php echo date('r',$row->created_on); ?> <?= __('by') ?> <a class="viewbutton" style="color: #ffffff; text-decoration: underline" href="#"  data-id="<?php echo $row->student_id; ?>" data-toggle="modal" data-target="#simpleModal"><?php echo $row->first_name.' '.$row->last_name; ?></a>
+                        . <?= __('recipients') ?>:
+                            <?php if($row->admin==1):?>
+                                <?= __('administrators') ?>,
+                            <?php endif; ?>
+
+                            <?php foreach($accounts as $row2): ?>
+                                <?php echo $row2->first_name.' '.$row2->last_name; ?>,
+                            <?php endforeach; ?>
+
+
+                        </small></div>
+                </div>
+                <div class="panel-body">
+                    <p><?php echo nl2br(htmlentities($row->question));?></p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+
+
+            <form method="post" class="form" action="<?php echo $this->url('admin/default',['controller'=>'discuss','action'=>'addreply','id'=>$row->discussion_id]); ?>">
+                <div class="form-group">
+                    <textarea required="required" placeholder="<?= __('reply-here') ?>" class="form-control" name="reply" id="reply"  rows="3"></textarea>
+                </div>
+                <div class="form-footer">
+                    <button type="submit" class="btn btn-primary"><?= __('reply') ?></button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+<?php if(!empty($total)):?>
+    <div class="row">
+        <div class="col-md-12">
+            <h3><?= __('replies') ?></h3>
+            <?php foreach($paginator as $row): ?>
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <?= __('by') ?> <strong>
+                    <?php if($row->user_type=='a'):?>
+                     <?php if($accountTable->recordExists($row->user_id)):?>
+                            <?php echo $accountTable->getRecord($row->user_id)->first_name; ?> (<?= __('Admin') ?>)
+                            <?php else:?>
+                            <?= __('admin') ?>
+                            <?php endif;?>
+                    <?php else: ?>
+
+                    <?php if($studentTable->recordExists($row->user_id)) echo $studentTable->getRecord($row->user_id)->first_name.' '.$studentTable->getRecord($row->user_id)->last_name;  ?>
+                    <?php endif; ?></strong> <?= __('on') ?> <?php echo date('r',$row->replied_on); ?>
+                </div>
+                <div class="panel-body">
+                    <p><?php echo nl2br(htmlentities($row->reply))?></p>
+                </div>
+
+            </div>
+            <?php endforeach; ?>
+
+
+        </div>
+    </div>
+<?php endif; ?>
+
+
+
+
+
+
+    <?php
+    // add at the end of the file after the table
+    echo $this->paginationControl(
+    // the paginator object
+        $this->paginator,
+        // the scrolling style
+        'sliding',
+        // the partial to use to render the control
+        array('partial/paginator.phtml', 'Application'),
+        // the route to link to when a user clicks a control link
+        array(
+            'route' => 'admin/default',
+            'controller'=>'discuss',
+            'action'=>'viewdiscussion',
+            'id'=>$row->discussion_id
+
+        )
+    );
+    ?>
+</div>
+
+
+<!-- START SIMPLE MODAL MARKUP -->
+<div class="modal fade" id="simpleModal" tabindex="-1" role="dialog" aria-labelledby="simpleModalLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="simpleModalLabel"><?= __('student-details') ?></h4>
+            </div>
+            <div class="modal-body" id="info">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal"><?= __('close') ?></button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- END SIMPLE MODAL MARKUP -->
+
+<script type="text/javascript">
+    $(function(){
+        $('.viewbutton').click(function(){
+            $('#info').text('Loading...');
+            var id = $(this).attr('data-id');
+            $('#info').load('<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'view'))?>'+'/'+id);
+        });
+    });
+</script>

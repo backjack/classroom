@@ -1,0 +1,119 @@
+<!DOCTYPE html><html  <?=langMeta()?>>
+
+<head>
+    <title><?= __('attendance') ?>: <?php echo $pageTitle ?></title>
+    <!-- BEGIN META -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="your,keywords">
+    <meta name="description" content="Short explanation about this website">
+    <!-- END META -->
+
+    <!-- Bootstrap -->
+    <link href="<?php echo $this->basePath(); ?>/themes/cpanel/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="<?php echo $this->basePath(); ?>/themes/cpanel/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="<?php echo $this->basePath(); ?>/jquery-ui/css/ui-lightness/jquery-ui-1.10.4.css" />
+
+
+    <!-- END STYLESHEETS -->
+
+<style>
+    .fadedtext{
+        font-size: 8px;
+        color: #d9d9d9;
+    }
+</style>
+
+
+</head>
+
+
+<body>
+<div class="container_">
+    <div class="box">
+        <div class="box-body">
+            <h2><?= __('attendance') ?>: <?php echo $pageTitle ?></h2>
+            <table class="table table-stripped table-bordered">
+                <thead>
+                <tr>
+                    <th><?= __('first-name') ?></th>
+                    <th><?= __('last-name') ?></th>
+
+                    <th><?= __('telephone-number') ?></th>
+                    <th><?= __('email') ?></th>
+
+                    <?php $count = 1?>
+                    <?php foreach($lessons as $lesson): ?>
+
+                    <th><?= __('class') ?> <?php echo $count ?> <?php if(!$attendanceTable->lessonExists($lesson->lesson_id,$sid)):?>- Start<?php endif; ?>
+                    <div style="font-size: 9px"><?php echo limitLength($lesson->lesson_name,20) ?></div>
+                    </th>
+                    <?php if(!$attendanceTable->lessonExists($lesson->lesson_id,$sid)):?>
+                    <th><?= __('class') ?> <?php echo $count ?> - End
+                        <div style="font-size: 9px"><?php echo limitLength($lesson->lesson_name,20) ?></div>
+                    </th>
+                    <?php endif; ?>
+
+                    <?php $count++; ?>
+                    <?php endforeach; ?>
+
+
+
+
+
+                </tr>
+                </thead>
+                <tbody>
+
+                <?php foreach($students as $row): ?>
+                <tr>
+                    <td style ="word-break:break-all;" ><?php echo ucwords(strtolower($row->first_name)); ?></td>
+                    <td style ="word-break:break-all;" ><?php echo ucwords(strtolower($row->last_name)); ?></td>
+
+                    <td style ="word-break:break-all;" ><?php echo cleanTel($row->mobile_number); ?></td>
+                    <td style ="word-break:break-all;" ><?php echo strtolower($row->email); ?></td>
+
+
+                    <?php $count = 1?>
+                    <?php foreach($lessons as $lesson): ?>
+
+
+                    <td style ="word-break:break-all;" class="fadedtext" ><?php if(!$attendanceTable->lessonExists($lesson->lesson_id,$sid)):?>Class <?php echo $count ?> - Start<?php else:?>
+                        <?php if($attendanceTable->hasAttendance($row->student_id,$lesson->lesson_id,$sid)):?>
+
+                                <img src="<?php echo $this->basePath()?>/images/checkmark.png" style="height: 20px"/>
+                                <?php else: ?>
+
+                                <?php endif; ?>
+
+                        <?php endif; ?></td>
+                    <?php if(!$attendanceTable->lessonExists($lesson->lesson_id,$sid)): ?>
+                    <td style ="word-break:break-all;" class="fadedtext" >Class <?php echo $count ?> - End</td>
+                        <?php endif; ?>
+
+
+                        <?php $count++; ?>
+                    <?php endforeach; ?>
+
+
+
+                </tr>
+
+                <?php endforeach; ?>
+
+                </tbody>
+
+            </table>
+
+
+        </div>
+
+    </div>
+</div>
+<script>
+    javascript:window.print();
+</script>
+</body>
+
+</html>

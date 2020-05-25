@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html <?=langMeta()?>>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <?php echo $this->headTitle('Register - '.$this->getSetting('general_site_name')) ?>
+
+    <!-- Bootstrap -->
+    <link href="<?php echo $this->basePath(); ?>/themes/cpanel/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="<?php echo $this->basePath(); ?>/themes/cpanel/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="<?php echo $this->basePath(); ?>/themes/cpanel/vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- Animate.css -->
+    <link href="<?php echo $this->basePath(); ?>/themes/cpanel/vendors/animate.css/animate.min.css" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link href="<?php echo $this->basePath(); ?>/themes/cpanel/build/css/custom.min.css" rel="stylesheet">
+    <?php echo $this->getSetting('general_header_scripts');?>
+    <link rel="stylesheet" href="<?php echo $this->basePath(); ?>/static/intl-tel-input/build/css/intlTelInput.css">
+
+    <style>
+        .iti-flag {background-image: url("<?php echo $this->basePath(); ?>/static/intl-tel-input/build/img/flags.png");}
+
+        @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+            .iti-flag {background-image: url("<?php echo $this->basePath(); ?>/static/intl-tel-input/build/img/flags@2x.png");}
+        }
+
+
+
+    </style>
+
+</head>
+
+<body class="login">
+<div>
+    <a class="hiddenanchor" id="signup"></a>
+    <a class="hiddenanchor" id="signin"></a>
+
+    <div class="login_wrapper">
+        <div class="animate form login_form">
+            <section class="login_content">
+
+                <h1> <?php if(isset($loginerror) && $loginerror): ?>
+
+                        <?= __('invalid-login') ?>
+                    <?php else:?>
+
+                        <?= __('student-registration') ?>
+                    <?php endif; ?></h1>
+                <?php echo $this->alert($this->flashMessenger()->render(),@$action->mode); ?>
+                <?php echo $this->alert(@$message,@$action->mode); ?>
+
+                <?php if($this->getSetting('social_enable_facebook') || $this->getSetting('social_enable_google')):?>
+
+                    <div class="row">
+                        <?php if($this->getSetting('social_enable_facebook')):?>
+                            <div class="col-md-5" style="margin-bottom: 10px">
+                                <a class="btn btn-primary btn-rounded" href="<?=$this->url('application/social-login');?>?network=Facebook">
+                                    <i class="fa fa-facebook-square"></i>  <?= __('facebook-login') ?>
+                                </a></div>
+                        <?php endif; ?>
+                        <?php if($this->getSetting('social_enable_google')):?>
+                            <div class="col-md-5 col-md-offset-1"  style="margin-bottom: 10px">
+                                <a  class="btn btn-danger btn-rounded"  href="<?=$this->url('application/social-login');?>?network=Google">
+                                    <i class="fa fa-google-plus-square"></i> <?= __('google-login') ?>
+                                </a></div>
+                        <?php endif; ?>
+                    </div>
+                    <div><h4><?= strtoupper(__('OR')) ?></h4></div>
+                <?php endif; ?>
+
+
+                <div style="text-align: left">
+
+                    <!-- Nav tabs -->
+
+                    <!-- Tab panes -->
+
+
+                            <?php
+                            $captchaService = $this->getServiceLocator()->get('SanCaptcha');
+                            $registrationFieldsTable = new \Application\Model\RegistrationFieldTable();
+                            $fields = $registrationFieldsTable->getActiveFields();
+                            $signupForm = new Application\Form\SignupForm(null,$this->getServiceLocator(),$captchaService);
+
+                            $signupForm->prepare();
+
+                            $signupForm->setAttribute('action', $this->url('application/register'));
+
+                            $elements = $signupForm->getElements();
+                            foreach($elements as $element){
+                                if($element->getAttribute('type')!='checkbox' && $element->getAttribute('type')!='radio'){
+                                    $element->setAttribute('class','form-control  input-lg');
+                                }
+
+                            }
+
+                            $signupForm->setAttribute('method', 'post');
+                            $signupForm->setAttribute('id', 'loginform');
+                            $signupForm->setAttribute('class','form-horizontal');
+
+                            echo $this->form()->openTag($signupForm);
+
+                            ?>
+                            <?php echo $this->formElement($signupForm->get('security')); ?>
+
+                            <input type="hidden" name="captcha" class="captcha_token"/>
+
+                            <div class="row">
+                                <div class="control-group col-xs-12">
+                                    <?php echo $this->formLabel($signupForm->get('first_name')); ?>
+
+                                    <div class="controls">
+                                        <?php echo $this->formElement($signupForm->get('first_name')) ?>
+                                        <p class="help-block">&nbsp;</p>
+                                    </div>
+                                </div>
+
+                                <div class="control-group col-xs-12">
+                                    <?php echo $this->formLabel($signupForm->get('last_name')); ?>
+
+                                    <div class="controls">
+                                        <?php echo $this->formElement($signupForm->get('last_name')) ?>
+                                        <p class="help-block">&nbsp;</p>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="control-group col-xs-12">
+                                    <?php echo $this->formLabel($signupForm->get('mobile_number')); ?>
+
+                                    <div class="controls">
+                                        <?php echo $this->formElement($signupForm->get('mobile_number')) ?>
+                                        <p class="help-block">&nbsp;</p>
+                                    </div>
+                                </div>
+
+                                <div class="control-group col-xs-12">
+                                    <?php echo $this->formLabel($signupForm->get('email')); ?>
+
+                                    <div class="controls">
+                                        <?php echo $this->formElement($signupForm->get('email')) ?>
+                                        <p class="help-block"><?= __('provide-email') ?></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <?php foreach($fields as $row):?>
+
+
+
+                                    <?php if($row->type == 'checkbox'):?>
+                                        <div class="control-group col-xs-12">
+
+
+                                            <div class="controls">
+                                                <?php echo $this->formLabel($signupForm->get('custom_'.$row->registration_field_id)); ?>  <?php     echo $this->formElement($signupForm->get('custom_'.$row->registration_field_id));
+
+                                                ?> <p class="help-block"><?php echo $this->formElementErrors($signupForm->get('custom_'.$row->registration_field_id));?></p>
+                                            </div>
+                                        </div>
+
+                                    <?php elseif($row->type == 'radio'): ?>
+
+                                        <div class="control-group col-xs-12">
+                                            <?php echo $this->formLabel($signupForm->get('custom_'.$row->registration_field_id)); ?>
+                                            <div class="controls">
+                                                <?php     echo $this->formRadio($signupForm->get('custom_'.$row->registration_field_id));
+
+                                                ?> <p class="help-block"><?php echo $this->formElementErrors($signupForm->get('custom_'.$row->registration_field_id));?></p>
+                                            </div>
+                                        </div>
+
+                                    <?php else: ?>
+                                        <div class="control-group col-xs-12">
+                                            <?php echo $this->formLabel($signupForm->get('custom_'.$row->registration_field_id)); ?>
+                                            <div class="controls">
+                                                <?php     echo $this->formElement($signupForm->get('custom_'.$row->registration_field_id));
+
+                                                ?> <p class="help-block"><?php echo $this->formElementErrors($signupForm->get('custom_'.$row->registration_field_id));?></p>
+                                            </div>
+                                        </div>
+
+
+                                    <?php endif; ?>
+
+
+
+
+                                <?php endforeach; ?>
+                            </div>
+                            <div class="row">
+
+
+                                <div class="control-group col-xs-12">
+                                    <?php echo $this->formLabel($signupForm->get('password')); ?>
+
+                                    <div class="controls">
+                                        <?php echo $this->formElement($signupForm->get('password')) ?>
+                                        <p class="help-block">&nbsp;</p>
+                                    </div>
+                                </div>
+
+                                <div class="control-group col-xs-12">
+                                    <?php echo $this->formLabel($signupForm->get('confirm_password')); ?>
+
+                                    <div class="controls">
+                                        <?php echo $this->formElement($signupForm->get('confirm_password')) ?>
+                                        <p class="help-block">&nbsp;</p>
+                                    </div>
+                                </div>
+
+                                <?php if(getSetting('regis_captcha_type')=='image'): ?>
+                                    <div class="control-group col-xs-12" style="margin-top: 20px" >
+
+                                        <?php $signupForm->get('captcha')->setAttribute('class','form-control input-lg'); $signupForm->get('captcha')->setAttribute('style','margin-top:10px');
+                                        $signupForm->get('captcha')->setAttribute('placeholder','Enter code here');
+                                        $signupForm->get('captcha')->setAttribute('required','required');
+                                        echo $this->formLabel($signupForm->get('captcha')); ?>
+                                        <div class="controls">
+                                            <?php
+                                            echo $this->formElement($signupForm->get('captcha'));
+                                            echo $this->formElementErrors($signupForm->get('captcha'));
+                                            ?>
+                                        </div>
+
+                                    </div>
+                                <?php else: ?>
+
+                                    <input type="hidden" name="captcha" class="captcha_token"/>
+                                <?php endif; ?>
+
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <div class="col-xs-12">
+                                    <div class="checkbox checkbox-success">
+                                        <input required="required" id="checkbox-signup" type="checkbox" checked="checked">
+                                        <label for="checkbox-signup"><?= __('i-accept-terms',['link'=>$this->url('terms')]) ?></label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group account-btn text-center m-t-10">
+                                <div class="col-xs-12">
+                                    <button class="btn w-md btn-danger btn-bordered waves-effect waves-light" type="submit"><?= __('Register') ?></button>
+                                </div>
+                            </div>
+
+                    <a class="reset_pass" href="<?php echo $this->url('application/signin');?>"><?= __('already-have-account') ?></a>
+
+                            <?php echo $this->form()->closeTag() ?>
+
+
+
+
+
+                </div>
+
+
+
+
+                <div class="separator">
+
+
+
+                    <div>
+                        <?php $logo = $this->getSetting('image_logo'); if(!empty($logo)):?>
+                            <a    href="<?php echo $this->url('home');?>"><img style="max-height: 90px"   src="<?php echo $this->basePath(); ?>/<?php echo $this->getSetting('image_logo'); ?>"></a>
+                        <?php else:  ?>
+                            <a   href="<?php echo $this->url('home');?>"> <h2><?php echo $this->getSetting('general_site_name'); ?></h2></a>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                </form>
+            </section>
+        </div>
+
+
+    </div>
+</div>
+
+<!-- Bootstrap -->
+<script src="<?php echo $this->basePath(); ?>/themes/cpanel/vendors/jquery/dist/jquery.min.js"></script>
+<script src="<?php echo $this->basePath(); ?>/jquery-ui-1.11.4/jquery-ui.min.js"></script>
+<script src="<?php echo $this->basePath(); ?>/themes/cpanel/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<script src="<?php echo $this->basePath(); ?>/static/intl-tel-input/build/js/intlTelInput.js"></script>
+
+<script>
+
+
+    $("input[name=mobile_number]").intlTelInput({
+        initialCountry: "auto",
+        separateDialCode:true,
+        hiddenInput:'fmobilenumber',
+        geoIpLookup: function(callback) {
+            $.get('https://ipinfo.io', function() {}, "jsonp").always(function(resp) {
+                var countryCode = (resp && resp.country) ? resp.country : "";
+                callback(countryCode);
+            });
+        },
+        utilsScript: "<?php echo $this->basePath(); ?>/static/intl-tel-input/build/js/utils.js" // just for formatting/placeholders etc
+    });
+</script>
+<?php echo $this->getSetting('general_foot_scripts');?>
+<?php require_once('module/Application/view/application/login/captcha_config.phtml') ?>
+</body>
+</html>

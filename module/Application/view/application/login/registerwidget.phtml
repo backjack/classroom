@@ -1,0 +1,216 @@
+<?php if(!isset($_GET['hideTitle'])){ $this->headTitle($pageTitle); } ?>
+<?php
+if(!isset($form))
+{
+    $form = new Application\Form\SignupForm();
+}
+$form->prepare();
+
+$form->setAttribute('action', $this->url('application/register'));
+
+$elements = $form->getElements();
+foreach($elements as $element){
+    if($element->getAttribute('type')!='checkbox' && $element->getAttribute('type')!='radio'){
+        $element->setAttribute('class','form-control  input-lg');
+    }
+
+}
+
+$form->setAttribute('method', 'post');
+$form->setAttribute('id', 'loginform');
+$form->setAttribute('class','form-horizontal');
+
+echo $this->form()->openTag($form);
+
+?>
+<div class="container has-margin-bottom" >
+
+    <div class="row">
+        <div class="col-md-12"> 
+            <?php echo $this->getSetting('regis_registration_instructions') ?>
+        </div>
+    
+    </div>
+    <?php if(isset($message)): ?>
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <strong><?= __('warning') ?></strong> <?php echo $message ?>
+        </div>
+    <?php endif; ?>
+    <div class="row">
+        <div class="col-md-12">
+            
+      
+
+<div class="row">
+                <div class="control-group col-md-6">
+                    <?php echo $this->formLabel($form->get('first_name')); ?>
+
+                    <div class="controls">
+                        <?php echo $this->formElement($form->get('first_name')) ?>
+                        <p class="help-block">&nbsp;</p>
+                    </div>
+                </div>
+
+                <div class="control-group col-md-6">
+                    <?php echo $this->formLabel($form->get('last_name')); ?>
+
+                    <div class="controls">
+                        <?php echo $this->formElement($form->get('last_name')) ?>
+                        <p class="help-block">&nbsp;</p>
+                    </div>
+                </div>
+
+
+
+                <div class="control-group col-md-6">
+                    <?php echo $this->formLabel($form->get('mobile_number')); ?>
+
+                    <div class="controls">
+                        <?php echo $this->formElement($form->get('mobile_number')) ?>
+                        <p class="help-block">&nbsp;</p>
+                    </div>
+                </div>
+
+                <div class="control-group col-md-6">
+                    <?php echo $this->formLabel($form->get('email')); ?>
+
+                    <div class="controls">
+                        <?php echo $this->formElement($form->get('email')) ?>
+                        <p class="help-block"><?= __('provide-email') ?></p>
+                    </div>
+                </div>
+</div>
+
+              <div class="row">
+                <?php foreach($fields as $row):?>
+
+
+
+                            <?php if($row->type == 'checkbox'):?>
+                  <div class="control-group col-md-6">
+
+
+                        <div class="controls">
+                            <?php echo $this->formLabel($form->get('custom_'.$row->registration_field_id)); ?>  <?php     echo $this->formElement($form->get('custom_'.$row->registration_field_id));
+
+                            ?> <p class="help-block"><?php echo $this->formElementErrors($form->get('custom_'.$row->registration_field_id));?></p>
+                        </div>
+                  </div>
+
+                            <?php elseif($row->type == 'radio'): ?>
+
+                  <div class="control-group col-md-6">
+                        <?php echo $this->formLabel($form->get('custom_'.$row->registration_field_id)); ?>
+                        <div class="controls">
+                            <?php     echo $this->formRadio($form->get('custom_'.$row->registration_field_id));
+
+                            ?> <p class="help-block"><?php echo $this->formElementErrors($form->get('custom_'.$row->registration_field_id));?></p>
+                        </div>
+                  </div>
+
+                            <?php else: ?>
+                            <div class="control-group col-md-6">
+                                <?php echo $this->formLabel($form->get('custom_'.$row->registration_field_id)); ?>
+                                <div class="controls">
+                                <?php     echo $this->formElement($form->get('custom_'.$row->registration_field_id));
+
+                                ?> <p class="help-block"><?php echo $this->formElementErrors($form->get('custom_'.$row->registration_field_id));?></p>
+                                    </div>
+                            </div>
+
+
+                            <?php endif; ?>
+
+
+
+
+                <?php endforeach; ?>
+        </div>
+                <div class="row">
+
+
+                <div class="control-group col-md-6">
+                    <?php echo $this->formLabel($form->get('password')); ?>
+
+                    <div class="controls">
+                        <?php echo $this->formElement($form->get('password')) ?>
+                        <p class="help-block">&nbsp;</p>
+                    </div>
+                </div>
+
+                <div class="control-group col-md-6">
+                    <?php echo $this->formLabel($form->get('confirm_password')); ?>
+
+                    <div class="controls">
+                        <?php echo $this->formElement($form->get('confirm_password')) ?>
+                        <p class="help-block">&nbsp;</p>
+                    </div>
+                </div>
+
+                    <?php if(getSetting('regis_captcha_type')=='image'): ?>
+                <div class="control-group col-md-6" style="margin-top: 20px" >
+
+                    <?php $form->get('captcha')->setAttribute('class','form-control input-lg'); $form->get('captcha')->setAttribute('style','margin-top:10px');
+                    $form->get('captcha')->setAttribute('placeholder','Enter code here');
+                    $form->get('captcha')->setAttribute('required','required');
+                    echo $this->formLabel($form->get('captcha')); ?>
+                    <div class="controls">
+                        <?php
+                        echo $this->formElement($form->get('captcha'));
+                        echo $this->formElementErrors($form->get('captcha'));
+                        ?>
+                    </div>
+
+                </div>
+                    <?php else: ?>
+                        <input type="hidden" name="captcha" class="captcha_token"/>
+                    <?php endif; ?>
+
+</div>
+
+                <div class="control-group col-md-6" >
+                    <!-- Button -->
+                    <div class="controls">
+                        <button style="margin-top: 20px;" class="btn btn-success"><?= __('Register') ?></button>
+                    </div>
+                </div>
+
+
+        </div>
+    </div>
+</div>
+    <?php echo $this->form()->closeTag() ?>
+
+
+<?php $this->headLink()->prependStylesheet($this->basePath() . '/static/intl-tel-input/build/css/intlTelInput.css')
+?>
+<?php $this->headStyle()->captureStart() ?>
+.iti-flag {background-image: url("<?php echo $this->basePath(); ?>/static/intl-tel-input/build/img/flags.png");}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+.iti-flag {background-image: url("<?php echo $this->basePath(); ?>/static/intl-tel-input/build/img/flags@2x.png");}
+}
+
+<?php $this->headStyle()->captureEnd() ?>
+<!--container ends-->
+<script src="<?php echo $this->basePath(); ?>/static/intl-tel-input/build/js/intlTelInput.js"></script>
+
+<script>
+
+
+    $("input[name=mobile_number]").intlTelInput({
+        initialCountry: "auto",
+        separateDialCode:true,
+        hiddenInput:'fmobilenumber',
+        geoIpLookup: function(callback) {
+            $.get('https://ipinfo.io', function() {}, "jsonp").always(function(resp) {
+                var countryCode = (resp && resp.country) ? resp.country : "";
+                callback(countryCode);
+            });
+        },
+        utilsScript: "<?php echo $this->basePath(); ?>/static/intl-tel-input/build/js/utils.js" // just for formatting/placeholders etc
+    });
+</script>
+
+<?php require_once('module/Application/view/application/login/captcha_config.phtml') ?>

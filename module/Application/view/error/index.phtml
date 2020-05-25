@@ -1,0 +1,64 @@
+
+<h1><?= __('error-occured') ?></h1>
+<h2><?= $this->message ?></h2>
+
+<?php if (getenv('APP_MODE')=='demo') : ?>
+    <?php if (isset($this->exception)
+        && ($this->exception instanceof \Exception || $this->exception instanceof \Error)) : ?>
+<hr/>
+
+<h2><?= __('additional-information') ?>:</h2>
+<h3><?= get_class($this->exception) ?></h3>
+<dl>
+    <dt><?= __('File') ?>:</dt>
+    <dd>
+        <pre><?= $this->exception->getFile() ?>:<?= $this->exception->getLine() ?></pre>
+    </dd>
+    <dt><?= __('Message') ?>:</dt>
+    <dd>
+        <pre><?= $this->escapeHtml($this->exception->getMessage()) ?></pre>
+    </dd>
+    <dt><?= __('stack-trace') ?>:</dt>
+    <dd>
+        <pre><?= $this->escapeHtml($this->exception->getTraceAsString()) ?></pre>
+    </dd>
+</dl>
+
+        <?php if ($ex = $this->exception->getPrevious()) : ?>
+<hr/>
+
+<h2><?= __('previous-exceptions') ?>:</h2>
+<ul class="list-unstyled">
+            <?php $icount = 0 ?>
+            <?php while ($ex) : ?>
+    <li>
+        <h3><?= get_class($ex) ?></h3>
+        <dl>
+            <dt><?= __('File') ?>:</dt>
+            <dd>
+                <pre><?= $ex->getFile() ?>:<?= $ex->getLine() ?></pre>
+            </dd>
+            <dt><?= __('Message') ?>:</dt>
+            <dd>
+                <pre><?= $this->escapeHtml($ex->getMessage()) ?></pre>
+            </dd>
+            <dt><?= __('stack-trace') ?>:</dt>
+            <dd>
+                <pre><?= $this->escapeHtml($ex->getTraceAsString()) ?></pre>
+            </dd>
+        </dl>
+    </li>
+                <?php
+                $ex = $ex->getPrevious();
+                if (++$icount >= 50) {
+                    echo '<li>'.__('more-exceptions').'.</li>';
+                    break;
+                }
+                ?>
+            <?php endwhile ?>
+</ul>
+        <?php endif ?>
+    <?php else : ?>
+        <h3><?= __('no-exception') ?></h3>
+    <?php endif ?>
+<?php endif ?>

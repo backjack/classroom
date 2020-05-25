@@ -1,0 +1,42 @@
+<?php $this->headTitle(__('blog').' - '.$row->title)?>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-9 has-margin-bottom">
+            <?php echo date('d/M/Y',$row->date)?>
+            <article class="blog-content">
+
+                <?php if(!empty($row->picture)):?>
+                    <div class="entry-thumb">
+                        <a href="<?php echo $this->url('application/default',array('controller'=>'news','action'=>'view','id'=>$row->newsflash_id));?>"><img src="<?php echo resizeImage($row->picture, 500, 400, $this->basePath());?>" alt="" title=""></a>
+                    </div>
+                <?php endif; ?>
+                <div class="entry-details">
+
+                    <!--entry-metadata ends-->
+                    <div class="entry-body">
+                        <p><?php echo $row->content ?></p>
+                    </div>
+                </div>
+
+            </article>
+            <?php $shortName = $this->getSetting('general_disqus'); if(!empty($shortName)):?>
+                <script type="text/javascript">
+                    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+                    var disqus_shortname = '<?php echo trim($shortName); ?>'; // required: replace example with your forum shortname
+
+                    /* * * DON'T EDIT BELOW THIS LINE * * */
+                    (function () {
+                        var s = document.createElement('script'); s.async = true;
+                        s.type = 'text/javascript';
+                        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+                        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+                    }());
+                </script>
+            <?php endif; ?>
+            </div>
+
+
+     </div>
+</div>

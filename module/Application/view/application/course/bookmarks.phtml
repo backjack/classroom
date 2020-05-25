@@ -1,0 +1,51 @@
+<div class="box">
+    <div class="box-body">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th><?= __('course') ?></th>
+                    <th><?= __('class') ?></th>
+                    <th><?= __('lecture') ?></th>
+                    <th><?= __('page') ?></th>
+                    <th><?= __('added-on') ?></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach($paginator as $row): ?>
+                    <tr>
+                        <td><?php echo $row->session_name ?></td>
+                        <td><?php echo $row->lesson_name ?></td>
+                        <td><?php echo $row->lecture_title ?></td>
+                        <td><?php echo $row->page_title ?></td>
+                        <td><?php echo date('d/M/Y',$row->created_on) ?></td>
+                        <td><a class="btn btn-primary" href="<?php echo $this->url('view-lecture',['lectureId'=>$row->lecture_id,'sessionId'=>$row->session_id]) ?>?page=<?php echo $row->lecture_page_id ?>"><?= __('view') ?></a></td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+
+
+        </div>
+        <?php
+        // add at the end of the file after the table
+
+        echo $this->paginationControl(
+// the paginator object
+            $this->paginator,
+            // the scrolling style
+            'sliding',
+            // the partial to use to render the control
+            array('partial/paginator.phtml', 'Application'),
+            // the route to link to when a user clicks a control link
+            array(
+                'route' => 'application/default',
+                'controller'=>'course',
+                'action'=>'bookmark'
+            )
+        );
+
+        ?>
+    </div>
+</div>

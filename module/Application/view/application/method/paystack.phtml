@@ -1,0 +1,58 @@
+<?php $this->headTitle($pageTitle); ?>
+<div class="container box">
+    <table class="table table-hover table-striped no-margin">
+
+        <tbody>
+        <tr>
+            <td><?= __('Amount') ?>:</td>
+            <td><?=currentCurrency()->country->symbol_left?><?php echo number_format($invoice->amount,2);?></td>
+
+
+        </tr>
+
+        <tr>
+            <td><?= __('Description') ?>:</td>
+            <td><?= __('Enrollment for') ?> <?php echo 'Course/Session'; ?></td>
+
+        </tr>
+
+        <tr>
+            <td><?= __('Transaction ID') ?>:</td>
+            <td><?php echo $tid?></td>
+
+        </tr>
+
+        <tr>
+            <td>&nbsp;</td>
+            <td>
+
+
+                <form id="paymentForm" action="<?=$this->url('application/default',['controller'=>'callback','action'=>'paystack'],['force_canonical' => true])?>" method="POST" >
+                    <script
+                        src="https://js.paystack.co/v1/inline.js"
+                        data-key="<?php  echo trim($public_key) ?>"
+                        data-email="<?php  echo $student->email ?>"
+                        data-amount="<?php echo ($invoice->amount * 100)?>"
+                        data-ref="<?php echo $tid?>"
+
+                        >
+                    </script>
+
+                </form>
+
+
+
+
+
+
+
+            </td>
+
+        </tr>
+
+
+        </tbody>
+    </table>
+
+
+</div>

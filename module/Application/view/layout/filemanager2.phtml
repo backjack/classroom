@@ -1,0 +1,38 @@
+<?php
+$children = $this->viewModel()->getCurrent()->getChildren();
+foreach($children as $action) {
+if ($action->captureTo() == 'content') {
+break;
+}
+}
+?><!DOCTYPE html>
+<html <?=langMeta()?>>
+<head>
+<meta charset="UTF-8" />
+<title><?= __('filemanager') ?></title>
+<base href="<?php echo $action->base; ?>" />
+
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <!-- Section JavaScript -->
+    <!-- jQuery and jQuery UI (REQUIRED) -->
+    <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <![endif]-->
+    <!--[if gte IE 9]><!-->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!--<![endif]-->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+
+
+      <?php echo $this->headLink(); ?>
+     <?php echo $this->headScript(); ?>
+    
+
+</head>
+<body>
+	 
+	<?php echo $this->content; ?> 
+		
+</body>
+</html>

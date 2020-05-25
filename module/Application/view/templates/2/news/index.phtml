@@ -1,0 +1,79 @@
+<?php $this->headTitle(__('Blog'))?>
+
+<?php $this->headStyle()->captureStart() ?>
+section.page-title {
+display:none;
+}
+<?php $this->headStyle()->captureEnd() ?>
+
+
+<section class="grey section">
+    <div class="container">
+        <div class="row">
+            <div id="content" class="col-md-12 col-sm-12 col-xs-12">
+                <div class="blog-wrapper">
+                    <div class="row second-bread">
+                        <div class="col-md-6 text-left">
+                            <h1><?php echo $this->getSetting('label_blog',__('Blog'))?></h1>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <div class="bread">
+                                <ol class="breadcrumb">
+                                    <li><a href="<?php echo $this->basePath() ?>/"><?= __('Home') ?></a></li>
+                                    <li class="active"><?php echo $this->getSetting('label_blog','Blog')?></li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <?php foreach($paginator as $row): ?>
+                <div class="blog-wrapper">
+                    <div class="blog-title">
+                        <h2><a href="<?php echo $this->url('news-entry',array('id'=>$row->newsflash_id));?>" title=""><?php echo $row->title; ?></a></h2>
+                        <div class="post-meta">
+<span>
+<i class="fa fa-calendar"></i>
+<a href="#"><?php echo date('d/M/Y',$row->date)?></a>
+</span>
+                        </div>
+                    </div>
+                    <?php if(!empty($row->picture)):?>
+                    <div class="blog-image">
+                        <a href="<?php echo $this->url('news-entry',array('id'=>$row->newsflash_id));?>" title=""><img src="<?php echo resizeImage($row->picture, 1000, 579, $this->basePath());?>" alt="" class="img-responsive"></a>
+                    </div>
+                    <?php endif; ?>
+                    <div class="blog-desc">
+                        <div class="post-date">
+                            <span class="day"><?php echo date('d',$row->date)?></span>
+                            <span class="month"><?php echo date('M',$row->date)?></span>
+                        </div>
+                        <p><?php echo limitLength(strip_tags($row->content),200) ?></p>
+                        <a href="<?php echo $this->url('news-entry',array('id'=>$row->newsflash_id));?>" class="readmore"><?= __('Read More') ?></a>
+                    </div>
+                </div>
+              <?php endforeach; ?>
+                <hr class="invis">
+                <nav class="text-center">
+                    <?php
+                    // add at the end of the file after the table
+                    echo $this->paginationControl(
+                    // the paginator object
+                        $this->paginator,
+                        // the scrolling style
+                        'sliding',
+                        // the partial to use to render the control
+                        array('partial/paginator.phtml', 'Application'),
+                        // the route to link to when a user clicks a control link
+                        array(
+                            'route' => 'news',
+                        )
+                    );
+                    ?>
+
+                </nav>
+            </div>
+
+        </div>
+    </div>
+</section>

@@ -1,0 +1,25 @@
+<table class="table table-stripped">
+    <thead>
+    <tr>
+        <th>
+            <?= __('file') ?>
+        </th>
+        <th>
+            <?= __('status') ?>
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach($rowset as $row): ?>
+    <tr>
+        <td><strong><?php echo  $row->path; ?></strong></td>
+        <td><?php echo (file_exists('public/usermedia/'.$row->path))? __('valid'):__('file-missing') ?></td>
+        <td><a title="<?= __('delete') ?>" class="btn btn-primary delete" href="<?php echo $this->url('admin/default',['controller'=>'download','action'=>'removefile','id'=>$row->download_file_id]) ?>"><i class="fa fa-trash"></i></a>
+            <a title="<?= __('download') ?>" class="btn btn-primary" href="<?php echo $this->url('admin/default',['controller'=>'download','action'=>'download','id'=>$row->download_file_id]) ?>"><i class="fa fa-download"></i></a>
+        </td>
+    </tr>
+    <?php endforeach; ?>
+    </tbody>
+
+</table>

@@ -1,0 +1,38 @@
+div.dashboardrow h1, div.dashboardrow , div.dashboardrow .fa-5x, div.dashboardrow .panel-success > .panel-heading, div.dashboardrow .panel-danger > .panel-heading{
+    color:#ffffff;
+}
+
+.nav-tabs > li > a{
+    font-size: 13px;
+}
+
+a.pointer{
+    cursor: pointer;
+}
+
+
+.image {
+    border: 1px solid #EEE;
+    padding: 10px;
+    display: inline-block;
+}
+
+.image a{
+    cursor: pointer;
+}
+
+#content {
+  /*  position: relative;
+    min-height: 400px; */
+}
+
+h5.accordion-title > a{
+    color:#ffffff;
+}
+
+.select2-container{ width: 100% !important; }
+
+div#layout_content div.row{
+    margin-right: 0px;
+    margin-left: 0px;
+}

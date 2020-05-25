@@ -1,0 +1,50 @@
+<?php if($template): ?>
+<h3><?= __('active-theme') ?></h3>
+<hr/>
+<div class="row">
+
+
+        <div class="col-md-3">
+            <div class="panel  panel-danger">
+                <div class="panel-heading"><?php echo $template->name ?> </div>
+                <div class="panel-body">
+                    <div>
+                        <img class="img-responsive" src="<?php echo $this->basePath() ?>/templates/<?php echo $template->template_id ?>/preview.jpg" alt=""/>
+                    </div>
+                    <br/>
+
+                        <a class="btn  pull-right btn-danger" href="<?php echo  $this->url('admin/default',['controller'=>'template','action'=>'customize','id'=>$template->template_id]); ?>"><i class="fa fa-gears"></i> <?= __('customize') ?></a>
+
+
+                </div>
+            </div>
+        </div>
+
+</div>
+
+<?php endif; ?>
+
+<h3><?= __('all-themes') ?></h3>
+<hr/>
+<div class="row">
+
+   <?php foreach($rowset as $row): ?>
+    <div class="col-md-3">
+       <div class="panel <?php if($row->active==1):?>panel-danger<?php else: ?>panel-default <?php endif; ?>">
+           <div class="panel-heading"><?php echo $row->name ?>  <?php if($row->active==1):?> <strong>(<?= __('active') ?>)</strong><?php endif; ?></div>
+           <div class="panel-body">
+               <div>
+                   <img class="img-responsive" src="<?php echo $this->basePath() ?>/templates/<?php echo $row->template_id ?>/preview.jpg" alt=""/>
+               </div>
+               <br/>
+               <?php if($row->active==1):?>
+                   <a class="btn  pull-right btn-danger" href="<?php echo $this->url('admin/default',['controller'=>'template','action'=>'customize','id'=>$row->template_id]); ?>"><i class="fa fa-gears"></i> <?= __('customize') ?></a>
+               <?php else: ?>
+                   <a class="btn  pull-right   btn-primary" href="<?php echo $this->url('admin/default',['controller'=>'template','action'=>'install','id'=>$row->template_id]); ?>"><i class="fa fa-donwload"></i> <?= __('install') ?></a>
+               <?php endif; ?>
+
+           </div>
+       </div>
+    </div>
+    <?php endforeach; ?>
+</div>

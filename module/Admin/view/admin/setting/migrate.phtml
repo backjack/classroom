@@ -1,0 +1,28 @@
+<div class="box">
+    <div class="box-body">
+        <p>
+            <?= __('update-instructions') ?>
+        </p>
+
+        
+        <?php if($file):?>
+        <form method="POST"
+            action="<?php echo $this->url('admin/default', ['controller' => 'setting', 'action' => 'migrate']); ?>">
+            <button class="btn btn-primary" type="submit"><?= __('update') ?></button>
+        </form>
+        <?php else: ?>
+           <strong> <?= __('no-update-file') ?></strong>
+        
+        <?php endif; ?>
+
+
+
+
+        <?php if(isset($log)):?>
+            <div>
+                <?php echo nl2br($log); ?>
+            </div>
+
+        <?php endif; ?>
+    </div>
+</div>

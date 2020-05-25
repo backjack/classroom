@@ -1,0 +1,330 @@
+<?php  $this->headTitle($pageTitle.': '.$row->session_name) ?>
+<div class="container" style="min-height: 100px;   padding-bottom:50px; margin-bottom: 60px;   " >
+
+    <div class="row" style=" min-height: 100px; margin-bottom: 20px ">
+
+        <div class="col-md-8">
+            <div class="row">
+
+                <?php if(!empty($row->picture)):?>
+                    <div class="col-md-5">
+                        <a href="#" class="thumbnail">
+                            <img src="<?php echo resizeImage($row->picture,400,300,$this->basePath()); ?>" >
+                        </a>
+                    </div>
+                <?php endif; ?>
+                <div class="col-md-7">
+                    <h3><?php echo $row->session_name ?></h3>
+                    <p>
+                        <article class="readmore">
+                            <?php echo $row->short_description; ?>
+                        </article>
+                    </p>
+                </div>
+
+
+            </div>
+
+        </div>
+        <?php if(!$studentSessionTable->enrolled($studentId,$id)): ?>
+            <div class="col-md-3 col-md-offset-1" style="margin-bottom: 20px">
+                <br/><br/>
+                <a class="btn btn-primary btn-block btn-lg" href="<?php echo $this->url('set-session',array('id'=>$row->session_id));?>"><?= __('enroll-now') ?></a>
+            </div>
+        <?php else: ?>
+            <div class="col-md-3 col-md-offset-1" style="margin-bottom: 20px; text-align: center">
+                <br/><br/>
+                <a class="btn btn-primary btn-block btn-lg" href="<?php echo $resumeLink ?>"><?= __('Resume Course') ?></a>
+
+                <br/>
+                or <br/>
+                <a style="text-decoration: underline" href="<?=$this->url('application/default', ['controller' => 'course', 'action' => 'intro','id'=>$id])?>"><?= __('go-to-intro') ?></a>
+
+            </div>
+
+        <?php endif; ?>
+    </div>
+    <div class="row" style="margin-bottom: 60px;">
+        <div class="col-md-8">
+            <div class="tabbable tabs-primary">
+
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#details" aria-controls="details" role="tab" data-toggle="tab"> <i class="fa fa-info"></i> <?= __('details') ?></a></li>
+                    <li role="presentation"><a id="#classTab" href="#timetable" aria-controls="timetable" role="tab" data-toggle="tab"><i class="fa fa-table"></i> <?= __('classes') ?></a></li>
+                    <li role="presentation"><a href="#instructors" aria-controls="instructors" role="tab" data-toggle="tab"><i class="fa fa-users"></i> <?= __('instructors') ?></a></li>
+                    <?php if($enrolled): ?>
+                        <li role="presentation"><a href="#tests" aria-controls="tests" role="tab" data-toggle="tab"><i class="fa fa-check"></i> <?= __('tests') ?></a></li>
+                    <?php endif; ?>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="details">
+                        <p><?php echo $row->description ?></p>
+
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="timetable">
+
+                        <?php $sessionVenue= $row->venue; ?>
+
+                                <?php foreach($rowset as $row2): ?>
+
+                                    <div class="panel panel-primary">
+                                        <div class="panel-heading"><?php echo $row2->lesson_name; ?>
+                                        <?php if(!empty($row2->lesson_date)):?>
+                                              <small class="pull-right"><?= __('starts') ?> <?php echo date('d/M/Y',$row2->lesson_date)?></small>
+                                        <?php endif; ?>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <?php if(!empty($row2->picture)): ?>
+                                                    <div class="col-md-3">
+                                                        <a href="#" >
+                                                            <img class="img-responsive" src="<?php echo resizeImage($row2->picture,300,300,$this->basePath()); ?>" >
+                                                        </a>
+                                                    </div>
+                                                <?php endif; ?>
+
+                                                <div class="col-md-<?php echo (empty($row2->picture)? '12':'9') ?>">
+                                                    <article class="readmore" ><?php echo $row2->content; ?></article>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                <?php endforeach; ?>
+
+
+
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="instructors">
+                        <?php foreach($instructors as $instructor):?>
+                            <div class="row">
+                                <?php if(!empty($instructor->picture)): ?>
+                                    <div class="col-md-3">
+                                        <a href="#" class="thumbnail">
+                                            <img src="<?php echo resizeImage($instructor->picture,300,300,$this->basePath()); ?>" >
+                                        </a>
+                                    </div>
+                                <?php endif; ?>
+
+                                <div class="col-md-<?php echo (empty($instructor->picture)? '12':'9') ?>">
+                                    <h4><?php echo $instructor->first_name.' '.$instructor->last_name ?></h4>
+                                    <article class="readmore"><?php echo $instructor->account_description; ?></article>
+                                    <?php if($studentSessionTable->enrolled($studentId,$id)): ?>
+
+                                        <p style="margin-top: 10px">
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#contactModal<?php echo $instructor->session_instructor_id ?>">
+                                                <i class="fa fa-envelope"></i> <?= __('contact') ?>
+                                            </button>
+                                        </p>
+                                    <?php endif; ?>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="contactModal<?php echo $instructor->session_instructor_id ?>" tabindex="-1" role="dialog" aria-labelledby="contactModalLabel<?php echo $instructor->session_instructor_id ?>">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <form class="form" method="post" action="<?php echo $this->url('application/default',['controller'=>'student','action'=>'adddiscussion']); ?>">
+
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                        <h4 class="modal-title" id="contactModalLabel"><?= __('contact') ?> <?php echo $instructor->first_name.' '.$instructor->last_name ?></h4>
+                                                    </div>
+                                                    <div class="modal-body">
+
+                                                        <?php echo $this->formElement($form->get('security')); ?>
+
+
+                                                        <input type="hidden" name="account_id[][]" value="<?php echo $instructor->account_id ?>"/>
+
+                                                        <div class="form-group">
+                                                            <?php     echo $this->formLabel($form->get('subject'));
+
+                                                            ?>
+                                                            <?php     echo $this->formElement($form->get('subject'));
+
+                                                            ?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('subject'));?></p>
+
+                                                        </div>
+
+
+
+
+                                                        <div class="form-group">
+                                                            <?php     echo $this->formLabel($form->get('question'));
+
+                                                            ?>
+                                                            <?php     echo $this->formElement($form->get('question'));
+
+                                                            ?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('question'));?></p>
+
+                                                        </div>
+
+
+
+
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal"><?= __('close') ?></button>
+                                                        <button type="submit" class="btn btn-primary"><?= __('send-message') ?></button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                    <?php if($enrolled): ?>
+                        <div role="tabpanel" class="tab-pane" id="tests">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+
+                                        <th><?= __('test') ?></th>
+                                        <th><?= __('questions') ?></th>
+                                        <th><?= __('opens') ?></th>
+                                        <th><?= __('closes') ?></th>
+                                        <th><?= __('minutes-allowed') ?></th>
+                                        <th><?= __('multiple-attempts-allowed') ?></th>
+                                        <th><?= __('passmark') ?></th>
+                                        <th class="text-right1" style="width:90px"><?= __('actions') ?></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php foreach($tests as $testRow): ?>
+                                        <?php if($testRow->test_status==1):?>
+                                            <tr>
+                                                <td><?php echo $testRow->name; ?></td>
+                                                <td><?php echo $questionTable->getTotalQuestions($testRow->test_id);?></td>
+                                                <td><?php if(!empty($testRow->opening_date)) echo date('d/M/Y',$testRow->opening_date); ?></td>
+                                                <td><?php if(!empty($testRow->closing_date))  echo date('d/M/Y',$testRow->closing_date); ?></td>
+
+                                                <td><?php echo empty($testRow->minutes)?__('unlimited'):$testRow->minutes; ?></td>
+                                                <td><?php echo boolToString($testRow->allow_multiple); ?></td>
+                                                <td><?php echo ($testRow->passmark > 0)? $testRow->passmark.'%':__('ungraded'); ?></td>
+
+                                                <td class="text-right">
+                                                    <?php if( (!$studentTest->hasTest($testRow->test_id,$this->getStudent()->student_id) || !empty($testRow->allow_multiple)) && ($testRow->opening_date < time() || $testRow->opening_date == 0 ) && ($testRow->closing_date > time() || $testRow->closing_date ==0)): ?>
+                                                        <a  target="_blank" href="<?php echo $this->url('application/taketest',array('id'=>$testRow->test_id));?>" class="btn btn-primary " ><?= __('take-test') ?></a>
+                                                    <?php endif; ?>
+                                                </td>
+
+                                            </tr>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-4" style="border: solid 1px #CCCCCC; padding: 10px; font-size: 14px; ">
+            <table id="course-specs" class="table table-striped">
+                <?php if(!empty($row->session_date)):?>
+                <tr>
+                    <td ><?= __('starts') ?></td>
+                    <td  ><?php echo date('d/M/Y',$row->session_date);?></td>
+                </tr>
+                <?php endif; ?>
+
+                <?php if(!empty($row->session_end_date)):?>
+                <tr>
+                    <td ><?= __('ends') ?></td>
+                    <td><?php echo date('d/M/Y',$row->session_end_date);?></td>
+                </tr>
+                <?php endif; ?>
+                <?php if(!empty($row->enrollment_closes)):?>
+                    <tr>
+                        <td ><?= __('enrollment-closes') ?></td>
+                        <td><?php echo date('d/M/Y',$row->enrollment_closes);?></td>
+                    </tr>
+                <?php endif; ?>
+
+                <?php if(!empty($row->length)):?>
+                    <tr>
+
+                        <td><?= __('length') ?></td>
+                        <td><?php echo $row->length;?></td>
+                    </tr>
+                <?php endif; ?>
+
+
+                <?php if(!empty($row->effort)):?>
+                    <tr>
+
+                        <td><?= __('effort') ?></td>
+                        <td><?php echo $row->effort;?></td>
+                    </tr>
+                <?php endif; ?>
+                <?php if(!empty($row->enable_chat)):?>
+                    <tr>
+
+                        <td><?= __('live-chat') ?></td>
+                        <td><?= __('enabled') ?></td>
+                    </tr>
+                <?php endif; ?>
+                <?php if($this->getSetting('general_show_fee')==1):?>
+                    <tr>
+                        <td><?= __('fee') ?></td>
+                        <td><?php if(empty($row->payment_required)):?>
+                                <?= __('free') ?>
+                            <?php else: ?>
+                                <?php echo $this->formatPrice($row->amount); ?>
+                            <?php endif; ?></td>
+                    </tr>
+                <?php endif; ?>
+
+
+
+
+
+            </table>
+            <?php if(!$studentSessionTable->enrolled($studentId,$id)): ?>
+                <a class="btn btn-primary btn-block btn-lg" href="<?php echo $this->url('set-session',array('id'=>$row->session_id));?>"><?= __('enroll-now') ?></a>
+            <?php else: ?>
+                <a class="btn btn-primary btn-block btn-lg" href="<?php echo $resumeLink ?>"><?= __('resume-course') ?></a>
+
+            <?php endif; ?>
+        </div>
+
+    </div>
+
+
+
+</div>
+
+<?php $this->headScript()->prependFile($this->basePath() . '/static/readmore/readmore.min.js')
+?>
+<script>
+    $(function(){
+        $('article.readmore').readmore({
+            collapsedHeight : 90
+        });
+    });
+
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        console.log('clicked');
+        $('#timetable article.readmore').readmore({
+            collapsedHeight : 90
+        });
+    });
+</script>
+
+
+<?php $this->headStyle()->captureStart() ?>
+    #course-specs tr:first-child > td{
+    border-top: none
+    }
+<?php $this->headStyle()->captureEnd() ?>

@@ -1,0 +1,17 @@
+<table class="table table-stripped">
+    <thead>
+    <tr>
+        <th><?= __('question') ?></th>
+        <th><?= __('answer') ?></th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach($rowset as $row): ?>
+    <tr>
+        <td><?php echo $row->question ?></td>
+        <td><?php echo $row->option?></td>
+    </tr>
+    <?php endforeach; ?>
+    </tbody>
+
+</table>

@@ -1,0 +1,32 @@
+<?php  $this->headTitle($pageTitle) ?>
+
+
+
+<!--breadcrumb-section ends-->
+<!--container starts-->
+<div class="container" style="background-color: white; min-height: 400px;   padding-bottom:50px; margin-bottom: 10px;  " >
+    <!--primary starts-->
+
+
+
+    <article class="blog-content">
+
+        <?php if(!empty($row->picture)):?>
+            <div class="entry-thumb">
+                <img src="<?php echo resizeImage($row->picture, 500, 400, $this->basePath());?>" alt="" title="">
+            </div>
+        <?php endif; ?>
+        <div class="entry-details">
+
+            <!--entry-metadata ends-->
+            <div class="entry-body">
+                <p><?php echo $row->content ?></p>
+            </div>
+        </div>
+
+    </article>
+
+
+</div>
+
+<!--container ends-->

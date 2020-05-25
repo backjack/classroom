@@ -1,0 +1,25 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <?= __('change-language') ?>
+    </div>
+    <div class="panel-body">
+        <form method="post" action="<?php echo selfURL() ?>">
+
+            <div class="form-group">
+                <label for="password1" class="control-label"><?php echo $this->formLabel($select); ?></label>
+                <?php     echo $this->formElement($select);
+
+                ?>   <p class="help-block"><?php echo $this->formElementErrors($select);?></p>
+
+            </div>
+
+
+            <div class="form-footer">
+                <button type="submit" class="btn btn-primary"><?= __('submit') ?></button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>

@@ -1,0 +1,65 @@
+<?php  $this->headTitle($pageTitle) ?>
+
+
+<!--breadcrumb-section ends-->
+<!--container starts-->
+<div class="container" style="background-color: white; min-height: 400px;   padding-bottom:50px; margin-bottom: 10px;   " >
+    <!--primary starts-->
+
+    <div class="box-body">
+
+
+        <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th><?= __('id') ?></th>
+                <th><?= __('name') ?></th>
+                <th><?= __('files') ?></th>
+                 <th ></th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach($paginator as $row): ?>
+
+            <tr>
+                 <td><span class="label label-success"><?php echo $row->download_id ?></span></td>
+                        <td><?php echo $row->download_name; ?></td>
+                        <td><?php echo $fileTable->getTotalForDownload($row->download_id); ?></td>
+
+                        <td class="text-right">
+                        <?php if ($fileTable->getTotalForDownload($row->download_id)> 0): ?>
+                            <a href="<?php echo $this->url('application/download-list',array('id'=>$row->download_id));?>" class="btn btn-primary" data-toggle="tooltip" data-placement="top" data-original-title="View Files"><i class="fa fa-eye"></i> <?= __('view-files') ?></a>
+                            <a href="<?php echo $this->url('application/download-all',array('id'=>$row->download_id));?>" class="btn btn-primary" data-toggle="tooltip" data-placement="top" data-original-title="Download All Files"><i class="fa fa-download"></i> <?= __('Download All') ?></a>
+                        <?php else:?>
+                            <strong><?= __('no-files-available') ?></strong>
+                        <?php endif; ?>
+                        </td>
+                    </tr>
+
+            <?php endforeach; ?>
+
+            </tbody>
+        </table>
+</div>
+        <?php
+        // add at the end of the file after the table
+        echo $this->paginationControl(
+        // the paginator object
+            $this->paginator,
+            // the scrolling style
+            'sliding',
+            // the partial to use to render the control
+            array('partial/paginator.phtml', 'Application'),
+            // the route to link to when a user clicks a control link
+            array(
+                'route' => 'application/downloads',
+            )
+        );
+        ?>
+    </div>
+
+
+</div>
+
+<!--container ends-->

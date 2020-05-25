@@ -1,0 +1,403 @@
+<p>
+    <?= __('drag-and-drop-rows') ?>
+</p>
+<a class="btn btn-primary pull-right" href="#"  data-toggle="modal" data-target="#addClassModal"><i class="fa fa-plus"></i> <?= __('Add Class') ?></a>
+
+<table id="selectedTable" class="table table-striped">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th  data-sort="string"><?= __('class-name') ?></th>
+        <th><?= __('lectures') ?></th>
+        <th><?= __('opening-date') ?></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody  id="selectedlist">
+
+        <?php foreach($session->sessionLessons()->orderBy('sort_order')->get() as $sessionLesson):?>
+        <tr  id="row-<?php echo $sessionLesson->session_lesson_id ?>" class="sort_row">
+            <td class="sort_cell"><?=$sessionLesson->sort_order?></td>
+            <td><?=$sessionLesson->lesson->lesson_name?></td>
+            <td><?=$sessionLesson->lesson->lectures()->count()?></td>
+            <td><input placeholder="optional" style="max-width: 150px" data-id="<?=$sessionLesson->session_lesson_id?>" name="lesson_date_<?=$sessionLesson->session_lesson_id?>" id="lesson_date_<?=$sessionLesson->session_lesson_id?>" class="form-control date lesson_date" value="<?=showDate('Y-m-d',$sessionLesson->lesson_date)?>" type="text"/></td>
+            <td>
+                <a target="_blank" class="btn btn-primary" href="<?php echo $this->url('admin/default',array('controller'=>'lesson','action'=>'edit','id'=>$sessionLesson->lesson_id));?>"><i class="fa fa-pencil"></i> <?= __('edit') ?></a>
+                <a target="_blank" class="btn btn-success" href="<?php echo $this->url('admin/default',array('controller'=>'lecture','action'=>'index','id'=>$sessionLesson->lesson_id));?>"><i class="fa fa-file-video-o"></i> <?= __('manage-lectures') ?></a>
+                <div class="btn-group dropup">
+                    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-trash"></i> <?= __('delete') ?> <i class="fa fa-caret-up"></i>
+                    </button>
+                    <ul class="dropdown-menu pull-right animation-slide" role="menu" style="text-align: left;">
+
+                        <li> <a onclick="return confirm('<?=__('remove-course-only-confirm')?>')" href="<?php echo $this->url('admin/default',array('controller'=>'session','action'=>'deleteclass','id'=>$sessionLesson->session_lesson_id));?>"    > <?= __('remove-course-only') ?></a></li>
+                        <li> <a onclick="return confirm('<?=__('delete-class-completely-confirm')?>')" href="<?php echo $this->url('admin/default',array('controller'=>'lesson','action'=>'delete','id'=>$sessionLesson->lesson_id));?>"    > <?= __('delete-class-completely') ?></a></li>
+
+
+                    </ul>
+                </div>
+                <a target="_blank" class="btn btn-success" href="<?php echo $this->url('admin/default',array('controller'=>'lesson','action'=>'files','id'=>$sessionLesson->lesson_id));?>"><i class="fa fa-download"></i> <?= __('manage-downloads') ?></a>
+
+            </td>
+        </tr>
+
+    <?php endforeach; ?>
+    </tbody>
+</table>
+
+<div class="modal fade" id="addClassModal" tabindex="-1" role="dialog" aria-labelledby="addClassModalLabel">
+
+
+    <div class="modal-dialog  modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><?= __('add') ?>      <?php if($session->sessionLessons()->count()==0):?>
+                        <?= __('your-first') ?>
+                    <?php endif; ?> <?= __('class') ?></h4>
+            </div>
+            <div class="modal-body">
+
+
+
+                    <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                        <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true"><?= __('new-class') ?></a>
+                            </li>
+                            <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false"><?= __('existing-class') ?></a>
+                            </li>
+                         </ul>
+                        <div id="myTabContent" class="tab-content">
+                            <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+                                <div class="row">
+                                    <div >
+                                        <div class="box">
+
+                                            <div class="box-body">
+                                                <?php
+                                                $form->prepare();
+                                                $form->setAttribute('action', $this->url('admin/default',array('controller'=>'lesson','action'=>'add')).'?sessionId='.$session->session_id.'&back=true');
+                                                $form->setAttribute('method', 'post');
+                                                $form->setAttribute('role', 'form');
+                                                $form->setAttribute('class', 'form-horizontal');
+                                                $form->get('lesson_type')->setValue('c');
+                                                echo $this->form()->openTag($form);
+
+                                                ?>
+
+
+
+
+
+                                                <div class="form-group">
+                                                    <?php     echo $this->formLabel($form->get('lesson_name'));
+
+                                                    ?>
+                                                    <?php     echo $this->formElement($form->get('lesson_name'));
+
+                                                    ?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('lesson_name'));?></p>
+
+                                                </div>
+
+
+                                                <div class="form-group" style="display: none;">
+                                                    <?php     echo $this->formLabel($form->get('lesson_type'));
+
+                                                    ?>
+                                                    <?php     echo $this->formElement($form->get('lesson_type'));
+
+                                                    ?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('lesson_type'));?></p>
+
+                                                </div>
+
+
+
+                                                <div class="form-group online">
+                                                    <?php     echo $this->formElement($form->get('test_required'));
+
+                                                    ?>  <?php     echo $this->formLabel($form->get('test_required'));
+
+                                                    ?>
+
+                                                    <p class="help-block"><?php echo $this->formElementErrors($form->get('test_required'));?></p>
+                                                    <p class="help-block"><?= __('test-required-help') ?></p>
+                                                </div>
+
+
+                                                <div id="test_id_box" class="form-group online">
+                                                    <?php     echo $this->formLabel($form->get('test_id'));
+
+                                                    ?>
+                                                    <?php     echo $this->formElement($form->get('test_id'));
+
+                                                    ?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('test_id'));?></p>
+
+                                                </div>
+
+                                                <div class="form-group online">
+                                                    <?php  echo $this->formElement($form->get('enforce_lecture_order')); ?>   <?php  echo $this->formLabel($form->get('enforce_lecture_order'));?>
+
+                                                    <p class="help-block"><?= __('enforce-lecture-order-help') ?></p>
+
+                                                </div>
+
+
+
+                                                <div class="form-group">
+                                                    <?php     echo $this->formLabel($form->get('content'));
+
+                                                    ?>
+                                                    <?php     echo $this->formElement($form->get('content'));?>
+
+                                                    <p class="help-block"><?php echo $this->formElementErrors($form->get('content'));?></p>
+
+                                                </div>
+
+                                                <div class="form-group online">
+                                                    <?php     echo $this->formLabel($form->get('introduction'));?>
+
+                                                    <?php     echo $this->formElement($form->get('introduction')); ?>
+
+                                                    <p class="help-block"><?php echo $this->formElementErrors($form->get('introduction'));?></p>
+
+                                                </div>
+
+
+                                                <div class="form-group">
+                                                    <?php     echo $this->formLabel($form->get('lesson_group_id[]'));
+
+                                                    ?>
+                                                    <?php     echo $this->formElement($form->get('lesson_group_id[]'));
+
+                                                    ?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('lesson_group_id[]'));?></p>
+
+                                                </div>
+
+
+                                                <div class="form-group">
+                                                    <?php     echo $this->formLabel($form->get('sort_order'));
+
+                                                    ?>
+                                                    <?php     echo $this->formElement($form->get('sort_order'));
+
+                                                    ?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('sort_order'));?></p>
+
+                                                </div>
+                                                <div class="form-group" style="margin-bottom:10px">
+
+                                                    <label for="image" class="control-label"><?= __('cover-image') ?> (<?= __('optional') ?>)</label><br />
+
+
+                                                    <div class="image"><img data-name="image" src="<?php echo $display_image ?>" alt="" id="thumb" /><br />
+                                                        <?php echo $this->formElement($form->get('picture')) ?>
+                                                        <a class="pointer" onclick="image_upload('image', 'thumb');"><?= __('browse') ?></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a class="pointer" onclick="$('#thumb').attr('src', '<?php echo $no_image; ?>'); $('#image').attr('value', '');"><?= __('clear') ?></a></div>
+
+                                                </div>
+
+
+
+
+
+
+
+
+
+                                                <div class="form-footer">
+                                                    <button type="submit" class="btn btn-primary pull-right"><?=__('save-changes')?></button>
+                                                </div>
+                                                <?php echo $this->form()->closeTag($form);  ?>
+
+                                            </div>
+                                        </div><!--end .box -->
+                                    </div><!--end .col-lg-12 -->
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                                <div id="classlistbox"></div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?= __('close') ?></button>
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<!--
+  End modal
+    -->
+
+<?php echo $this->headLink()->prependStylesheet($this->basePath().'/pickadate/themes/default.date.css')
+    ->prependStylesheet($this->basePath().'/pickadate/themes/default.time.css')
+    ->prependStylesheet($this->basePath().'/pickadate/themes/default.css')
+    ->prependStylesheet($this->basePath().'/static/datatables/media/css/jquery.dataTables.min.css')
+    ->prependStylesheet($this->basePath().'/static/maxlength/jquery.maxlength.min.css');?>
+<script type="text/javascript" src="<?php echo $this->basePath() ?>/pickadate/picker.js"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() ?>/pickadate/picker.date.js"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() ?>/pickadate/picker.time.js"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() ?>/pickadate/legacy.js"></script>
+<style>
+    #selectedTable tr{
+        cursor: grabbing;
+    }
+</style>
+<script>
+    jQuery(function(){
+
+        <?php if($session->sessionLessons()->count()==0):?>
+        $('#addClassModal').modal('show');
+        <?php endif; ?>
+
+        $('#classlistbox').load('<?=$this->url('admin/default',['controller'=>'session','action'=>'browseclasses','id'=>$session->session_id])?>',function(){
+            $('.select2').select2();
+        });
+
+        $('.date').pickadate({
+            format: 'yyyy-mm-dd'
+        });
+
+        $("#selectedTable tbody").sortable({ opacity:0.6, update: function() {
+
+            var counter = 1;
+            //console.log(order);
+
+            $('.sort_row').each(function(){
+                $(this).find('.sort_cell').text(counter);
+
+                counter++;
+            });
+
+            var order = $(this).sortable("serialize") + '&action=sort';
+            console.log(order);
+            $.post("<?=$this->url('admin/default',['controller'=>'session','action'=>'reorder','id'=>$session->session_id])?>",order,function(data){
+                console.log(data);
+            });
+
+        }});
+
+    $('.lesson_date').change(function(){
+        var date= $(this).val();
+        var id = $(this).attr('data-id');
+        $.post('<?=$this->url('admin/default',['controller'=>'session','action'=>'setdate'])?>/'+id,{
+            date:date
+        });
+    });
+
+    });
+</script>
+
+<?php $this->headScript()->prependFile($this->basePath() . '/ckeditor/ckeditor.js')
+?>
+<script type="text/javascript">
+
+    CKEDITOR.replace('hcontent', {
+        filebrowserBrowseUrl: '<?php echo $this->basepath() ?>/admin/filemanager',
+        filebrowserImageBrowseUrl: '<?php echo $this->basepath() ?>/admin/filemanager',
+        filebrowserFlashBrowseUrl: '<?php echo $this->basepath() ?>/admin/filemanager'
+    });
+
+    CKEDITOR.replace('hintroduction', {
+        filebrowserBrowseUrl: '<?php echo $this->basepath() ?>/admin/filemanager',
+        filebrowserImageBrowseUrl: '<?php echo $this->basepath() ?>/admin/filemanager',
+        filebrowserFlashBrowseUrl: '<?php echo $this->basepath() ?>/admin/filemanager'
+    });
+
+</script>
+<script type="text/javascript"><!--
+    function image_upload(field, thumb) {
+        $('#dialog').remove();
+
+        $('#content').prepend('<div id="dialog" style="padding: 3px 0px 0px 0px;"><iframe src="<?php echo $this->basePath(); ?>/admin/filemanager?&token=true&field=' + encodeURIComponent(field) + '" style="padding:0; margin: 0; display: block; width: 100%; height: 100%;" frameborder="no" scrolling="auto"></iframe></div>');
+
+        $('#dialog').dialog({
+            title: '<?=__('Image Manager')?>',
+            close: function (event, ui) {
+                if ($('#' + field).attr('value')) {
+                    $.ajax({
+                        url: '<?php echo $this->basePath(); ?>/admin/filemanager/image?&image=' + encodeURIComponent($('#' + field).val()),
+                        dataType: 'text',
+                        success: function(data) {
+                            $('#' + thumb).replaceWith('<img src="' + data + '" alt="" id="' + thumb + '" />');
+                        }
+                    });
+                }
+            },
+            bgiframe: false,
+            width: 800,
+            height: 570,
+            resizable: true,
+            modal: false
+        });
+    };
+    $(function(){
+
+
+        if($('select[name=lesson_type]').val()!='c'){
+            $('.online').hide();
+        };
+
+        $('select[name=lesson_type]').change(function(){
+            if($(this).val()=='c'){
+                $('.online').show();
+            }
+            else{
+                $('.online').hide();
+            }
+
+        });
+
+    });
+
+    $(document).on('click','#pagerlinks a',function(e){
+        e.preventDefault();
+        var url = $(this).attr('href');
+        $('#classlistbox').html(' <img  src="<?php echo $this->basePath() ?>/img/ajax-loader.gif">');
+
+        $('#classlistbox').load(url);
+    })
+    $(document).on("submit","#filterform", function (event) {
+        var $this = $(this);
+        var frmValues = $this.serialize();
+        $('#classlistbox').html(' <img  src="<?php echo $this->basePath() ?>/img/ajax-loader.gif">');
+
+        $.ajax({
+            type: $this.attr('method'),
+            url: $this.attr('action'),
+            data: frmValues
+        })
+            .done(function (data) {
+                $('#classlistbox').html(data);
+                $('.select2').select2();
+            })
+            .fail(function () {
+                $('#classlistbox').text("<?=__('error-occurred')?>");
+            });
+        event.preventDefault();
+    });
+    //--></script>
+
+    

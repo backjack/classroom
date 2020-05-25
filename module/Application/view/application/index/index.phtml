@@ -1,0 +1,162 @@
+<?php $basePath = $this->basepath().'/themes/frontend'; ?>
+
+<?php $this->headScript()->prependFile($basePath.'/vendor/jquery.bxslider/jquery.bxslider.min.js');?>
+<?php echo $this->headLink()->prependStylesheet($basePath. '/vendor/jquery.bxslider/jquery.bxslider.css');?>
+
+<?php $title=$this->getSetting('general_homepage_title'); if(!empty($title)): ?>
+    <?php $this->headTitle($this->getSetting('general_homepage_title')) ?>
+<?php else: ?>
+    <?php   $this->headTitle('Home') ?>
+<?php endif; ?>
+ <div class="container">
+<?php foreach($widgets as $widget): ?>
+<?php $vals = unserialize($widget->value); ?>
+<?php if($widget->widget_code == 'slideshow'): ?>
+<!-- start: Slider -->
+<div class="slider-wrapper ">
+
+    <ul class="bxslider<?php echo $widget->widget_value_id ?>">
+
+        <?php  for($i=1; $i<=10;$i++):?>
+            <?php if(!empty($vals['slideshow_image'.$i] )):?>
+        <li><a href="<?php echo $vals['url'.$i] ?>"><img src="<?php echo $this->basePath(); ?>/<?php echo $vals['slideshow_image'.$i] ?>" /></a></li>
+                <?php endif; ?>
+        <?php endfor; ?>
+
+    </ul>
+
+    <script>
+        $(document).ready(function(){
+            $('.bxslider<?php echo $widget->widget_value_id ?>').bxSlider({
+                auto:true,
+                pager:false,
+            });
+        });
+    </script>
+
+</div>
+<!-- end: Slider -->
+<?php elseif($widget->widget_code == 'textbtn'):?>
+
+        <div class="hero-unit">
+            <p>
+              <?php echo $vals['message'] ?>
+            </p>
+            <?php if(!empty($vals['buttontext'])):?>
+            <p><a href="<?php echo $vals['buttonlink'] ?>" class="btn btn-success btn-large"><?php echo $vals['buttontext'] ?> &raquo;</a></p>
+            <?php endif; ?>
+        </div>
+    <?php elseif($widget->widget_code == 'text'):?>
+
+        <div >
+
+                <?php echo $vals['message'] ?>
+
+        </div>
+        <?php elseif($widget->widget_code == 'calendar'):?>
+        <div class="featuredheader"><h1><?php echo $this->getSetting('label_calendar',__('calendar'))?></h1></div>
+        <?php echo $calendar; ?>
+        <?php elseif($widget->widget_code == 'signup'): ?>
+        <div class="featuredheader"><h1><?php echo $this->getSetting('label_register',__('register'))?></h1></div>
+        <?php echo $regForm; ?>
+        <?php elseif($widget->widget_code == 'sessions'): ?>
+
+        <div class="featuredheader"><h1><?php echo $this->getSetting('label_featured',__('featured'))?></h1></div>
+        <!-- start: Row -->
+        <div class="row">
+
+
+            <?php for($i=1; $i<=10; $i++):?>
+                <?php if(!empty($vals['session'.$i]) && $sessionTable->recordExists($vals['session'.$i])):?>
+                <?php $row = $sessionTable->getRecord($vals['session'.$i]); ?>
+                    <?php $url= ($row->session_type=='c')? 'course-details':'session-details';?>
+                    <div class="col-md-4" style="height: 450px;">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><?php echo $row->session_name ?></h3>
+                              </div>
+                            <div class="panel-body">
+
+                                <div >
+                                    <?php if(!empty($row->picture)): ?>
+                                        <div >
+                                            <a href="<?php echo $this->url($url,['id'=>$row->session_id,'slug'=>safeUrl($row->session_name)]);?>" class="thumbnail" style="border: none; margin-bottom: 0px">
+                                                <img src="<?php echo resizeImage($row->picture,300,150,$this->basePath()); ?>" >
+                                            </a>
+                                        </div>
+                                    <?php endif; ?>
+
+                                    <div >
+                                        <article style="color: #73879C;
+                                font-size: 13px;
+                                font-weight: 400;
+                                line-height: 1.471;" class="readmore"><?php echo limitLength($row->short_description,300); ?></article>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div  class="panel-footer" style="min-height: 50px">
+                                <?php if($this->getSetting('general_show_fee')==1):?>
+                                    <strong>
+                                        <?php if(empty($row->payment_required)):?>
+                                            <?= __('Free') ?>
+                                        <?php else: ?>
+                                            <?php echo $this->formatPrice($row->amount); ?>
+                                        <?php endif; ?>
+                                    </strong>
+                                <?php endif; ?>
+
+                                <a class="btn btn-success pull-right" href="<?php echo $this->url($url,['id'=>$row->session_id,'slug'=>safeUrl($row->session_name)]);?>" ><i class="fa fa-info-circle"></i> <?= __('Details') ?></a>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+
+        <?php endif; ?>
+         <?php endfor; ?>
+
+
+        </div>
+        <!-- end: Row -->
+
+     <?php elseif($widget->widget_code == 'blog'): ?>
+ <?php $limit= empty($vals['limit'])? 4:intval($vals['limit']) ;      $news= $newsTable->getNews($limit);
+        ?>
+        <div class="featuredheader"><h1><?php echo $this->getSetting('label_blog_posts','Blog Posts')?></h1></div>
+        <div class="row">
+
+            <?php foreach($news as $row):?>
+
+                <div class="col-md-12">
+                    <div class="row has-margin-bottom">
+                        <?php if(!empty($row->picture)):?>
+                            <div class="col-md-4 col-sm-4">
+
+                                <img class="img-responsive center-block" src="<?php echo resizeImage($row->picture, 262, 175, $this->basePath());?>" alt="bulletin blog">
+
+                            </div>
+                        <?php endif; ?>
+                        <div class="col-md-8 col-sm-8 bulletin">
+                            <h4 class="media-heading"><?php echo $row->title; ?> </h4>
+                            <p><?= __('on') ?> <?php echo date('d/M/Y',$row->date)?>  </p>
+                            <p> <?php echo limitLength(strip_tags($row->content),200) ?></p>
+                            <a class="btn btn-primary" href="<?php echo $this->url('news-entry',array('id'=>$row->newsflash_id));?>" role="button"><?= __('read-more') ?> →</a> </div>
+                    </div>
+
+
+
+
+                </div>
+
+            <?php endforeach; ?>
+
+        </div>
+
+
+    <?php endif; ?>
+
+<?php endforeach; ?>
+ </div>

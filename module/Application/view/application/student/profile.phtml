@@ -1,0 +1,183 @@
+<?php  $this->headTitle($pageTitle) ?>
+
+
+<!--breadcrumb-section ends-->
+<!--container starts-->
+<div class="container" style="background-color: white; min-height: 400px;   padding-bottom:50px; margin-bottom: 10px;   " >
+    <!--primary starts-->
+
+    <div  >
+        <?php
+        $form->prepare();
+        $form->setAttribute('action', $this->url('application/profile'));
+        $form->setAttribute('method', 'post');
+        $form->setAttribute('role', 'form');
+        $form->setAttribute('class', 'form-horizontal');
+
+        echo $this->form()->openTag($form);
+        ?>
+        <?php echo $this->formElement($form->get('security')); ?>
+
+        <div class="row">
+            <div class="control-group col-md-6">
+                <?php echo $this->formLabel($form->get('first_name')); ?>
+
+                <div class="controls">
+                    <?php echo $this->formElement($form->get('first_name')) ?>
+                    <p class="help-block">&nbsp;</p>
+                </div>
+            </div>
+
+            <div class="control-group col-md-6">
+                <?php echo $this->formLabel($form->get('last_name')); ?>
+
+                <div class="controls">
+                    <?php echo $this->formElement($form->get('last_name')) ?>
+                    <p class="help-block">&nbsp;</p>
+                </div>
+            </div>
+
+
+
+            <div class="control-group col-md-6">
+                <?php echo $this->formLabel($form->get('mobile_number')); ?>
+
+                <div class="controls">
+                    <?php echo $this->formElement($form->get('mobile_number')) ?>
+                    <p class="help-block">&nbsp;</p>
+                </div>
+            </div>
+
+            <div class="control-group col-md-6">
+                <?php echo $this->formLabel($form->get('email')); ?>
+
+                <div class="controls">
+                    <?php echo $this->formElement($form->get('email')) ?>
+                    <p class="help-block"><?= __('provide-email') ?></p>
+                </div>
+            </div>
+
+
+            <div class="control-group col-md-6">
+                <?php echo $this->formLabel($form->get('picture')); ?>
+                <div class="controls">
+
+                    <?php if(!empty($row->picture) && isUrl($row->picture)):?>
+                        <img src="<?=$row->picture?>" style="max-width: 200px" alt=""/>
+                    <?php elseif(!empty($row->picture) && isImage('public/'.$row->picture)):?>
+                        <img src="<?php echo resizeImage($row->picture,200,200,$this->basePath()); ?>" alt=""/>
+
+                    <?php endif; ?>
+
+                    <?php if(!empty($row->picture)): ?>
+                        <a  onclick="return confirm('<?=__('confirm-remove-picture')?>')" href="<?=$this->url('application/default',['controller'=>'student','action'=>'removeimage'])?>">Remove image</a>
+                    <?php endif; ?>
+                    <?php     echo $this->formElement($form->get('picture'));
+
+                    ?> <p class="help-block"><?php echo $this->formElementErrors($form->get('picture'));?></p>
+                </div>
+            </div>
+            <?php foreach($fields as $row):?>
+
+
+
+                <?php if($row->type == 'checkbox'):?>
+                    <div class="control-group col-md-6">
+
+
+                        <div class="controls">
+                            <?php echo $this->formLabel($form->get('custom_'.$row->registration_field_id)); ?>  <?php     echo $this->formElement($form->get('custom_'.$row->registration_field_id));
+
+                            ?> <p class="help-block"><?php echo $this->formElementErrors($form->get('custom_'.$row->registration_field_id));?></p>
+                        </div>
+                    </div>
+
+                <?php elseif($row->type == 'radio'): ?>
+
+                    <div class="control-group col-md-6">
+                        <?php echo $this->formLabel($form->get('custom_'.$row->registration_field_id)); ?>
+                        <div class="controls">
+                            <?php     echo $this->formRadio($form->get('custom_'.$row->registration_field_id));
+
+                            ?> <p class="help-block"><?php echo $this->formElementErrors($form->get('custom_'.$row->registration_field_id));?></p>
+                        </div>
+                    </div>
+
+                <?php elseif($row->type == 'file'): ?>
+
+
+                    <div class="control-group col-md-6">
+                        <?php echo $this->formLabel($form->get('custom_'.$row->registration_field_id)); ?>
+                        <div class="controls">
+                            <?php $valueRow = $table->getStudentFieldRecord($id,$row->registration_field_id); ?>
+                            <?php if(!empty($valueRow) && isImage('public/'.$valueRow->value)):?>
+                                <img src="<?php echo resizeImage($valueRow->value,200,200,$this->basePath()); ?>" alt=""/>
+
+                            <?php endif; ?>
+                            <?php     echo $this->formElement($form->get('custom_'.$row->registration_field_id));
+
+                            ?> <p class="help-block"><?php echo $this->formElementErrors($form->get('custom_'.$row->registration_field_id));?></p>
+                        </div>
+                    </div>
+
+                <?php else: ?>
+                    <div class="control-group col-md-6">
+                        <?php echo $this->formLabel($form->get('custom_'.$row->registration_field_id)); ?>
+                        <div class="controls">
+                            <?php     echo $this->formElement($form->get('custom_'.$row->registration_field_id));
+
+                            ?> <p class="help-block"><?php echo $this->formElementErrors($form->get('custom_'.$row->registration_field_id));?></p>
+                        </div>
+                    </div>
+
+
+                <?php endif; ?>
+
+
+
+
+            <?php endforeach; ?>
+
+        </div>
+
+
+
+        <div class="form-footer " style="padding-top: 20px">
+            <button type="submit" class="btn btn-primary pull-right"><?= __('Save Changes') ?></button>
+        </div>
+        </form>
+    </div>
+
+
+
+</div>
+
+<?php $this->headLink()->prependStylesheet($this->basePath() . '/static/intl-tel-input/build/css/intlTelInput.css')
+?>
+<?php $this->headStyle()->captureStart() ?>
+.iti-flag {background-image: url("<?php echo $this->basePath(); ?>/static/intl-tel-input/build/img/flags.png");}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+.iti-flag {background-image: url("<?php echo $this->basePath(); ?>/static/intl-tel-input/build/img/flags@2x.png");}
+}
+
+<?php $this->headStyle()->captureEnd() ?>
+<!--container ends-->
+<script src="<?php echo $this->basePath(); ?>/static/intl-tel-input/build/js/intlTelInput.js"></script>
+
+<script>
+
+
+    $("input[name=mobile_number]").intlTelInput({
+        initialCountry: "auto",
+        separateDialCode:true,
+        hiddenInput:'fmobilenumber',
+        geoIpLookup: function(callback) {
+            $.get('https://ipinfo.io', function() {}, "jsonp").always(function(resp) {
+                var countryCode = (resp && resp.country) ? resp.country : "";
+                callback(countryCode);
+            });
+        },
+        utilsScript: "<?php echo $this->basePath(); ?>/static/intl-tel-input/build/js/utils.js" // just for formatting/placeholders etc
+    });
+</script>

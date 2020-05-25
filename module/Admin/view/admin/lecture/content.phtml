@@ -1,0 +1,778 @@
+<?php $this->headScript()->prependFile($this->basePath().'/static/slickquiz/js/slickQuiz.js')
+?>
+
+<?php echo $this->headLink()->prependStylesheet($this->basePath().'/static/slickquiz/css/slickQuiz.css')->prependStylesheet($this->basePath().'/static/slickquiz/css/custom.css');?>
+
+<div class="row">
+    <div >
+        <div class="box">
+            <div class="box-head">
+                <header></header>
+
+                <div class="btn-group pull-right">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-plus"></i>  <span class="contentmode"><?= __('add') ?></span> <?= __('lecture-content') ?> <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="show-modal" data-type="t"   data-target="#addt" href="#"><span class="title"><i class="fa fa-file-text-o"></i> <?= __('text') ?></span></a></li>
+                        
+                        <li><a class="show-modal" data-type="v"   data-target="#addvurl" href="#"><span class="title"><i class="fa fa-file-movie-o"></i> <?= __('external-video-url') ?></span></a></li>
+                        <li><a class="show-modal" data-type="v"   data-target="#addv" href="#"><span class="title"><i class="fa fa-file-movie-o"></i> <?= __('external-video-embed') ?></span></a></li>
+                        <li><a class="show-modal"  data-type="i"    data-target="#addi" href="#"><span class="title"><i class="fa fa-image"></i> <?= __('image') ?></span></a></li>
+                        <li><a class="show-modal"  data-type="c"    data-target="#addc" href="#"><span class="title"><i class="fa fa-file-code-o"></i> <?= __('html-code') ?></span></a></li>
+                        <li><a class="show-modal"  data-type="q"    data-target="#addq" href="#"><span class="title"><i class="fa fa-question-circle-o"></i> <?= __('quiz') ?></span></a></li>
+                        <li><a class="show-modal-nc"  data-type="z"    data-target="#addz" href="#"><span class="title"><i class="fa fa-video-camera"></i> <?= __('zoom-meeting') ?></span></a></li>
+                        <li role="separator" class="divider"></li> 
+                        <li><a  href="<?=$this->url('admin/default',['controller'=>'lecture','action'=>'importimages','id'=>$id])?>"><span class="title"><i class="fa fa-image"></i> <?= __('import-images') ?></span></a></li>
+                    </ul>
+                </div>
+
+            </div>
+            <div class="box-body">
+                <form onsubmit="return  confirm('<?=__('delete-items')?>')" action="<?=$this->url('admin/default',['controller'=>'lecture','action'=>'deletecontents'])?>" method="post">
+                <table id="content_table" class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th><input type="checkbox" id="select_all"/></th>
+                        <th style="width: 10%"><?= __('sort-order') ?></th>
+                        <th style="width: 70%"><?= __('title') ?></th>
+                        <th><?= __('type') ?></th>
+                        <th class="text-right1" ><?= __('actions') ?></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach($paginator as $row): ?>
+                        <tr id="row-<?php echo $row->lecture_page_id ?>">
+                            <td>
+                                <input class="check" type="checkbox" name="select<?php echo $row->lecture_page_id ?>" value="<?php echo $row->lecture_page_id ?>"/>  &nbsp; &nbsp;
+                                <i style="cursor: grabbing" class="fa fa-arrows"></i>
+
+
+                            </td>
+                            <td><span class="label label-success sort-order" id="sortorder-<?php echo $row->lecture_page_id ?>"><?php echo $row->sort_order; ?></span></td>
+                            <td>
+                                <div class="panel-group" id="accordion<?php echo $row->lecture_page_id; ?>" role="tablist" aria-multiselectable="true">
+                                    <div class="panel panel-default">
+                                        <div style="cursor: pointer" data-target="#collapseOne<?php echo $row->lecture_page_id; ?>"  data-toggle="collapse"   class="panel-heading" role="tab" id="headingOne<?php echo $row->lecture_page_id; ?>">
+                                            <h4 class="panel-title">
+                                                 <span id="title-<?php echo $row->lecture_page_id ?>"><?php echo $row->title; ?></span> <span class="caret pull-right"></span>
+
+                                            </h4>
+                                        </div>
+                                        <div id="collapseOne<?php echo $row->lecture_page_id; ?>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne<?php echo $row->lecture_page_id; ?>">
+                                            <div class="panel-body" >
+
+                                                <?php if(!empty($row->audio_code)):?>
+                                                <?php echo $row->audio_code; ?>
+                                                    <div><a class="btn btn-danger" onclick="return confirm('Are you sure you want to remove this audio?')" href="<?=$this->url('admin/default',['controller'=>'lecture','action'=>'removeaudio','id'=>$row->lecture_page_id])?>"><i class="fa fa-trash"></i> <?= __('remove-audio') ?></a></div>
+                                                <?php endif; ?>
+
+
+                                            <?php if($row->type=='c'):?>
+                                            <div id="content-<?php echo $row->lecture_page_id; ?>">
+                                                <?=nl2br(htmlentities($row->content))?>
+                                            </div>
+                                            <?php elseif($row->type=='l'): ?>
+                                            <div style="display: none" id="content-<?php echo $row->lecture_page_id; ?>" ><?=$row->content?></div>
+                                                <?php $video = \Application\Entity\Video::find(intval($row->content)); ?>
+                                                <?php if($video && defined('USER_ID')):?>
+                                                <a target="_blank" href="<?=$this->url('admin/default',['controller'=>'video','action'=>'play','id'=>$video->video_id])?>"><img class="img-responsive img-thumbnail" src="<?=$this->basePath()?>/uservideo/<?=USER_ID ?>/<?=$video->video_id ?>.jpg" alt="<?=$video->name?>"></a>
+                                                <div class="panel panel-default">
+                                                    <div class="panel-body">
+                                                        <?=$video->description?>
+                                                    </div>
+                                                </div>
+                                                <?php else: ?>
+                                                <strong>Video has been deleted!</strong>
+                                                <?php endif;?>
+                                            <?php elseif($row->type=='i'): ?>
+
+                                               <div id="content-<?php echo $row->lecture_page_id; ?>" style="text-align: center"><a data-img-url="<?=$row->content?>" class="fullsizable" href="<?=$this->basePath().'/'.$row->content?>"><img style="max-width: 100%" src="<?=resizeImage($row->content, 640, 360,$this->basePath())?>" /></a> </div>
+                                           <?php elseif($row->type=='q'): ?>
+                                                <div class="quizbox " id="quiz<?=$row->lecture_page_id?>">
+                                                <h1 class="quizName"><!-- where the quiz name goes --></h1>
+
+                                                <div class="quizArea">
+                                                    <div class="quizHeader">
+                                                        <!-- where the quiz main copy goes -->
+
+                                                        <a class="button startQuiz" href="#"><?= __('get-started') ?>!</a>
+                                                    </div>
+
+                                                    <!-- where the quiz gets built -->
+                                                </div>
+
+                                                <div class="quizResults">
+                                                    <h3 class="quizScore"><?= __('you-scored') ?>: <span><!-- where the quiz score goes --></span></h3>
+
+                                                    <h3 class="quizLevel"><strong><?= __('ranking') ?>:</strong> <span><!-- where the quiz ranking level goes --></span></h3>
+
+                                                    <div class="quizResultsCopy">
+                                                        <!-- where the quiz result copy goes -->
+                                                    </div>
+                                                </div>
+                                                </div>
+                                                <script>
+                                                    $(function(){
+                                                        $('#quiz<?=$row->lecture_page_id?>').slickQuiz(<?=$row->content?>);
+                                                    })
+                                                </script>
+
+                                            <?php elseif($row->type=='z'): ?>
+                                                <div style="display: none" id="content-<?php echo $row->lecture_page_id; ?>"><?=$row->content?></div>
+
+                                                <?php
+                                                $zoomData = @unserialize($row->content);
+
+                                                ?>
+                                                <?php if($zoomData && is_array($zoomData)): ?>
+                                                <div class="list-group">
+                                                    <a href="#" class="list-group-item active">
+                                                        <?= __('meeting-id') ?>
+                                                    </a>
+                                                    <a href="#" class="list-group-item"><?=$zoomData['meeting_id']?></a>
+                                                    <a href="#" class="list-group-item active">
+                                                        <?= __('meeting-password') ?>
+                                                    </a>
+                                                    <a href="#" class="list-group-item"><?=$zoomData['password']?></a>
+                                                    <a href="#" class="list-group-item active">
+                                                        <?= __('instructions') ?>
+                                                    </a>
+                                                    <a href="#" class="list-group-item"><?=$zoomData['instructions']?></a>
+
+                                                </div>
+                                                <?php endif; ?>
+                                            <?php else: ?>
+                                            <div id="content-<?php echo $row->lecture_page_id; ?>"><?=$row->content?></div>
+                                            <?php endif; ?>
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </td>
+
+                            <td><?php
+                                switch($row->type){
+                                    case 't':
+                                        echo __('text');
+                                    break;
+                                    case 'v':
+                                        echo  __('video');
+                                    break;
+                                    case 'c':
+                                        echo __('html-code');
+                                    break;
+                                    case 'i':
+                                        echo __('image');
+                                        break;
+                                    case 'q':
+                                        echo __('quiz');
+                                        break;
+                                    case 'l':
+                                        echo __('video');
+                                        break;
+                                    case 'z':
+                                        echo __('zoom-meeting');
+                                        break;
+                                } ?></td>
+
+                            <td class="text-right1">
+                                <?php if($row->type=='q'):?>
+                                    <a href="<?php echo $this->url('admin/default',['controller'=>'lecture','action'=>'editquiz','id'=>$row->lecture_page_id]); ?>" class="btn btn-xs btn-default btn-equal"><i class="fa fa-pencil"></i></a>
+                               <?php elseif($row->type=='z'):?>
+                                        <a onclick="openModal('<?=__('edit')?> <?=__('zoom-meeting')?>','<?php echo $this->url('admin/default',['controller'=>'lecture','action'=>'editzoom','id'=>$row->lecture_page_id]); ?>')"  class="btn btn-xs btn-default btn-equal"><i class="fa fa-pencil"></i></a>
+
+                               <?php else: ?>
+                                    <a  data-type="<?php echo $row->type; ?>" data-id="<?php echo $row->lecture_page_id ?>" href="#" class="editlink btn btn-xs btn-default btn-equal" data-toggle="tooltip" data-placement="top" data-original-title="<?=__('edit')?>"><i class="fa fa-pencil"></i></a>
+
+                                <?php endif; ?>
+                                <a   data-id="<?php echo $row->lecture_page_id ?>" href="#" class="audiolink btn btn-xs btn-default btn-equal" data-toggle="tooltip" data-placement="top" data-original-title="Add Audio Narration"><i class="fa fa-microphone "></i></a>
+
+                                <a onclick="return confirm('<?=__('delete-confirm')?>')" href="<?php echo $this->url('admin/default',array('controller'=>'lecture','action'=>'deletecontent','id'=>$row->lecture_page_id));?>"  class="btn btn-xs btn-default btn-equal" data-toggle="tooltip" data-placement="top" data-original-title="<?=__('delete')?>"><i class="fa fa-trash-o"></i></a>
+                            </td>
+                        </tr>
+
+                    <?php endforeach; ?>
+
+                    </tbody>
+                </table>
+                    <?php if($paginator->count() > 0):?>
+                    <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-trash"></i> <?= __('delete-selected') ?></button>
+                    <?php endif; ?>
+                </form>
+
+                <script>
+                    $(function(){
+
+                        $('#select_all').change(function(){
+                            $('input.check').not(this).prop('checked', this.checked);
+
+                        })
+
+
+
+                    });
+                </script>
+
+            </div><!--end .box-body -->
+        </div><!--end .box -->
+    </div><!--end .col-lg-12 -->
+</div>
+
+
+
+<!-- START SIMPLE MODAL MARKUP --><!-- /.modal -->
+<!-- END SIMPLE MODAL MARKUP -->
+
+<div class="modal fade" id="addt" tabindex="-1" role="dialog">
+    <div class="modal-dialog  modal-lg" role="document">
+        <div class="modal-content">
+            <form method="post" class="form" action="<?php echo $this->url('admin/default',['controller'=>'lecture','action'=>'addcontent','id'=>$id]) ?>">
+                <input type="hidden" name="type" value="t"/>
+                <input type="hidden" name="lecture_page_id" value="0"/>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"><span class="contentmode"><?= __('add') ?></span> <?= __('lecture-content') ?> (<?= __('text') ?>)</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for=""><?= __('title') ?></label>
+                        <input name="title" class="form-control" id="texttitle" required="required" value="" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for=""><?= __('text') ?></label>
+                        <textarea class="form-control" id="textcontent" name="content" ></textarea>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="sort_order"><?= __('sort-order') ?> (<?= __('optional') ?>)</label>
+                        <input name="sort_order" id="textsortorder" class="form-control number" placeholder="<?= __('digits-only') ?>" value="" type="text">   <p class="help-block"></p>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><?= __('close') ?></button>
+                    <button type="submit" class="btn btn-primary"><?= __('save-changes') ?></button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<!-- START SIMPLE MODAL MARKUP --><!-- /.modal -->
+<!-- END SIMPLE MODAL MARKUP -->
+
+<div class="modal fade" id="addv" tabindex="-1" role="dialog">
+    <div class="modal-dialog  modal-lg" role="document">
+        <div class="modal-content">
+            <form method="post" class="form" action="<?php echo $this->url('admin/default',['controller'=>'lecture','action'=>'addcontent','id'=>$id]) ?>">
+                <input type="hidden" name="type" value="v"/>
+                <input type="hidden" name="lecture_page_id" value="0"/>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"><span class="contentmode"><?= __('add') ?></span> <?= __('lecture-content') ?> (<?= __('video') ?>)</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for=""><?= __('title') ?></label>
+                        <input name="title" class="form-control" id="videotitle" required="required" value="" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for=""><?= __('video-embed-code') ?></label>
+                        <textarea class="form-control" id="videocontent" name="content" ></textarea>
+                        <p class="help-block">Paste the HTML code from your video sharing service. We recommend <a
+                        style="text-decoration: underline"  target="_blank"      href="https://join.vimeo.com/private-video-sharing/">Vimeo</a> for better privacy options.</p>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="sort_order"><?= __('sort-order') ?> (<?= __('optional') ?>)</label>
+                        <input name="sort_order" id="videosortorder" class="form-control number" placeholder="<?= __('digits-only') ?>" value="" type="text">   <p class="help-block"></p>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><?= __('close') ?></button>
+                    <button type="submit" class="btn btn-primary"><?= __('save-changes') ?></button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="addc" tabindex="-1" role="dialog">
+    <div class="modal-dialog  modal-lg" role="document">
+        <div class="modal-content">
+            <form method="post" class="form" action="<?php echo $this->url('admin/default',['controller'=>'lecture','action'=>'addcontent','id'=>$id]) ?>">
+                <input type="hidden" name="type" value="c"/>
+                <input type="hidden" name="lecture_page_id" value="0"/>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"><span class="contentmode"><?= __('add') ?></span> <?= __('lecture-content') ?> (<?= __('html-code') ?>)</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for=""><?= __('title') ?></label>
+                        <input name="title" class="form-control" id="codetitle" required="required" value="" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for=""><?= __('html-code') ?></label>
+                        <textarea class="form-control" id="codecontent" name="content" ></textarea>
+                        <p class="help-block"><?= __('paste-html') ?> </p>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="sort_order"><?= __('sort-order') ?> (<?= __('optional') ?>)</label>
+                        <input name="sort_order" id="codesortorder" class="form-control number" placeholder="<?= __('digits-only') ?>" value="" type="text">   <p class="help-block"></p>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><?= __('close') ?></button>
+                    <button type="submit" class="btn btn-primary"><?= __('save-changes') ?></button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="addvurl" tabindex="-1" role="dialog">
+    <div class="modal-dialog  modal-lg" role="document">
+        <div class="modal-content">
+            <form method="post" class="form" action="<?php echo $this->url('admin/default',['controller'=>'lecture','action'=>'addvideo','id'=>$id]) ?>">
+                <input type="hidden" name="type" value="v"/>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"><span class="contentmode"><?= __('add') ?></span> <?= __('lecture-content') ?> (<?= __('video') ?>)</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label for=""><?= __('video-url') ?></label>
+                        <input class="form-control" type="text" name="url" placeholder="Video Url"/>
+                        <p class="help-block" >
+                            <?= __('video-field-desc') ?>
+                        <ul>
+                            <li>Youtube (<?= __('example') ?>: https://www.youtube.com/watch?v=MG8KADiRbOU)</li>
+                            <li>Vimeo (<?= __('example') ?>: https://vimeo.com/20732587)</li>
+                            <li>Instagram (<?= __('example') ?>: https://www.instagram.com/p/BZQm9cSA6iK)</li>
+                        </ul>
+                        <div><?= __('vimeo-rec') ?></div>
+
+                        </p>
+
+
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="sort_order"><?= __('sort-order') ?> (<?= __('optional') ?>)</label>
+                        <input name="sort_order"  class="form-control number" placeholder="<?= __('digits-only') ?>" value="" type="text">   <p class="help-block"></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><?= __('close') ?></button>
+                    <button type="submit" class="btn btn-primary"><?= __('save-changes') ?></button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="addi" tabindex="-1" role="dialog">
+    <div class="modal-dialog  modal-sm" role="document">
+        <div class="modal-content">
+            <form method="post" class="form" action="<?php echo $this->url('admin/default',['controller'=>'lecture','action'=>'addcontent','id'=>$id]) ?>">
+                <input type="hidden" name="type" value="i"/>
+                <input type="hidden" name="lecture_page_id" value="0"/>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"><span class="contentmode"><?= __('add') ?></span> <?= __('lecture-content') ?> (<?= __('image') ?>)</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for=""><?= __('title') ?></label>
+                        <input name="title" class="form-control" id="imagetitle" required="required" value="" type="text">
+                    </div>
+                    <div class="form-group">
+                        <div><label for=""><?= __('image') ?></label></div>
+
+                        <div class="image"><img style="max-width: 100px; max-height: 100px" data-name="image" src="<?php echo $display_image ?>" alt="" id="thumb" /><br />
+
+                            <input type="hidden" name="content" id="image" />
+                            <a class="pointer" onclick="image_upload('image', 'thumb');"><?= __('browse') ?></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a class="pointer" onclick="$('#thumb').attr('src', '<?php echo $no_image; ?>'); $('#image').attr('value', '');"><?= __('clear') ?></a>
+                        </div>
+
+                    </div>
+
+
+
+
+                    <div class="form-group">
+                        <label for="sort_order"><?= __('sort-order') ?> (<?= __('optional') ?>)</label>
+                        <input name="sort_order" id="imagesortorder" class="form-control number" placeholder="<?= __('digits-only') ?>" value="" type="text">   <p class="help-block"></p>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><?= __('close') ?></button>
+                    <button type="submit" class="btn btn-primary"><?= __('save-changes') ?></button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- START SIMPLE MODAL MARKUP --><!-- /.modal -->
+<!-- END SIMPLE MODAL MARKUP -->
+
+<div class="modal fade" id="addq" tabindex="-1" role="dialog">
+    <div class="modal-dialog  modal-lg" role="document">
+        <div class="modal-content">
+            <form method="post" class="form" action="<?php echo $this->url('admin/default',['controller'=>'lecture','action'=>'addquiz','id'=>$id]) ?>">
+                <input type="hidden" name="type" value="t"/>
+                <input type="hidden" name="lecture_page_id" value="0"/>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"><span class="contentmode"><?= __('add') ?></span> <?= __('quiz') ?></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for=""><?= __('title') ?></label>
+                        <input name="name" class="form-control"  required="required" value="" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for=""><?= __('quiz-description') ?></label>
+                        <textarea class="form-control" id="quizcontent" name="main" ></textarea>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="sort_order"><?= __('sort-order') ?> (<?= __('optional') ?>)</label>
+                        <input name="sort_order" id="quizsortorder" class="form-control number" placeholder="<?= __('digits-only') ?>" value="" type="text">   <p class="help-block"></p>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><?= __('close') ?></button>
+                    <button type="submit" class="btn btn-primary"><?= __('save-changes') ?></button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<!-- START SIMPLE MODAL MARKUP --><!-- /.modal -->
+
+<div class="modal fade" id="addaudio" tabindex="-1" role="dialog">
+    <div class="modal-dialog  modal-lg" role="document">
+        <div class="modal-content">
+            <form method="post" class="form" action="<?php echo $this->url('admin/default',['controller'=>'lecture','action'=>'addaudio']) ?>">
+                <input type="hidden" id="lecture_page_id" name="id" value=""/>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"><span class="contentmode"><?= __('add') ?></span> Audio Narration</h4>
+                </div>
+                <div class="modal-body">
+<p><?= __('sound-cloud-help') ?></p>
+                    <div class="form-group">
+                        <label for=""><?= __('sound-cloud-url') ?></label>
+                        <input class="form-control" type="text" name="url" placeholder="e.g. https://soundcloud.com/epitaph-records/this-wild-life-history"/>
+
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><?= __('close') ?></button>
+                    <button type="submit" class="btn btn-primary"><?= __('save-changes') ?></button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="addl" tabindex="-1" role="dialog">
+    <div class="modal-dialog  modal-lg" role="document">
+        <div class="modal-content">
+            <form method="post" class="form" action="<?php echo $this->url('admin/default',['controller'=>'lecture','action'=>'addcontent','id'=>$id]) ?>">
+                <input type="hidden" name="type" value="l"/>
+                <input type="hidden" name="lecture_page_id" value="0"/>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"><span class="contentmode"><?= __('add') ?></span> <?= __('lecture-content') ?> (<?= __('video') ?>)</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for=""><?= __('title') ?></label>
+                        <input name="title" class="form-control" id="librarytitle" required="required" value="" type="text">
+                    </div>
+                    <div class="form-group" style="display: none;">
+                        <label for=""><?= __('video') ?> <?= __('id') ?></label>
+                        <textarea name="content" id="librarycontent" cols="30" rows="10" class="form-control"></textarea>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="sort_order"><?= __('sort-order') ?> (<?= __('optional') ?>)</label>
+                        <input name="sort_order" id="librarysortorder" class="form-control number" placeholder="<?= __('digits-only') ?>" value="" type="text">   <p class="help-block"></p>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><?= __('close') ?></button>
+                    <button type="submit" class="btn btn-primary"><?= __('save-changes') ?></button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div class="modal fade" id="addz" tabindex="-1" role="dialog">
+    <div class="modal-dialog  modal-lg" role="document">
+        <div class="modal-content">
+            <form method="post" class="form" action="<?php echo $this->url('admin/default',['controller'=>'lecture','action'=>'addzoom','id'=>$id]) ?>">
+                <input type="hidden" name="type" value="z"/>
+                <input type="hidden" name="lecture_page_id" value="0"/>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"><span class="contentmode"><?= __('add') ?></span> <?= __('lecture-content') ?> (<?= __('zoom-meeting') ?>)</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label for=""><?= __('title') ?></label>
+                        <input name="title" class="form-control"   required="required" value="<?= __('zoom-meeting') ?>" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for=""><?= __('meeting-id') ?></label>
+                        <input required="required" class="form-control" type="text" name="meeting_id" placeholder="<?= __('zoom-placeholder') ?>"/>
+
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for=""><?= __('meeting-password') ?></label>
+                        <input required="required" class="form-control" type="text" name="password" />
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for=""><?= __('instructions') ?> (<?= __('optional') ?>)</label>
+                        <textarea class="form-control" name="instructions"  ></textarea>
+
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="sort_order"><?= __('sort-order') ?> (<?= __('optional') ?>)</label>
+                        <input name="sort_order"   class="form-control number" placeholder="<?= __('digits-only') ?>" value="" type="text">   <p class="help-block"></p>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><?= __('close') ?></button>
+                    <button type="submit" class="btn btn-primary"><?= __('save-changes') ?></button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+<?php $this->headScript()->prependFile($this->basePath() . '/ckeditor/ckeditor.js')->prependFile($this->basePath() . '/static/jquery-fullsizable-2.1.0/js/jquery-fullsizable.min.js')
+?>
+<?php echo $this->headLink()->prependStylesheet($this->basePath() . '/static/jquery-fullsizable-2.1.0/css/jquery-fullsizable.css')->prependStylesheet($this->basePath() . '/static/jquery-fullsizable-2.1.0/css/jquery-fullsizable-theme.css')
+;?>
+<script type="text/javascript">
+
+    CKEDITOR.replace('textcontent', {
+        filebrowserBrowseUrl: '<?php echo $this->basepath() ?>/admin/filemanager',
+        filebrowserImageBrowseUrl: '<?php echo $this->basepath() ?>/admin/filemanager',
+        filebrowserFlashBrowseUrl: '<?php echo $this->basepath() ?>/admin/filemanager'
+    });
+
+
+
+</script>
+<script type="text/javascript">
+
+    $(document).ready(function(){
+
+        $(".show-modal").click(function(){
+            var type = $(this).attr('data-type');
+            $('#add'+type+' .contentmode').text('Add');
+            $('#add'+type+' input[type=text],'+'#add'+type+' input[name=lecture_page_id],'+'#add'+type+' textarea').val("");
+            if(type=='t'){
+                CKEDITOR.instances['textcontent'].setData('');
+            }
+            $($(this).attr('data-target')).modal({
+                backdrop: 'static',
+                keyboard: false
+            });
+
+        });
+
+        $(".show-modal-nc").click(function(){
+            var type = $(this).attr('data-type');
+            $('#add'+type+' .contentmode').text('Add');
+            if(type=='t'){
+                CKEDITOR.instances['textcontent'].setData('');
+            }
+            $($(this).attr('data-target')).modal({
+                backdrop: 'static',
+                keyboard: false
+            });
+
+        });
+
+    });
+
+    $('.editlink').click(function(e){
+        //get values
+        var id = $(this).attr('data-id');
+        console.log('id is '+id);
+
+        var type = $(this).attr('data-type');
+        console.log('type is '+type);
+
+        //get values
+        var title = $('#title-'+id).text();
+        var content = $('#content-'+id).html();
+        var sortOrder = $('#sortorder-'+id).text();
+
+        //load into form
+        $('#add'+type+' input[name=title]').val(title);
+
+        if(type=='t'){
+            CKEDITOR.instances['textcontent'].setData(content);
+        }
+        else if(type =='i'){
+            var url = $('#content-'+id+' a').attr('href');
+            $('#add'+type+' img').attr('src',url);
+            $('#add'+type+' input[name=content]').val($('#content-'+id+' a').attr('data-img-url'));
+        }
+        else{
+            $('#add'+type+'  [name=content]').val(content);
+        }
+        $('#add'+type+' input[name=sort_order]').val(sortOrder);
+        $('#add'+type+' input[name=lecture_page_id]').val(id);
+
+        $('#add'+type+' .contentmode').text('Edit');
+            $('#add'+type).modal({
+                backdrop: 'static',
+                keyboard: false
+            });
+
+
+    });
+
+    $('.audiolink').click(function(){
+        var id = $(this).attr('data-id');
+        console.log('id is '+id);
+        $('#lecture_page_id').val(id);
+        $('#addaudio').modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+    });
+
+</script>
+<script type="text/javascript"><!--
+    function image_upload(field, thumb) {
+        $('#dialog').remove();
+
+        $('#content').prepend('<div id="dialog" style="padding: 3px 0px 0px 0px;"><iframe src="<?php echo $this->basePath(); ?>/admin/filemanager?&token=true&field=' + encodeURIComponent(field) + '" style="padding:0; margin: 0; display: block; width: 100%; height: 100%;" frameborder="no" scrolling="auto"></iframe></div>');
+
+        $('#dialog').dialog({
+            title: '<?=__('Image Manager')?>',
+            close: function (event, ui) {
+                if ($('#' + field).attr('value')) {
+                    $.ajax({
+                        url: '<?php echo $this->basePath(); ?>/admin/filemanager/image?&image=' + encodeURIComponent($('#' + field).val()),
+                        dataType: 'text',
+                        success: function(data) {
+                            $('#' + thumb).replaceWith('<img src="' + data + '" alt="" id="' + thumb + '" />');
+                        }
+                    });
+                }
+            },
+            bgiframe: false,
+            width: 800,
+            height: 570,
+            resizable: true,
+            modal: false
+        });
+    };
+
+    $(function() {
+        $('a.fullsizable').fullsizable();
+    });
+
+    $("#content_table tbody").sortable({ opacity:0.6, update: function() {
+        var order = $(this).sortable("serialize") + '&action=sort';
+        //console.log(order);
+       $.post("<?=$this->url('admin/default',['controller'=>'lecture','action'=>'reorder','id'=>$id])?>",order,function(data){
+           console.log(data);
+           var counter = 1;
+           $('.sort-order').each(function(){
+              $(this).text(counter);
+               counter++;
+           });
+       });
+    }
+    });
+
+    $(document).on('click','#pagerlinks a',function(e){
+        e.preventDefault();
+        var url = $(this).attr('href');
+        $('#genmodalinfo').html(' <img  src="<?php echo $this->basePath() ?>/img/ajax-loader.gif">');
+
+        $('#genmodalinfo').load(url);
+    })
+    $(document).on("submit","#filterform", function (event) {
+        var $this = $(this);
+        var frmValues = $this.serialize();
+        $('#genmodalinfo').html(' <img  src="<?php echo $this->basePath() ?>/img/ajax-loader.gif">');
+
+        $.ajax({
+            type: $this.attr('method'),
+            url: $this.attr('action'),
+            data: frmValues
+        })
+            .done(function (data) {
+                $('#genmodalinfo').html(data);
+            })
+            .fail(function () {
+                $('#genmodalinfo').text("<?=__('error-occurred')?>");
+            });
+        event.preventDefault();
+    });
+    //--></script>
+
+<script>
+    $(function(){
+        $.fn.modal.Constructor.prototype.enforceFocus = function() {
+            modal_this = this
+            $(document).on('focusin.modal', function(e) {
+                if (modal_this.$element[0] !== e.target && !modal_this.$element.has(e.target).length &&
+                    !$(e.target.parentNode).hasClass('cke_dialog_ui_input_select') &&
+                    !$(e.target.parentNode).hasClass('cke_dialog_ui_input_text')) {
+                    modal_this.$element.focus()
+                }
+            })
+        };
+    })
+
+</script>

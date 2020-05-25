@@ -1,0 +1,119 @@
+<?php  $this->headTitle($pageTitle) ?>
+
+
+<!--breadcrumb-section ends-->
+<!--container starts-->
+<div class="container" style="background-color: white; min-height: 400px;   padding-bottom:50px; margin-bottom: 10px;   " >
+    <!--primary starts-->
+
+    <div class="box-body">
+
+        <div class="hidden-md hidden-lg">
+        <?php foreach($paginator as $row): ?>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><?php echo $row->certificate_name; ?></h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped">
+                        <tr>
+                            <td><?= __('Document Name') ?></td>
+                        </tr>
+                        <tr>
+                            <td><strong><?php echo $row->certificate_name; ?></strong>
+                                <p><?php echo $row->description; ?></p></td>
+                        </tr>
+                        <tr>
+                            <td><?=__('course-session')?></td>
+                        </tr>
+                        <tr>
+                            <td><?php echo $row->session_name; ?></td>
+                        </tr>
+                        <tr>
+                            <td><?= __('classes-required') ?></td>
+                        </tr>
+                        <tr>
+                            <td><?php $tl= $clTable->getTotalForCertificate($row->certificate_id); echo (empty($tl))? __('None'):$tl; ?></td>
+                        </tr>
+                        <tr>
+                            <td><?= __('Tests Required') ?></td>
+                        </tr>
+                        <tr>
+                            <td><?php $tt= $ctTable->getTotalForCertificate($row->certificate_id); echo (empty($tt))? __('None'):$tt; ?></td>
+                        </tr>
+                        <tr>
+                            <td> <?php if(false):?>
+                                    <a  onclick="return window.open('<?php echo $this->url('application/certificate',['id'=>$row->certificate_id]);?>', '_blank', 'toolbar=no,scrollbars=yes,resizable=yes,top=100,left=100,width=<?php echo ($row->orientation=='l')? '862':'615' ?>,height=<?php echo ($row->orientation=='l')? '615':'882' ?>')"  href="#" class="btn btn-primary " ><i class="fa fa-eye"></i> <?= __('View') ?></a>
+                                <?php endif; ?>
+                                <a href="<?php echo $this->url('application/download-certificate',['id'=>$row->certificate_id]);?>" class="btn btn-primary " ><i class="fa fa-download"></i> <?= __('Download') ?></a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    </div>
+        <div class="table-responsive hidden-sm hidden-xs">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th><?= __('Document Name') ?></th>
+                <th><?=__('course-session')?></th>
+                <th><?= __('Classes Required') ?></th>
+                <th><?= __('Tests Required') ?></th>
+                <th class="text-right1" ><?= __('Actions') ?></th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach($paginator as $row): ?>
+                <tr>
+
+                    <td><strong><?php echo $row->certificate_name; ?></strong>
+                        <p><?php echo $row->description; ?></p>
+                    </td>
+                    <td><?php echo $row->session_name; ?></td>
+                    <td><?php $tl= $clTable->getTotalForCertificate($row->certificate_id); echo (empty($tl))? __('None'):$tl; ?></td>
+                    <td><?php $tt= $ctTable->getTotalForCertificate($row->certificate_id); echo (empty($tt))? __('None'):$tt; ?></td>
+                    <td class="text-right1">
+                        <?php if(false):?>
+                        <a  onclick="return window.open('<?php echo $this->url('application/certificate',['id'=>$row->certificate_id]);?>', '_blank', 'toolbar=no,scrollbars=yes,resizable=yes,top=100,left=100,width=<?php echo ($row->orientation=='l')? '862':'615' ?>,height=<?php echo ($row->orientation=='l')? '615':'882' ?>')"  href="#" class="btn btn-primary " ><i class="fa fa-eye"></i> <?= __('View') ?></a>
+                        <?php endif; ?>
+                        <a href="<?php echo $this->url('application/download-certificate',['id'=>$row->certificate_id]);?>" class="btn btn-primary " ><i class="fa fa-download"></i> <?= __('Download') ?></a>
+
+                    </td>
+
+                </tr>
+                
+
+            <?php endforeach; ?>
+
+            </tbody>
+        </table>
+</div>
+        <?php
+        // add at the end of the file after the table
+        echo $this->paginationControl(
+        // the paginator object
+            $this->paginator,
+            // the scrolling style
+            'sliding',
+            // the partial to use to render the control
+            array('partial/paginator.phtml', 'Admin'),
+            // the route to link to when a user clicks a control link
+            array(
+                'route' => 'application/certificates',
+            )
+        );
+        ?>
+    </div>
+
+
+</div>
+
+<!--container ends-->
+<script>
+    function openPop(url,width,height){
+        window.open(url, "_blank", "toolbar=no,scrollbars=yes,resizable=yes,top=100,left=100,width="+width+",height="+height+"");
+        return false;
+    }
+</script>

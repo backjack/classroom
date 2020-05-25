@@ -1,0 +1,56 @@
+<div class="alert alert-info">
+    <a class="close" data-dismiss="alert" href="messages#">×</a>
+    <h4 class="alert-heading"><?= __('info') ?>!</h4>
+    <p>
+        <?= __('attendance-date-help') ?>
+    </p>
+
+</div>
+<form onsubmit="return confirm('<?=__('set-dates-confirm')?>')" enctype="multipart/form-data" class="form" method="post" action="<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'attendancedate')); ?>">
+    <h2><?= __('set-dates-help') ?></h2>
+
+
+    <div id="sessionbox" class="form-group" style="padding-bottom: 10px">
+        <label for="session_id"><?= __('session-course') ?></label>
+        <?php echo $this->formElement($select) ?>
+    </div>
+    <div id="lessonbox">
+
+
+
+
+    </div>
+
+
+
+
+    <button class="btn btn-primary" type="submit"><?=__('save')?></button>
+</form>
+
+<?php echo $this->headLink()->prependStylesheet($this->basePath().'/pickadate/themes/default.date.css')
+    ->prependStylesheet($this->basePath().'/pickadate/themes/default.css');?>
+<script type="text/javascript" src="<?php echo $this->basePath() ?>/pickadate/picker.js"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() ?>/pickadate/picker.date.js"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() ?>/pickadate/legacy.js"></script>
+<script type="text/javascript"><!--
+
+    jQuery(function(){
+        jQuery('.date').pickadate({
+            format: 'yyyy-mm-dd'
+        });
+
+        $('#sessionbox select').change(function(){
+            var val = $(this).val();
+            $('#lessonbox').text('Loading...');
+            var url = '<?php echo $this->basePath()?>/admin/student/sessionlessons/'+val;
+            $('#lessonbox').load(url,function(){
+                jQuery('.date').pickadate({
+                    format: 'yyyy-mm-dd'
+                });
+            });
+        });
+
+
+
+    });
+    //--></script>

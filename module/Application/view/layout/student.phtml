@@ -1,0 +1,480 @@
+<?php
+$children = $this->viewModel()->getCurrent()->getChildren();
+foreach($children as $action) {
+    if ($action->captureTo() == 'content') {
+        break;
+    }
+
+
+}
+$this->headTitle()->setSeparator(' - ')->setAutoEscape(false);
+
+$basePath = $this->basePath();
+$this->headLink()
+;
+
+
+echo $this->doctype();
+?>
+<html class="transition-navbar-scroll top-navbar-xlarge bottom-footer" <?=langMeta()?>>
+
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Student Portal">
+    <meta name="author" content="Intermatics">
+
+    <link rel="shortcut icon" href="<?php echo $this->basePath(); ?>/<?php echo $this->getSetting('image_logo'); ?>">
+
+    <?php echo $this->headTitle(__('student-portal').' - '.$this->getSetting('general_site_name')) ?>
+
+ 
+    <link href="<?php echo $this->basePath(); ?>/themes/student/css/vendor/bootstrap.css" rel="stylesheet">
+<!--     <link href="--><?php //echo $this->basePath(); ?><!--/themes/student/css/vendor/font-awesome.css" rel="stylesheet">-->
+    <link href="<?php echo $this->basePath(); ?>/static/fontawesome5/web-fonts-with-css/css/fontawesome-all.min.css" rel="stylesheet">
+    <link href="<?php echo $this->basePath(); ?>/themes/student/css/vendor/picto.css" rel="stylesheet">
+    <link href="<?php echo $this->basePath(); ?>/themes/student/css/vendor/material-design-iconic-font.css" rel="stylesheet">
+    <link href="<?php echo $this->basePath(); ?>/themes/student/css/vendor/datepicker3.css" rel="stylesheet">
+    <link href="<?php echo $this->basePath(); ?>/themes/student/css/vendor/jquery.minicolors.css" rel="stylesheet">
+    <link href="<?php echo $this->basePath(); ?>/themes/student/css/vendor/railscasts.css" rel="stylesheet">
+    <link href="<?php echo $this->basePath(); ?>/themes/student/css/vendor/owl.carousel.css" rel="stylesheet">
+    <link href="<?php echo $this->basePath(); ?>/themes/student/css/vendor/slick.css" rel="stylesheet">
+    <link href="<?php echo $this->basePath(); ?>/themes/student/css/vendor/daterangepicker-bs3.css" rel="stylesheet">
+    <link href="<?php echo $this->basePath(); ?>/themes/student/css/vendor/jquery.bootstrap-touchspin.css" rel="stylesheet">
+    <link href="<?php echo $this->basePath(); ?>/themes/student/css/vendor/select2.css" rel="stylesheet">
+    <link href="<?php echo $this->basePath(); ?>/themes/student/css/vendor/jquery.countdown.css" rel="stylesheet">
+
+
+    <link href="<?php echo $this->basePath(); ?>/themes/student/css/app/main.css" rel="stylesheet">
+
+
+
+    <link href="<?php echo $this->basePath(); ?>/themes/student/css/app/essentials.css" rel="stylesheet" />
+    <link href="<?php echo $this->basePath(); ?>/themes/student/css/app/material.css" rel="stylesheet" />
+    <link href="<?php echo $this->basePath(); ?>/themes/student/css/app/layout.css" rel="stylesheet" />
+    <link href="<?php echo $this->basePath(); ?>/themes/student/css/app/sidebar.css" rel="stylesheet" />
+    <link href="<?php echo $this->basePath(); ?>/themes/student/css/app/sidebar-skins.css" rel="stylesheet" />
+    <link href="<?php echo $this->basePath(); ?>/themes/student/css/app/navbar.css" rel="stylesheet" />
+    <link href="<?php echo $this->basePath(); ?>/themes/student/css/app/messages.css" rel="stylesheet" />
+    <link href="<?php echo $this->basePath(); ?>/themes/student/css/app/media.css" rel="stylesheet" />
+    <link href="<?php echo $this->basePath(); ?>/themes/student/css/app/charts.css" rel="stylesheet" />
+    <link href="<?php echo $this->basePath(); ?>/themes/student/css/app/maps.css" rel="stylesheet" />
+    <link href="<?php echo $this->basePath(); ?>/themes/student/css/app/colors-alerts.css" rel="stylesheet" />
+    <link href="<?php echo $this->basePath(); ?>/themes/student/css/app/colors-background.css" rel="stylesheet" />
+    <link href="<?php echo $this->basePath(); ?>/themes/student/css/app/colors-buttons.css" rel="stylesheet" />
+    <link href="<?php echo $this->basePath(); ?>/themes/student/css/app/colors-text.css" rel="stylesheet" />
+
+    <script src="<?php echo $this->basePath(); ?>/themes/student/js/vendor/core/jquery.js"></script>
+
+    <script src="<?php echo $this->basePath(); ?>/jquery-ui-1.11.4/jquery-ui.min.js"></script>
+
+    <link href="<?php echo $this->basePath(); ?>/static/select2/css/select2.min.css" rel="stylesheet" />
+    <script src="<?php echo $this->basePath(); ?>/static/select2/js/select2.min.js"></script>
+
+    <script src="<?php echo $this->basePath(); ?>/app/lib.js"></script>
+
+
+    <!-- Le styles -->
+    <?php echo $this->headLink() ?>
+    <!-- Scripts -->
+    <?php echo $this->headScript(); ?>
+
+    <?php echo $this->headStyle(); ?>
+
+
+
+    <?php if(defined('ENABLE_CHAT')):?>
+        <?php echo $this->getSetting('general_chat_code'); ?>
+    <?php endif; ?>
+
+    <?php echo $this->getSetting('general_header_scripts');?>
+    <style>
+        .student-crumb a{
+            color:white;
+        }
+        div.page-header{
+            padding-top: 20px;
+        }
+        .navbar.navbar-size-xlarge .navbar-nav > li > a {
+
+            font-size: 1rem;
+        }
+
+        .navbar.navbar-size-large .navbar-nav > li > a {
+
+            font-size: 1.1rem;
+        }
+
+        [class*="bottom-footer"] .footer {
+            position: static;
+
+        }
+
+        .bottom-footer body {
+            padding-bottom: 0px;
+        }
+    </style>
+
+</head>
+<body>
+
+<!-- Fixed navbar -->
+<div class="navbar navbar-default navbar-fixed-top navbar-size-large navbar-size-xlarge paper-shadow" data-z="0" data-animated role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-nav">
+                <span class="sr-only"><?= __('toggle-navigation') ?></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <div class="navbar-brand navbar-brand-logo">
+                <a class="svg_" href="<?php echo $this->url('home'); ?>">
+
+                    <img src="<?php echo $this->basePath(); ?>/<?php echo $this->getSetting('image_logo'); ?>" alt="" >
+                </a>
+            </div>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="main-nav">
+            <ul class="nav navbar-nav navbar-nav-margin-left">
+
+
+
+
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" ><i class="fa fa-chalkboard-teacher fa-fw"></i> <?php echo $this->getSetting('label_my_sessions',__('my-courses'))?>  <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="<?php echo $this->url('application/mysessions');?>"><?= __('enrolled-courses') ?></a></li>
+
+
+                        <li><a href="<?php echo $this->url('application/default',['controller'=>'course','action'=>'bookmarks']) ?>"><?= __('bookmarks') ?></a></li>
+
+                        <li  class="dropdown-header">
+                            <span><?= __('Tests') ?></span>
+                        </li>
+                        <?php if($this->getSetting('menu_show_tests')==1):?>
+                            <li> <a href="<?php echo $this->url('application/test')?>"><i class="fa fa-check-circle fa-fw"></i> <?php echo $this->getSetting('label_take_test',__('browse-tests'))?>  </a>  </li>
+                            <li> <a href="<?php echo $this->url('application/default',['controller'=>'test','action'=>'statement'])?>"><i class="fa fa-file-alt  fa-fw"></i> <?= __('statement-of-result') ?></a>  </li>
+                        <?php endif;?>
+                        <li> <a href="<?php echo $this->url('application/default',['controller'=>'student','action'=>'surveys'])?>"><i class="fa fa-question  fa-fw"></i> <?= __('surveys') ?></a>  </li>
+
+
+                        <li  class="dropdown-header">
+                            <span><?= __('Resources') ?></span>
+                        </li>
+                        <?php if($this->getSetting('menu_show_certificates')==1):?>
+                            <li> <a href="<?php echo $this->url('application/certificates')?>"><i class="fa fa-file-pdf fa-fw"></i> <?php echo $this->getSetting('label_certificates',__('certificates'))?>  </a>  </li>
+                        <?php endif;?>
+                        <?php if($this->getSetting('menu_show_downloads')==1):?>
+                            <li> <a href="<?php echo $this->url('application/downloads')?>"><i class="fa fa-download fa-fw"></i> <?php echo $this->getSetting('label_downloads',__('downloads'))?>  </a>  </li>
+                        <?php endif;?>
+                        <li> <a href="<?php echo $this->url('application/default',['controller'=>'student','action'=>'invoices'])?>"><i class="fa fa-money-bill-alt  fa-fw"></i> <?= __('my-invoices') ?>  </a>  </li>
+
+                    </ul>
+                </li>
+
+
+                <li  class="dropdown" >
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user-plus fa-fw"></i> <span> <?= __('enroll') ?> </span> <span class="fa fa-chevron-down"></span></a>
+                    <ul class="dropdown-menu">
+                        <?php if($this->getSetting('menu_show_courses')==1):?>
+                            <li><a href="<?php echo $this->url('courses')?>"><?php echo $this->getSetting('label_courses',__('online-courses'))?></a></li>
+                        <?php endif; ?>
+                        <?php if($this->getSetting('menu_show_sessions')==1):?>
+                            <li> <a href="<?php echo $this->url('sessions')?>"><?php echo $this->getSetting('label_sessions',__('upcoming-sessions'))?> </a>  </li>
+                        <?php endif; ?>
+                    </ul>
+                </li>
+
+                <li  class="dropdown" >
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" ><i class="fa fa-edit fa-fw"></i>  <?php echo $this->getSetting('label_homework',__('homework'))?> <span class="fa fa-chevron-down"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="<?php echo $this->url('application/assignments');?>"><?= __('view-all') ?></a></li>
+
+                        <li> <a href="<?php echo $this->url('application/assignment-submissions')?>"><?= __('my-submissions') ?> </a>  </li>
+
+
+                    </ul>
+                </li>
+
+                <?php if($this->getSetting('menu_show_notes')==1):?>
+                    <li> <a href="<?php echo $this->url('application/notes')?>"><i class="fa  fa-book fa-fw"></i> <?php echo $this->getSetting('label_revision_notes',__('revision-notes'))?>  </a>  </li>
+                <?php endif;?>
+
+
+                <?php if($this->getSetting('menu_show_discussions')==1):?>
+
+                    <li  class="dropdown" >
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa  fa-comments fa-fw"></i> <span> <?php echo $this->getSetting('label_discussion',__('discuss'))?>  </span> <span class="fa fa-chevron-down"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="<?php echo $this->url('application/discussions')?>"><?= __('instructor-chat') ?></a></li>
+
+                            <li> <a href="<?php echo $this->url('application/default',['controller'=>'forum','action'=>'index'])?>"><?= __('student-forum') ?> </a>  </li>
+
+
+                        </ul>
+                    </li>
+
+
+                <?php endif;?>
+
+
+
+
+
+
+            </ul>
+            <div class="navbar-right">
+                <ul style="border-left: solid 1px ; border-left-color: #eeeeee;" class="nav navbar-nav  navbar-nav-margin-right">
+                    <!-- user -->
+                    <li class="dropdown user">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <img src="<?php echo resizeImage($this->getStudent()->picture,110,110,$this->basePath()); ?>" alt="" class="img-circle"/> <?php echo limitLength($this->getStudent()->first_name,12)?><span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                        
+<li>    <a href="<?php echo $this->url('application/dashboard')?>" ><i class="fa fa-tachometer-alt"></i> <?= __('dashboard') ?></a>
+</li>
+
+                            <li><a href="<?php echo $this->url('application/profile')?>"><i class="fa fa-user"></i> <?= __('profile') ?></a></li>
+                            <li><a href="<?php echo $this->url('application/password')?>"><i class="fa fa-lock"></i> <?= __('change-password') ?></a></li>
+
+                            <li><a href="<?php echo $this->url('application/logout')?>"><i class="fa fa-sign-out-alt"></i> <?= __('logout') ?></a></li>
+                        </ul>
+                    </li>
+                    <?php if(count(currencies())>1):?>
+                        <li class="dropdown user ">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <?=currentCurrency()->country->currency_code?>   (<?=currentCurrency()->country->symbol_left?>) <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <?php foreach(currencies() as $currency):?>
+                                    <li> <a href="<?php echo $this->url('change-currency',['id'=>$currency->currency_id])?>"> <?=$currency->country->currency_code?> (<?=$currency->country->symbol_left?>) </a>  </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </li>
+                    <?php endif; ?>
+                    <?php if(getCart()->hasItems()):?>
+                        <li class="user ">
+                            <a href="<?=$this->url('cart')?>" >
+                                <i class="fa fa-cart-plus"></i> <?=getCart()->getTotalItems()?>
+                            </a>
+
+                        </li>
+
+                    <?php endif; ?>
+                    <!-- // END user -->
+                </ul>
+             </div>
+        </div><!-- /.navbar-collapse -->
+
+    </div>
+</div>
+
+<div class="parallax overflow-hidden bg-blue-400 page-section third">
+    <div class="container parallax-layer" data-opacity="true">
+        <div class="row v-middle">
+            <div class="col-md-6">
+                <h1 class="text-white text-display-1 margin-v-0"><?php echo strip_tags($action->pageTitle) ?></h1>
+             </div>
+            <div class="col-md-6" style="text-align: right">
+
+                <?php if(!isset($action->hideCrumbs)):?>
+                    <?php if(isset($action->customCrumbs)): ?>
+
+                            <?php $count=0;?>
+                            <?php  foreach($action->customCrumbs as $key=>$value):?>
+
+
+
+                <span class="label bg-blue-500 student-crumb">
+                                    <?php
+                                    // if this isn't the last page, add a link and the separator
+                                    if ($count < count($action->customCrumbs) - 1):
+                                        ?>
+                                        <a href="<?php echo $key ?>"><?php echo $value; ?></a>
+
+                                    <?php // otherwise, just output the name
+                                    else:
+                                        ?>
+                                        <?php echo  $value ?>
+                                    <?php endif; ?>
+                                   </span>
+                                <?php $count++;?>
+
+
+                            <?php endforeach; ?>
+
+                    <?php else: ?>
+                        <?php
+                        echo $this->navigation('navigation') // <-- Update this!!
+                        ->breadcrumbs()
+                            ->setMinDepth(0)
+                            ->setPartial(array('partial/studentcrumb.phtml', 'Student'));
+                        ?>
+                    <?php endif; ?>
+                <?php endif; ?>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+
+    <div class="page-section">
+      <div class="row">
+          <div class="col-md-12" style="min-height: 350px">
+              <?php echo $this->alert(html_entity_decode($this->flashMessenger()->render()),@$action->mode); ?>
+
+              <?php echo $this->alert(@$action->message,@$action->mode); ?>
+
+
+              <?php  echo $this->content; ?>
+
+
+              <!-- START SIMPLE MODAL MARKUP -->
+              <div class="modal fade" id="generalModal" tabindex="-1" role="dialog" aria-labelledby="generalModalLabel" aria-hidden="true">
+                  <div class="modal-dialog  modal-lg">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                              <h4 class="modal-title" id="generalModalLabel"></h4>
+                          </div>
+                          <div class="modal-body" id="genmodalinfo">
+
+                          </div>
+                          <div class="modal-footer">
+
+                          </div>
+                      </div><!-- /.modal-content -->
+                  </div><!-- /.modal-dialog -->
+              </div><!-- /.modal -->
+              <!-- END SIMPLE MODAL MARKUP -->
+              <script>
+                  function openModal(title,url){
+                      $('#genmodalinfo').html(' <img  src="<?php echo $this->basePath() ?>/img/ajax-loader.gif">');
+                      $('#generalModalLabel').text(title);
+                      $('#genmodalinfo').load(url);
+                      $('#generalModal').modal();
+                  }
+                  function openPopup(url){
+                      window.open(url, "_blank", "toolbar=no,scrollbars=yes,resizable=yes,top=500,left=500,width=400,height=400");
+                      return false;
+                  }
+              </script>
+          </div>
+      </div>
+
+    </div>
+
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+    <?php echo $this->getSetting('footer_credits'); ?>
+        <?php if(!empty($this->getSetting('footer_credits'))):?>.
+    <?php endif; ?> <?= __('powered-by') ?> <a href="https://traineasy.net">TrainEasy</a>
+</footer>
+<!-- // Footer -->
+
+<!-- Inline Script for colors and config objects; used by various external scripts; -->
+<script>
+    var colors = {
+        "danger-color": "#e74c3c",
+        "success-color": "#81b53e",
+        "warning-color": "#f0ad4e",
+        "inverse-color": "#2c3e50",
+        "info-color": "#2d7cb5",
+        "default-color": "#6e7882",
+        "default-light-color": "#cfd9db",
+        "purple-color": "#9D8AC7",
+        "mustard-color": "#d4d171",
+        "lightred-color": "#e15258",
+        "body-bg": "#f6f6f6"
+    };
+    var config = {
+        theme: "html",
+        skins: {"default":{"primary-color":"#42a5f5"}}
+    };
+</script>
+
+<!-- Vendor Scripts Bundle
+Includes all of the 3rd party JavaScript libraries above.
+The bundle was generated using modern frontend development tools that are provided with the package
+To learn more about the development process, please refer to the documentation.
+Do not use it simultaneously with the separate bundles above. -->
+<!-- <script src="<?php echo $this->basePath(); ?>/themes/student/js/vendor/all.js"></script> -->
+
+
+
+<!-- Vendor Scripts Standalone Libraries -->
+<!-- <script src="<?php echo $this->basePath(); ?>/themes/student/js/vendor/core/all.js"></script> -->
+
+<script src="<?php echo $this->basePath(); ?>/themes/student/js/vendor/core/bootstrap.js"></script>
+<script src="<?php echo $this->basePath(); ?>/themes/student/js/vendor/core/breakpoints.js"></script>
+<script src="<?php echo $this->basePath(); ?>/themes/student/js/vendor/core/jquery.nicescroll.js"></script>
+<script src="<?php echo $this->basePath(); ?>/themes/student/js/vendor/core/isotope.pkgd.js"></script>
+<script src="<?php echo $this->basePath(); ?>/themes/student/js/vendor/core/packery-mode.pkgd.js"></script>
+<script src="<?php echo $this->basePath(); ?>/themes/student/js/vendor/core/jquery.grid-a-licious.js"></script>
+<script src="<?php echo $this->basePath(); ?>/themes/student/js/vendor/core/jquery.cookie.js"></script>
+<script src="<?php echo $this->basePath(); ?>/themes/student/js/vendor/core/jquery-ui.custom.js"></script>
+<script src="<?php echo $this->basePath(); ?>/themes/student/js/vendor/core/jquery.hotkeys.js"></script>
+<script src="<?php echo $this->basePath(); ?>/themes/student/js/vendor/core/handlebars.js"></script>
+<script src="<?php echo $this->basePath(); ?>/themes/student/js/vendor/core/jquery.hotkeys.js"></script>
+<script src="<?php echo $this->basePath(); ?>/themes/student/js/vendor/core/load_image.js"></script>
+<script src="<?php echo $this->basePath(); ?>/themes/student/js/vendor/core/jquery.debouncedresize.js"></script>
+<script src="<?php echo $this->basePath(); ?>/themes/student/js/vendor/core/modernizr.js"></script>
+<script src="<?php echo $this->basePath(); ?>/themes/student/js/vendor/core/velocity.js"></script>
+<script src="<?php echo $this->basePath(); ?>/themes/student/js/vendor/tables/all.js"></script>
+<?php if(false): ?>
+<script src="<?php echo $this->basePath(); ?>/themes/student/js/vendor/forms/all.js_"></script>
+<?php endif; ?>
+<script src="<?php echo $this->basePath(); ?>/themes/student/js/vendor/media/slick.js"></script>
+<script src="<?php echo $this->basePath(); ?>/themes/student/js/vendor/charts/flot/all.js"></script>
+<script src="<?php echo $this->basePath(); ?>/themes/student/js/vendor/nestable/jquery.nestable.js"></script>
+<?php if(false):?>
+<script src="<?php echo $this->basePath(); ?>/themes/student/js/vendor/countdown/all.js"></script>
+<!-- <script src="<?php echo $this->basePath(); ?>/themes/student/js/vendor/angular/all.js"></script> -->
+
+
+<!-- App Scripts Bundle
+Includes Custom Application JavaScript used for the current theme/module;
+Do not use it simultaneously with the standalone modules below. -->
+<!-- <script src="<?php echo $this->basePath(); ?>/themes/student/js/app/app.js"></script> -->
+
+
+<!-- App Scripts Standalone Modules
+As a convenience, we provide the entire UI framework broke down in separate modules
+Some of the standalone modules may have not been used with the current theme/module
+but ALL the modules are 100% compatible -->
+
+<script src="<?php echo $this->basePath(); ?>/themes/student/js/app/essentials.js"></script>
+<?php endif; ?>
+<script src="<?php echo $this->basePath(); ?>/themes/student/js/app/material.js"></script>
+<script src="<?php echo $this->basePath(); ?>/themes/student/js/app/layout.js"></script>
+<script src="<?php echo $this->basePath(); ?>/themes/student/js/app/sidebar.js"></script>
+<script src="<?php echo $this->basePath(); ?>/themes/student/js/app/media.js"></script>
+<script src="<?php echo $this->basePath(); ?>/themes/student/js/app/messages.js"></script>
+<!--<script src="--><?php //echo $this->basePath(); ?><!--/themes/student/js/app/maps.js_"></script>-->
+<script src="<?php echo $this->basePath(); ?>/themes/student/js/app/charts.js"></script>
+
+
+<!-- App Scripts CORE [html]:
+    Includes the custom JavaScript for this theme/module;
+    The file has to be loaded in addition to the UI modules above;
+    app.js already includes main.js so this should be loaded
+    ONLY when using the standalone modules; -->
+<script src="<?php echo $this->basePath(); ?>/themes/student/js/app/main.js"></script>
+
+<?php echo $this->getSetting('general_foot_scripts');?>
+</body>
+
+
+</html>

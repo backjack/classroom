@@ -1,0 +1,34 @@
+<?php $this->layout('layout/adminlogin'); ?>
+<section class="login_content">
+    <form class="form" action="<?php echo $this->url('admin/reset') ?>" method="post">
+    <?php echo $this->formElement($form->get('security')); ?>
+    <h1>  <?php if(isset($message)): ?>
+            <?php echo $message; ?>
+        <?php else: ?>
+            <?= __('password-reset') ?>
+        <?php endif; ?></h1>
+    <div>
+        <input class="form-control" type="text" name="email" placeholder="<?= __('your-email') ?>"/>
+    </div>
+
+
+    <div>
+
+        <button class="btn w-md btn-bordered btn-primary waves-effect waves-light" type="submit"><?= __('reset') ?></button>
+
+        <a class="reset_pass" href="<?php echo $this->url('admin/signin');?>"><?= __('login') ?></a>
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div class="separator">
+
+
+
+        <div>
+            <img style="max-width: 100%" src="<?php echo $this->basePath() ?>/img/logo-black.png" alt=""/>
+
+        </div>
+    </div>
+    </form>
+</section>

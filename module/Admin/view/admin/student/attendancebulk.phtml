@@ -1,0 +1,59 @@
+<?php $this->headScript()->appendFile($this->basePath().'/js/angular.min.js')
+    ->appendFile($this->basePath().'/app/attendance.js')?>
+<div  ng-app="myApp" ng-controller="myCtrl" class="row">
+
+    <div >
+        <div class="box">
+            <div class="box-head">
+                <header><h4 class="text-light"><?= __('select') ?> <strong><?= __('students') ?></strong></h4></header>
+            </div>
+            <div class="box-body">
+
+                <img ng-if="showLoading" src="<?php echo $this->basePath() ?>/img/ajax-loader.gif">
+                <div class="row">
+                    <div class="col-md-5"><?php echo $this->formElement($session_id); ?></div>
+                    <div class="col-md-5"><?php echo $this->formElement($lesson_id); ?></div>
+                    <div class="col-md-2"><button ng-click="saveAttendance('<?php echo $this->basePath(); ?>')" ng-disabled="!session_id || !lesson_id" type="button" class="btn btn-primary btn-rounded"><i class="fa fa-save"></i> <?=__('save')?></button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <table class="table table-stripped">
+                            <thead>
+                            <tr>
+                                <th><?= __('first-name') ?></th>
+                                <th><?= __('last-name') ?></th>
+                                <th><?= __('email') ?></th>
+                                <th class="text-right1" style="width:130px"><?= __('mark') ?></th>
+                            </tr>
+                            </thead>
+                            <tr  ng-repeat="student in students" >
+                                <td>{{student.first_name}}</td>
+                                <td>{{student.last_name}}</td>
+                                <td>{{student.email}}</td>
+                                <td><input type="checkbox" value="1"  ng-model="answers[student.student_id]" ng-change="studentChecked(student.student_id,student)" /></td>
+                            </tr>
+                        </table>
+
+
+
+                    </div>
+
+
+
+                </div>
+
+
+
+
+
+            </div>
+        </div><!--end .box -->
+    </div><!--end .col-lg-12 -->
+</div>
+
+
+<script>
+    var basePath = '<?php echo $this->basePath() ?>';
+</script>

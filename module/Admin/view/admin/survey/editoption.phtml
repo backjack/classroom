@@ -1,0 +1,7 @@
+<form action="<?php echo $this->url('admin/default',['controller'=>'survey','action'=>'editoption','id'=>$id]);?>" method="post">
+    <div class="form-group">
+        <label for="option"><?= __('option') ?></label>
+        <?php echo $this->formElement($option) ?>
+    </div>
+    <button class="btn btn-primary btn-block" type="submit"><?=__('save')?></button>
+</form>

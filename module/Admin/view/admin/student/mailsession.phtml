@@ -1,0 +1,122 @@
+<div>
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#email" aria-controls="home" role="tab" data-toggle="tab"> <i class="fa fa-envelope"></i> <?= __('email') ?></a></li>
+        <li role="presentation"><a href="#text" aria-controls="profile" role="tab" data-toggle="tab"> <i class="fa fa-mobile"></i> <?= __('sms') ?></a></li>
+      </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="email" style="padding-left: 20px; padding-right: 20px" >
+
+
+            <div class="row" >
+                <div >
+                    <div class="box_">
+                        <div class="box-head_">
+                            <header>
+                                <h4 class="text-light"><?php echo $subTitle ?></h4></header>
+                        </div>
+                        <div class="box-body_">
+                            <form method="post" class="form-horizontal" action="<?php echo  $this->url('admin/default',array('controller'=>'student','action'=>'mailsession','id'=>$id)) ?>">
+
+
+
+
+                                <div class="form-group">
+                                    <label><?= __('sender-name') ?></label>
+                                    <input required="required" name="name" class="form-control" type="text" value="<?php echo $senderName ?>" />
+                                </div>
+
+
+
+
+                                <div class="form-group">
+                                    <label><?= __('sender-email') ?></label>
+                                    <input  required="required"  name="senderEmail" class="form-control" type="text" value="<?php echo $senderEmail ?>" />
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label><?= __('subject') ?></label>
+                                    <input name="subject" class="form-control" type="text" value="" />
+
+                                </div>
+
+
+
+                                <div class="form-group">
+                                    <label><?= __('message') ?></label>
+                                    <textarea class="form-control" name="message" id="message" cols="30" rows="10"></textarea>
+                                </div>
+
+
+
+
+                                <div class="form-footer">
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-envelope"></i> <?= __('send-now') ?></button>
+                                </div>
+                            </form>
+                        </div>
+                    </div><!--end .box -->
+                </div><!--end .col-lg-12 -->
+            </div>
+
+
+
+
+        </div>
+        <div role="tabpanel" class="tab-pane" id="text">
+
+            <?php if($this->getSetting('sms_enabled')==1):?>
+<h4><?=$smsTitle?></h4>
+            <form class="form" method="post" action="<?php echo $this->url('admin/default', ['controller' => 'session', 'action' => 'smssession','id'=>$id]) ?>">
+
+                <div class="form-group">
+                    <label for="smsmessage"><?= __('message') ?></label>
+                    <textarea  required="required" name="message" id="smsmessage" cols="30" rows="10" class="form-control"></textarea>
+                    <p>
+                        <span id="remaining">160 <?= __('characters-remaining') ?></span>
+                        <span id="messages">1 <?= __('messages') ?></span>
+                    </p>
+                </div>
+
+                <button class="btn btn-primary" type="submit"><?= __('send') ?></button>
+            </form>
+<?php else: ?>
+                <?= __('sms-disabled') ?>.  <?php if($this->hasPermissionPath('smsgateway/index')): ?> <?= __('click-to-configure',['link'=>$this->url('admin/default',array('controller'=>'smsgateway','action'=>'index'))]) ?><?php endif; ?>
+            <?php endif; ?>
+
+        </div>
+    </div>
+
+</div>
+
+
+
+<?php $this->headScript()->prependFile($this->basePath() . '/ckeditor/ckeditor.js')
+?>
+<script type="text/javascript">
+
+    CKEDITOR.replace('message', {
+        filebrowserBrowseUrl: '<?php echo $this->basepath() ?>/admin/filemanager',
+        filebrowserImageBrowseUrl: '<?php echo $this->basepath() ?>/admin/filemanager',
+        filebrowserFlashBrowseUrl: '<?php echo $this->basepath() ?>/admin/filemanager'
+    });
+
+    $(document).ready(function(){
+        var $remaining = $('#remaining'),
+            $messages = $remaining.next();
+
+        $('#smsmessage').keyup(function(){
+            var chars = this.value.length,
+                messages = Math.ceil(chars / 160),
+                remaining = messages * 160 - (chars % (messages * 160) || messages * 160);
+
+            $remaining.text(remaining + ' <?= __('characters-remaining') ?>');
+            $messages.text(messages + ' <?= __('messages') ?>');
+        });
+    });
+
+</script>

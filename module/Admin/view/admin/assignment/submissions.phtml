@@ -1,0 +1,84 @@
+<div class="row">
+    <div >
+        <div class="box">
+            <div class="box-head">
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-1">
+                        <h4><?= __('passed') ?></h4>
+                        <h1><?php echo $passed; ?></h1>
+                    </div>
+                    <div class="col-md-2">
+                        <h4><?= __('failed') ?></h4>
+                        <h1><?php echo $failed; ?></h1>
+                    </div>
+                    <div class="col-md-2">
+                        <h4><?= __('average-score') ?></h4>
+                        <h1><?php echo $average; ?>%</h1>
+
+                    </div>
+                    <div class="col-md-5">
+                        <a class="btn btn-primary btn-sm pull-right" href="<?php echo $this->url('admin/default',['controller'=>'assignment','action'=>'exportresult','id'=>$row->assignment_id]) ?>?type=pass" ><?= __('export-passed') ?></a>
+                        <a class="btn btn-primary btn-sm pull-right"  href="<?php echo $this->url('admin/default',['controller'=>'assignment','action'=>'exportresult','id'=>$row->assignment_id]) ?>?type=fail"><?= __('export-failed') ?></a>
+                    </div>
+                </div>
+
+            </div>
+            <div class="box-body">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th><?= __('student') ?></th>
+                        <th><?= __('Submission Date') ?></th>
+                        <th><?= __('grade') ?></th>
+                        <th><?= __('status') ?></th>
+                        <th class="text-right1" ><?= __('actions') ?></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach($paginator as $row): ?>
+                        <tr>
+                            <td><?php echo $row->first_name.' '.$row->last_name; ?></td>
+                            <td><span ><?php echo date('d/m/Y',$row->modified); ?></span></td>
+                            <td>
+                                <?php if(!is_null($row->grade)):?>
+                                <?php echo $row->grade; ?>%
+                            <?php endif; ?>
+                            </td>
+                            <td>
+                               <?php echo (is_null($row->editable))? __('graded'):__('ungraded') ?>
+                            </td>
+
+                            <td class="text-right1">
+                                <a class="btn btn-primary" href="<?php echo $this->url('admin/default',['controller'=>'assignment','action'=>'viewsubmission','id'=>$row->assignment_submission_id]); ?>"><?= __('view-entry') ?></a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+
+                    </tbody>
+                </table>
+
+                <?php
+                // add at the end of the file after the table
+                echo $this->paginationControl(
+                // the paginator object
+                    $this->paginator,
+                    // the scrolling style
+                    'sliding',
+                    // the partial to use to render the control
+                    array('partial/paginator.phtml', 'Admin'),
+                    // the route to link to when a user clicks a control link
+                    array(
+                        'route' => 'admin/default',
+                        'controller'=>'assignment',
+                        'action'=>'submissions',
+                    )
+                );
+                ?>
+            </div><!--end .box-body -->
+        </div><!--end .box -->
+    </div><!--end .col-lg-12 -->
+</div>
+
+
+<!-- START SIMPLE MODAL MARKUP --><!-- /.modal -->
+<!-- END SIMPLE MODAL MARKUP -->

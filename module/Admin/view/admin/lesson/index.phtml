@@ -1,0 +1,126 @@
+<div class="row">
+			<div >
+				<div class="box">
+					<div class="box-head">
+                        <header>
+
+                            <form id="filterform" class="form-inline" role="form"  method="get" action="<?php echo $this->url('admin/default',array('controller'=>'lesson','action'=>'index')); ?>">
+
+
+                                <div class="form-group">
+                                    <label class="sr-only" for="filter"><?= __('filter') ?></label>
+                                    <?php echo $this->formElement($text) ?>
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="group">Class Group</label>
+                                    <?php echo $this->formElement($select) ?>
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="group">Sort</label>
+                                    <?php echo $this->formElement($sortSelect) ?>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary"><?= __('filter') ?></button>
+                                <button type="button" onclick="$('#filterform input, #filterform select').val(''); $('#filterform').submit();" class="btn  btn-danger"><?= __('clear') ?></button>
+
+                            </form>
+                            <a class="btn btn-primary pull-right" href="<?php echo $this->url('admin/default',array('controller'=>'lesson','action'=>'add')) ?>"><i class="fa fa-plus"></i> <?= __('add-class') ?></a>
+
+                            <div style="clear: both;"></div>
+
+                        </header>
+
+                   
+                        
+					</div>
+					<div class="box-body">
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th><?= __('id') ?></th>
+									<th><?= __('name') ?></th>
+                                    <th><?= __('class-type') ?></th>
+									<th><?= __('sort-order') ?></th>
+                                    <?php if(GLOBAL_ACCESS):?>
+                                    <th><?= __('created-by') ?></th>
+                                    <?php endif; ?>
+									<th class="text-right1" ><?=__('actions')?></th>
+								</tr>
+							</thead>
+							<tbody>
+                            <?php foreach($paginator as $row): ?>
+								<tr>
+									<td><span class="label label-success"><?php echo $row->lesson_id ?></span></td>
+								  	<td><?php echo $row->lesson_name; ?></td>
+                                    <td><?php echo ($row->lesson_type=='s')? __('physical-location'):__('online') ?>
+                                    <?php if($row->lesson_type=='c'):?>
+                                        ( <a style="text-decoration: underline" href="<?php echo $this->url('admin/default',array('controller'=>'lecture','action'=>'index','id'=>$row->lesson_id));?>"><?php echo $lectureTable->getTotalLectures($row->lesson_id);?> <?= __('lectures') ?></a> )
+                                        <?php endif; ?>
+                                    </td>
+
+                                    <td><?php echo $row->sort_order; ?></td>
+                                    <?php if(GLOBAL_ACCESS):?>
+                                        <td><?php echo $this->adminName($row->account_id) ?></td>
+                                    <?php endif; ?>
+									 
+									<td class="text-right1">
+
+                                        <div class="btn-group dropup btn-group-xs">
+                                            <button type="button" class="btn btn-inverse dropdown-toggle" data-toggle="dropdown">
+                                                <i class="fa fa-list"></i> <?= __('Actions') ?> <i class="fa fa-caret-up"></i>
+                                            </button>
+                                            <ul class="dropdown-menu pull-right animation-slide" role="menu" style="text-align: left;">
+
+                                                <li><a href="<?php echo $this->url('admin/default',array('controller'=>'lesson','action'=>'edit','id'=>$row->lesson_id));?>"   ><i class="fa fa-pencil"></i> <?= __('edit') ?></a></li>
+                                                <?php if($row->lesson_type == 'c'):?>
+                                                <li> <a href="<?php echo $this->url('admin/default',array('controller'=>'lecture','action'=>'index','id'=>$row->lesson_id));?>"    >  <i class="fa fa-desktop"></i> <?= __('manage-lectures') ?></a></li>
+                                                <?php endif; ?>
+                                                <li> <a href="<?php echo $this->url('admin/default',array('controller'=>'lesson','action'=>'files','id'=>$row->lesson_id));?>"    ><i class="fa fa-download"></i> <?= __('manage-downloads') ?></a></li>
+                                                <li><a href="<?php echo $this->url('admin/default',array('controller'=>'lesson','action'=>'duplicate','id'=>$row->lesson_id));?>"  ><i class="fa fa-copy"></i> <?= __('duplicate') ?></a></li>
+                                                <li> <a onclick="return confirm('<?=__('delete-confirm')?>')" href="<?php echo $this->url('admin/default',array('controller'=>'lesson','action'=>'delete','id'=>$row->lesson_id));?>"    ><i class="fa fa-trash-o"></i> <?= __('delete') ?></a></li>
+
+
+                                            </ul>
+                                        </div>
+
+
+
+
+
+                                    </td>
+								</tr>
+								  <?php endforeach; ?>
+								
+							</tbody>
+						</table>
+                        
+                        <?php
+ // add at the end of the file after the table
+ echo $this->paginationControl(
+     // the paginator object
+     $this->paginator,
+     // the scrolling style
+     'sliding',
+     // the partial to use to render the control
+     array('partial/paginatorlessons.phtml', 'Admin'),
+     // the route to link to when a user clicks a control link
+     array(
+         'route' => 'admin/default',
+		 'controller'=>'lesson',
+		 'action'=>'index',
+         'filter'=>$filter,
+         'group'=>$group,
+         'sort'=>$sort
+     )
+ );
+ ?>
+					</div><!--end .box-body -->
+				</div><!--end .box -->
+			</div><!--end .col-lg-12 -->
+		</div>
+        
+        
+        <!-- START SIMPLE MODAL MARKUP --><!-- /.modal -->
+<!-- END SIMPLE MODAL MARKUP -->
+
+ 

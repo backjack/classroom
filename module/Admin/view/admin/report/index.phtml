@@ -1,0 +1,120 @@
+<div class="row">
+    <div >
+
+        <div class="box">
+
+            <div class="box-head">
+             
+
+
+
+            </div>
+            <div class="box-body">
+                <form id="filterform" class="form-inline" role="form"  method="get" action="<?php echo $this->url('admin/default',array('controller'=>'report','action'=>'index')); ?>">
+
+
+                    <div class="form-group">
+                        <label class="sr-only" for="filter"><?= __('filter') ?></label>
+                        <?php echo $this->formElement($text) ?>
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only" for="group"><?= __('category') ?></label>
+                        <?php echo $this->formElement($select) ?>
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only" for="group"><?= __('sort') ?></label>
+                        <?php echo $this->formElement($sortSelect) ?>
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only" for="group"><?= __('type') ?></label>
+                        <?php echo $this->formElement($typeSelect) ?>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> <?= __('filter') ?></button>
+                    <button type="button" onclick="$('#filterform input, #filterform select').val(''); $('#filterform').submit();" class="btn btn-inverse"><?= __('clear') ?></button>
+
+                </form>
+
+
+
+<div class="table-responsive_">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th><?= __('id') ?></th>
+                        <th><?= __('session-course') ?></th>
+                        <th><?= __('type') ?></th>
+                        <th><?= __('enrolled-students') ?></th>
+                        <th><?= __('reports') ?></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach($paginator as $row): ?>
+                        <tr>
+                            <td><span class="label label-success"><?php echo $row->session_id ?></span></td>
+                            <td><?php echo $row->session_name; ?></td>
+                            <td><?php
+                                switch($row->session_type){
+                                    case 'b':
+                                        echo __('training-online');
+                                        break;
+                                    case 's':
+                                        echo __('training-session');
+                                        break;
+                                    case 'c':
+                                        echo __('online-course');
+                                        break;
+                                }
+                                ?></td>
+
+<td>
+    <?php $session = \Application\Entity\Session::find($row->session_id); echo $session->studentSessions()->count() ?>
+</td>
+
+                            <td>
+
+                                <div class="btn-group dropup">
+                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                        <i class="fa fa-bar-chart"></i> <?= __('reports') ?> <i class="fa fa-caret-up"></i>
+                                    </button>
+                                    <ul class="dropdown-menu pull-right animation-slide" role="menu" style="text-align: left;">
+                                      <li><a href="<?=$this->url('admin/default',['controller'=>'report','action'=>'classes','id'=>$row->session_id])?>"><i class="fa fa-desktop"></i> <?= __('classes') ?></a></li>
+                                        <li><a href="<?=$this->url('admin/default',['controller'=>'report','action'=>'students','id'=>$row->session_id])?>"><i class="fa fa-users"></i>  <?= __('students') ?></a></li>
+                                        <li><a href="<?=$this->url('admin/default',['controller'=>'report','action'=>'tests','id'=>$row->session_id])?>"><i class="fa fa-check-circle"></i> <?= __('tests') ?></a></li>
+                                        <li><a href="<?=$this->url('admin/default',['controller'=>'report','action'=>'homework','id'=>$row->session_id])?>"><i class="fa fa-edit"></i> <?= __('homework') ?></a></li>
+
+                                    </ul>
+                                </div>
+
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+
+                    </tbody>
+                </table>
+            </div>
+                <?php
+                // add at the end of the file after the table
+                echo $this->paginationControl(
+                // the paginator object
+                    $this->paginator,
+                    // the scrolling style
+                    'sliding',
+                    // the partial to use to render the control
+                    array('partial/paginatorsessions.phtml', 'Admin'),
+                    // the route to link to when a user clicks a control link
+                    array(
+                        'route' => 'admin/default',
+                        'controller'=>'report',
+                        'action'=>'index',
+                        'filter'=>$filter,
+                        'group'=>$group,
+                        'sort'=>$sort,
+                        'type'=>$type
+                    )
+                );
+                ?>
+            </div><!--end .box-body -->
+        </div><!--end .box -->
+    </div><!--end .col-lg-12 -->
+</div>

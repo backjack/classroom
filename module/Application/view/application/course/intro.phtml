@@ -1,0 +1,330 @@
+<?php  $this->headTitle($pageTitle) ?>
+<div>
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab"><i class="fa fa-info"></i> <?= __('introduction') ?></a></li>
+        <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-table"></i> <?= __('table-of-contents') ?></a></li>
+        <li role="presentation"><a href="#resources" aria-controls="resources" role="tab" data-toggle="tab"><i class="fa fa-download"></i> <?= __('resources') ?></a></li>
+        <li role="presentation"><a href="#progress" aria-controls="progress" role="tab" data-toggle="tab"><i class="fa fa-bar-chart"></i> <?= __('progress') ?></a></li>
+       <?php if(!empty($sessionRow->enable_discussion)):?>
+        <li role="presentation"><a href="#discuss" aria-controls="discuss" role="tab" data-toggle="tab"><i class="fa fa-comments"></i> <?= __('discuss') ?></a></li>
+        <?php endif; ?>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="home">
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <p><?php echo $sessionRow->introduction ?></p>
+                </div>
+                <div class="panel-footer" style="min-height: 65px">
+                    <a class="btn btn-primary btn-lg pull-right" href="<?php echo $classLink ?>"><?= __('start-course') ?></a>
+                </div>
+            </div>
+
+        </div>
+        <div role="tabpanel" class="tab-pane" id="profile">
+            <?php if($totalClasses>0):?>
+            <?php $count=1; foreach($classes as $row): ?>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <?php echo $count.'. '.$row->lesson_name ?>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th><?= __('lectures') ?></th>
+                                <th><?= __('attendance') ?></th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach($lectureTable->getPaginatedRecords(false,$row->lesson_id) as $lecture): ?>
+                                    <tr>
+                                        <td><?php echo $lecture->lecture_title ?></td>
+                                        <td>
+                                            <?php if($sessionLogTable->hasAttendance($studentId,$sessionId,$lecture->lecture_id)):?>
+                                                <?= __('completed-on') ?> <?php echo date('d/M/Y',$sessionLogTable->getAttendance($studentId,$sessionId,$lecture->lecture_id)->log_date) ?>
+                                            <?php else: ?>
+                                                <?= __('pending') ?>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td><a class="btn btn-xs btn-primary" href="<?php echo $this->url('view-lecture',['sessionId'=>$sessionId,'lectureId'=>$lecture->lecture_id]) ?>"><?= __('view-lecture') ?></a></td>
+                                    </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="panel-footer" style="min-height: 65px">
+                        <a class="btn btn-primary btn-lg pull-right" href="<?php echo $this->url('view-class',['sessionId'=>$sessionId,'classId'=>$row->lesson_id]) ?>"><?= __('start-class') ?></a>
+                    </div>
+                </div>
+<?php $count++; ?>
+            <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="resources">
+              <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th><?= __('name') ?></th>
+                        <th><?= __('files') ?></th>
+                        <th ></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach($downloads as $download): ?>
+                        <td><?php echo $download->download_name; ?></td>
+                        <td><?php echo $fileTable->getTotalForDownload($download->download_id); ?></td>
+
+                        <td class="text-right">
+                        <?php if ($fileTable->getTotalForDownload($download->download_id)> 0): ?>
+                        <a href="<?php echo $this->url('application/download-list',array('id'=>$download->download_id));?>" class="btn btn-primary" data-toggle="tooltip" data-placement="top" data-original-title="View Files"><i class="fa fa-eye"></i> <?= __('view-files') ?></a>
+                        <a href="<?php echo $this->url('application/download-all',array('id'=>$download->download_id));?>" class="btn btn-primary" data-toggle="tooltip" data-placement="top" data-original-title="Download All Files"><i class="fa fa-download"></i> <?= __('download-all') ?></a>
+                    <?php else:?>
+                        <strong><?= __('no-files-available') ?></strong>
+                    <?php endif; ?>
+                        </td>
+                    </tr>
+
+            <?php endforeach; ?>
+
+                    </tbody>
+                </table>
+
+        </div>
+        <div role="tabpanel" class="tab-pane" id="progress">
+
+            <div style="text-align: center"><h2><?php echo $percentage ?>%</h2></div>
+            <div class="progress">
+                <div class="progress-bar progress-bar-primary" data-transitiongoal="<?php echo $percentage ?>"></div>
+            </div>
+            <div class="row">
+
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2><?= __('classes-attended') ?> <small></small></h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+
+                            <p><?= __('here-are-classes') ?></p>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th><?= __('class') ?></th>
+                                        <th><?= __('date') ?></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach($attendanceRecords as $attendance):?>
+                                     <tr>
+                                        <td><a href="<?php echo $this->url('view-class',['classId'=>$attendance->lesson_id,'sessionId'=>$attendance->session_id]) ?>"><?php echo $attendance->lesson_name ?></a></td>
+                                        <td><?php echo date('d/M/Y',$attendance->attendance_date) ?></td>
+                                    </tr>
+
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2><?= __('pending-classes') ?> </h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+
+                            <p><?= __('classes-yet-to-take') ?></p>
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th><?= __('class') ?></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php if($totalClasses>0):?>
+                                <?php foreach($classes as $class):?>
+                                    <?php if(!$attendanceTable->hasAttendance($studentId,$class->lesson_id,$sessionId)):?>
+                                    <tr>
+                                        <td><?php echo $class->lesson_name ?></td>
+                                        <td>
+                                            <?php if($class->lesson_date > time()):?>
+                                                <?= __('starts-on') ?> <?php echo date('d/M/Y',$class->lesson_date) ?>
+                                        <?php else: ?>
+                                                <a class="btn btn-primary" href="<?php echo $this->url('view-class',['classId'=>$class->lesson_id,'sessionId'=>$sessionId]) ?>"><?= __('start-class') ?></a>
+                                            <?php endif; ?>
+                                        </td>
+                                    </tr>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                                <?php endif; ?>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="discuss">
+
+            <div>
+
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#home1" aria-controls="home1" role="tab" data-toggle="tab"><?= __('instructor-chat') ?></a></li>
+                    <li role="presentation"><a href="#profile1" aria-controls="profile1" role="tab" data-toggle="tab"><?= __('student-forum') ?></a></li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="home1">
+                        <?php if(!empty($sessionRow->enable_discussion)):?>
+                        <form class="form" method="post" action="<?php echo $this->url('application/default',['controller'=>'student','action'=>'adddiscussion']); ?>">
+
+                            <p><?= __('ask-a-question') ?></p>
+                            <div class="modal-body">
+
+                                <?php echo $this->formElement($form->get('security')); ?>
+                                <div class="form-group">
+                                    <label>Recipients</label>
+                                    <?php echo $this->formElement($form->get('account_id[]')); ?>
+                                </div>
+
+
+                                <input type="hidden" name="session_id" value="<?php echo $sessionId ?>"/>
+                                <div class="form-group">
+                                    <?php     echo $this->formLabel($form->get('subject'));
+
+                                    ?>
+                                    <?php     echo $this->formElement($form->get('subject'));
+
+                                    ?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('subject'));?></p>
+
+                                </div>
+
+
+
+
+                                <div class="form-group">
+                                    <?php     echo $this->formLabel($form->get('question'));
+
+                                    ?>
+                                    <?php     echo $this->formElement($form->get('question'));
+
+                                    ?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('question'));?></p>
+
+                                </div>
+
+                                <button type="submit" class="btn btn-primary"><?= __('submit') ?></button>
+
+                            </div>
+
+                        </form>
+                        <div class="row">
+                            <div class="col-md-12" style="margin-top: 20px">
+                                <h2><?= __('your-questions') ?></h2>
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th><?= __('subject') ?></th>
+                                        <th><?= __('created-on') ?></th>
+                                        <th><?= __('recipients') ?></th>
+                                        <th><?= __('replied') ?></th>
+                                        <th class="text-right1" style="width:90px"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php foreach($discussions as $row): ?>
+                                        <tr>
+                                            <td><?php echo $row->subject; ?>
+                                            </td>
+
+                                            <td><?php echo date('d/M/Y',$row->created_on); ?></td>
+                                            <td>
+
+                                                <?php if($row->admin==1):?>
+                                                    <?= __('administrators') ?>,
+                                                <?php endif; ?>
+
+                                                <?php foreach($accountTable->getDiscussionAccounts($row->discussion_id) as $row2): ?>
+                                                    <?php echo $row2->first_name.' '.$row2->last_name; ?>,
+                                                <?php endforeach; ?>
+
+
+
+                                            </td>
+
+                                            <td><?php echo boolToString($row->replied) ?></td>
+
+                                            <td class="text-right">
+                                                <a href="<?php echo $this->url('application/viewdiscussion',array('id'=>$row->discussion_id));?>" class="btn btn-primary" data-toggle="tooltip" data-placement="top" data-original-title="View"><i class="fa fa-eye"></i> <?= __('view') ?></a>
+
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+
+                        </div>
+                            <?php else:?>
+                            <?= __('instruct-chat-unavailable') ?>
+                        <?php endif; ?>
+
+
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="profile1">
+                        <?php if(!empty($sessionRow->enable_forum)):?>
+                        <?=$forumTopics?>
+                        <?php else:?>
+                            <?= __('student-forum-unavailable') ?>
+                        <?php endif; ?>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+

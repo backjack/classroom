@@ -1,0 +1,480 @@
+<?php $this->headScript()->prependFile($this->basePath().'/js/angular.min.js')->prependFile($this->basePath() . '/ckeditor/ckeditor.js')->prependFile($this->basePath() . '/static/loader/js/jquery.loadingModal.min.js')
+?>
+
+<?php echo $this->headLink()->prependStylesheet($this->basePath().'/static/loader/css/jquery.loadingModal.min.css');?>
+
+    <div   ng-app="myApp" ng-controller="myCtrl" >
+        <button ng-click="submit()" class="btn btn-primary pull-right"><i class="fa fa-save"></i> <?= __('save') ?></button>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab"><i class="fa fa-info-circle"></i> <?= __('info') ?></a></li>
+            <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-question-circle"></i> <?= __('questions') ?></a></li>
+            <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab"><i class="fa fa-cogs"></i> <?= __('options') ?></a></li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="home">
+            <div class="form-group">
+                <label for="name"><?= __('name') ?></label>
+                <input class="form-control" type="text" name="name" ng-model="quiz.json.info.name" />
+            </div>
+                <div class="form-group">
+                    <label for="mail"><?= __('description') ?></label>
+                    <textarea class="form-control" name="main" id="main" cols="30" rows="4"  ng-model="quiz.json.info.main" ></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="name"><?= __('sort-order') ?></label>
+                    <input class="form-control number" type="text" name="sort_order" ng-model="sortOrder" />
+                </div>
+                <div class="form-group">
+                    <label for="mail"><?= __('post-quiz-text') ?></label>
+                    <textarea class="form-control" name="main" id="results" cols="30" rows="4"  ng-model="quiz.json.info.results" ></textarea>
+                    <p class="help-block"><?= __('post-quiz-help') ?></p>
+                </div>
+
+                <h3><?= __('levels') ?></h3>
+                <p class="help-block"><?= __('type-message') ?></p>
+                <div class="form-group">
+                    <label for="name"><?= __('level') ?> 1</label>
+                    <input class="form-control" type="text" name="name" ng-model="quiz.json.info.level1" />
+                </div>
+
+                <div class="form-group">
+                    <label for="name"><?= __('level') ?> 2</label>
+                    <input class="form-control" type="text" name="name" ng-model="quiz.json.info.level2" />
+                </div>
+
+                <div class="form-group">
+                    <label for="name"><?= __('level') ?> 3</label>
+                    <input class="form-control" type="text" name="name" ng-model="quiz.json.info.level3" />
+                </div>
+
+                <div class="form-group">
+                    <label for="name"><?= __('level') ?> 4</label>
+                    <input class="form-control" type="text" name="name" ng-model="quiz.json.info.level4" />
+                </div>
+
+                <div class="form-group">
+                    <label for="name"><?= __('level') ?> 5</label>
+                    <input class="form-control" type="text" name="name" ng-model="quiz.json.info.level5" />
+                </div>
+
+
+
+
+            </div>
+            <div role="tabpanel" class="tab-pane" id="profile">
+
+
+
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-default"  ng-repeat="question in quiz.json.questions" >
+                        <div class="panel-heading" role="tab" id="headingOne{{ $index }}">
+                            <h4 class="panel-title" style="cursor: pointer"  data-parent="#accordion" data-toggle="collapse" data-target="#collapseOne{{ $index }}"  aria-expanded="true" aria-controls="collapseOne{{ $index }}">
+                                <a  role="button" >
+                                    <?= __('question') ?>: {{ question.q }}
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseOne{{ $index }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne{{ $index }}">
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <label for="question"><?= __('question') ?></label>
+                                    <textarea class="form-control"  ng-model="question.q"  ></textarea>
+                                </div>
+
+                                <h3><?= __('options') ?></h3>
+                                <hr/>
+                                <table class="table table-stripped">
+                                    <thead>
+                                    <tr>
+                                        <th style="width: 10%;"></th>
+                                        <th><?= __('option') ?></th>
+                                        <th><?= __('correct') ?>?</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    <tr ng-repeat="option in question.a">
+                                        <td><button class="btn btn-danger btn-sm" ng-click="removeOption(question.a,$index)"><i class="fa fa-trash"></i> <?= __('remove') ?></button></td>
+                                        <td><input ng-model="option.option" class="form-control" type="text"/></td>
+                                        <td><input ng-model="option.correct" type="checkbox" ng-value="true"/></td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                                <button class="btn btn-primary btn-sm" ng-click="addOption(question)"><i class="fa fa-plus"></i> <?= __('add-option') ?></button>
+
+
+
+
+                                <div style="margin-top: 50px" class="form-group">
+                                    <label for="correct"><?= __('correct-response') ?></label>
+                                    <textarea class="form-control"  ng-model="question.correct"  placeholder="<?= __('answer-is-correct') ?>"  ></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="correct"><?= __('incorrect-response') ?></label>
+                                    <textarea class="form-control"  ng-model="question.incorrect" placeholder="<?= __('answer-is-incorrect') ?>"  ></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <input type="checkbox" ng-value="true" ng-model="question.select_any" /> <?= __('select-any') ?>
+                                    <p class="help-block"><?= __('select-any-text') ?></p>
+                                </div>
+                                <div class="form-group">
+                                    <input type="checkbox" ng-value="true" ng-model="question.force_checkbox" /> <?= __('force-checkbox') ?>
+                                    <p class="help-block"><?= __('force-checkbox-help') ?></p>
+                                </div>
+                            </div>
+                            <div class="panel-footer"><button ng-click="removeQuestion($index)" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> <?= __('delete-question') ?></button></div>
+
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+             
+
+
+
+                <button ng-click="addQuestion()" class="btn btn-primary"><i class="fa fa-plus"></i> <?= __('add-question') ?></button>
+
+            </div>
+            <div role="tabpanel" class="tab-pane" id="messages">
+
+
+
+                <form class="form-horizontal" onsubmit="return false">
+                    <div class="form-group">
+                        <label   class="col-sm-2 control-label"><?= __('checked-answer-text') ?>:</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" type="text" ng-model="quiz.checkAnswerText"/>
+                            <p class="help-block">
+                                <?= __('checked-answer-text-help') ?>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label   class="col-sm-2 control-label">Next question text</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" type="text" ng-model="quiz.nextQuestionText"/>
+                            <p class="help-block">
+                                <?= __('new-question-text-help') ?>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label   class="col-sm-2 control-label"><?= __('completed-quiz-text') ?></label>
+                        <div class="col-sm-10">
+                            <input class="form-control" type="text" ng-model="quiz.completeQuizText"/>
+                            <p class="help-block">
+                                <?= __('completed-quiz-help') ?>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label   class="col-sm-2 control-label"><?= __('back-button-text') ?></label>
+                        <div class="col-sm-10">
+                            <input class="form-control" type="text" ng-model="quiz.backButtonText"/>
+                            <p class="help-block">
+                                <?= __('back-button-help') ?>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label   class="col-sm-2 control-label"><?= __('try-again-text') ?></label>
+                        <div class="col-sm-10">
+                            <input class="form-control" type="text" ng-model="quiz.tryAgainText"/>
+                            <p class="help-block">
+                                <?= __('try-again-help') ?>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label   class="col-sm-2 control-label"><?= __('prevent-unanswered-text') ?></label>
+                        <div class="col-sm-10">
+                            <input class="form-control" type="text" ng-model="quiz.preventUnansweredText"/>
+                            <p class="help-block">
+                                <?= __('prevent-unanswered-help') ?>
+                            </p>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label   class="col-sm-2 control-label"><?= __('question-count-text') ?></label>
+                        <div class="col-sm-10">
+                            <input class="form-control" type="text" ng-model="quiz.questionCountText"/>
+                            <p class="help-block">
+                                <?= __('question-count-help') ?>
+                            </p>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label   class="col-sm-2 control-label"><?= __('question-template-text') ?></label>
+                        <div class="col-sm-10">
+                            <input class="form-control" type="text" ng-model="quiz.questionTemplateText"/>
+                            <p class="help-block">
+                                <?= __('question-template-help') ?>
+                            </p>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label   class="col-sm-2 control-label"><?= __('score-template-text') ?></label>
+                        <div class="col-sm-10">
+                            <input class="form-control" type="text" ng-model="quiz.scoreTemplateText"/>
+                            <p class="help-block">
+                                <?= __('score-template-help') ?>
+                            </p>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label   class="col-sm-2 control-label"><?= __('name-template-text') ?></label>
+                        <div class="col-sm-10">
+                            <input class="form-control" type="text" ng-model="quiz.nameTemplateText"/>
+                            <p class="help-block">
+                                <?= __('name-template-help') ?>
+                            </p>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label   class="col-sm-2 control-label"><?= __('skip-start-button') ?></label>
+                        <div class="col-sm-10">
+                            <input type="checkbox" ng-value="true" ng-model="quiz.skipStartButton"/>
+                            <p class="help-block">
+                                <?= __('skip-start-help') ?>
+                            </p>
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label   class="col-sm-2 control-label"><?= __('random-sort-questions') ?></label>
+                        <div class="col-sm-10">
+                            <input type="checkbox" ng-value="true" ng-model="quiz.randomSortQuestions"/>
+                            <p class="help-block">
+                                <?= __('random-sort-help') ?>
+                            </p>
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label   class="col-sm-2 control-label"><?= __('random-sort-answers') ?></label>
+                        <div class="col-sm-10">
+                            <input type="checkbox" ng-value="true" ng-model="quiz.randomSortAnswers"/>
+                            <p class="help-block">
+                                <?= __('random-sort-a-help') ?>
+                            </p>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label   class="col-sm-2 control-label"><?= __('prevent-unanswered') ?></label>
+                        <div class="col-sm-10">
+                            <input type="checkbox" ng-value="true" ng-model="quiz.preventUnanswered"/>
+                            <p class="help-block">
+                                <?= __('prevent-unanswered-helper') ?>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label   class="col-sm-2 control-label"><?= __('per-question-response') ?></label>
+                        <div class="col-sm-10">
+                            <input type="checkbox" ng-value="true" ng-model="quiz.perQuestionResponseMessaging"/>
+                            <p class="help-block">
+                                <?= __('per-question-help') ?>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label   class="col-sm-2 control-label"><?= __('per-question-answers') ?></label>
+                        <div class="col-sm-10">
+                            <input type="checkbox" ng-value="true" ng-model="quiz.perQuestionResponseAnswers"/>
+                            <p class="help-block">
+                                <?= __('per-question-helper') ?>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label   class="col-sm-2 control-label"><?= __('completion-response') ?></label>
+                        <div class="col-sm-10">
+                            <input type="checkbox" ng-value="true" ng-model="quiz.completionResponseMessaging"/>
+                            <p class="help-block">
+                                <?= __('completion-response-help') ?>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label   class="col-sm-2 control-label"><?= __('display-question-count') ?></label>
+                        <div class="col-sm-10">
+                            <input type="checkbox" ng-value="true" ng-model="quiz.displayQuestionCount"/>
+                            <p class="help-block">
+                                <?= __('display-question-help') ?>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label   class="col-sm-2 control-label"><?= __('display-question-number') ?></label>
+                        <div class="col-sm-10">
+                            <input type="checkbox" ng-value="true" ng-model="quiz.displayQuestionNumber"/>
+                            <p class="help-block">
+                                <?= __('display-ques-number-help') ?>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label   class="col-sm-2 control-label"><?= __('disable-score') ?></label>
+                        <div class="col-sm-10">
+                            <input type="checkbox" ng-value="true" ng-model="quiz.disableScore"/>
+                            <p class="help-block">
+                                <?= __('disable-score-help') ?>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label   class="col-sm-2 control-label"><?= __('disable-ranking') ?></label>
+                        <div class="col-sm-10">
+                            <input type="checkbox" ng-value="true" ng-model="quiz.disableRanking"/>
+                            <p class="help-block">
+                                <?= __('disable-ranking-help') ?>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label   class="col-sm-2 control-label"><?= __('score-as-percentage') ?></label>
+                        <div class="col-sm-10">
+                            <input type="checkbox" ng-value="true" ng-model="quiz.scoreAsPercentage"/>
+                            <p class="help-block">
+                                <?= __('score-as-percentage-help') ?>
+                            </p>
+                        </div>
+                    </div>
+
+
+                </form>
+
+
+            </div>
+        </div>
+
+    </div>
+<script>
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', function($scope,$http) {
+       // $http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+        $scope.quiz = <?php echo $lecturePage->content ?>;
+
+        $scope.sortOrder = <?php echo intval($lecturePage->sort_order); ?>;
+
+
+        $scope.submit = function(){
+            console.log($scope.quiz);
+          //  return;
+            $('body').loadingModal({
+                text: '<?=__('saving-quiz')?>'
+            })
+            var data = {
+                'content':$scope.quiz,
+                'sort_order':$scope.sortOrder,
+                'title':$scope.quiz.json.info.name
+            };
+            $.post('<?php echo selfURL()?>',data,function(data){
+
+                if(data){
+                    document.location.replace('<?php echo $this->url('admin/default',['controller'=>'lecture','action'=>'content','id'=>$lecturePage->lecture_id]); ?>')
+                }
+                else{
+                    alert('<?=__('submission-failed')?>')
+                }
+            },'json').fail(function(){
+                    alert('<?=__('network-error')?>');
+            }).always(function() {
+                $('body').loadingModal('hide');
+            });
+
+        }
+
+        $scope.addQuestion= function(){
+
+            console.log('adding a question');
+            $scope.quiz.json.questions.push({
+                q: "",
+                a: [],
+                correct: "<?=__('is-correct')?>",
+                incorrect: "<?=__('is-incorrect')?>"
+            });
+
+           // $('.collapse').collapse('hide');
+            $('.collapse').removeClass('in');
+            var index = $scope.quiz.json.questions.length -1;
+            console.log(index);
+
+            setTimeout(function(){
+              //  $('#collapseOne'+index).collapse('show')
+                $('#collapseOne'+index).addClass('in');
+            }, 500);
+        }
+
+        $scope.addOption = function(question){
+            question.a.push({"option": "", "correct": false});
+        }
+
+        $scope.removeOption = function(options,index){
+            if(confirm('<?=__('conf-delete')?>?')){
+                options.splice(index,1);
+            }
+
+        }
+
+        $scope.removeQuestion = function(index){
+            if(confirm('<?=__('conf-delete')?>?')){
+            $scope.quiz.json.questions.splice(index,1);
+            }
+        }
+
+
+    });
+
+
+</script>
+
+
+
+

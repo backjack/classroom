@@ -1,0 +1,32 @@
+<?php $this->headTitle($pageTitle) ?>
+
+<?php foreach($survey->surveyQuestions as $question): ?>
+    <div class="panel panel-default">
+        <div class="panel-heading"><?=$question->question?></div>
+        <div class="panel-body">
+            <table class="table">
+    <thead>
+    <tr>
+        <th><?= __('option') ?></th>
+        <th><?= __('percentage') ?></th>
+    </tr>
+    </thead>
+                <?php foreach($question->surveyOptions as $option): ?>
+                <tr>
+                    <?php $percent = $controller->getOptionPercent($option->survey_option_id) ?>
+                    <td><?php echo $option->option ?></td>
+                    <td><?php echo $percent ?>%
+                        <br/>
+                        <div class="progress progress_sm" style="width: 76%;">
+                            <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="<?php echo $percent ?>" style="width: 80%;" aria-valuenow="<?php echo $percent ?>"></div>
+                        </div>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+
+            </table>
+        </div>
+    </div>
+
+
+<?php endforeach; ?>

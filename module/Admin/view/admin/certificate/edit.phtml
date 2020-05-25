@@ -1,0 +1,558 @@
+
+<div class="box"   ng-app="myApp" ng-controller="myCtrl" >
+    <div class="box-body">
+        <form class="form-horizontal" id="editform" method="post" action="<?php echo $this->url('admin/default',['controller'=>'certificate','action'=>'edit','id'=>$row->certificate_id]) ?>">
+
+       <button type="submit" class="btn btn-primary pull-right"><i class="fa fa-floppy-o"></i> <?= __('save') ?> </button>
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab"><?= __('design') ?></a></li>
+            <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab"><?= __('details') ?></a></li>
+            <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab"><?= __('mandatory-classes') ?></a></li>
+            <li role="presentation"><a href="#tests" aria-controls="tests" role="tab" data-toggle="tab"><?= __('mandatory-tests') ?></a></li>
+         <li role="presentation"><a href="#assignments" aria-controls="assignments" role="tab" data-toggle="tab"><?= __('mandatory-homework') ?></a></li>
+        
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="home">
+                <a class="btn btn-primary" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                   <i class="fa fa-gears"></i>  <?= __('Options') ?>
+                </a>
+
+                <a onclick="return confirm('You are about to reset the certificate design. Continue?')" class="btn btn-primary pull-right" href="<?php echo $this->url('admin/default',['controller'=>'certificate','action'=>'reset','id'=>$id]) ?>"><i class="fa fa-refresh"></i> <?= __('reset') ?></a>
+                <div class="collapse" id="collapseExample">
+                    <div class="well">
+                        <?php $elements = [
+                            'student_name','session_name','session_start_date','session_end_date','date_generated','company_name','certificate_number'
+                        ]; ?>
+
+                        <div class="row">
+                            <?php foreach($elements as $element):?>
+                                <div class="col-md-2">
+                                    <input class="item_control" checked type="checkbox" id="control_<?php echo $element?>" data-target="box_<?php echo $element?>" value="<?php echo $element?>" name="control_<?php echo $element?>"/> <?php echo ucfirst(str_replace('_',' ',$element)) ?>
+                                </div>
+
+                            <?php endforeach; ?>
+                        </div>
+
+                        <br/>
+                        <br/>
+
+
+                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample1" aria-expanded="false" aria-controls="collapseExample1">
+                            <i class="fa fa-calendar"></i> <?= __('class-attendance-dates') ?>
+                        </button>
+                        <div class="collapse" id="collapseExample1">
+                            <div class="well">
+                                <div class="row">
+                                    <?php foreach($lessons as $lessonRow): ?>
+                                        <div class="col-md-2">
+                                            <input class="item_control" checked type="checkbox" id="control_class_date_<?php echo $lessonRow->lesson_id.'_'.strtoupper(safeUrl($lessonRow->lesson_name)); ?>" data-target="box_class_date_<?php echo $lessonRow->lesson_id.'_'.strtoupper(safeUrl($lessonRow->lesson_name)); ?>" value="class_date_<?php echo $lessonRow->lesson_id.'_'.strtoupper(safeUrl($lessonRow->lesson_name)); ?>" name="control_class_date_<?php echo $lessonRow->lesson_id.'_'.strtoupper(safeUrl($lessonRow->lesson_name)); ?>"/> <?php echo $lessonRow->lesson_name; ?>
+
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                        <div >
+                            <hr/>
+                            <h4><?= __('set-font-size') ?></h4>
+
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <select class="form-control" name="element_selector" id="element_selector">
+                                        <option value=""><?= __('select-an-element') ?></option>
+                                        <?php foreach($elements as $element):?>
+                                            <option value="<?php echo $element ?>"><?php echo ucfirst(str_replace('_',' ',$element)) ?></option>
+                                        <?php endforeach; ?>
+                                        <?php foreach($lessons as $lessonRow): ?>
+                                            <option value="class_date_<?php echo $lessonRow->lesson_id.'_'.strtoupper(safeUrl($lessonRow->lesson_name)); ?>"><?= __('class-date') ?>: <?php echo $lessonRow->lesson_id.' - '.$lessonRow->lesson_name ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                                <div class="col-md-1">
+                                    <input value="14" placeholder="e.g. 14" type="number" name="font_size" id="font_size" class="form-control number"/>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                    <div class="well"><?= __('firefox-browser-warning') ?></div>
+               <div id="canvas_wrapper" style="overflow: auto">
+                   <?php if(empty($row->html)): ?>
+                   <div id="canvas" style=" font-size: 14px; margin:0px auto; position: relative; margin-top:20px;  width: <?php echo $width ?>px; height: <?php echo $height ?>px; overflow: hidden " >
+                       <div class="canvas_item" id="box_student_name" style=" position: absolute; top: 20px; left: 20px; width: 20px; height: 20px; white-space: nowrap;" >
+                           [STUDENT_NAME]
+                       </div>
+
+                       <div class="canvas_item" id="box_session_name" style=" position: absolute; top: 50px; left: 20px; width: 20px; height: 20px; white-space: nowrap;" >
+                           [SESSION_NAME]
+                       </div>
+
+                       <div class="canvas_item" id="box_session_start_date" style=" position: absolute; top: 80px; left: 20px; width: 20px; height: 20px; white-space: nowrap;" >
+                           [SESSION_START_DATE]
+                       </div>
+
+                       <div class="canvas_item" id="box_session_end_date" style=" position: absolute; top: 110px; left: 20px; width: 20px; height: 20px; white-space: nowrap;" >
+                           [SESSION_END_DATE]
+                       </div>
+
+                       <div class="canvas_item" id="box_date_generated" style=" position: absolute; top: 140px; left: 20px; width: 20px; height: 20px; white-space: nowrap;" >
+                           [DATE_GENERATED]
+                       </div>
+
+                       <div class="canvas_item" id="box_company_name" style=" position: absolute; top: 170px; left: 20px; width: 20px; height: 20px; white-space: nowrap;" >
+                           [COMPANY_NAME]
+                       </div>
+
+                       <div class="canvas_item" id="box_certificate_number" style=" position: absolute; top: 200px; left: 20px; width: 20px; height: 20px; white-space: nowrap;" >
+                           [CERTIFICATE_NUMBER]
+                       </div>
+
+                       <?php $count= 200; foreach($lessons as $lessonRow): ?>
+                           <div  class="canvas_item" id="box_class_date_<?php echo $lessonRow->lesson_id.'_'.strtoupper(safeUrl($lessonRow->lesson_name)); ?>" style="display:none; position: absolute; top: <?php echo $count ?>px; left: 20px; width: 20px; height: 20px; white-space: nowrap;" >
+                               [CLASS_DATE_<?php echo $lessonRow->lesson_id.'_'.strtoupper(safeUrl($lessonRow->lesson_name)); ?>]
+                           </div>
+                           <?php $count = $count + 30; ?>
+                       <?php endforeach; ?>
+
+                       <img src="<?php echo $siteUrl;?>/<?php echo $row->certificate_image;?>" style="width: 100%; height: 100%" alt=""/>
+
+
+                   </div>
+                   <?php else: ?>
+                   <?php echo $row->html; ?>
+                   <?php endif; ?>
+               </div>
+                <?php echo $this->formElement($form->get('html')); ?>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="profile">
+
+
+                <div class="box-body">
+
+
+
+
+
+                    <div class="form-group">
+                        <?php     echo $this->formLabel($form->get('certificate_name'));
+
+                        ?>
+                        <?php     echo $this->formElement($form->get('certificate_name'));
+
+                        ?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('certificate_name'));?></p>
+
+                    </div>
+
+
+                    <div class="form-group">
+                        <?php     echo $this->formLabel($form->get('session_id'));
+
+                        ?>
+                        <div>
+                        <?php     echo $this->formElement($form->get('session_id'));
+
+                        ?>   </div>
+                        <div>
+                        <p class="help-block"><?php echo $this->formElementErrors($form->get('session_id'));?></p>
+                        <p class="help-block"></p><?= __('certificate-warning') ?>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <?php     echo $this->formLabel($form->get('description'));
+
+                        ?>
+                        <?php     echo $this->formElement($form->get('description'));
+
+                        ?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('description'));?></p>
+
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <?php     echo $this->formLabel($form->get('status'));
+
+                                ?>
+                                <?php     echo $this->formElement($form->get('status'));
+
+                                ?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('status'));?></p>
+
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <?php     echo $this->formLabel($form->get('orientation'));
+
+                                ?>
+                                <?php     echo $this->formElement($form->get('orientation'));
+
+                                ?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('orientation'));?></p>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <?php     echo $this->formLabel($form->get('max_downloads'));
+
+                                ?>
+                                <?php     echo $this->formElement($form->get('max_downloads'));
+
+                                ?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('max_downloads'));?></p>
+                                <p class="help-block"><?= __('max-download-help') ?></p>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+
+                    <div class="form-group" style="margin-bottom:10px">
+
+                        <label for="image" class="control-label"><?= __('certificate-image') ?>(A4 <?= __('size') ?> - 595 <?= __('pixels') ?> x 842 <?= __('pixels') ?>)</label><br />
+
+
+                        <div class="image"><img data-name="image" src="<?php echo $display_image ?>" alt="" id="thumb" /><br />
+                            <?php echo $this->formElement($form->get('certificate_image')) ?>
+                            <a class="pointer" onclick="image_upload('image', 'thumb');"><?=__('browse')?></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a class="pointer" onclick="$('#thumb').attr('src', '<?php echo $no_image; ?>'); $('#image').attr('value', '');"><?= __('clear') ?></a></div>
+
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                </div>
+
+            </div>
+            <div role="tabpanel" class="tab-pane" id="messages">
+
+                <div id="classlist" class="option classes">
+                    <?php foreach($form->getElements() as $element): ?>
+                        <?php if(preg_match('#lesson_#',$element->getName())):?>
+                        <div  class="form-group" style="padding-bottom: 10px">
+                             <?php echo $this->formElement($element) ?> <?php echo $element->getLabel() ?>
+                        </div>
+                         <?php endif; ?>
+                    <?php endforeach; ?>
+
+                </div>
+                <hr/>
+                <div  class="form-group" style="padding-bottom: 10px">
+                    <?php echo $this->formElement($form->get('any_session')) ?> <?php echo $form->get('any_session')->getLabel() ?>
+                </div>
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="tests">
+
+                <h4><?= __('selected-test') ?></h4>
+                <div style="max-height: 500px; height: auto">
+                <table class="table-stripped table">
+                    <thead>
+                    <tr>
+                        <th><?= __('test') ?></th>
+                        <th><?= __('passmark') ?></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="test in tests">
+                        <td>{{ test.name }}</td>
+                        <td>{{test.passmark}}%</td>
+                        <td><button ng-click="deleteTest(test)" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                            <input type="hidden" name="test_{{ test.test_id }}" value="{{test.test_id}}"/></td>
+                    </tr>
+                    </tbody>
+                </table>
+                </div>
+
+                <h4><?= __('add-tests') ?></h4>
+                <table id="datatable" class="table table-stripped">
+                    <thead>
+                    <tr>
+
+                        <th> <?= __('test') ?></th>
+                        <th  class="no-sort"><?= __('created-on') ?></th>
+                        <th  class="no-sort"><?= __('passmark') ?></th>
+                        <th  class="no-sort"><?= __('enabled') ?></th>
+                        <th  class="no-sort"> </th>
+                    </tr>
+                    </thead>
+                    <tbody id="classes">
+                    <?php foreach($allTests as $row): ?>
+                        <tr>
+
+                            <td><?php echo $row->name; ?> </td>
+                            <td><?php echo date('d/M/Y',$row->created_on); ?></td>
+                            <td><?php echo $row->passmark ?>%</td>
+                            <td><?php echo boolToString($row->status) ?></td>
+                            <td><button type="button" ng-click="addTest({test_id:'<?php echo $row->test_id ?>',name:'<?php echo $row->name; ?>',passmark:'<?php echo $row->passmark ?>'})" class="btn btn-primary"><i class="fa fa-plus"></i> <?= __('add') ?></button></td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+
+                </table>
+
+
+            </div>
+<div role="tabpanel" class="tab-pane" id="assignments">
+
+                <h4><?= __('selected-homework') ?></h4>
+                <div style="max-height: 500px; height: auto">
+                <table class="table-stripped table">
+                    <thead>
+                    <tr>
+                        <th><?= __('homework') ?></th>
+                        <th><?= __('passmark') ?></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="assignment in assignments">
+                        <td>{{ assignment.name }}</td>
+                        <td>{{assignment.passmark}}%</td>
+                        <td><button type="button" ng-click="deleteAssignment(assignment)" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                            <input type="hidden" name="assignment_{{ assignment.assignment_id }}" value="{{assignment.assignment_id}}"/></td>
+                    </tr>
+                    </tbody>
+                </table>
+                </div>
+
+                <h4><?= __('add-homework') ?></h4>
+                <table id="datatable" class="table table-stripped">
+                    <thead>
+                    <tr>
+
+                        <th> <?= __('homework') ?></th>
+                        <th  class="no-sort"><?= __('created-on') ?></th>
+                        <th  class="no-sort"><?= __('passmark') ?></th> 
+                        <th  class="no-sort"> </th>
+                    </tr>
+                    </thead>
+                    <tbody id="classes">
+                    <?php foreach($allAssignments as $row): ?>
+                        <tr>
+
+                            <td><?php echo $row->title; ?> </td>
+                            <td><?php echo date('d/M/Y',$row->created_on); ?></td>
+                            <td><?php echo $row->passmark ?>%</td> 
+                            <td><button type="button" ng-click="addAssignment({assignment_id:'<?php echo $row->assignment_id ?>',name:'<?php echo $row->title; ?>',passmark:'<?php echo $row->passmark ?>'})" class="btn btn-primary"><i class="fa fa-plus"></i> <?= __('add') ?></button></td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+
+                </table>
+
+
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function(){
+        $( ".canvas_item" ).draggable({
+            containment: "parent"
+        });
+    });
+</script>
+<style>
+    .canvas_item{
+        cursor: move;
+    }
+</style>
+
+
+<?php $this->headScript()->prependFile($this->basePath() . '/ckeditor/ckeditor.js')->appendFile($this->basePath().'/js/angular.min.js')
+    ->appendFile($this->basePath().'/app/certificate.js')->appendFile($this->basePath() . '/static/datatables/media/js/jquery.dataTables.min.js')
+?>
+<script type="text/javascript">
+
+    CKEDITOR.replace('hcontent', {
+        filebrowserBrowseUrl: '<?php echo $this->basepath() ?>/admin/filemanager',
+        filebrowserImageBrowseUrl: '<?php echo $this->basepath() ?>/admin/filemanager',
+        filebrowserFlashBrowseUrl: '<?php echo $this->basepath() ?>/admin/filemanager'
+    });
+
+</script>
+<script type="text/javascript"><!--
+    function image_upload(field, thumb) {
+        $('#dialog').remove();
+
+        $('#content').prepend('<div id="dialog" style="padding: 3px 0px 0px 0px;"><iframe src="<?php echo $this->basePath(); ?>/admin/filemanager?&token=true&field=' + encodeURIComponent(field) + '" style="padding:0; margin: 0; display: block; width: 100%; height: 100%;" frameborder="no" scrolling="auto"></iframe></div>');
+
+        $('#dialog').dialog({
+            title: '<?=__('Image Manager')?>',
+            close: function (event, ui) {
+                if ($('#' + field).attr('value')) {
+                    $.ajax({
+                        url: '<?php echo $this->basePath(); ?>/admin/filemanager/image?&image=' + encodeURIComponent($('#' + field).val()),
+                        dataType: 'text',
+                        success: function(data) {
+                            $('#' + thumb).replaceWith('<img src="' + data + '" alt="" id="' + thumb + '" />');
+                        }
+                    });
+                }
+            },
+            bgiframe: false,
+            width: 800,
+            height: 570,
+            resizable: true,
+            modal: false
+        });
+    };
+
+    $('select[name=session_id]').change(function(){
+        $('#classlist').text('Loading...');
+        $('#classlist').load('<?php echo $this->basePath() ?>/admin/certificate/loadclasses/'+$(this).val());
+    });
+
+    $('#editform').submit(function(e){
+        e.preventDefault();
+        var html = $('#canvas_wrapper').html();
+
+       // console.log(html);
+       // return false;
+        $('#html').val(html);
+        $(this).unbind('submit');
+        $(this).submit();
+    });
+
+    $('#font_size').change(function(){
+        console.log('buttoncliced');
+        //get the selected element
+        var element =  $('#element_selector').val();
+        var size= $('#font_size').val();
+        if(element.length==0 || size.length==0){
+            alert('Please select an element and enter a font size');
+        }
+        else{
+            $('#box_'+element).css('font-size',size+'px');
+            console.log('size set');
+        }
+
+    });
+    $('#element_selector').change(function(){
+       var val= $(this).val();
+        if(val.length>0){
+            var size = $('#box_'+val).css('font-size');
+            size = parseInt(size);
+            if(size < 1 ){
+                size =14;
+            }
+            $('#font_size').val(parseInt(size));
+        }
+    });
+
+    $('.item_control').click(function(){
+        console.log($(this).attr('data-target'));
+        $('#'+$(this).attr('data-target')).toggle(this.checked);
+    });
+
+    $('.canvas_item').each(function(){
+        var isVisible = $(this).is(':visible');
+        $('input[data-target='+$(this).attr('id')+']').prop('checked',isVisible);
+
+    })
+
+    //set orientation based on selection
+    $('select[name=orientation]').change(function(){
+        var val = $(this).val();
+        var width,height;
+        if(val=='p'){
+            width= 595;
+            height= 842;
+        }
+        else{
+            height= 595;
+            width= 842;
+        }
+        $('#canvas').css('width',width+'px');
+        $('#height').css('height',height+'px');
+    });
+
+    var table;
+    var dtOptions = {
+
+        "ordering": true,
+        columnDefs: [{
+            orderable: false,
+            targets: "no-sort"
+        }]
+
+    };
+
+    table = $('#datatable').DataTable(dtOptions);
+    //--></script>
+
+
+
+<script type="text/javascript">
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', function($scope,$http) {
+        $http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+
+        $scope.tests = {
+            <?php foreach($tests as $row):?>
+        <?php echo $row->test_id ?>: {test_id:'<?php echo $row->test_id ?>',name:'<?php echo $row->name; ?>',passmark:'<?php echo $row->passmark ?>'},
+        <?php endforeach; ?>
+        };
+
+
+
+        $scope.addTest = function(test){
+            $scope.tests[test.test_id]=test;
+        }
+
+        $scope.deleteTest = function(test){
+            delete  $scope.tests[test.test_id];
+        }
+        
+        
+           $scope.assignments = {
+            <?php foreach($assignments as $row):?>
+        <?php echo $row->assignment_id ?>: {assignment_id:'<?php echo $row->assignment_id ?>',name:'<?php echo $row->title; ?>',passmark:'<?php echo $row->passmark ?>'},
+        <?php endforeach; ?>
+        };
+
+
+
+        $scope.addAssignment = function(assignment){
+            $scope.assignments[assignment.assignment_id]=assignment;
+        }
+
+        $scope.deleteAssignment = function(assignment){
+            console.log($scope.assignments);
+            delete  $scope.assignments[assignment.assignment_id];
+            return false;
+        }
+
+    });
+
+</script>

@@ -1,0 +1,40 @@
+<?php $this->headTitle($pageTitle);?>
+<form class="form" action="<?=selfURL()?>" method="post">
+    <div class="form-group">
+        <?=$this->formLabel($form->get('topic_title'))?>
+        <?=$this->formElement($form->get('topic_title'));?>
+    </div>
+
+    <div class="form-group">
+        <?=$this->formLabel($form->get('message'))?>
+        <?=$this->formElement($form->get('message'));?>
+    </div>
+
+    <button type="submit" class="btn btn-primary"><?= __('create-topic') ?></button>
+</form>
+
+<?php $this->headScript()->prependFile($this->basePath() . '/static/summernote/summernote.min.js')->appendFile($this->basePath() . '/static/summernote-ext-emoji/src/summernote-ext-emoji.js')
+?>
+<?php $this->headLink()->prependStylesheet($this->basePath().'/static/summernote/summernote.css')->appendStylesheet($this->basePath().'/static/summernote-ext-emoji/src/css-new-version.css');?>
+
+<script>
+    $(function(){
+        document.emojiSource = '<?=$this->basePath()?>/static/summernote-ext-emoji/pngs/';
+        $('.summernote').summernote({
+            height: 300,
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'italic', 'underline', 'clear']],
+                ['fontname', ['fontname']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']],
+                ['table', ['table']],
+                ['insert', ['link', 'picture','video', 'hr']],
+                ['view', ['fullscreen', 'codeview']],
+                ['misc', ['emoji']],
+                ['help', ['help']],
+            ]
+        } );
+    });
+</script>

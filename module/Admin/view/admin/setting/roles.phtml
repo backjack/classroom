@@ -1,0 +1,67 @@
+<div class="row">
+    <div >
+        <div class="box">
+            <div class="box-head">
+                <header></header>
+                <a class="btn btn-primary pull-right" href="<?php echo $this->url('admin/default',array('controller'=>'setting','action'=>'addrole')) ?>"><i class="fa fa-plus"></i> <?= __('add-role') ?></a>
+
+
+
+            </div>
+            <div class="box-body">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th><?= __('id') ?></th>
+                        <th><?= __('role') ?></th> 
+                        <th class="text-right1" style="width:90px"><?=__('actions')?></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach($paginator as $row): ?>
+                        <tr>
+                            <td><?php echo $row->role_id; ?></td>
+                            <td><?php echo $row->role; ?></td> 
+
+                            <td class="text-right">
+                                <?php if($row->role_id > 1):?>
+                                <a href="<?php echo $this->url('admin/default',array('controller'=>'setting','action'=>'editrole','id'=>$row->role_id));?>" class="btn btn-xs btn-default btn-equal" data-toggle="tooltip" data-placement="top" data-original-title="<?=__('edit')?>"><i class="fa fa-pencil"></i></a>
+                                <?php endif; ?>
+
+                                <?php if($row->role_id > 3):?>
+                                <a onclick="return confirm('<?=__('delete-confirm')?>')" href="<?php echo $this->url('admin/default',array('controller'=>'setting','action'=>'deleterole','id'=>$row->role_id));?>"  class="btn btn-xs btn-default btn-equal" data-toggle="tooltip" data-placement="top" data-original-title="<?=__('delete')?>"><i class="fa fa-trash-o"></i></a>
+                                <?php endif; ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+
+                    </tbody>
+                </table>
+
+                <?php
+                // add at the end of the file after the table
+                echo $this->paginationControl(
+                // the paginator object
+                    $this->paginator,
+                    // the scrolling style
+                    'sliding',
+                    // the partial to use to render the control
+                    array('partial/paginator.phtml', 'Admin'),
+                    // the route to link to when a user clicks a control link
+                    array(
+                        'route' => 'admin/default',
+                        'controller'=>'setting',
+                        'action'=>'roles',
+                    )
+                );
+                ?>
+            </div><!--end .box-body -->
+        </div><!--end .box -->
+    </div><!--end .col-lg-12 -->
+</div>
+
+
+<!-- START SIMPLE MODAL MARKUP --><!-- /.modal -->
+<!-- END SIMPLE MODAL MARKUP -->
+
+ 

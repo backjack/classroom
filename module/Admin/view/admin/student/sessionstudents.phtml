@@ -1,0 +1,115 @@
+<div class="row">
+    <div >
+        <div class="box">
+
+            <div class="box-body">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th><?= __('id') ?></th>
+                        <th><?= __('first-name') ?></th>
+                        <th><?= __('last-name') ?></th>
+                        <th><?= __('classes-attended') ?></th>
+                        <th><?= __('progress') ?></th>
+                        <th  ><?=__('actions')?></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach($paginator as $row): ?>
+                        <tr>
+                            <td><span class="label label-success"><?php echo $row->student_id ?></span></td>
+                            <td><?php echo $row->first_name; ?></td>
+                            <td><?php echo $row->last_name; ?></td>
+                            <td><strong><?php $attended= $attendanceTable->getTotalDistinctForStudentInSession($row->student_id,$id); echo $attended?></strong>
+
+                            </td>
+                            <td>
+
+                                <div >
+                                    <p><small><?php
+                                            $percent = 100 * @($attended/($totalLessons));
+                                            if($percent >=0 ){
+                                                echo $percent;
+                                            }
+                                            else{
+                                                echo 0;
+                                                $percent = 0;
+                                            }
+
+                                            ?>%</small></p>
+                                    <div class="">
+                                        <div class="progress progress_sm" style="width: 76%;">
+                                            <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="<?php echo $percent ?>" style="width: 80%;" aria-valuenow="<?php echo $percent ?>"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td >
+                                <a href="<?php echo $this->url('admin/default',array('controller'=>'session','action'=>'stats','id'=>$row->student_session_id));?>" class="btn btn-xs btn-default btn-equal" data-toggle="tooltip" data-placement="top" data-original-title="<?= __('student-progress') ?>"><i class="fa fa-bar-chart-o"></i></a>
+
+
+                                <a  data-toggle="tooltip" data-placement="top" data-original-title="<?= __('Un-enroll') ?>"  onclick="return confirm('Are you sure you want to unenroll this student ?')" href="<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'unenroll','id'=>$row->student_id));?>?session=<?php echo $id; ?>"  class="btn btn-xs btn-default btn-equal" ><i class="fa fa-minus"></i></a>
+
+                                <button   data-id="<?php echo $row->student_id; ?>" data-toggle="modal" data-target="#simpleModal" title="Student Details" type="button" class="btn btn-xs btn-default btn-equal viewbutton"  ><i class="fa fa-user"></i></button>
+                                <a href="<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'edit','id'=>$row->student_id));?>" class="btn btn-xs btn-default btn-equal" data-toggle="tooltip" data-placement="top" data-original-title="<?= __('edit-student') ?>"><i class="fa fa-pencil"></i></a>
+
+                              </td>
+                        </tr>
+                    <?php endforeach; ?>
+
+                    </tbody>
+                </table>
+
+                <?php
+                // add at the end of the file after the table
+                echo $this->paginationControl(
+                // the paginator object
+                    $this->paginator,
+                    // the scrolling style
+                    'sliding',
+                    // the partial to use to render the control
+                    array('partial/paginator.phtml', 'Admin'),
+                    // the route to link to when a user clicks a control link
+                    array(
+                        'route' => 'admin/default',
+                        'controller'=>'student',
+                        'action'=>'sessionstudents',
+                        'id'=>$id
+                    )
+                );
+                ?>
+            </div><!--end .box-body -->
+        </div><!--end .box -->
+    </div><!--end .col-lg-12 -->
+</div>
+
+
+<!-- START SIMPLE MODAL MARKUP -->
+<div class="modal fade" id="simpleModal" tabindex="-1" role="dialog" aria-labelledby="simpleModalLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="simpleModalLabel"><?= __('student-details') ?></h4>
+            </div>
+            <div class="modal-body" id="info">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal"><?= __('close') ?></button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- END SIMPLE MODAL MARKUP -->
+
+<script type="text/javascript">
+    $(function(){
+        $('.viewbutton').click(function(){
+            $('#info').text('Loading...');
+            var id = $(this).attr('data-id');
+            $('#info').load('<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'view'))?>'+'/'+id);
+        });
+    });
+</script>

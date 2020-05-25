@@ -1,0 +1,22 @@
+<?php
+return [
+    'en'=>'English',
+    'de'=>'German',
+    'es'=>'Spanish',
+    'fr'=>'French',
+    'pt'=>'Portuguese',
+    'it'=>'Italian',
+    'nl'=>'Dutch',
+    'pl'=>'Polish',
+    'ru'=>'Russian',
+    'ro'=>'Romanian',
+    'bg'=>'Bulgarian',
+    'ms'=>'Malay',
+    'cs'=>'Czech',
+    'da'=>'Danish',
+    'et'=>'Estonian',
+    'zh'=>'Chinese',
+    'ar'=>'Arabic',
+    'id'=>'Indonesian',
+    'ko'=>'Korean'
+];

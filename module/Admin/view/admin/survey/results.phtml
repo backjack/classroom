@@ -1,0 +1,86 @@
+<div class="row">
+    <div >
+        <div class="box">
+           <div class="box-head">
+
+
+
+           </div>
+            <div class="box-body">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th><?= __('student') ?></th>
+                        <th><?= __('date-taken') ?></th>
+                        <th class="text-right"><?=__('actions')?></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach($paginator as $row): ?>
+                        <tr>
+                            <td>
+                                 <?php if(!empty($row->student_id) && \Application\Entity\Student::find($row->student_id)): ?>
+                                     <?php $student = \Application\Entity\Student::find($row->student_id) ?>
+                                     <?php echo $student->first_name; ?> <?php echo $student->last_name; ?>
+
+                                     <?php else: ?>
+                                     <?= __('anonymous') ?>
+                                <?php endif; ?>
+
+                            </td>
+                            <td><?php echo date('d/M/Y',$row->created_on); ?></td>
+
+
+                            <td class="text-right">
+                                 <a onclick="openModal('#<?php echo $row->survey_response_id; ?>','<?php echo $this->url('admin/default',array('controller'=>'survey','action'=>'result','id'=>$row->survey_response_id));?>')"  href="javascript:;" class="btn btn-xs btn-default btn-equal" data-toggle="tooltip" data-placement="top" data-original-title="<?= __('view-result') ?>"><i class="fa fa-eye"></i></a>
+                                <a onclick="return confirm('<?=__('delete-confirm')?>')" href="<?php echo $this->url('admin/default',array('controller'=>'survey','action'=>'deleteresult','id'=>$row->survey_response_id));?>"  class="btn btn-xs btn-default btn-equal" data-toggle="tooltip" data-placement="top" data-original-title="<?=__('delete')?>"><i class="fa fa-trash-o"></i></a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+
+                    </tbody>
+                </table>
+
+                <?php
+                // add at the end of the file after the table
+                echo $this->paginationControl(
+                // the paginator object
+                    $this->paginator,
+                    // the scrolling style
+                    'sliding',
+                    // the partial to use to render the control
+                    array('partial/paginator.phtml', 'Admin'),
+                    // the route to link to when a user clicks a control link
+                    array(
+                        'route' => 'admin/default',
+                        'controller'=>'survey',
+                        'action'=>'results',
+                        'id'=>$row->survey_id
+                    )
+                );
+                ?>
+            </div><!--end .box-body -->
+        </div><!--end .box -->
+    </div><!--end .col-lg-12 -->
+</div>
+
+
+<!-- START SIMPLE MODAL MARKUP --><!-- /.modal -->
+<!-- END SIMPLE MODAL MARKUP -->
+
+<?php echo $this->headLink()->prependStylesheet($this->basePath().'/pickadate/themes/default.date.css')
+    ->prependStylesheet($this->basePath().'/pickadate/themes/default.time.css')
+    ->prependStylesheet($this->basePath().'/pickadate/themes/default.css')
+    ->prependStylesheet($this->basePath().'/static/datatables/media/css/jquery.dataTables.min.css');?>
+<script type="text/javascript" src="<?php echo $this->basePath() ?>/pickadate/picker.js"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() ?>/pickadate/picker.date.js"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() ?>/pickadate/picker.time.js"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() ?>/pickadate/legacy.js"></script>
+<script type="text/javascript">
+
+    jQuery('.date').pickadate({
+        format: 'yyyy-mm-dd'
+    });
+
+
+</script>

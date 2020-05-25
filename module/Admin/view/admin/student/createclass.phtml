@@ -1,0 +1,28 @@
+<tr>
+    <td><?php echo $this->formElement($form->get('lesson_'.$lesson_id)); ?> </td>
+    <td><span id="<?php echo 'lesson_name_'.$lesson_id; ?>"><?php echo $row->lesson_name ?></span></td>
+    <td style="display: none"></td>
+    <?php if($type!='s'):?>
+    <td  id="<?php echo 'lesson_type_'.$row->lesson_id; ?>"><?php echo ($row->lesson_type=='s')? 'Physical Location':'Online' ?></td>
+<?php endif; ?>
+    <td>
+
+        <?php echo $this->formElement($form->get('lesson_date_'.$lesson_id)); ?></td>
+
+    <td>
+        <?php if($row->lesson_type=='s'):?>
+        <?php echo $this->formElement($form->get('lesson_start_'.$lesson_id)); ?>
+        <?php endif; ?>
+    </td>
+    <td>
+        <?php if($row->lesson_type=='s'):?>
+        <?php echo $this->formElement($form->get('lesson_end_'.$lesson_id)); ?>
+        <?php endif; ?>
+    </td>
+
+    <td>
+        <?php if($row->lesson_type=='s'):?>
+        <?php echo $this->formElement($form->get('lesson_venue_'.$lesson_id)); ?>
+        <?php endif; ?>
+    </td>
+</tr>

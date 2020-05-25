@@ -1,0 +1,89 @@
+
+<div class="panel panel-default">
+    <div class="panel-heading"><?= __('instructions') ?></div>
+    <div class="panel-body">
+        <p  class="readmorebox" >
+            <article class="readmore">
+                <?php echo $row->instruction ?>
+            </article>
+        </p>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading"><?= __('answer') ?></div>
+    <div class="panel-body">
+        <form enctype="multipart/form-data" class="form" action="<?php echo selfURL() ?>" method="post">
+        <?php if($row->assignment_type=='t' || $row->assignment_type=='b'):?>
+            <div class="form-group">
+                <?php echo $this->formLabel($form->get('content')) ?>
+
+
+                <?php  echo $this->formElement($form->get('content'))?>
+                <p class="help-block"><?php echo $this->formElementErrors($form->get('content')) ?></p>
+            </div>
+            <?php $this->headScript()->prependFile($this->basePath() . '/static/summernote/summernote.min.js')
+            ?>
+            <?php $this->headLink()->prependStylesheet($this->basePath().'/static/summernote/summernote.css');?>
+            <script>
+                $(function(){
+
+                    $('.summernote').summernote({
+                        height: 300
+                    } );
+                });
+            </script>
+
+        <?php endif; ?>
+
+        <?php if($row->assignment_type == 'f'  || $row->assignment_type=='b' ): ?>
+            <?php if (isset($file)):?>
+            <div>
+                <strong><?= __('current-file') ?>:</strong> <?php echo $file; ?>
+            </div>
+                <?php endif; ?>
+            <div class="form-group">
+                <?php echo $this->formLabel($form->get('file_path')) ?>
+
+                <?php echo $this->formElement($form->get('file_path'))?>
+                <p class="help-block"><?php echo $this->formElementErrors($form->get('file_path')) ?></p>
+            </div>
+
+        <?php endif; ?>
+
+
+         <div class="form-group">
+             <?php echo $this->formLabel($form->get('student_comment')) ?>
+
+             <?php echo $this->formElement($form->get('student_comment'))?>
+             <p class="help-block"><?php echo $this->formElementErrors($form->get('student_comment')) ?></p>
+         </div>
+
+            <div class="form-group">
+                <?php echo $this->formLabel($form->get('submitted')) ?>
+
+                <?php echo $this->formElement($form->get('submitted'))?>
+                <p class="help-block"><?php echo $this->formElementErrors($form->get('submitted')) ?></p>
+            </div>
+
+
+            <button class="btn btn-primary"><?= __('submit') ?></button>
+        </form>
+
+    </div>
+</div>
+
+
+
+<?php $this->headScript()->prependFile($this->basePath() . '/static/readmore/readmore.min.js')
+    ->prependFile($this->basePath() . '/static/summernote/summernote.min.js')
+?>
+
+<script>
+    $(function(){
+        $('article.readmore').readmore({
+            collapsedHeight : 200
+        });
+
+    });
+</script>

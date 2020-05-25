@@ -1,0 +1,259 @@
+<div class="row">
+    <div >
+        <div class="box">
+            <div class="box-head">
+
+            </div>
+
+
+
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab"><?= __('student-details') ?></a></li>
+                <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab"><?= __('change-password') ?></a></li>
+
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="home">
+
+                    <div class="box-body">
+                        <?php
+                        $form->prepare();
+                        $form->setAttribute('action', $this->url('admin/default',array('controller'=>'student','action'=>$action,'id'=>$id)));
+                        $form->setAttribute('method', 'post');
+                        $form->setAttribute('role', 'form');
+                        $form->setAttribute('class', 'form-horizontal');
+
+                        echo $this->form()->openTag($form);
+                        ?>
+
+                        <?php echo $this->formElement($form->get('security')); ?>
+
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="col-lg-4 col-md-4 col-sm-6">
+                                        <label for="password1" class="control-label"><?php echo $this->formLabel($form->get('first_name')); ?></label>
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 col-sm-6">
+                                        <?php     echo $this->formElement($form->get('first_name'));
+
+                                        ?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('first_name'));?></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="col-lg-4 col-md-4 col-sm-6">
+                                        <label for="password1" class="control-label"><?php echo $this->formLabel($form->get('last_name')); ?></label>
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 col-sm-6">
+                                        <?php     echo $this->formElement($form->get('last_name'));
+
+                                        ?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('last_name'));?></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="col-lg-4 col-md-4 col-sm-6">
+                                        <label for="password1" class="control-label"><?php echo $this->formLabel($form->get('email')); ?></label>
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 col-sm-6">
+                                        <?php     echo $this->formElement($form->get('email'));
+
+                                        ?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('email'));?></p>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+                        </div>
+
+
+
+
+
+
+
+
+
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="col-lg-4 col-md-4 col-sm-6">
+                                        <label for="password1" class="control-label"><?php echo $this->formLabel($form->get('mobile_number')); ?></label>
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 col-sm-6">
+                                        <?php     echo $this->formElement($form->get('mobile_number'));
+
+                                        ?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('mobile_number'));?></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="col-lg-4 col-md-4 col-sm-6">
+                                        <label for="password1" class="control-label"><?php echo $this->formLabel($form->get('status')); ?></label>
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 col-sm-6">
+                                        <?php     echo $this->formElement($form->get('status'));
+
+                                        ?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('status'));?></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="row">
+
+
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="col-lg-4 col-md-4 col-sm-6">
+                                        <label for="password1" class="control-label"><?php echo $this->formLabel($form->get('picture')); ?></label>
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 col-sm-6">
+                                        <?php if(!empty($row->picture) && isUrl($row->picture)):?>
+                                            <img src="<?=$row->picture?>" style="max-width: 200px" alt=""/>
+                                        <?php elseif(!empty($row->picture) && isImage('public/'.$row->picture)):?>
+                                            <img src="<?php echo resizeImage($row->picture,200,200,$this->basePath()); ?>" alt=""/>
+
+                                        <?php endif; ?>
+
+                                        <?php if(!empty($row->picture)): ?>
+                                            <a  onclick="return confirm('Are you sure you want to remove this display picture?')" href="<?=$this->url('admin/default',['controller'=>'student','action'=>'removeimage','id'=>$row->student_id])?>">Remove image</a>
+                                        <?php endif; ?>
+                                        <?php     echo $this->formElement($form->get('picture'));
+
+                                        ?> <p class="help-block"><?php echo $this->formElementErrors($form->get('picture'));?></p>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+
+
+                        </div>
+
+
+
+
+
+
+
+
+
+                        <div class="row">
+
+                            <?php foreach($fields as $row):?>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+
+                                        <?php if($row->type == 'checkbox'):?>
+
+                                            <div class="col-lg-8 col-md-8 col-sm-6">
+                                                <?php     echo $this->formElement($form->get('custom_'.$row->registration_field_id)); ?>
+                                                <label for="password1" class="control-label"><?php echo $this->formLabel($form->get('custom_'.$row->registration_field_id)); ?></label>
+                                                <p class="help-block"><?php echo $this->formElementErrors($form->get('custom_'.$row->registration_field_id));?></p>
+                                            </div>
+
+                                        <?php elseif($row->type == 'radio'): ?>
+                                            <div class="col-lg-4 col-md-4 col-sm-6">
+                                                <label for="password1" class="control-label"><?php echo $this->formLabel($form->get('custom_'.$row->registration_field_id)); ?></label>
+                                            </div>
+                                            <div class="col-lg-8 col-md-8 col-sm-6">
+                                                <?php     echo $this->formRadio($form->get('custom_'.$row->registration_field_id)); ?>
+                                                <p class="help-block"><?php echo $this->formElementErrors($form->get('custom_'.$row->registration_field_id));?></p>
+                                            </div>
+                                        <?php else: ?>
+
+                                            <div class="col-lg-4 col-md-4 col-sm-6">
+                                                <label for="password1" class="control-label"><?php echo $this->formLabel($form->get('custom_'.$row->registration_field_id)); ?></label>
+                                            </div>
+                                            <div class="col-lg-8 col-md-8 col-sm-6">
+                                                <?php     echo $this->formElement($form->get('custom_'.$row->registration_field_id));
+
+                                                ?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('custom_'.$row->registration_field_id));?></p>
+                                            </div>
+
+                                        <?php endif; ?>
+
+
+                                    </div>
+                                </div>
+
+                            <?php endforeach; ?>
+
+                        </div>
+
+
+
+
+
+
+
+
+
+
+                        <div class="form-footer col-lg-offset-1 col-md-offset-2 col-sm-offset-3">
+                            <button type="submit" class="btn btn-primary"><?=__('save-changes')?></button>
+                        </div>
+                        </form>
+                    </div>
+
+
+                </div>
+                <div role="tabpanel" class="tab-pane" id="profile">
+
+                    <form method="post" class="form form-horizontal"
+                          action="<?= $this->url('admin/default', ['controller' => 'student', 'action' => 'changepassword', 'id' => $id]) ?>">
+
+                        <div class="form-group">
+                            <label for=""><?= __('new-password') ?></label>
+                            <input class="form-control" type="password" name="password"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label for=""><?= __('confirm-password') ?></label>
+                            <input class="form-control" type="password" name="confirm_password"/>
+                        </div>
+                        <div class="form-group">
+                            <input type="checkbox" name="notify" value="1" checked/>
+                            <label for=""><?= __('send-new-password') ?></label>
+                        </div>
+                        <button class="btn btn-primary" type="submit"><?=__('save')?></button>
+                    </form>
+
+
+                </div>
+            </div>
+
+
+        </div><!--end .box -->
+    </div><!--end .col-lg-12 -->
+</div>

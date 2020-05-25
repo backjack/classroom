@@ -1,0 +1,164 @@
+<?php  $this->headTitle($pageTitle) ?>
+<div class="container" style="min-height: 100px;   padding-bottom:50px; margin-bottom: 10px;   " >
+<?php if(!$loggedIn):?>
+    <div class="page-header">
+        <h1><?=$pageTitle?></h1>
+    </div>
+<?php endif; ?>
+    <?php if(isset($message) && false):?>
+        <div class="alert alert-info alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <?=$message?>
+        </div>
+
+
+    <?php endif; ?>
+    <div class="row" style="background-color: white; ">
+        <div class="col-sm-12 col-md-12 ">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th><?= __('item') ?></th>
+                    <th class="text-center"><?= __('total') ?></th>
+                    <th> </th>
+                </tr>
+                </thead>
+                <tbody>
+            <?php foreach(getCart()->getSessions() as $session):?>
+                <tr>
+                    <td class="col-sm-8 col-md-6" style="padding-top: 10px;">
+                        <div class="media">
+
+                            <?php
+                            if($session->session_type=='c'){
+                                $url= $this->url('course-details',['id'=>$session->session_id,'slug'=>safeUrl($session->session_name)]);
+                            }
+                            else{
+                                $url = $this->url('session-details',['id'=>$session->session_id,'slug'=>safeUrl($session->session_name)]);
+                            }
+
+                            ?>
+
+                            <?php if(!empty($session->picture)): ?>
+
+
+                                <a class="thumbnail pull-left" href="<?php echo $url; ?>"> <img class="media-object" src="<?php echo resizeImage($session->picture,72,72,$this->basePath()); ?>" style="width: 72px; height: 72px;"> </a>
+
+                            <?php endif; ?>
+
+
+
+                            <div class="media-body">
+                                <h4 class="media-heading"><a href="<?=$url?>"><?=$session->session_name?></a></h4>
+
+                                <span></span><span class="text-success"><strong><?php
+                                        switch($session->session_type){
+                                            case 'b':
+                                                echo __('training-online');
+                                                break;
+                                            case 's':
+                                                echo __('training-session');
+                                                break;
+                                            case 'c':
+                                                echo __('online-course');
+                                                break;
+                                        }
+                                        ?></strong></span>
+                            </div>
+                        </div></td>
+
+                    <td class="col-sm-1 col-md-1 text-center" style="padding-top: 10px;"><strong><?=price($session->amount)?></strong></td>
+                    <td class="col-sm-1 col-md-1" style="padding-top: 10px;">
+
+                        <a class="btn btn-danger" href="<?=$this->url('remove-session',['id'=>$session->session_id]);?>"><span class="glyphicon glyphicon-remove"></span> <?= __('remove') ?></a>
+
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+
+
+
+                </tbody>
+            </table>
+            <?php if(getCart()->hasItems()):?>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading"><?= __('coupon') ?></div>
+                        <div class="panel-body">
+                            <form method="post" class="form" action="<?= $this->url('cart') ?>">
+                                <div class="form-group">
+                                    <label for="code"><?= __('coupon-code') ?></label>
+                                    <input required="required" class="form-control" type="text" name="code" placeholder="<?= __('enter-coupon-code') ?>"/>
+                                </div>
+                                <button type="submit" class="btn btn-primary"><?= __('apply') ?></button>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+                <form action="<?=$this->url('shopping-cart/default',['action'=>'checkout'])?>" method="post">
+                <div class="col-md-5">
+                    <div class="panel panel-success">
+                        <div class="panel-heading" style="color: white;"><?= __('payment-method') ?></div>
+                        <div class="panel-body">
+                            <table class="table table-striped">
+                                <?php $count = 0; ?>
+                                <?php foreach($paymentMethods as $method):?>
+                                    <tr>
+                                        <td><input  <?php if($count==0):?>  checked="checked" <?php endif; ?> required="required" type="radio" name="payment_method" value="<?php echo $method->payment_method_id ?>"/> </td>
+                                        <td><?php echo $method->method_label ?></td>
+                                    </tr>
+                                    <?php $count++; ?>
+                                <?php endforeach; ?>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-4 ">
+                    <table class="table table-hover">
+                        <?php if(getCart()->hasDiscount()):?>
+                        <tr>
+                            <td><?= __('discount') ?></td>
+                            <td><?php if(getCart()->discountType()=='P'): ?><?=getCart()->getDiscount()?>%<?php else: ?>
+                                    <?=price(getCart()->getDiscount())?>
+                                <?php endif; ?><a href="<?=$this->url('shopping-cart/default',['action'=>'removecoupon'])?>"><?= strtolower(__('remove')) ?></a></td>
+                        </tr>
+                    <?php endif; ?>
+                        <tr>
+
+                            <td><h3><?= __('total') ?></h3></td>
+                            <td class="text-right"><h3><strong><?=price(getCart()->getCurrentTotal())?></strong></h3></td>
+                        </tr>
+                        <tr>
+
+                            <td colspan="2">
+                                <div class="row">
+                                    <div   style="margin-bottom: 10px">
+                                        <a class="btn btn-default btn-block" href="<?=$this->basePath()?>/">
+                                            <span class="glyphicon glyphicon-shopping-cart"></span> <?= __('continue-shopping') ?>
+                                        </a>
+
+                                    </div>
+                                    <div  >
+                                        <button type="submit" class="btn btn-success btn-block">
+                                            <?= __('checkout') ?> <span class="glyphicon glyphicon-play"></span>
+                                        </button>
+                                    </div>
+                                </div>
+
+
+                                </td>
+                        </tr>
+                        </table>
+                </div>
+                </form>
+            </div>
+            <?php endif; ?>
+        </div>
+    </div>
+
+
+
+</div>

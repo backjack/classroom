@@ -1,0 +1,40 @@
+<?php if ($this->pageCount): ?>
+     <div id="pager" style="margin-bottom: 100px; font-size: 15px; text-align: center;">
+          
+             <!-- Previous page link -->
+             <?php if (isset($this->previous)): ?>
+                 
+                     <a class="dt-sc-button small" href="<?php echo $this->url($this->route,array('controller'=>$this->controller,'action'=>$this->action,'id'=>$this->id)); ?>?page=<?php echo $this->previous; ?>">
+                         <<
+                     </a>
+                  
+                    
+             <?php endif; ?>
+
+             <!-- Numbered page links -->
+             <?php foreach ($this->pagesInRange as $page): ?>
+                 <?php if ($page != $this->current): ?>
+                      
+                         <a class="dt-sc-button small" href="<?php echo $this->url($this->route,array('controller'=>$this->controller,'action'=>$this->action,'id'=>$this->id));?>?page=<?php echo $page; ?>">
+                             <?php echo $page; ?>
+                         </a>
+                     
+                 <?php else: ?>
+                     
+                         <a class="dt-sc-button small"  href="#">[<?php echo $page; ?>]</a>
+                   
+                 <?php endif; ?>
+             <?php endforeach; ?>
+
+             <!-- Next page link -->
+             <?php if (isset($this->next)): ?>
+                 
+                     <a  class="dt-sc-button small" href="<?php echo $this->url($this->route,array('controller'=>$this->controller,'action'=>$this->action,'id'=>$this->id)); ?>?page=<?php echo $this->next; ?>">
+                         >>
+                     </a>
+               
+              
+             <?php endif; ?>
+       
+     </div>
+ <?php endif; ?>

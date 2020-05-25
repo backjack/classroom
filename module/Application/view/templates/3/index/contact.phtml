@@ -1,0 +1,106 @@
+<?php  $this->headTitle(__('Contact Us')) ?>
+<!--breadcrumb-section starts-->
+<section id="mu-page-breadcrumb" >
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="mu-page-breadcrumb-area">
+                    <h2><?= __('Contact Us') ?></h2>
+                    <ol class="breadcrumb">
+                        <li><a href="<?=$this->basePath()?>/"><?=__('Home')?></a></li>
+                        <li class="active"><?= __('Contact Us') ?></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--breadcrumb-section ends-->
+<!--container starts-->
+<div class="container" >
+    <!--primary starts-->
+
+    <div class="container" style="padding-top: 50px; clear: both"><!-- InstanceBeginEditable name="PageContet" -->
+
+        <div class="row">
+            <div class="col-md-8">
+                <h4><?= __('get-in-touch') ?></h4>
+                <?= __('feel-free') ?><br />
+                <?php if(isset($message)):?>
+                    <strong><?php echo $message; ?></strong>
+                <?php endif; ?>
+                <br />
+                <div class="contact_form_holder form-group">
+                    <form id="contact" class="row validate" name="form1" method="post" action="<?php echo $this->url('contact')?>">
+
+                        <div class="col-md-6">
+                            <label><?= __('full-name') ?> <span class="req">*</span></label>
+                            <input required="required" type="text" class="form-control" name="name" id="name" />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label><?= __('Email') ?> <span class="req">*</span></label>
+                            <input required="required" type="text" class="form-control" name="f_email" id="f_email" />
+
+                        </div>
+
+
+
+                        <div class="col-md-6">
+                            <label><?= __('Subject') ?></label>
+                            <input type="text" class="form-control" name="subject"   />
+                        </div>
+                        <input   type="text" name="email" id="signup_email" />
+
+                        <div class="col-md-12">
+                            <label><?= __('Message') ?> <span class="req">*</span></label>
+                            <textarea required="required" cols="10" rows="10" name="message" id="message" class="form-control"></textarea>
+                            <br/>
+
+                            <p id="btnsubmit">
+                                <input type="submit" id="send" value="<?=__('send-now')?>" class="btn btn-default" />
+                            </p>
+                        </div>
+
+
+                    </form>
+                </div>
+
+            </div>
+
+            <div id="sidebar" class="col-md-3">
+                <!-- widget category -->
+                <!-- widget tags -->
+                <!-- widget text -->
+                <div class="widget widget-text">
+                    <h4><?= __('Contact Us') ?></h4>
+                    <address>
+                        <?php echo nl2br($this->getSetting('general_address')) ?><br/><br/>
+
+                        <?php $tel =$this->getSetting('general_tel'); if(!empty($tel)):?>
+                            <strong style="text-decoration: underline;"><?= __('Telephone Lines') ?></strong>
+                            <?php echo $tel; ?> <br>
+                        <?php endif; ?>
+
+                        <br/>
+
+                        <?php $mail =$this->getSetting('general_contact_email'); if(!empty($mail)):?>
+                            <strong style="text-decoration: underline;"><?= __('Email') ?> </strong>
+                            <?php echo $mail; ?>
+                        <?php endif; ?>
+
+                    </address>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- InstanceEndEditable -->
+
+    </div>
+
+
+
+</div>
+
+<!--container ends-->

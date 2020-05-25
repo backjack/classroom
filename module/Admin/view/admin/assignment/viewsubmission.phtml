@@ -1,0 +1,131 @@
+<div class="panel panel-default">
+    <div class="panel-heading">Student Information</div>
+    <div class="panel-body">
+        <table class="table table-striped">
+            <tr>
+                <td><?= __('first-name') ?></td>
+                <td><?php echo $row->first_name ?></td>
+            </tr>
+            <tr>
+                <td><?= __('last-name') ?></td>
+                <td><?php echo $row->last_name; ?></td>
+            </tr>
+            <tr>
+                <td><?= __('email') ?></td>
+                <td><?php echo $row->email; ?></td>
+            </tr>
+            <tr>
+                <td><?= __('telephone-number') ?></td>
+                <td><?php echo $row->mobile_number ?></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Homework Details</div>
+    <div class="panel-body">
+
+        <dl class="dl-horizontal">
+            <dt><?= __('title') ?></dt>
+            <dd><?php echo $row->title; ?></dd>
+            <dt><?= __('instruction') ?></dt>
+            <dd><article class="readmore">
+                    <?php echo $row->instruction?>
+                </article></dd>
+            <dt><?= __('due-date') ?></dt>
+            <dd><?php echo date('d/M/Y',$row->due_date) ?></dd>
+            <dt><?= __('assignment-type') ?></dt>
+            <dd>
+                <?php
+                switch($row->assignment_type){
+                    case 't':
+                        echo __('text');
+                        break;
+                    case 'f':
+                        echo __('file-upload');
+                        break;
+                    case 'b':
+                        echo __('text-file-upload');
+                        break;
+                }
+                ?>
+            </dd>
+            <dt><?= __('passmark') ?></dt>
+            <dd><?php echo $row->passmark ?>%</dd>
+        </dl>
+
+
+
+
+    </div>
+</div>
+
+<h3><?= __('student-response') ?></h3>
+<?php if($row->assignment_type=='t' || $row->assignment_type=='b'):?>
+    <div class="panel panel-default">
+        <div class="panel-heading"><?= __('answer') ?></div>
+        <div class="panel-body">
+            <?php echo $row->content ?>
+        </div>
+    </div>
+<?php endif; ?>
+
+<?php if($row->assignment_type=='f' || $row->assignment_type=='b'):?>
+    <div class="panel panel-default">
+        <div class="panel-heading"><?= __('file') ?></div>
+        <div class="panel-body">
+            <p><a href="<?php echo $this->basePath() ?>/<?php echo $row->file_path ?>" target="_blank"><?php echo basename($row->file_path) ?></a></p>
+
+        </div>
+    </div>
+<?php endif; ?>
+
+<div class="panel panel-default">
+    <div class="panel-heading"><?= __('additional-comment') ?></div>
+    <div class="panel-body">
+        <p><?php echo $row->student_comment ?></p>
+    </div>
+</div>
+
+<h3>Grade</h3>
+
+<div class="panel panel-default">
+    <div class="panel-heading"><?= __('grade-homework') ?></div>
+    <div class="panel-body">
+        <form class="form" action="<?php echo selfURL() ?>" method="post">
+        <div class="form-group">
+            <?php echo $this->formLabel($form->get('admin_comment')) ?>
+            <?php echo $this->formElement($form->get('admin_comment')) ?>
+        </div>
+
+            <div class="form-group">
+                <?php echo $this->formLabel($form->get('grade')) ?>
+                <?php echo $this->formElement($form->get('grade')) ?>
+            </div>
+
+
+            <div class="form-group">
+                <?php echo $this->formLabel($form->get('editable')) ?>
+                <?php echo $this->formElement($form->get('editable')) ?>
+            </div>
+
+
+            <div class="form-group">
+                <input type="checkbox" value="1" name="notify" checked/> <?= __('notify-student') ?>
+            </div>
+<button class="btn btn-primary"><?= __('submit') ?></button>
+        </form>
+    </div>
+</div>
+
+
+<?php $this->headScript()->prependFile($this->basePath() . '/static/readmore/readmore.min.js')
+?>
+<script>
+    $(function(){
+        $('article.readmore').readmore({
+            collapsedHeight : 200
+        });
+    });
+</script>

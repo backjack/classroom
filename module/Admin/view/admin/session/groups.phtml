@@ -1,0 +1,64 @@
+<div class="row">
+    <div >
+        <div class="box">
+            <div class="box-head">
+                <header></header>
+                <a class="btn btn-primary pull-right" href="<?php echo $this->url('admin/default',array('controller'=>'session','action'=>'addgroup')) ?>"><i class="fa fa-plus"></i> <?= __('add-category') ?></a>
+
+
+
+            </div>
+            <div class="box-body">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th><?= __('sort-order') ?></th>
+                        <th><?= __('name') ?></th>
+                        <th class="text-right1" style="width:90px"><?=__('actions')?></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach($paginator as $row): ?>
+                        <tr>
+                            <td><span class="label label-success"><?php echo $row->sort_order ?></span></td>
+                            <td><?php echo $row->category_name; ?></td>
+
+
+                            <td class="text-right">
+                                <a href="<?php echo $this->url('admin/default',array('controller'=>'session','action'=>'editgroup','id'=>$row->session_category_id));?>" class="btn btn-xs btn-default btn-equal" data-toggle="tooltip" data-placement="top" data-original-title="<?=__('edit')?>"><i class="fa fa-pencil"></i></a>
+
+                                <a onclick="return confirm('<?=__('delete-confirm')?>')" href="<?php echo $this->url('admin/default',array('controller'=>'session','action'=>'deletegroup','id'=>$row->session_category_id));?>"  class="btn btn-xs btn-default btn-equal" data-toggle="tooltip" data-placement="top" data-original-title="<?=__('delete')?>"><i class="fa fa-trash-o"></i></a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+
+                    </tbody>
+                </table>
+
+                <?php
+                // add at the end of the file after the table
+                echo $this->paginationControl(
+                // the paginator object
+                    $this->paginator,
+                    // the scrolling style
+                    'sliding',
+                    // the partial to use to render the control
+                    array('partial/paginator.phtml', 'Admin'),
+                    // the route to link to when a user clicks a control link
+                    array(
+                        'route' => 'admin/default',
+                        'controller'=>'session',
+                        'action'=>'groups',
+                    )
+                );
+                ?>
+            </div><!--end .box-body -->
+        </div><!--end .box -->
+    </div><!--end .col-lg-12 -->
+</div>
+
+
+<!-- START SIMPLE MODAL MARKUP --><!-- /.modal -->
+<!-- END SIMPLE MODAL MARKUP -->
+
+ 

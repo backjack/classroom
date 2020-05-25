@@ -1,0 +1,169 @@
+
+<div class="box"   ng-app="myApp" ng-controller="myCtrl" >
+    <div class="box-body">
+
+        <ul class="nav nav-tabs" role="tablist">
+             <li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab"><?= __('details') ?></a></li>
+            <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab"><?= __('manage-files') ?></a></li>
+            <li role="presentation"><a href="#tests" aria-controls="tests" role="tab" data-toggle="tab"><?= __('manage-sessions') ?></a></li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+          
+            <div role="tabpanel" class="tab-pane active" id="profile">
+
+                <div class="box-body">
+
+
+                    <form id="editform" method="post" action="<?php echo $this->url('admin/default',['controller'=>'download','action'=>'edit','id'=>$row->download_id]) ?>">
+
+
+
+                    <div class="form-group">
+                        <?php     echo $this->formLabel($form->get('download_name'));
+
+                        ?>
+                        <?php     echo $this->formElement($form->get('download_name'));
+
+                        ?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('download_name'));?></p>
+
+                    </div>
+
+                    <div class="form-group">
+                        <?php     echo $this->formLabel($form->get('description'));
+
+                        ?>
+                        <?php     echo $this->formElement($form->get('description'));
+
+                        ?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('description'));?></p>
+
+                    </div>
+
+                    <div class="form-group">
+                        <?php     echo $this->formLabel($form->get('status'));
+
+                        ?>
+                        <?php     echo $this->formElement($form->get('status'));
+
+                        ?>   <p class="help-block"><?php echo $this->formElementErrors($form->get('status'));?></p>
+
+                    </div>
+
+
+
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o"></i> <?= __('save') ?> </button>
+
+
+
+        </form>
+
+
+
+
+                </div>
+
+            </div>
+            <div role="tabpanel" class="tab-pane" id="messages">
+
+                <div>
+                    <button onclick="image_upload()" id="addFileBtn" class="btn btn-primary"><?= __('Add File') ?></button>
+                    <input id="file_name" type="hidden" name="file_name"/>
+                    <p><small><?= __('allowed-file-types') ?>: pdf, zip, mp4, mp3, doc, docx, ppt, pptx, xls, xlsx, png, jpeg, gif, txt, csv</small></p>
+                </div>
+                <div id="filelist">
+                    <?php echo $files ?>
+                </div>
+
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="tests">
+                <div>
+                    <button onclick="openModal('Select Sessions','<?php echo $this->url('admin/default',['controller'=>'download','action'=>'browsesessions','id'=>$id]); ?>')" id="addSessionBtn" class="btn btn-primary"><?= __('add-session') ?></button>
+                </div>
+                <div id="sessionlist">
+                    <?php echo $sessions ?>
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+<?php $this->headScript()->prependFile($this->basePath() . '/ckeditor/ckeditor.js')
+?>
+<script type="text/javascript">
+
+    CKEDITOR.replace('hcontent', {
+        filebrowserBrowseUrl: '<?php echo $this->basepath() ?>/admin/filemanager',
+        filebrowserImageBrowseUrl: '<?php echo $this->basepath() ?>/admin/filemanager',
+        filebrowserFlashBrowseUrl: '<?php echo $this->basepath() ?>/admin/filemanager'
+    });
+
+</script>
+<script type="text/javascript"><!--
+    function image_upload() {
+        var field = 'file_name';
+        $('#dialog').remove();
+
+        $('#content').prepend('<div id="dialog" style="padding: 3px 0px 0px 0px;"><iframe src="<?php echo $this->basePath(); ?>/admin/filemanager?&token=true&field=' + encodeURIComponent(field) + '" style="padding:0; margin: 0; display: block; width: 100%; height: 100%;" frameborder="no" scrolling="auto"></iframe></div>');
+
+        $('#dialog').dialog({
+            title: '<?=__('select-file')?>',
+            close: function (event, ui) {
+
+                if ($('#' + field).attr('value')) {
+                    $('#filelist').text('<?=__('loading')?>...');
+                    $.ajax({
+                        url: '<?php echo $this->basePath(); ?>/admin/download/addfile/<?php echo $id ?>?&path=' + encodeURIComponent($('#' + field).val()),
+                        dataType: 'text',
+                        success: function(data) {
+                            //$('#' + thumb).replaceWith('<img src="' + data + '" alt="" id="' + thumb + '" />');
+                            //$('#filelist').load('<?php echo $this->basePath(); ?>/admin/download/files/<?php echo $id ?>');
+                            $('#filelist').html(data);
+                        }
+                    });
+                }
+
+            },
+            bgiframe: false,
+            width: 800,
+            height: 570,
+            resizable: true,
+            modal: false
+        });
+    };
+
+
+
+    //-->
+    $(function(){
+        $(document).on('click','.delete',function(e){
+            e.preventDefault();
+            $('#filelist').text('<?=__('loading')?>...');
+            $('#filelist').load($(this).attr('href'));
+        });
+
+        $(document).on('click','#genmodalinfo a',function(e){
+            e.preventDefault();
+            $('#genmodalinfo').text('<?=__('loading')?>...');
+            $('#genmodalinfo').load($(this).attr('href'));
+        });
+
+        $(document).on('click','.delete-session',function(e){
+            e.preventDefault();
+            $('#sessionlist').text('<?=__('loading')?>...');
+            $('#sessionlist').load($(this).attr('href'));
+        });
+
+    })
+
+    </script>
+

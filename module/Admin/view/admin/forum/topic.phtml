@@ -1,0 +1,169 @@
+<?php $this->headTitle($forumTopic->topic_title);?>
+
+
+<div class="">
+    <p class="lead">
+      <strong><?= __('topic') ?>:</strong> <?=$forumTopic->topic_title?>
+    </p>
+    <p>
+        <?php if($forumTopic->lecture):?>
+            <?= __('lecture') ?>: <?=$forumTopic->lecture_title?>
+        <?php endif; ?>
+    </p>
+</div>
+
+<?php foreach($posts as $post): ?>
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+           <strong style="font-size: 20px"> <?=forumUser($post->post_owner,$post->post_owner_type)['name']; ?> </strong> <span > on <?php echo date('D, d M Y g:i a',$post->post_created_on); ?></span>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-2 hidden-xs">
+                    <img class="img-thumbnail" style="max-width: 90%" src="<?=profilePictureUrl(forumUser($post->post_owner,$post->post_owner_type)['photo'],$this->basePath())?>" />
+                </div>
+                <div class="col-sm-10" >
+                    <?php if(!empty($post->post_reply_id)):?>
+                    <div class="well">
+                        <h5><strong style="font-size: 20px"> <?=forumUser(\Application\Entity\ForumPost::find($post->post_reply_id)->post_owner,\Application\Entity\ForumPost::find($post->post_reply_id)->post_owner_type)['name']; ?> </strong> <span > on <?php echo date('D, d M Y g:i a',\Application\Entity\ForumPost::find($post->post_reply_id)->post_created_on); ?></span></h5>
+                        <article class="readmore"><?=tidyHtml(\Application\Entity\ForumPost::find($post->post_reply_id)->message);?></article>
+                    </div>
+                    <?php endif; ?>
+
+                    <?php echo tidyHtml($post->message) ;?>
+                    <div>
+                        <a class="btn btn-sm btn-primary pull-right" role="button" data-toggle="collapse" href="#collapseExample<?=$post->forum_post_id?>" aria-expanded="false" aria-controls="collapseExample">
+                            <?= __('reply') ?>
+                        </a>
+                        <div class="collapse" id="collapseExample<?=$post->forum_post_id?>">
+                            <div class="well">
+                                <h4><?= __('reply') ?></h4>
+                                <form method="post" action="<?= $this->url('admin/default', ['controller' => 'forum', 'action' => 'reply', 'id' => $id]) ?>">
+                                    <textarea id="message<?=$post->forum_post_id?>" name="message" class="form-control" rows="5"><?=old('message')?></textarea>
+                                    <input type="hidden" name="post_reply_id" value="<?=$post->forum_post_id?>"/>
+                                    <button class="btn btn-primary" type="submit"><?= __('reply') ?></button>
+                                </form>
+                                <script>
+                                    $(function(){
+                                        document.emojiSource = '<?=$this->basePath()?>/static/summernote-ext-emoji/pngs/';
+                                        $('#message<?=$post->forum_post_id?>').summernote({
+                                            height: 200,
+                                            toolbar: [
+                                                ['style', ['style']],
+                                                ['font', ['bold', 'italic', 'underline', 'clear']],
+                                                ['fontname', ['fontname']],
+                                                ['color', ['color']],
+                                                ['para', ['ul', 'ol', 'paragraph']],
+                                                ['height', ['height']],
+                                                ['table', ['table']],
+                                                ['insert', ['link', 'picture','video', 'hr']],
+                                                ['view', ['fullscreen', 'codeview']],
+                                                ['help', ['help']],
+                                            ]
+                                        } );
+                                    });
+                                </script>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+    </div>
+
+<?php endforeach; ?>
+
+<?=$posts->links();?>
+
+<div style="margin-top: 30px">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <strong style="color: white; font-size: 20px"><?= __('reply') ?></strong>
+        </div>
+        <div class="panel-body">
+            <form method="post" action="<?= $this->url('admin/default', ['controller' => 'forum', 'action' => 'reply', 'id' => $id]) ?>">
+                <textarea name="message" class="form-control summernote" rows="5"><?=old('message')?></textarea>
+                <button class="btn btn-primary" type="submit"><?= __('reply') ?></button>
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div style="margin-top: 30px">
+    <div class="panel panel-danger">
+        <div class="panel-heading">
+            <strong style="color: white; "><?= __('notifications') ?></strong>
+        </div>
+        <div class="panel-body">
+
+            <div style="">
+                <?=$this->formElement($checkbox);?> <label for="notify"><?= __('get-notifications') ?></label>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+<?php $this->headScript()->prependFile($this->basePath() . '/static/summernote/summernote.min.js')->appendFile($this->basePath() . '/static/summernote-ext-emoji/src/summernote-ext-emoji.js')->prependFile($this->basePath() . '/static/readmore/readmore.min.js')
+?>
+<?php $this->headLink()->prependStylesheet($this->basePath().'/static/summernote/summernote.css')->appendStylesheet($this->basePath().'/static/summernote-ext-emoji/src/css-new-version.css')->appendStylesheet($this->basePath() . '/static/toastr/toastr.css');?>
+<script>
+    $(function(){
+        document.emojiSource = '<?=$this->basePath()?>/static/summernote-ext-emoji/pngs/';
+        $('.summernote').summernote({
+            height: 200,
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'italic', 'underline', 'clear']],
+                ['fontname', ['fontname']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']],
+                ['table', ['table']],
+                ['insert', ['link', 'picture','video', 'hr']],
+                ['view', ['fullscreen', 'codeview']],
+                ['misc', ['emoji']],
+                ['help', ['help']],
+            ]
+        } );
+    });
+</script>
+<script src="<?php echo $this->basePath(); ?>/static/toastr/toastr.min.js"></script>
+<script>
+    $(function(){
+        $('article.readmore').readmore({
+            collapsedHeight : 200
+        });
+        $('#notify').change(function(){
+            toastr.info('Saving settings...');
+            var checked = $(this).is(":checked");
+            if(checked){
+                var notify = 1;
+            }
+            else{
+                var notify = 0;
+            }
+
+            $.get('<?=$this->url('admin/default',['controller'=>'forum','action'=>'notifications','id'=>$id]);?>?notify='+notify,function(){
+                toastr.success('Settings saved!');
+            })
+        })
+    });
+</script>

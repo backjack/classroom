@@ -1,0 +1,1 @@
+<?=__('topic-reply-mail',['name'=>$name,'poster'=>forumUser($post->post_owner,$post->post_owner_type)['name'],'message'=>$post->message])?>

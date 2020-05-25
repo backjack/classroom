@@ -1,0 +1,142 @@
+<form class="form" action="<?=selfURL()?>" method="post">
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-2"><?=$this->formLabel($form->get('name'))?></div>
+            <div class="col-md-10"> <?=$this->formElement($form->get('name'))?></div>
+        </div>
+
+
+    </div>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-2"><?=$this->formLabel($form->get('code'))?></div>
+            <div class="col-md-10"><?=$this->formElement($form->get('code'))?>
+                <p class="help-block"><?= __('coupon-code-help') ?></p></div>
+        </div>
+
+
+    </div>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-2"><?=$this->formLabel($form->get('type'))?></div>
+            <div class="col-md-10"><?=$this->formElement($form->get('type'))?>
+                <p class="help-block"><?= __('coupon-type-help') ?></p></div>
+        </div>
+
+
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-2"><?=$this->formLabel($form->get('discount'))?></div>
+            <div class="col-md-10"><?=$this->formElement($form->get('discount'))?></div>
+        </div>
+
+
+
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-2"><?=$this->formLabel($form->get('date_start'))?></div>
+            <div class="col-md-10"><?=$this->formElement($form->get('date_start'))?></div>
+        </div>
+
+
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-2"><?=$this->formLabel($form->get('expires'))?></div>
+            <div class="col-md-10"><?=$this->formElement($form->get('expires'))?></div>
+        </div>
+
+
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-2"><?=$this->formLabel($form->get('total'))?></div>
+            <div class="col-md-10"><?=$this->formElement($form->get('total'))?>
+                <p class="help-block"><?= __('coupon-total-help') ?></p></div>
+        </div>
+
+
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-2"><?=$this->formLabel($form->get('uses_total'))?></div>
+            <div class="col-md-10"><?=$this->formElement($form->get('uses_total'))?>
+                <p class="help-block"><?= __('coupon-uses-total-help') ?></p></div>
+        </div>
+
+
+    </div>
+<?php if(false): ?>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-2"><?=$this->formLabel($form->get('uses_customer'))?></div>
+            <div class="col-md-10"><?=$this->formElement($form->get('uses_customer'))?>
+                <p class="help-block"><?= __('coupon-uses-customer-help') ?></p></div>
+        </div>
+
+
+    </div>
+<?php endif; ?>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-2"><?=$this->formLabel($form->get('sessions[]'))?></div>
+            <div class="col-md-10"><?=$this->formElement($form->get('sessions[]'))?>
+                <p class="help-block"><?= __('coupon-sessions-help') ?></p>
+            </div>
+        </div>
+
+         </div>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-2"><?=$this->formLabel($form->get('categories[]'))?></div>
+            <div class="col-md-10"><?=$this->formElement($form->get('categories[]'))?>
+                <p class="help-block"><?= __('coupon-categories-help') ?></p></div>
+        </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-2"><?=$this->formLabel($form->get('enabled'))?></div>
+            <div class="col-md-10"><?=$this->formElement($form->get('enabled'))?></div>
+        </div>
+
+    </div>
+    <button class="btn btn-primary"><?= __('submit') ?></button>
+</form>
+
+
+<?php echo $this->headLink()->prependStylesheet($this->basePath().'/pickadate/themes/default.date.css')
+    ->prependStylesheet($this->basePath().'/pickadate/themes/default.time.css')
+    ->prependStylesheet($this->basePath().'/pickadate/themes/default.css')
+    ->prependStylesheet($this->basePath().'/static/datatables/media/css/jquery.dataTables.min.css')
+    ->prependStylesheet($this->basePath().'/static/maxlength/jquery.maxlength.min.css');?>
+<script type="text/javascript" src="<?php echo $this->basePath() ?>/pickadate/picker.js"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() ?>/pickadate/picker.date.js"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() ?>/pickadate/picker.time.js"></script>
+<script type="text/javascript" src="<?php echo $this->basePath() ?>/pickadate/legacy.js"></script>
+
+<script>
+    $(function(){
+        $('.date').pickadate({
+            format: 'yyyy-mm-dd'
+        });
+    });
+</script>

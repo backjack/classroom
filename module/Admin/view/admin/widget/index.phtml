@@ -1,0 +1,260 @@
+
+<div class="row">
+
+<div class="col-md-12">
+
+	 
+
+
+
+
+
+    <div class="box">
+    
+  
+					<div class="box-head">
+
+					</div>
+					<div class="box-body">
+						<div id="options">
+                        
+                        
+                      
+				
+				
+								<div class="box-body">
+                  
+                       <button style="margin-bottom: 10px"  data-toggle="modal" data-target="#formModal" type="button" class="btn btn-rounded btn-primary"><i class="fa fa-plus"></i><?= __('add-widget') ?></button>
+  					 
+						<div  id="options">						 
+                        
+                        
+                        
+                        
+                        
+                        <div class="panel-group accordion" id="accordion">
+                        
+                          
+			 
+				 
+                    	<?php $counter= 1 ;?>
+                    <?php foreach($form as $key=>$value): ?>
+						<div  class="panel panel-default" id="option<?php echo $key ?>">		
+                        <div class="panel-heading" style="color: #D5D1D1; background-color: #1B1414; border-color: #DDD;
+">
+							<h5 class="accordion-title">
+								<a data-toggle="collapse" data-parent="#accordion" href="tabs-accordions#accordion<?php echo $key ?>" class="<?php if ($counter!=0):?> collapsed <?php endif;?>">
+									<?php echo __($value['name']); ?> <i class="fa fa-angle-down pull-right"></i>
+								</a>
+							</h5>
+						</div>
+                        
+                        
+                    
+                        <div id="accordion<?php echo $key ?>" class="panel-collapse collapse <?php if ($counter==0):?> in <?php endif; ?>"  >
+                            <?php $counter++; ?>
+							<div class="panel-body">
+                       <form class="ajaxform" role="form"  method="post" action="<?php echo $this->url('admin/default',array('controller'=>'widget','action'=>'process','id'=>$key)); ?>">
+                       <div class="row" style="margin-bottom:10px">
+                       <div class="col-md-3">
+                       <span ><?php echo $this->formElement($value['enabled']); ?></span>
+                       </div>
+                       <div class="col-md-2">
+                       <span ><?php echo $this->formElement($value['sortOrder']); ?></span>
+                       </div>
+                           <div class="col-md-3">
+                               <span ><?php echo $this->formElement($value['visibility']); ?></span>
+                               <div><small><?= __('widget-appear-help') ?></small></div>
+                           </div>
+                         <div class="col-md-4">
+                            <span class="pull-right"><button type="submit" class="btn btn-danger"><i class="fa fa-save"></i> <?=__('save-changes')?></button>
+                            <a onclick="return confirm('<?=__('remove-widget-confirm')?>')" class="btn btn-primary" href="<?php echo $this->url('admin/default',array('controller'=>'widget','action'=>'delete','id'=>$key)); ?>"><i class="fa fa-trash-o"></i> <?= __('remove') ?></a>
+                            </span>
+                         </div>
+                       
+                       </div>
+                       
+                       <?php if(!empty($value['image'])): ?>
+                       <div style="margin-top: 10px; margin-bottom: 10px">
+                       <img style="max-width:100%" src="<?=$this->basepath()?>/templatescreens/<?php echo $this->tid?>/<?php echo $value['image']; ?>" />
+                       </div>
+                       <?php endif; ?>
+                       
+                       <?php if(!empty($value['description'])): ?>
+                       <div style="padding:10px">
+                       	 <?= __($value['code'].'-dis') ?>
+                       </div>
+                       <?php endif; ?>
+                       
+                       <div style="border-top:solid 1px #CCCCCC; padding-top:20px">
+                       
+                       <?php echo $value['form'] ?>
+                       
+                       </div>
+                       
+                       
+                       
+                       </form> 
+                      		 </div>
+                       </div>
+                       
+                       
+                       
+                       
+                       
+                       
+						</div>
+					<?php endforeach; ?>    	
+						
+            		<?php echo $this->subform; ?>
+            
+					 
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+				</div>
+                        
+			</div>
+					 
+					 
+					</div>
+				 
+    
+                        
+                        
+                        
+                        
+			</div>
+
+					 
+					</div>
+				 
+     
+    
+    
+    </div>
+
+
+
+</div>
+
+</div>
+ <script src="<?php echo $this->basePath(); ?>/static/toastr/toastr.min.js"></script>
+  <script src="<?php echo $this->basePath(); ?>/static/colorpicker/jquery.colorpicker.js"></script>
+  
+   <?php $this->headScript()->prependFile($this->basePath() . '/ckeditor/ckeditor.js')
+     ?>
+  
+  
+  
+ 
+  <script type="text/javascript">
+ <?php foreach ($editors as $value) { ?>
+CKEDITOR.replace('<?php echo $value ?>', {
+    filebrowserBrowseUrl: '<?php echo $this->basepath() ?>/admin/filemanager',
+    filebrowserImageBrowseUrl: '<?php echo $this->basepath() ?>/admin/filemanager',
+    filebrowserFlashBrowseUrl: '<?php echo $this->basepath() ?>/admin/filemanager'
+});
+ <?php } ?>
+</script> 
+ 
+  
+    <?php echo $this->headLink()->prependStylesheet($this->basePath() . '/static/toastr/toastr.css')
+	->prependStylesheet($this->basePath() . '/static/colorpicker/jquery.colorpicker.css')  
+								
+   ;?>
+ 
+  <script type="text/javascript"><!--
+      function image_upload(field, thumb) {
+          $('#dialog').remove();
+
+          $('#content').prepend('<div id="dialog" style="padding: 3px 0px 0px 0px;"><iframe src="<?php echo $this->basePath(); ?>/admin/filemanager?&token=true&field=' + encodeURIComponent(field) + '" style="padding:0; margin: 0; display: block; width: 100%; height: 100%;" frameborder="no" scrolling="auto"></iframe></div>');
+
+          $('#dialog').dialog({
+              title: '<?=__('Image Manager')?>',
+              close: function (event, ui) {
+                  if ($('#' + field).attr('value')) {
+                      $.ajax({
+                          url: '<?php echo $this->basePath(); ?>/admin/filemanager/image?&image=' + encodeURIComponent($('#' + field).val()),
+                          dataType: 'text',
+                          success: function(data) {
+                              $('#' + thumb).replaceWith('<img src="' + data + '" alt="" id="' + thumb + '" />');
+                          }
+                      });
+                  }
+              },
+              bgiframe: false,
+              width: 800,
+              height: 570,
+              resizable: true,
+              modal: false
+          });
+      };
+  //-->
+  </script> 
+   
+ 
+ <script type="text/javascript">
+ $(function() {
+    $('.colorpicker').colorpicker({
+        parts:          'full', 
+        showOn:         'both',
+        buttonColorize: true,
+        showNoneButton: true,
+		buttonImage : '<?php echo $this->basePath()?>/static/colorpicker/images/ui-colorpicker.png'
+    });
+});
+ </script>
+ 
+
+ <!-- START FORM MODAL MARKUP -->
+<div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="formModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="formModalLabel"><?= __('create-new-widget') ?></h4>
+			</div>
+			<form class="form-horizontal" role="form" method="post" action="<?php echo $this->url('admin/default',array('controller'=>'widget','action'=>'create')); ?>">
+				<div class="modal-body">
+					<div class="form-group">
+						<div class="col-sm-3">
+							<label for="email1" class="control-label"><?= __('widget-type') ?></label>
+						</div>
+						<div class="col-sm-9">
+							<?php echo $this->formElement($createSelect)?>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-3">
+							<label for="password1" class="control-label"><?= __('sort-order') ?></label>
+						</div>
+						<div class="col-sm-9">
+							<input required="required" type="text" name="sort_order" value="1"  class="form-control" placeholder="Sort Order">
+						</div>
+					</div>
+					 
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal"><?= __('cancel') ?></button>
+					<button type="submit" class="btn btn-primary" ><?= __('create') ?></button>
+				</div>
+			</form>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- END FORM MODAL MARKUP -->
+ 

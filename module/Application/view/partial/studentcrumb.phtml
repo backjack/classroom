@@ -1,0 +1,18 @@
+<?php
+// iterate through the pages
+foreach ($this->pages as $key => $page):
+    ?>
+    <span class="label bg-blue-500 student-crumb">
+        <?php
+        // if this isn't the last page, add a link and the separator
+        if ($key < count($this->pages) - 1):
+            ?>
+            <a href="<?php echo $page->getHref(); ?>"><?php echo __($page->getLabel()); ?> <i class="fa fa-angle-right"></i></a>
+
+        <?php // otherwise, just output the name
+        else:
+            ?>
+            <?php echo __($page->getLabel()); ?>
+        <?php endif; ?>
+    </span>
+<?php endforeach; ?>

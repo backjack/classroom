@@ -1,0 +1,187 @@
+<div class="row">
+    <div >
+
+        <div class="box">
+
+            <div class="box-head">
+             
+
+
+
+            </div>
+            <div class="box-body">
+                <form id="filterform" class="form-inline" role="form"  method="get" action="<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'sessions')); ?>">
+
+
+                    <div class="form-group">
+                        <label class="sr-only" for="filter">Filter</label>
+                        <?php echo $this->formElement($text) ?>
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only" for="group">Category</label>
+                        <?php echo $this->formElement($select) ?>
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only" for="group">Sort</label>
+                        <?php echo $this->formElement($sortSelect) ?>
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only" for="group">Type</label>
+                        <?php echo $this->formElement($typeSelect) ?>
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only" for="group">Payment Required</label>
+                        <?php echo $this->formElement($paymentSelect) ?>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Filter</button>
+                    <button type="button" onclick="$('#filterform input, #filterform select').val(''); $('#filterform').submit();" class="btn btn-inverse">Clear</button>
+
+                </form>
+
+
+                <div class="btn-group pull-right">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-plus"></i>  Add New <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="<?php echo $this->url('admin/default',array('controller'=>'session','action'=>'addcourse'));?>"><span class="title">Online Course</span></a></li>
+
+                        <li><a href="<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'addsession','id'=>0,'param1'=>'s'));?>"><span class="title">Training Session</span></a></li>
+
+                        <li><a href="<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'addsession','id'=>0,'param1'=>'b'));?>"><span class="title">Training Session with Online Classes</span></a></li>
+
+                    </ul>
+                </div>
+<div class="table-responsive_">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Course/Session Name</th>
+                        <th>Type</th>
+                        <th>Total Attended</th>
+                        <th>Total Enrolled</th>
+                        <?php if(GLOBAL_ACCESS):?>
+                        <th>Created By</th>
+                        <?php endif; ?>
+                        <th>Payment Required?</th>
+                        <th>Status</th>
+                        <th class="text-right1" style="width:90px"><?=__('actions')?></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach($paginator as $row): ?>
+                        <tr>
+                            <td><span class="label label-success"><?php echo $row->session_id ?></span></td>
+                            <td><?php echo $row->session_name; ?></td>
+                            <td><?php
+                                switch($row->session_type){
+                                    case 'b':
+                                        echo 'Training Session with Online Classes';
+                                        break;
+                                    case 's':
+                                        echo 'Training Session';
+                                        break;
+                                    case 'c':
+                                        echo 'Online Course';
+                                        break;
+                                }
+                                ?></td>
+                             <td>
+                                <a href="javascript:;" onclick="openModal('Attendees for <?php echo $row->session_name?>','<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'sessionattendees','id'=>$row->session_id)); ?>')">
+                                <strong><?php echo $attendanceTable->getTotalStudentsForSession($row->session_id);?></strong>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="javascript:;" onclick="openModal('Enrollees for <?php echo $row->session_name?>','<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'sessionenrollees','id'=>$row->session_id)); ?>')">
+
+                                <strong><?php echo $studentSessionTable->getTotalForSession($row->session_id);?></strong>
+                                </a>&nbsp;
+                                <div class="btn-group dropup btn-group-xs">
+                                    <button type="button" class="btn btn-inverse dropdown-toggle btn-xs" data-toggle="dropdown">
+                                        <i class="fa fa-wrench"></i> Export <i class="fa fa-caret-up"></i>
+                                    </button>
+                                    <ul class="dropdown-menu pull-right animation-slide" role="menu" style="text-align: left;">
+                                        <li><a  href="<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'export','id'=>$row->session_id));?>"><i class="fa fa-users"></i> Export Students</a></li>
+                                        <li><a  href="<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'exportbulkattendance','id'=>$row->session_id));?>"><i class="fa fa-users"></i> Export Students (Attendance Import)</a></li>
+                                        <?php if($row->session_type != 'c'):?>
+                                        <li><a target="_blank" href="<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'exportattendance','id'=>$row->session_id));?>"><i class="fa fa-table"></i> Attendance Sheet</a></li>
+                                        <?php endif; ?>
+                                        <li><a href="<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'exporttel','id'=>$row->session_id));?>"><i class="fa fa-phone"></i> Telephone Numbers</a></li>
+
+                                    </ul>
+                                </div>
+                            </td>
+                            <?php if(GLOBAL_ACCESS):?>
+                                <td><small><?php echo $this->adminName($row->account_id) ?></small></td>
+                            <?php endif; ?>
+                            <td> <?=boolToString($row->payment_required)?>
+                            <?php if($row->payment_required==1): ?>
+                                    (<?=$this->formatPrice($row->amount)?>)
+
+                                <?php endif; ?>
+                            </td>
+
+
+                            <td>
+                                <?php echo ($row->session_status!=1)?'Disabled':'Enabled'; ?>
+                            </td>
+
+                            <td class="text-right">
+                                <div class="btn-group dropup">
+                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                        <i class="fa fa-list"></i> Actions <i class="fa fa-caret-up"></i>
+                                    </button>
+                                    <ul class="dropdown-menu pull-right animation-slide" role="menu" style="text-align: left;">
+                                        <?php if($row->session_type != 'c'):?>
+                                        <li><a href="<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'editsession','id'=>$row->session_id));?>"  ><i class="fa fa-pencil"></i> Edit</a></li>
+                                            <li><a href="<?php echo $this->url('admin/default',array('controller'=>'session','action'=>'sessionclasses','id'=>$row->session_id));?>"  ><i class="fa fa-desktop"></i> Manage Classes</a></li>
+                                       <?php else:?>
+                                            <li><a href="<?php echo $this->url('admin/default',array('controller'=>'session','action'=>'editcourse','id'=>$row->session_id));?>"  ><i class="fa fa-pencil"></i> Edit</a></li>
+                                            <li><a href="<?php echo $this->url('admin/default',array('controller'=>'session','action'=>'courseclasses','id'=>$row->session_id));?>"  ><i class="fa fa-desktop"></i> Manage Classes</a></li>
+                                            <li><a target="_blank" href="<?php echo $this->url('admin/default',array('controller'=>'course','action'=>'intro','id'=>$row->session_id));?>"  ><i class="fa fa-play"></i> Try the Course</a></li>
+
+                                        <?php endif; ?>
+                                        <li><a href="<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'sessionstudents','id'=>$row->session_id));?>"  ><i class="fa fa-users"></i> View Enrolled Students</a></li>
+                                        <?php if($row->session_type != 'c'):?>
+                                        <li><a href="<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'instructors','id'=>$row->session_id));?>" ><i class="fa fa-user"></i> Manage Instructors</a></li>
+                                        <?php endif; ?>
+                                        <li><a href="<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'mailsession','id'=>$row->session_id));?>"  ><i class="fa fa-envelope"></i> Send Message to Enrolled Students</a></li>
+                                        <li><a href="<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'duplicatesession','id'=>$row->session_id));?>"  ><i class="fa fa-copy"></i> Duplicate</a></li>
+                                        <?php if($row->session_type != 'c'):?>
+                                            <li><a onclick="openModal('Change Type: <?php echo addslashes($row->session_name) ?>','<?php echo $this->url('admin/default',['controller'=>'session','action'=>'sessiontype','id'=>$row->session_id]) ?>')" href="#"><i class="fa fa-refresh"></i> Change Session Type</a></li>
+                                        <?php endif; ?>
+                                        <li><a href="<?php echo $this->url('admin/default',array('controller'=>'session','action'=>'tests','id'=>$row->session_id));?>"><i class="fa fa-check"></i> Manage tests</a></li>
+                                        <li><a onclick="return confirm('<?=__('delete-confirm')?>')" href="<?php echo $this->url('admin/default',array('controller'=>'student','action'=>'deletesession','id'=>$row->session_id));?>"   ><i class="fa fa-trash-o"></i> Delete</a></li>
+                                    </ul>
+                                </div>
+
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+
+                    </tbody>
+                </table>
+            </div>
+                <?php
+                // add at the end of the file after the table
+                echo $this->paginationControl(
+                // the paginator object
+                    $this->paginator,
+                    // the scrolling style
+                    'sliding',
+                    // the partial to use to render the control
+                    array('partial/paginator.phtml', 'Admin'),
+                    // the route to link to when a user clicks a control link
+                    array(
+                        'route' => 'admin/default',
+                        'controller'=>'student',
+                        'action'=>'sessions'
+                    )
+                );
+                ?>
+            </div><!--end .box-body -->
+        </div><!--end .box -->
+    </div><!--end .col-lg-12 -->
+</div>

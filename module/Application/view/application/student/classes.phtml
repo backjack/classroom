@@ -1,0 +1,55 @@
+<?php  $this->headTitle($pageTitle) ?>
+
+<div class="container has-margin-top has-margin-bottom" style="min-height: 400px">
+    <table class="table table-stripped">
+        <thead>
+        <tr>
+            <th><?= __('Class') ?></th>
+            <th><?=__('course-session')?></th>
+            <th><?= __('Date') ?></th>
+        </tr>
+        </thead>
+        <?php foreach($attendance as $row): ?>
+            <tr>
+                <td>
+                    <?php if($row->lesson_type=='c'):?>
+                        <a style="text-decoration: underline" href="<?php echo $this->url('view-class',['sessionId'=>$row->session_id,'classId'=>$row->lesson_id]) ?>"><?php echo $row->lesson_name ?></a>
+                    <?php else: ?>
+                    <?php echo $row->lesson_name ?>
+                    <?php endif; ?>
+                </td>
+                <td>
+                    <?php if($row->session_type=='c'): ?>
+                        <a  style="text-decoration: underline"  href="<?php echo  $this->url('course-details',['id'=>$row->session_id,'slug'=>safeUrl($row->session_name)]) ?>"><?php echo $row->session_name ?></a>
+                    <?php else: ?>
+                        <a  style="text-decoration: underline"  href="<?php echo  $this->url('session-details',['id'=>$row->session_id]) ?>"><?php echo $row->session_name ?><?php echo $row->session_name ?></a>
+
+                    <?php endif; ?>
+
+
+                </td>
+                <td><?php echo date('d/M/Y',$row->attendance_date) ?></td>
+            </tr>
+        <?php endforeach; ?>
+    </table>
+
+    <?php
+    // add at the end of the file after the table
+
+    echo $this->paginationControl(
+    // the paginator object
+        $attendance,
+        // the scrolling style
+        'sliding',
+        // the partial to use to render the control
+        array('partial/paginator.phtml', 'Admin'),
+        // the route to link to when a user clicks a control link
+        array(
+            'route' => 'application/classes',
+        )
+    );
+
+    ?>
+
+
+</div>

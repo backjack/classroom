@@ -1,0 +1,22 @@
+<table class="table table-stripped">
+    <thead>
+        <tr>
+            <th><?= __('session-course') ?></th>
+            <th></th>
+        </tr>
+
+    </thead>
+    <tbody>
+    <?php foreach($rowset as $row): ?>
+    <tr>
+        <td>
+            <?php echo $row->session_name; ?>
+        </td>
+        <td>
+            <a class="btn btn-primary delete-session" href="<?php echo $this->url('admin/default',['controller'=>'download','action'=>'removesession','id'=>$row->download_session_id]) ?>"><i class="fa fa-trash"></i></a>
+        </td>
+
+    </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>
